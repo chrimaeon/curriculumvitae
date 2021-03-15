@@ -51,6 +51,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.cmgapps.android.compomaeon.ui.Theme
+import com.cmgapps.android.curriculumvitae.profile.ProfileScreen
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
 
 sealed class Screen(
@@ -136,7 +137,7 @@ fun App() {
         }
     ) {
         NavHost(navController, startDestination = Screen.Profile.route) {
-            composable(Screen.Profile.route) { Tab(title = "Profile") }
+            composable(Screen.Profile.route) { ProfileScreen() }
             composable(Screen.Work.route) { Tab(title = "Work") }
             composable(Screen.Skills.route) { Tab(title = "Skills") }
         }
