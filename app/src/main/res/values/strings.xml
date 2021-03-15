@@ -18,4 +18,7 @@
 
 <resources>
     <string name="app_name">Curriculum Vitae</string>
+    <string name="profile_label">Profile</string>
+    <string name="work_label">Work</string>
+    <string name="skills_label">Skills</string>
 </resources>

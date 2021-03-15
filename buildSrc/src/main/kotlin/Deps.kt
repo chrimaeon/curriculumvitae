@@ -1,3 +1,7 @@
+import org.gradle.kotlin.dsl.version
+import org.gradle.plugin.use.PluginDependenciesSpec
+import org.gradle.plugin.use.PluginDependencySpec
+
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -26,7 +30,7 @@ const val kotlinVersion = "1.4.31"
 const val roomVersion = "2.2.6"
 
 object Plugins {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha09"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha10"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
 }
@@ -59,3 +63,6 @@ object Libs {
             "dev.chrisbanes.accompanist:accompanist-coil:$accompanistVersion"
     }
 }
+
+val PluginDependenciesSpec.benManesVersions: PluginDependencySpec
+    get() = id("com.github.ben-manes.versions") version benManesVersionsVersion

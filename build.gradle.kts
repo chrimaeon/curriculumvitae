@@ -25,6 +25,10 @@ buildscript {
     }
 }
 
+plugins {
+    benManesVersions
+}
+
 tasks {
     register<Delete>("clean") {
         delete(rootProject.buildDir)

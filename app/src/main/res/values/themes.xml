@@ -18,5 +18,10 @@
 
 <resources>
 
-    <style name="Theme.CurriculumVitae" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.CurriculumVitae.Base" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.CurriculumVitae" parent="Theme.CurriculumVitae.Base">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 </resources>
