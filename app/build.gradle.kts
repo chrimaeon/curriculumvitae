@@ -17,6 +17,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    ktlint
 }
 
 android {

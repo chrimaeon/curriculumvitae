@@ -1,7 +1,3 @@
-import org.gradle.kotlin.dsl.version
-import org.gradle.plugin.use.PluginDependenciesSpec
-import org.gradle.plugin.use.PluginDependencySpec
-
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -17,6 +13,10 @@ import org.gradle.plugin.use.PluginDependencySpec
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.gradle.kotlin.dsl.version
+import org.gradle.plugin.use.PluginDependenciesSpec
+import org.gradle.plugin.use.PluginDependencySpec
 
 object Gradle {
     const val gradleVersion = "6.8.3"
@@ -56,7 +56,7 @@ object Libs {
     }
 
     object Misc {
-        const val ktlint = "com.pinterest:ktlint:0.40.0"
+        const val ktlint = "com.pinterest:ktlint:0.41.0"
         const val accompanistInsets =
             "dev.chrisbanes.accompanist:accompanist-insets:$accompanistVersion"
         const val accompanistCoil =
@@ -66,3 +66,6 @@ object Libs {
 
 val PluginDependenciesSpec.benManesVersions: PluginDependencySpec
     get() = id("com.github.ben-manes.versions") version benManesVersionsVersion
+
+val PluginDependenciesSpec.ktlint: PluginDependencySpec
+    get() = id("com.cmgapps.gradle.ktlint")
