@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-plugins {
-    `kotlin-dsl`
-}
+package com.cmgapps.android.curriculumvitae
 
-repositories {
-    mavenCentral()
-}
+import android.app.Application
+import timber.log.Timber
 
-dependencies {
-    implementation("com.squareup:kotlinpoet:1.7.2")
+class Application : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        // TODO use dagger to inject Tree
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
 }

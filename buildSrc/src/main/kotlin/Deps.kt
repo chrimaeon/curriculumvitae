@@ -57,10 +57,16 @@ object Libs {
 
     object Misc {
         const val ktlint = "com.pinterest:ktlint:0.41.0"
+
         const val accompanistInsets =
             "dev.chrisbanes.accompanist:accompanist-insets:$accompanistVersion"
         const val accompanistCoil =
             "dev.chrisbanes.accompanist:accompanist-coil:$accompanistVersion"
+
+        const val timber = "com.jakewharton.timber:timber:4.7.1"
+
+        const val logtag = "com.cmgapps.logtag:log-tag:0.1.0"
+        const val logtagProcessor = "com.cmgapps.logtag:processor:0.1.0"
     }
 }
 

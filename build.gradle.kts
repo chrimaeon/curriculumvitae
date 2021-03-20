@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     repositories {
         google()
@@ -27,6 +29,16 @@ buildscript {
 
 plugins {
     benManesVersions
+}
+
+allprojects {
+    tasks {
+        withType(KotlinCompile::class) {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
 }
 
 tasks {

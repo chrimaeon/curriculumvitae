@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
     ktlint
 }
+
+val xorDirPath = "generated/source/xor"
 
 android {
     compileSdkVersion(30)
@@ -59,8 +64,31 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    sourceSets {
+        named("main") {
+            java.srcDir(buildDir.resolve(xorDirPath))
+        }
+    }
+}
+
+tasks {
+    val generateEmailAddress by registering {
+        val outputDir = project.buildDir.resolve(xorDirPath)
+
+        val emailAddress = "christian.grach@gmx.at"
+        inputs.property("email", emailAddress)
+        val packageName = android.defaultConfig.applicationId ?: error("app id not set")
+        inputs.property("packageName", packageName)
+
+        outputs.dir(outputDir)
+
+        doLast {
+            generateEmailAddress(emailAddress, packageName, outputDir)
+        }
+    }
+
+    withType<KotlinCompile> {
+        dependsOn(generateEmailAddress)
     }
 }
 
@@ -79,6 +107,10 @@ dependencies {
 
     implementation(Libs.Misc.accompanistInsets)
     implementation(Libs.Misc.accompanistCoil)
+    implementation(Libs.Misc.timber)
+
+    implementation(Libs.Misc.logtag)
+    kapt(Libs.Misc.logtagProcessor)
 
     testImplementation("junit:junit:4.13.2")
 

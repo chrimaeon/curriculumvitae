@@ -30,13 +30,22 @@ package com.cmgapps.android.curriculumvitae/*
  * limitations under the License.
  */
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.view.WindowCompat
+import com.cmgapps.LogTag
 import com.cmgapps.android.compomaeon.ui.Theme
+import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
+@LogTag
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +55,32 @@ class MainActivity : ComponentActivity() {
         setContent {
             Theme {
                 ProvideWindowInsets(consumeWindowInsets = true) {
-                    App()
+                    val scaffoldState = rememberScaffoldState()
+                    val coroutineScope = rememberCoroutineScope()
+
+                    MainScreen(
+                        scaffoldState = scaffoldState,
+                        onFabClick = {
+                            val intent = composeEmail()
+                            if (intent.resolveActivity(packageManager) != null) {
+                                startActivity(intent)
+                            } else {
+                                coroutineScope.launch {
+                                    scaffoldState.snackbarHostState.showSnackbar(getString(R.string.no_email))
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }
     }
+
+    private fun composeEmail() =
+        Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            Timber.tag(LOG_TAG).d(EMAIL_ADDRESS)
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.you_are_hired))
+        }
 }

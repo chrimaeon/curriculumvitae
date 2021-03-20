@@ -16,12 +16,17 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.CurriculumVitae.Base" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="Theme.CurriculumVitae" parent="Theme.CurriculumVitae.Base">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/use_light_system_ui
+        </item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">
+            @bool/use_light_system_ui
+        </item>
+        <item name="android:statusBarColor">@color/system_bars_scrim</item>
+        <item name="android:navigationBarColor">@color/system_bars_scrim</item>
     </style>
 </resources>
