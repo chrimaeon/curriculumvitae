@@ -29,5 +29,5 @@ object ReleaseNetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder().build()
+    fun provideOkHttpBuilder(): OkHttpClient.Builder = OkHttpClient.Builder()
 }

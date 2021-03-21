@@ -60,7 +60,6 @@ class MainActivity : ComponentActivity() {
                     val scaffoldState = rememberScaffoldState()
                     val coroutineScope = rememberCoroutineScope()
 
-
                     MainScreen(
                         scaffoldState = scaffoldState,
                         onFabClick = {

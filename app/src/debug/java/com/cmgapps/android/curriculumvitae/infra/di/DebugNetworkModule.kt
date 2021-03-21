@@ -33,12 +33,12 @@ object DebugNetworkModule {
     @Singleton
     fun provideOkHttpBuilder(): OkHttpClient.Builder {
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor { message ->
-                Timber.tag(
-                    "HttpLoggingInterceptor"
-                ).d(message)
-            }.apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(
+                HttpLoggingInterceptor { message ->
+                    Timber.tag("HttpLoggingInterceptor").d(message)
+                }.apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
     }
 }
