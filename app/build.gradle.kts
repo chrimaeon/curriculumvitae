@@ -41,15 +41,19 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val apiProperties = Properties().apply {
-            rootDir.resolve("api.properties").inputStream().use {
-                load(it)
-            }
+        val baseUrl = if (System.getenv("CI") != null) {
+            System.getenv("CV_BASE_URL")
+        } else {
+            Properties().apply {
+                rootDir.resolve("api.properties").inputStream().use {
+                    load(it)
+                }
+            }["baseUrl"]
         }
 
         resConfigs("en", "de")
 
-        buildConfigField("String", "BASE_URL", """"${apiProperties["baseUrl"]}"""")
+        buildConfigField("String", "BASE_URL", """"$baseUrl"""")
     }
 
     buildFeatures {

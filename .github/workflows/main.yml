@@ -7,7 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      CV_BASE_URL: https://www.host.undefined
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
