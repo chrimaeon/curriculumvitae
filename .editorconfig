@@ -8,3 +8,6 @@ indent_size=4
 
 [*.{kt,kts}]
 ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^
+
+[*.{yml,yaml,json}]
+indent_size=2
