@@ -14,40 +14,76 @@
  * limitations under the License.
  */
 
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.MemberName.Companion.member
+import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.asClassName
 import java.io.File
 
 fun generateEmailAddress(emailAddress: String, packageName: String, outputDir: File) {
-    val xorFun = FunSpec.builder("xor").addModifiers(KModifier.PRIVATE)
-        .addParameter("input", CharArray::class)
-        .addParameter("key", CharArray::class)
+    val charClassName = Char::class.asClassName()
+    val mapIndexedMember = charClassName.member("mapIndexed")
+    val charToIntMember = charClassName.member("toInt")
+    val intToCharMember = Int::class.asClassName().member("toChar")
+    val toCharArrayMember = MemberName("kotlin.collections", "toCharArray")
+    val sizeMember = CharArray::class.asClassName().member("size")
+
+    val keyParameter = ParameterSpec.builder("key", CharArray::class).build()
+    val indexVar = "idx"
+    val charVar = "c"
+
+    val xorFun = FunSpec.builder("x").addModifiers(KModifier.PRIVATE)
+        .receiver(CharArray::class)
         .returns(CharArray::class)
+        .addParameter(keyParameter)
         .addStatement(
             """
-              return input.mapIndexed { index, char ->
-                (char.toInt() xor key[index %% key.size].toInt()).toChar()
-              }.toCharArray()
-            """.trimIndent()
-        ).build()
-    val emailCharsProperty = PropertySpec.builder("emailXored", CharArray::class)
+            |return %1N { %2L, %3L ->
+            |    (%3L.%4N() xor %5N[%2L %% %5N.%6N].%4N()).%7N()
+            |}.%8N()
+            """.trimMargin(),
+            mapIndexedMember,
+            indexVar,
+            charVar,
+            charToIntMember,
+            keyParameter,
+            sizeMember,
+            intToCharMember,
+            toCharArrayMember
+        )
+        .build()
+
+    val charArrayOfMember = MemberName("kotlin", "charArrayOf")
+    val emailCharsProperty = PropertySpec.builder("e", CharArray::class)
         .addModifiers(KModifier.PRIVATE)
         .initializer(
-            xor(
-                emailAddress.toCharArray(),
-                packageName.toCharArray()
-            ).joinToString(prefix = "charArrayOf(", postfix = ")") {
-                "${it.toInt()}.toChar()"
-            }).build()
+            CodeBlock.builder().apply {
+                add("%N(", charArrayOfMember)
+                emailAddress.toCharArray().xor(packageName.toCharArray()).let {
+                    val size = it.size
+                    it.forEachIndexed { index, char ->
+                        add("${char.toInt()}.%N()", intToCharMember)
+                        if (index < size - 1) add(",")
+                    }
+                    add(")")
+                }
+            }.build()
+        ).build()
 
+    val stringToCharArrayMember = String::class.asClassName().member("toCharArray")
     val emailAddressProperty = PropertySpec.builder("EMAIL_ADDRESS", String::class)
         .initializer(
-            "String(%N(%N, %S.toCharArray()))",
-            xorFun,
+            "%T(%N.%N(%S.%N()))",
+            String::class,
             emailCharsProperty,
-            packageName
+            xorFun,
+            packageName,
+            stringToCharArrayMember
         )
         .build()
 
@@ -59,7 +95,7 @@ fun generateEmailAddress(emailAddress: String, packageName: String, outputDir: F
         .writeTo(outputDir)
 }
 
-private fun xor(input: CharArray, key: CharArray) = input.mapIndexed { index, char ->
+private fun CharArray.xor(key: CharArray) = mapIndexed { index, char ->
     (char.toInt() xor key[index % key.size].toInt()).toChar()
 }.toCharArray()
 
