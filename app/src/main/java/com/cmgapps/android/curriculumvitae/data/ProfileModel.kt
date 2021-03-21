@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.data
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import javax.inject.Inject
+import kotlinx.serialization.Serializable
 
-@HiltAndroidApp
-class Application : Application() {
+@Serializable
+data class Profile(
+    val lang: String,
+    val intro: List<String>,
+    val address: Address,
+    val email: String
+)
 
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
-    }
-}
+@Serializable
+data class Address(val street: String, val city: String, val postalCode: String)

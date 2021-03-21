@@ -22,9 +22,8 @@
     <string name="work_label">Work</string>
     <string name="skills_label">Skills</string>
     <string name="name">Christian Grach BSc</string>
-    <string name="profile_1">I\'m a highly experienced Android App Developer started with Android 2.3 in 2011. I have created Apps together with Lynda.com/Linkedin and PicMonkey.</string>
-    <string name="profile_2">I also started widen my knowledge to get into Web Technologies like Angular for Frontend and Nest.js for Backend development.</string>
     <string name="send_action">Send</string>
     <string name="you_are_hired">You are hired!</string>
     <string name="no_email">D\'oh, no email app found</string>
+    <string name="generic_error">D\'oh, something went wrong 😞</string>
 </resources>

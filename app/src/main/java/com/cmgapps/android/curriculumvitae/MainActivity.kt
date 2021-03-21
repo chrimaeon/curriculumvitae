@@ -41,11 +41,13 @@ import androidx.core.view.WindowCompat
 import com.cmgapps.LogTag
 import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
+import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @LogTag
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +59,7 @@ class MainActivity : ComponentActivity() {
                 ProvideWindowInsets(consumeWindowInsets = true) {
                     val scaffoldState = rememberScaffoldState()
                     val coroutineScope = rememberCoroutineScope()
+
 
                     MainScreen(
                         scaffoldState = scaffoldState,

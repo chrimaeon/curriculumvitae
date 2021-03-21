@@ -67,6 +67,19 @@ object Libs {
 
         const val logtag = "com.cmgapps.logtag:log-tag:0.1.0"
         const val logtagProcessor = "com.cmgapps.logtag:processor:0.1.0"
+
+        const val hiltAndroid = "com.google.dagger:hilt-android:$hiltVersion"
+        const val hiltCompiler = "com.google.dagger:hilt-compiler:$hiltVersion"
+
+        const val kotlinxJsonSerialization =
+            "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
+
+        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+        const val retrofitKotlinSerialization =
+            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+        const val okHttpBom = "com.squareup.okhttp3:okhttp-bom:4.9.0"
+        const val okHttp = "com.squareup.okhttp3:okhttp"
+        const val okHttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor"
     }
 }
 

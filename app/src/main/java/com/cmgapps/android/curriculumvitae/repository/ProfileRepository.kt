@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.repository
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import androidx.lifecycle.liveData
+import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.infra.Resource
 import timber.log.Timber
-import javax.inject.Inject
 
-@HiltAndroidApp
-class Application : Application() {
-
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
+class ProfileRepository(private val api: CvApiService) {
+    fun getProfile() = liveData {
+        emit(Resource.Loading)
+        try {
+            val profile = api.getProfile()
+            Timber.tag("ProfileRepository").d(profile.toString())
+            emit(Resource.Success(profile))
+        } catch (exc: Exception) {
+            emit(Resource.Error(exc))
+        }
     }
 }

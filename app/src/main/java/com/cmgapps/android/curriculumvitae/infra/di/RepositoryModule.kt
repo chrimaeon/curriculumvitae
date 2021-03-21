@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.infra.di
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import javax.inject.Inject
+import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@HiltAndroidApp
-class Application : Application() {
+@Module
+@InstallIn(SingletonComponent::class)
+object RepositoryModule {
 
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
-    }
+    @Provides
+    @Singleton
+    fun provideProfileRepository(api: CvApiService) = ProfileRepository(api)
 }

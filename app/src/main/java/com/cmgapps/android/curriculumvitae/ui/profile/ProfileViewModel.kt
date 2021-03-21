@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.ui.profile
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
+import androidx.lifecycle.ViewModel
+import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltAndroidApp
-class Application : Application() {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(getProfile: GetProfileUseCase) :
+    ViewModel() {
 
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
-    }
+    val profile = getProfile()
 }

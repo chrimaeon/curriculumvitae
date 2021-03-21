@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.infra.di
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import javax.inject.Inject
+import javax.inject.Qualifier
 
-@HiltAndroidApp
-class Application : Application() {
-
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
-    }
-}
+@Qualifier
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.FIELD
+)
+annotation class Language

@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.infra
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import javax.inject.Inject
+import com.cmgapps.android.curriculumvitae.data.Profile
+import dagger.hilt.android.qualifiers.ApplicationContext
+import retrofit2.http.GET
 
-@HiltAndroidApp
-class Application : Application() {
+interface CvApiService {
 
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
-    }
+    @ApplicationContext
+    @GET("/profile")
+    suspend fun getProfile(): Profile
 }

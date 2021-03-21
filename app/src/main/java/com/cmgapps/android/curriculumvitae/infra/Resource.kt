@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.infra
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import javax.inject.Inject
-
-@HiltAndroidApp
-class Application : Application() {
-
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
-    }
+sealed class Resource<out T : Any> {
+    object Loading : Resource<Nothing>()
+    data class Success<out T : Any>(val data: T) : Resource<T>()
+    data class Error(val error: Throwable) : Resource<Nothing>()
 }

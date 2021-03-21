@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae
+package com.cmgapps.android.curriculumvitae.infra.di
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import javax.inject.Inject
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import javax.inject.Singleton
 
-@HiltAndroidApp
-class Application : Application() {
+@Module
+@InstallIn(SingletonComponent::class)
+object ReleaseNetworkModule {
 
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.plant(timberTree)
-    }
+    @Provides
+    @Singleton
+    fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder().build()
 }

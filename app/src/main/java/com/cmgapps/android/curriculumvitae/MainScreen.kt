@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.KEY_ROUTE
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -46,6 +47,7 @@ import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
 import com.cmgapps.android.curriculumvitae.infra.screens
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
+import com.cmgapps.android.curriculumvitae.ui.profile.ProfileViewModel
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
 import com.cmgapps.android.curriculumvitae.ui.work.WorkScreen
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
@@ -112,8 +114,9 @@ fun MainScreen(
             }
         }
     ) {
+        val profileViewModel: ProfileViewModel = viewModel()
         NavHost(navController, startDestination = Screen.Profile.route) {
-            composable(Screen.Profile.route) { ProfileScreen() }
+            composable(Screen.Profile.route) { ProfileScreen(profileViewModel, onFabClick) }
             composable(Screen.Work.route) { WorkScreen() }
             composable(Screen.Skills.route) { SkillsScreen() }
         }

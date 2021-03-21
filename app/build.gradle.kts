@@ -15,12 +15,15 @@
  */
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Properties
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    kotlin("plugin.serialization") version kotlinVersion
     ktlint
+    id("dagger.hilt.android.plugin")
 }
 
 val xorDirPath = "generated/source/xor"
@@ -37,6 +40,16 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val apiProperties = Properties().apply {
+            rootDir.resolve("api.properties").inputStream().use {
+                load(it)
+            }
+        }
+
+        resConfigs("en", "de")
+
+        buildConfigField("String", "BASE_URL", """"${apiProperties["baseUrl"]}"""")
     }
 
     buildFeatures {
@@ -69,6 +82,10 @@ android {
             java.srcDir(buildDir.resolve(xorDirPath))
         }
     }
+
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
+    }
 }
 
 tasks {
@@ -94,6 +111,8 @@ tasks {
 
 dependencies {
     implementation(Libs.AndroidX.coreKtx)
+    implementation(Libs.AndroidX.lifecycleLivedataKtx)
+
     implementation(Libs.AndroidX.composeUi)
     implementation(Libs.AndroidX.composeUiTooling)
     implementation(Libs.AndroidX.composeFoundation)
@@ -111,6 +130,16 @@ dependencies {
 
     implementation(Libs.Misc.logtag)
     kapt(Libs.Misc.logtagProcessor)
+
+    implementation(Libs.Misc.hiltAndroid)
+    kapt(Libs.Misc.hiltCompiler)
+
+    implementation(platform(Libs.Misc.okHttpBom))
+    implementation(Libs.Misc.okHttp)
+    debugImplementation(Libs.Misc.okHttpLoggingInterceptor)
+    implementation(Libs.Misc.retrofit)
+    implementation(Libs.Misc.retrofitKotlinSerialization)
+    implementation(Libs.Misc.kotlinxJsonSerialization)
 
     testImplementation("junit:junit:4.13.2")
 
