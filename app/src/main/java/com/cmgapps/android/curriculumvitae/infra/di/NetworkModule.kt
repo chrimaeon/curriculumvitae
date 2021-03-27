@@ -38,10 +38,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideApiService(
-        okHttpClientBuilder: OkHttpClient.Builder,
+        okHttpClient: OkHttpClient,
         @Language lang: String
     ): CvApiService {
-        okHttpClientBuilder.addInterceptor { chain ->
+        val interceptedClient = okHttpClient.newBuilder().addInterceptor { chain ->
             val originalRequest = chain.request()
 
             originalRequest.url.newBuilder().addQueryParameter("lang", lang).build()
@@ -50,10 +50,10 @@ object NetworkModule {
                 }.let {
                     chain.proceed(it)
                 }
-        }
+        }.build()
 
         return Retrofit.Builder()
-            .client(okHttpClientBuilder.build())
+            .client(interceptedClient)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build().run {

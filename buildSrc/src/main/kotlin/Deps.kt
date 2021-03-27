@@ -30,7 +30,7 @@ const val kotlinVersion = "1.4.31"
 const val roomVersion = "2.2.6"
 
 object Plugins {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha10"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha12"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
 }
@@ -48,9 +48,11 @@ object Libs {
         const val composeViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha03"
         const val composeLiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"
         const val composeNavigation = "androidx.navigation:navigation-compose:1.0.0-alpha09"
+        const val composeConstraintLayout =
+            "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
 
-        const val room = "androidx.room:room-ktx:$roomVersion"
-        const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
+        // const val room = "androidx.room:room-ktx:$roomVersion"
+        // const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
 
         const val lifecycleLivedataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
     }

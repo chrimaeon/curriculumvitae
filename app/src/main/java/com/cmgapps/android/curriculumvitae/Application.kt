@@ -17,6 +17,8 @@
 package com.cmgapps.android.curriculumvitae
 
 import android.app.Application
+import coil.Coil
+import coil.ImageLoader
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,8 +29,12 @@ class Application : Application() {
     @Inject
     lateinit var timberTree: Timber.Tree
 
+    @Inject
+    lateinit var imageLoader: ImageLoader
+
     override fun onCreate() {
         super.onCreate()
         Timber.plant(timberTree)
+        Coil.setImageLoader(imageLoader)
     }
 }

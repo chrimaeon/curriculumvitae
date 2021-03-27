@@ -16,10 +16,15 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
+import android.content.Context
+import coil.ImageLoader
+import coil.util.CoilUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import java.util.Locale
 import javax.inject.Singleton
 
@@ -31,4 +36,24 @@ object AppModule {
     @Singleton
     @Language
     fun provideLanguage(): String = Locale.getDefault().language
+
+    @Provides
+    @Singleton
+    fun provideImageLoader(
+        @ApplicationContext context: Context,
+        okHttpClient: OkHttpClient
+    ): ImageLoader {
+        val cachedClient =
+            okHttpClient.newBuilder()
+                .cache(CoilUtils.createDefaultCache(context))
+                .addInterceptor {
+                    // Simulate slow connection
+                    Thread.sleep(5000)
+                    it.proceed(it.request())
+                }
+                .build()
+        return ImageLoader.Builder(context)
+            .okHttpClient(cachedClient)
+            .build()
+    }
 }

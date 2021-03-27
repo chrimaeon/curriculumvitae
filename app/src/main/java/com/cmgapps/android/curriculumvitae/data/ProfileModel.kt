@@ -20,6 +20,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Profile(
+    val name: String,
     val lang: String,
     val intro: List<String>,
     val address: Address,

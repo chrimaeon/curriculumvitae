@@ -124,6 +124,7 @@ dependencies {
     implementation(Libs.AndroidX.composeMaterialIconsExtended)
     implementation(Libs.AndroidX.composeActivity)
     implementation(Libs.AndroidX.composeViewModel)
+    implementation(Libs.AndroidX.composeConstraintLayout)
     implementation(Libs.AndroidX.composeLiveData)
 
     implementation(Libs.AndroidX.composeNavigation)
