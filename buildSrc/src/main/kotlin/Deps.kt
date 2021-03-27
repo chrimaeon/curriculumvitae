@@ -24,7 +24,7 @@ object Gradle {
 
 const val accompanistVersion = "0.6.2"
 const val benManesVersionsVersion = "0.38.0"
-const val composeVersion = "1.0.0-beta02"
+const val composeVersion = "1.0.0-beta03"
 const val hiltVersion = "2.33-beta"
 const val kotlinVersion = "1.4.31"
 const val roomVersion = "2.2.6"
@@ -44,7 +44,7 @@ object Libs {
         const val composeMaterial = "androidx.compose.material:material:$composeVersion"
         const val composeMaterialIconsExtended =
             "androidx.compose.material:material-icons-extended:$composeVersion"
-        const val composeActivity = "androidx.activity:activity-compose:1.3.0-alpha04"
+        const val composeActivity = "androidx.activity:activity-compose:1.3.0-alpha05"
         const val composeViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha03"
         const val composeLiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"
         const val composeNavigation = "androidx.navigation:navigation-compose:1.0.0-alpha09"
@@ -54,7 +54,7 @@ object Libs {
         // const val room = "androidx.room:room-ktx:$roomVersion"
         // const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
 
-        const val lifecycleLivedataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
+        const val lifecycleLivedataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     }
 
     object Misc {
@@ -79,7 +79,7 @@ object Libs {
         const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
         const val retrofitKotlinSerialization =
             "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-        const val okHttpBom = "com.squareup.okhttp3:okhttp-bom:4.9.0"
+        const val okHttpBom = "com.squareup.okhttp3:okhttp-bom:4.9.1"
         const val okHttp = "com.squareup.okhttp3:okhttp"
         const val okHttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor"
     }

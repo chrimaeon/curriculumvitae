@@ -16,6 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -43,8 +46,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -94,18 +97,16 @@ fun ContentError() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier.background(
-                shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colors.error
-            )
-        ) {
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = stringResource(id = R.string.generic_error),
-                color = MaterialTheme.colors.onError
-            )
-        }
+        Text(
+            modifier = Modifier
+                .background(
+                    shape = MaterialTheme.shapes.medium,
+                    color = MaterialTheme.colors.error
+                )
+                .padding(16.dp),
+            text = stringResource(id = R.string.generic_error),
+            color = MaterialTheme.colors.onError
+        )
     }
 }
 
@@ -143,35 +144,34 @@ fun Header(
         modifier = modifier.fillMaxWidth()
     ) {
         val isLandscape = minWidth > 600.dp
+        val imageSize = if (isLandscape) minWidth / 6 else minWidth / 3
 
         if (isLandscape) {
-            val imageSize = minWidth / 6
             Row(modifier = Modifier.fillMaxWidth()) {
+                val alignVertical = Modifier.align(Alignment.CenterVertically)
                 ProfileImage(
-                    modifier = Modifier.align(Alignment.CenterVertically),
-                    imageSize = imageSize
+                    modifier = alignVertical,
+                    imageSize = imageSize,
+                    profile = profile
                 )
                 Column(
-                    modifier = Modifier
+                    modifier = alignVertical
                         .padding(start = 16.dp)
-                        .align(Alignment.CenterVertically)
                 ) {
                     ProfileDetails(
                         profile = profile,
                         onEmailClick = onEmailClick
                     )
                 }
-
             }
         } else {
-
-            val imageSize = minWidth / 3
             Column(modifier = Modifier.fillMaxWidth()) {
                 val centerHorizontalModifier = Modifier
                     .align(Alignment.CenterHorizontally)
                 ProfileImage(
                     modifier = centerHorizontalModifier,
-                    imageSize = imageSize
+                    imageSize = imageSize,
+                    profile = profile
                 )
                 ProfileDetails(
                     modifier = centerHorizontalModifier,
@@ -184,7 +184,7 @@ fun Header(
 }
 
 @Composable
-fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp) {
+fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
     val clip = Modifier.clip(CircleShape)
     CoilImage(
         modifier = modifier
@@ -193,7 +193,7 @@ fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp) {
             .then(
                 clip
             ),
-        data = "https://cv.cmgapps.com/assets/profile.jpg",
+        data = profile.profileImageUrl,
         contentDescription = null,
         loading = {
             ShimmerLoading(
@@ -225,15 +225,39 @@ fun ProfileDetails(modifier: Modifier = Modifier, profile: Profile, onEmailClick
         style = MaterialTheme.typography.subtitle1
     )
 
+    val primaryColor = MaterialTheme.colors.primary
+
     Text(
         modifier = modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
-            indication = rememberRipple(bounded = false, color = MaterialTheme.colors.primary),
+            indication = rememberRipple(bounded = false, color = primaryColor),
             onClick = onEmailClick
         ),
-        text = AnnotatedString(profile.email),
-        style = MaterialTheme.typography.subtitle1.copy(color = MaterialTheme.colors.primary),
+        text = profile.email,
+        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
     )
+
+    val context = LocalContext.current
+    val phoneNumber = profile.phone
+
+    Text(
+        modifier = modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = rememberRipple(bounded = false, color = primaryColor),
+            onClick = { context.onTelClick(phoneNumber) }
+        ),
+        text = phoneNumber,
+        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
+    )
+}
+
+private fun Context.onTelClick(phoneNumber: String) {
+    val intent = Intent(Intent.ACTION_DIAL).apply {
+        data = Uri.parse("tel:$phoneNumber")
+    }
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
 }
 
 // region Previews
@@ -261,6 +285,8 @@ fun PreviewContent() {
             Content(
                 profile = Profile(
                     name = "Firstname Lastname",
+                    phone = "+43123456789",
+                    profileImageUrl = "http://",
                     intro = listOf("Line1", "Line2"),
                     address = Address("Street 1", "Graz", "8010"),
                     email = "me@home.at",
@@ -280,6 +306,8 @@ fun PreviewLandscapeContent() {
             Content(
                 profile = Profile(
                     name = "Firstname Lastname",
+                    phone = "+43123456789",
+                    profileImageUrl = "http://",
                     intro = listOf("Line1", "Line2"),
                     address = Address("Street 1", "Graz", "8010"),
                     email = "me@home.at",
@@ -299,6 +327,8 @@ fun PreviewDarkContent() {
             Content(
                 profile = Profile(
                     name = "Firstname Lastname",
+                    phone = "+43123456789",
+                    profileImageUrl = "http://",
                     intro = listOf("Line1", "Line2"),
                     address = Address("Street 1", "Graz", "8010"),
                     email = "me@home.at",

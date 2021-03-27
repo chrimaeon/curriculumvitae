@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import com.github.benmanes.gradle.versions.updates.gradle.GradleReleaseChannel.CURRENT
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
@@ -50,5 +52,18 @@ tasks {
     named<Wrapper>("wrapper") {
         gradleVersion = "6.8.3"
         distributionType = Wrapper.DistributionType.ALL
+    }
+
+    named<DependencyUpdatesTask>("dependencyUpdates") {
+        revision = "release"
+        rejectVersionIf {
+            !candidate.group.contains("compose|com\\.google\\.dagger|com\\.android\\.tools\\.build".toRegex()) &&
+                !candidate.module.contains("compose") &&
+                listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->
+                    """(?i).*[.-]?$qualifier[.\d-]*""".toRegex()
+                        .containsMatchIn(candidate.version)
+                }
+        }
+        gradleReleaseChannel = CURRENT.id
     }
 }
