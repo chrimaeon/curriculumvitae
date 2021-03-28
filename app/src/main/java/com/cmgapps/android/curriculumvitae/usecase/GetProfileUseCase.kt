@@ -22,5 +22,5 @@ import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 
 class GetProfileUseCase(private val repo: ProfileRepository) {
-    operator fun invoke(): LiveData<Resource<Profile>> = repo.getProfile()
+    operator fun invoke(): LiveData<Resource<Profile>> = repo.profile
 }

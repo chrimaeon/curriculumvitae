@@ -83,6 +83,15 @@ object Libs {
         const val okHttp = "com.squareup.okhttp3:okhttp"
         const val okHttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor"
     }
+
+    object Testing {
+        const val androidCoreTesting = "androidx.arch.core:core-testing:2.1.0"
+        const val junitBom = "org.junit:junit-bom:5.7.1"
+        const val junitJupiter = "org.junit.jupiter:junit-jupiter"
+        const val mockito = "org.mockito:mockito-junit-jupiter:3.8.0"
+        const val coroutineTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
+        const val hamcrest = "org.hamcrest:hamcrest:2.2"
+    }
 }
 
 val PluginDependenciesSpec.benManesVersions: PluginDependencySpec

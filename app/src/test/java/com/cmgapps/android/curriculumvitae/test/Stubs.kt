@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.repository
+package com.cmgapps.android.curriculumvitae.test
 
-import androidx.lifecycle.liveData
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import timber.log.Timber
+import com.cmgapps.android.curriculumvitae.data.Address
+import com.cmgapps.android.curriculumvitae.data.Profile
 
-class ProfileRepository(private val api: CvApiService) {
-    val profile = liveData {
-        emit(Resource.Loading)
-        try {
-            val profile = api.getProfile()
-            Timber.tag("ProfileRepository").d(profile.toString())
-            emit(Resource.Success(profile))
-        } catch (exc: Exception) {
-            emit(Resource.Error(exc))
-        }
-    }
-}
+fun StubProfile() = Profile(
+    name = "Firstname Lastname",
+    address = Address(
+        city = "Graz",
+        street = "Street 1",
+        postalCode = "8010"
+    ),
+    email = "me@home.at",
+    intro = listOf("Line 1", "Line 2"),
+    lang = "de",
+    phone = "+12345678",
+    profileImageUrl = "http://image.undefined.com/image.jpeg"
+)

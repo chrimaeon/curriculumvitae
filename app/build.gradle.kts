@@ -90,6 +90,26 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+            it.testLogging {
+                events("passed", "skipped", "failed")
+            }
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force(Libs.Testing.hamcrest)
+            dependencySubstitution {
+                substitute(module("org.hamcrest:hamcrest-core")).with(module(Libs.Testing.hamcrest))
+                substitute(module("org.hamcrest:hamcrest-integration")).with(module(Libs.Testing.hamcrest))
+                substitute(module("org.hamcrest:hamcrest-library")).with(module(Libs.Testing.hamcrest))
+            }
+        }
+    }
 }
 
 tasks {
@@ -146,7 +166,12 @@ dependencies {
     implementation(Libs.Misc.retrofitKotlinSerialization)
     implementation(Libs.Misc.kotlinxJsonSerialization)
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(platform(Libs.Testing.junitBom))
+    testImplementation(Libs.Testing.junitJupiter)
+    testImplementation(Libs.Testing.androidCoreTesting)
+    testImplementation(Libs.Testing.mockito)
+    testImplementation(Libs.Testing.coroutineTest)
+    testImplementation(Libs.Testing.hamcrest)
 
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
