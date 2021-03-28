@@ -15,7 +15,6 @@
  */
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -41,15 +40,7 @@ android {
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
 
-        val baseUrl = if (System.getenv("CI") != null) {
-            System.getenv("CV_BASE_URL")
-        } else {
-            Properties().apply {
-                rootDir.resolve("api.properties").inputStream().use {
-                    load(it)
-                }
-            }["baseUrl"]
-        }
+        val baseUrl by apiProperties()
 
         resConfigs("en", "de")
 
