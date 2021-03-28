@@ -39,7 +39,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
 
         val baseUrl = if (System.getenv("CI") != null) {
             System.getenv("CV_BASE_URL")
@@ -85,6 +85,17 @@ android {
         named("main") {
             java.srcDir(buildDir.resolve(xorDirPath))
         }
+
+        val sharedTestDir = project.projectDir.resolve("src").resolve("sharedTest")
+
+        named("test") {
+            java.srcDir(sharedTestDir.resolve("java"))
+        }
+
+        named("androidTest") {
+            java.srcDir(sharedTestDir.resolve("java"))
+
+        }
     }
 
     kotlinOptions {
@@ -100,14 +111,18 @@ android {
         }
     }
 
-    configurations.all {
-        resolutionStrategy {
-            force(Libs.Testing.hamcrest)
-            dependencySubstitution {
-                substitute(module("org.hamcrest:hamcrest-core")).with(module(Libs.Testing.hamcrest))
-                substitute(module("org.hamcrest:hamcrest-integration")).with(module(Libs.Testing.hamcrest))
-                substitute(module("org.hamcrest:hamcrest-library")).with(module(Libs.Testing.hamcrest))
-            }
+    packagingOptions {
+        resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force(Libs.Testing.hamcrest)
+        dependencySubstitution {
+            substitute(module("org.hamcrest:hamcrest-core")).with(module(Libs.Testing.hamcrest))
+            substitute(module("org.hamcrest:hamcrest-integration")).with(module(Libs.Testing.hamcrest))
+            substitute(module("org.hamcrest:hamcrest-library")).with(module(Libs.Testing.hamcrest))
         }
     }
 }
@@ -173,6 +188,16 @@ dependencies {
     testImplementation(Libs.Testing.coroutineTest)
     testImplementation(Libs.Testing.hamcrest)
 
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation(Libs.Testing.extJunit)
+    androidTestImplementation(Libs.Testing.archCoreTesting)
+    androidTestImplementation(Libs.Testing.espresso)
+    androidTestImplementation(Libs.Testing.hamcrest)
+    androidTestImplementation(Libs.Testing.retrofitMockServer)
+    androidTestImplementation(Libs.Testing.hamcrest)
+
+
+    androidTestImplementation(Libs.Testing.composeUiTest)
+
+    androidTestImplementation(Libs.Testing.hiltTesting)
+    kaptAndroidTest(Libs.Misc.hiltCompiler)
 }

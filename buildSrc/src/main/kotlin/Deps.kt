@@ -28,6 +28,7 @@ const val composeVersion = "1.0.0-beta03"
 const val hiltVersion = "2.33-beta"
 const val kotlinVersion = "1.4.31"
 const val roomVersion = "2.2.6"
+const val retrofitVersion = "2.9.0"
 
 object Plugins {
     const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha12"
@@ -76,7 +77,7 @@ object Libs {
         const val kotlinxJsonSerialization =
             "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
 
-        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+        const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
         const val retrofitKotlinSerialization =
             "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
         const val okHttpBom = "com.squareup.okhttp3:okhttp-bom:4.9.1"
@@ -91,6 +92,12 @@ object Libs {
         const val mockito = "org.mockito:mockito-junit-jupiter:3.8.0"
         const val coroutineTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
         const val hamcrest = "org.hamcrest:hamcrest:2.2"
+        const val extJunit = "androidx.test.ext:junit:1.1.2"
+        const val espresso = "androidx.test.espresso:espresso-core:3.3.0"
+        const val composeUiTest = "androidx.compose.ui:ui-test-junit4:$composeVersion"
+        const val hiltTesting = "com.google.dagger:hilt-android-testing:$hiltVersion"
+        const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
+        const val retrofitMockServer = "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
     }
 }
 

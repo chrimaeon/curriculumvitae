@@ -16,13 +16,18 @@
 
 package com.cmgapps.android.curriculumvitae.ui.work
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun WorkScreen() {
@@ -30,10 +35,20 @@ fun WorkScreen() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            color = MaterialTheme.colors.onBackground,
-            style = MaterialTheme.typography.h1,
-            text = "Work"
-        )
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top)
+        ) {
+            items(5) { index ->
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp
+                ) {
+                    Text(
+                        text = "Work Item $index",
+                        style = MaterialTheme.typography.h3
+                    )
+                }
+            }
+        }
     }
 }

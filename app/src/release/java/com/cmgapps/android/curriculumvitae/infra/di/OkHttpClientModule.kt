@@ -21,22 +21,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DebugNetworkModule {
+object OkHttpClientModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(
-            HttpLoggingInterceptor { message ->
-                Timber.tag("HttpLoggingInterceptor").d(message)
-            }.apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
-        ).build()
+    fun provideOkHttp(): OkHttpClient = OkHttpClient()
 }

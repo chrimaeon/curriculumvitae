@@ -36,7 +36,11 @@ plugins {
 
 allprojects {
     tasks {
-        withType(KotlinCompile::class) {
+        withType<JavaCompile> {
+            options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xmaxerrs", "500"))
+        }
+
+        withType<KotlinCompile> {
             kotlinOptions {
                 jvmTarget = "1.8"
             }
