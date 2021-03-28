@@ -15,7 +15,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.10
-      - uses: actions/cache@v2
+      - name: Gradle Cache
+        uses: actions/cache@v2
         with:
           path: |
             ~/.gradle/caches
@@ -25,3 +26,10 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Archive Test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: |
+            app/build/reports/*
+            app/build/test-results/*
