@@ -29,6 +29,7 @@ const val hiltVersion = "2.33-beta"
 const val kotlinVersion = "1.4.31"
 const val roomVersion = "2.2.6"
 const val retrofitVersion = "2.9.0"
+const val ktorVersion = "1.5.2"
 
 object Plugins {
     const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha12"
@@ -98,6 +99,12 @@ object Libs {
         const val hiltTesting = "com.google.dagger:hilt-android-testing:$hiltVersion"
         const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
         const val retrofitMockServer = "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+    }
+
+    object Backend {
+        const val ktorNettyServer = "io.ktor:ktor-server-netty:$ktorVersion"
+        const val logback = "ch.qos.logback:logback-classic:1.2.3"
+        const val ktorSerialization = "io.ktor:ktor-serialization:$ktorVersion"
     }
 }
 

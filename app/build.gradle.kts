@@ -140,6 +140,7 @@ tasks {
 }
 
 dependencies {
+    implementation(project(":shared"))
     implementation(Libs.AndroidX.coreKtx)
     implementation(Libs.AndroidX.lifecycleLivedataKtx)
 

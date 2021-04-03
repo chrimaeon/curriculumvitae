@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data
+package com.cmgapp.curriculumvitae.data
 
 import kotlinx.serialization.Serializable
 

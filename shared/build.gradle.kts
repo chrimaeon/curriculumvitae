@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra
+plugins {
+    id("java-library")
+    kotlin("jvm")
+    kotlin("plugin.serialization") version kotlinVersion
+    ktlint
+}
 
-import com.cmgapp.curriculumvitae.data.Profile
-import dagger.hilt.android.qualifiers.ApplicationContext
-import retrofit2.http.GET
+dependencies {
+    implementation(Libs.Misc.kotlinxJsonSerialization)
+}
 
-interface CvApiService {
 
-    @ApplicationContext
-    @GET("/profile")
-    suspend fun getProfile(): Profile
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

@@ -17,7 +17,7 @@
 package com.cmgapps.android.curriculumvitae.ui.profile
 
 import androidx.lifecycle.MutableLiveData
-import com.cmgapps.android.curriculumvitae.data.Profile
+import com.cmgapp.curriculumvitae.data.Profile
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.InstantTaskExecutorExtension
 import com.cmgapps.android.curriculumvitae.test.StubProfile

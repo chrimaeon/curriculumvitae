@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra
+package com.cmgapps.bff.routes
 
-import com.cmgapp.curriculumvitae.data.Profile
-import dagger.hilt.android.qualifiers.ApplicationContext
-import retrofit2.http.GET
+import io.ktor.application.Application
+import io.ktor.http.content.resource
+import io.ktor.http.content.static
+import io.ktor.routing.routing
 
-interface CvApiService {
-
-    @ApplicationContext
-    @GET("/profile")
-    suspend fun getProfile(): Profile
+fun Application.registerStaticRoutes() {
+    routing {
+        static("assets") {
+            resource("profile.png")
+        }
+    }
 }

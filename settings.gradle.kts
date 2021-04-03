@@ -27,4 +27,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Curriculum Vitae"
-include(":app")
+include(
+    ":shared",
+    ":app",
+    ":backend"
+)
