@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapps.bff.routes
+package com.cmgapps.ktor.curriculumvitae.routes
 
 import com.cmgapp.curriculumvitae.data.Address
 import com.cmgapp.curriculumvitae.data.Profile

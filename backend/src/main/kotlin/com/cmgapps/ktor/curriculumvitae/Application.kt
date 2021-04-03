@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package com.cmgapps.bff
+package com.cmgapps.ktor.curriculumvitae
 
-import com.cmgapps.bff.routes.registerProfileRoutes
-import com.cmgapps.bff.routes.registerStaticRoutes
+import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
+import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
+import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CallLogging
 import io.ktor.features.Compression
 import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
 import io.ktor.features.deflate
 import io.ktor.features.gzip
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
-import io.ktor.response.respondText
-import io.ktor.routing.get
-import io.ktor.routing.routing
 import io.ktor.serialization.json
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -42,6 +41,7 @@ fun Application.module() {
 }
 
 fun Application.installFeatures() {
+    install(DefaultHeaders)
     install(ContentNegotiation) {
         json()
     }
@@ -59,20 +59,7 @@ fun Application.installFeatures() {
 }
 
 fun Application.registerRoutes() {
+    registerRootRouting()
     registerProfileRoutes()
     registerStaticRoutes()
-    routing {
-        get("/") {
-            call.respondText(
-                """
-                |Welcome
-                |=======
-                |
-                |Available Endpoints:
-                |
-                |GET /profile?lang={lang}
-                """.trimMargin()
-            )
-        }
-    }
 }

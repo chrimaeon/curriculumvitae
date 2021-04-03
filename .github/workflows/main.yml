@@ -24,12 +24,30 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'buildSrc/src/main/kotlin/Deps.kt', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Build with Gradle
-        run: ./gradlew build
-      - name: Archive Test results
+      - name: Check :shared
+        run: ./gradlew :shared:check
+      - name: Archive Shared Test results
         uses: actions/upload-artifact@v2
         with:
-          name: test-results
+          name: shared-test-results
+          path: |
+            shared/build/reports/*
+            shared/build/test-results/*
+      - name: Check :app
+        run: ./gradlew :app:check
+      - name: Archive App Test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-test-results
           path: |
             app/build/reports/*
             app/build/test-results/*
+      - name: Check :backend
+        run: ./gradlew :backend:check
+      - name: Archive Backend Test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: bff-test-results
+          path: |
+            backend/build/reports/*
+            backend/build/test-results/*

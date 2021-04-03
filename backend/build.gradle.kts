@@ -26,16 +26,30 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
 }
 
-dependencies {
-    api(project(":shared"))
-    implementation(kotlin("stdlib-jdk8", kotlinVersion))
-    implementation(Libs.Backend.ktorNettyServer)
-    implementation(Libs.Backend.logback)
-    implementation(Libs.Misc.kotlinxJsonSerialization)
-    implementation(Libs.Backend.ktorSerialization)
-}
-
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+dependencies {
+    implementation(project(":shared"))
+    implementation(kotlin("stdlib-jdk8", kotlinVersion))
+    implementation(Libs.Backend.ktorNettyServer)
+    implementation(Libs.Backend.ktorHtml)
+    implementation(Libs.Backend.kotlinCss)
+    implementation(Libs.Backend.logback)
+    implementation(Libs.Misc.kotlinxJsonSerialization)
+    implementation(Libs.Backend.ktorSerialization)
+
+    testImplementation(Libs.Testing.ktorTesting)
+    testImplementation(platform(Libs.Testing.junitBom))
+    testImplementation(Libs.Testing.junitJupiter)
+    testImplementation(Libs.Testing.hamcrest)
 }

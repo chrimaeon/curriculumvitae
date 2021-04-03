@@ -99,12 +99,15 @@ object Libs {
         const val hiltTesting = "com.google.dagger:hilt-android-testing:$hiltVersion"
         const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
         const val retrofitMockServer = "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+        const val ktorTesting = "io.ktor:ktor-server-test-host:$ktorVersion"
     }
 
     object Backend {
         const val ktorNettyServer = "io.ktor:ktor-server-netty:$ktorVersion"
         const val logback = "ch.qos.logback:logback-classic:1.2.3"
         const val ktorSerialization = "io.ktor:ktor-serialization:$ktorVersion"
+        const val ktorHtml = "io.ktor:ktor-html-builder:$ktorVersion"
+        const val kotlinCss = "org.jetbrains:kotlin-css-jvm:1.0.0-pre.148-kotlin-1.4.30"
     }
 }
 
