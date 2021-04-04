@@ -24,6 +24,8 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'buildSrc/src/main/kotlin/Deps.kt', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: Download dependencies
+        run: ./gradlew dependencies
       - name: Check :shared
         run: ./gradlew :shared:check
       - name: Archive Shared Test results

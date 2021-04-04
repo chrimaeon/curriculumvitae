@@ -17,15 +17,14 @@
 package com.cmgapps.ktor.curriculumvitae.routes
 
 import io.ktor.application.Application
-import io.ktor.http.content.resource
+import io.ktor.http.content.resources
 import io.ktor.http.content.static
 import io.ktor.routing.routing
 
 fun Application.registerStaticRoutes() {
     routing {
         static("assets") {
-            resource("profile.png")
-            resource("style.css")
+            resources("assets")
         }
     }
 }
