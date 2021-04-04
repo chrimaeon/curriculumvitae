@@ -11,9 +11,11 @@ RUN gradle :backend:installDist --no-daemon --info
 
 FROM openjdk:8-jre-alpine
 EXPOSE 8080:8080
+EXPOSE 8090:8090
 
 RUN mkdir /app
 COPY --from=build /cv/backend/build/install/backend/ /app/
+COPY ./backend/test.jks /app/bin/
 
 WORKDIR /app/bin
 CMD ["./backend"]

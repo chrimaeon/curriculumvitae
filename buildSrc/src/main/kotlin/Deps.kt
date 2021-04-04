@@ -30,6 +30,7 @@ const val kotlinVersion = "1.4.31"
 const val roomVersion = "2.2.6"
 const val retrofitVersion = "2.9.0"
 const val ktorVersion = "1.5.2"
+const val nettyTcnVersion = "2.0.38.Final"
 
 object Plugins {
     const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha12"
@@ -108,6 +109,8 @@ object Libs {
         const val ktorSerialization = "io.ktor:ktor-serialization:$ktorVersion"
         const val ktorHtml = "io.ktor:ktor-html-builder:$ktorVersion"
         const val kotlinCss = "org.jetbrains:kotlin-css-jvm:1.0.0-pre.148-kotlin-1.4.30"
+        const val nettyTcn = "io.netty:netty-tcnative:$nettyTcnVersion"
+        const val nettyTcnBoringSll = "io.netty:netty-tcnative-boringssl-static:$nettyTcnVersion"
     }
 }
 

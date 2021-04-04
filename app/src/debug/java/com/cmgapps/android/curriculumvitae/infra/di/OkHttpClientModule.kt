@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
+import android.annotation.SuppressLint
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +24,11 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
+import java.security.cert.X509Certificate
 import javax.inject.Singleton
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -31,12 +36,39 @@ object OkHttpClientModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(
-            HttpLoggingInterceptor { message ->
-                Timber.tag("HttpLoggingInterceptor").d(message)
-            }.apply {
-                level = HttpLoggingInterceptor.Level.BODY
+    fun provideOkHttpClient(
+        sslSocketFactory: SSLSocketFactory,
+        trustManager: X509TrustManager
+    ): OkHttpClient =
+        OkHttpClient.Builder()
+            .sslSocketFactory(sslSocketFactory, trustManager)
+            .hostnameVerifier { _, _ -> true }
+            .addInterceptor(
+                HttpLoggingInterceptor { message ->
+                    Timber.tag("HttpLoggingInterceptor").d(message)
+                }.apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            ).build()
+
+    @Provides
+    @SuppressLint("TrustAllX509TrustManager")
+    fun provideTrustManager(): X509TrustManager {
+        return object : X509TrustManager {
+            override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
             }
-        ).build()
+
+            override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+            }
+
+            override fun getAcceptedIssuers() = emptyArray<X509Certificate>()
+        }
+    }
+
+    @Provides
+    fun provideSslSockerFactory(trustManager: X509TrustManager): SSLSocketFactory {
+        val sslContext = SSLContext.getInstance("SSL")
+        sslContext.init(null, arrayOf(trustManager), java.security.SecureRandom())
+        return sslContext.socketFactory
+    }
 }

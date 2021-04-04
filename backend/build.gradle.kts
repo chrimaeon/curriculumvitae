@@ -47,6 +47,8 @@ dependencies {
     implementation(Libs.Backend.logback)
     implementation(Libs.Misc.kotlinxJsonSerialization)
     implementation(Libs.Backend.ktorSerialization)
+    implementation(Libs.Backend.nettyTcn)
+    implementation(Libs.Backend.nettyTcnBoringSll)
 
     testImplementation(Libs.Testing.ktorTesting)
     testImplementation(platform(Libs.Testing.junitBom))

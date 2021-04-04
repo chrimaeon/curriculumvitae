@@ -4,5 +4,6 @@ services:
     image: chrimaeon/curriculumvitae-bff
     ports:
       - 8080:8080
+      - 8090:8090
 
 

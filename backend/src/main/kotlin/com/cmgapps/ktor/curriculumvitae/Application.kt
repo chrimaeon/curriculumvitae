@@ -22,6 +22,7 @@ import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.features.AutoHeadResponse
 import io.ktor.features.CallLogging
 import io.ktor.features.Compression
 import io.ktor.features.ContentNegotiation
@@ -29,9 +30,13 @@ import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
 import io.ktor.features.deflate
 import io.ktor.features.gzip
+import io.ktor.features.origin
 import io.ktor.http.HttpStatusCode
+import io.ktor.request.httpMethod
+import io.ktor.request.httpVersion
 import io.ktor.response.respond
 import io.ktor.serialization.json
+import org.slf4j.event.Level
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -42,6 +47,7 @@ fun Application.module() {
 
 fun Application.installFeatures() {
     install(DefaultHeaders)
+    install(AutoHeadResponse)
     install(ContentNegotiation) {
         json()
     }
@@ -49,7 +55,16 @@ fun Application.installFeatures() {
         gzip()
         deflate()
     }
-    install(CallLogging)
+    install(CallLogging) {
+        level = Level.INFO
+        format { call ->
+            val method = call.request.httpMethod
+            val path = call.request.origin.uri
+            val responseCode = call.response.status()
+            val httpVersion = call.request.httpVersion
+            "${responseCode.toString()}: ${method.value} $path $httpVersion"
+        }
+    }
     install(StatusPages) {
         exception<Throwable> { cause ->
             call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
