@@ -37,6 +37,7 @@ import io.ktor.request.httpVersion
 import io.ktor.response.respond
 import io.ktor.serialization.json
 import org.slf4j.event.Level
+import registerHealthCheckRoutes
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -75,6 +76,7 @@ fun Application.installFeatures() {
 
 fun Application.registerRoutes() {
     registerRootRouting()
+    registerHealthCheckRoutes()
     registerProfileRoutes()
     registerStaticRoutes()
 }
