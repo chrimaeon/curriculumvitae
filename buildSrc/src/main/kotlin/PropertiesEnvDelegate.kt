@@ -42,4 +42,4 @@ class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, Strin
     }
 }
 
-fun Project.apiProperties() = PropertiesEnvDelegate(rootDir.resolve("api.properties"))
+fun Project.apiProperties() = PropertiesEnvDelegate(projectDir.resolve("api.properties"))
