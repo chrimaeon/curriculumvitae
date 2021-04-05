@@ -16,10 +16,12 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <color name="transparent">#00000000</color>
-    <color name="system_ui_scrim_light">#B3FFFFFF</color> <!-- 70% white -->
-    <color name="system_ui_scrim_black">#40000000</color> <!-- 25% black -->
-    <color name="system_bars_scrim">@color/system_ui_scrim_light</color>
-    <color name="window_background">#FFFFFFFF</color>
-</resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="@color/window_background" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash" />
+    </item>
+</layer-list>

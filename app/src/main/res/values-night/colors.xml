@@ -18,4 +18,5 @@
 
 <resources>
     <color name="system_bars_scrim">@color/system_ui_scrim_black</color>
+    <color name="window_background">#FF121212</color>
 </resources>

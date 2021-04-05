@@ -29,4 +29,8 @@
         <item name="android:statusBarColor">@color/system_bars_scrim</item>
         <item name="android:navigationBarColor">@color/system_bars_scrim</item>
     </style>
+
+    <style name="Theme.CurriculumVitae.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
 </resources>
