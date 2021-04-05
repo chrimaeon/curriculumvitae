@@ -35,43 +35,15 @@ class RootRoutesShould {
 
     @Test
     fun `return html on GET`() = withTestApplication(moduleFunction = { module() }) {
+
+        val expected = javaClass.classLoader.getResourceAsStream("root.html")?.use {
+            String(it.readAllBytes())
+        } ?: error("resource not found")
+
         with(handleRequest(HttpMethod.Get, "/")) {
             assertThat(
                 response.content,
-                `is`(
-                    """
-                    |<!DOCTYPE html>
-                    |<html>
-                    |  <head>
-                    |    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-                    |    <link href="https://code.getmdl.io/1.3.0/material.light_blue-amber.min.css" rel="stylesheet" type="text/css">
-                    |    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-                    |    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-                    |    <title>Curriculum Vitae BFF</title>
-                    |    <style>.page-content {
-                    |margin: 16px;
-                    |}
-                    |</style>
-                    |  </head>
-                    |  <body>
-                    |    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-                    |      <header class="mdl-layout__header">
-                    |        <div class="mdl-layout__header-row"><span class="mdl-layout-title">Curriculum Vitae BFF</span></div>
-                    |      </header>
-                    |      <main class="mdl-layout__content">
-                    |        <div class="page-content">
-                    |          <h5 class="headline">Available API's</h5>
-                    |          <ul>
-                    |            <li><code>GET /profile?lang={lang}</code></li>
-                    |          </ul>
-                    |        </div>
-                    |      </main>
-                    |    </div>
-                    |  </body>
-                    |</html>
-                    |
-                """.trimMargin()
-                )
+                `is`(expected)
             )
         }
     }

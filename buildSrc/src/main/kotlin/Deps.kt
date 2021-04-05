@@ -108,7 +108,7 @@ object Libs {
         const val logback = "ch.qos.logback:logback-classic:1.2.3"
         const val ktorSerialization = "io.ktor:ktor-serialization:$ktorVersion"
         const val ktorHtml = "io.ktor:ktor-html-builder:$ktorVersion"
-        const val kotlinCss = "org.jetbrains:kotlin-css-jvm:1.0.0-pre.148-kotlin-1.4.30"
+        const val kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.150-kotlin-1.4.31"
         const val nettyTcn = "io.netty:netty-tcnative:$nettyTcnVersion"
         const val nettyTcnBoringSll = "io.netty:netty-tcnative-boringssl-static:$nettyTcnVersion"
     }

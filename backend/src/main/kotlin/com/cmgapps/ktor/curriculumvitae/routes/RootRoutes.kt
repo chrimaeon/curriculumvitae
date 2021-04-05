@@ -16,6 +16,8 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import com.cmgapp.curriculumvitae.data.Address
+import com.cmgapp.curriculumvitae.data.Profile
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.html.respondHtml
@@ -25,23 +27,32 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import kotlinx.css.CSSBuilder
+import kotlinx.css.Overflow
 import kotlinx.css.WhiteSpace
-import kotlinx.css.height
+import kotlinx.css.borderRadius
+import kotlinx.css.fontFamily
 import kotlinx.css.margin
 import kotlinx.css.marginLeft
+import kotlinx.css.overflowX
+import kotlinx.css.padding
 import kotlinx.css.pct
 import kotlinx.css.px
 import kotlinx.css.whiteSpace
 import kotlinx.css.width
 import kotlinx.html.DIV
+import kotlinx.html.HEAD
+import kotlinx.html.STYLE
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.h3
 import kotlinx.html.h5
+import kotlinx.html.h6
 import kotlinx.html.head
 import kotlinx.html.header
 import kotlinx.html.link
 import kotlinx.html.main
+import kotlinx.html.meta
+import kotlinx.html.pre
 import kotlinx.html.script
 import kotlinx.html.span
 import kotlinx.html.style
@@ -53,81 +64,112 @@ import kotlinx.html.thead
 import kotlinx.html.title
 import kotlinx.html.tr
 import kotlinx.html.unsafe
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.util.Locale
 
 private const val pageTitle = "Curriculum Vitae BFF"
+
+private fun STYLE.cssRules(rules: CSSBuilder.() -> Unit) {
+    this.unsafe {
+        +CSSBuilder().apply(rules).toString()
+    }
+}
 
 private fun Route.rootRouting() {
     get("/") {
         call.respondHtml {
             head {
-                link(
-                    rel = "stylesheet",
-                    href = "https://fonts.googleapis.com/icon?family=Material+Icons",
-                    type = "text/css"
-                )
-                link(
-                    rel = "stylesheet",
-                    href = "https://code.getmdl.io/1.3.0/material.light_blue-amber.min.css",
-                    type = "text/css"
-                )
-                link(
-                    rel = "stylesheet",
-                    href = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700",
-                    type = "text/css"
-                )
-
-                listOf("16x16", "32x32", "96x96").forEach {
-                    link(
-                        rel = "icon",
-                        type = ContentType.Image.PNG.toString(),
-                        href = "/assets/favicon-$it.png"
-                    ) {
-                        attributes["sizes"] = it
-                    }
-                }
-
-                link(
-                    rel = "icon",
-                    type = ContentType.Image.XIcon.toString(),
-                    href = "/assets/favicon.ico"
-                )
-                script(src = "https://code.getmdl.io/1.3.0/material.min.js") {
-                    attributes["defer"] = ""
-                }
-                title(pageTitle)
-
-                style {
-                    unsafe {
-                        +CSSBuilder().apply {
-                            rule(".white-space-normal") {
-                                whiteSpace = WhiteSpace.normal
-                            }
-                            rule(".page-content") {
-                                margin(16.px)
-                            }
-                            rule(".api-card") {
-                                width = 100.pct
-                            }
-                            rule(".api-card .mdl-card__title-text") {
-                                marginLeft = 16.px
-                            }
-                            rule(".spacer") {
-                                height = 16.px
-                                width = 100.pct
-                            }
-                            rule(".api-table") {
-                                margin(horizontal = 16.px)
-                            }
-                        }.toString()
-                    }
-                }
+                head()
             }
             body {
                 div(classes = "mdl-layout mdl-js-layout mdl-layout--fixed-header") {
                     headerBar()
                     content()
                 }
+            }
+        }
+    }
+}
+
+private fun HEAD.head() {
+    meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
+    link(
+        rel = "stylesheet",
+        href = "https://fonts.googleapis.com/icon?family=Material+Icons",
+        type = "text/css"
+    )
+    link(
+        rel = "stylesheet",
+        href = "https://code.getmdl.io/1.3.0/material.light_blue-amber.min.css",
+        type = "text/css"
+    )
+    link(
+        rel = "preconnect",
+        href = "https://fonts.gstatic.com"
+    )
+
+    link(
+        href = "https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap",
+        rel = "stylesheet"
+    )
+
+    listOf("16x16", "32x32", "96x96").forEach {
+        link(
+            rel = "icon",
+            type = ContentType.Image.PNG.toString(),
+            href = "/assets/favicon-$it.png"
+        ) {
+            attributes["sizes"] = it
+        }
+    }
+
+    link(
+        rel = "icon",
+        type = ContentType.Image.XIcon.toString(),
+        href = "/assets/favicon.ico"
+    )
+
+    script(src = "https://code.getmdl.io/1.3.0/material.min.js") {
+        attributes["defer"] = ""
+    }
+
+    title(pageTitle)
+
+    style {
+        cssRules {
+            kotlinx.css.pre {
+                fontFamily = "'Roboto Mono', monospace"
+                overflowX = Overflow.scroll
+            }
+            ".white-space-normal" {
+                whiteSpace = WhiteSpace.normal
+            }
+            ".page-content" {
+                margin(16.px)
+            }
+            ".api-card" {
+                width = 100.pct
+            }
+            ".api-card .mdl-card__title-text" {
+                marginLeft = 16.px
+            }
+            ".api-table-container" {
+                overflowX = Overflow.scroll
+            }
+            ".api-table" {
+                margin(horizontal = 16.px)
+            }
+
+            ".api-response" {
+                margin(horizontal = 16.px)
+            }
+
+            ".api-response pre" {
+                whiteSpace = WhiteSpace.preWrap
+                padding(8.px)
+                borderRadius = 4.px
             }
         }
     }
@@ -161,11 +203,27 @@ private fun DIV.content() {
                 apiCard(
                     HttpMethod.Get,
                     "/profile",
-                    listOf(langParam)
+                    listOf(langParam),
+                    Profile(
+                        name = "My Name",
+                        phone = "+1234567890",
+                        profileImageUrl = "https://via.placeholder.com/150",
+                        address = Address(
+                            street = "Main Street 1",
+                            city = "My Hometown",
+                            postalCode = "42"
+                        ),
+                        email = "noreply@test.com",
+                        intro = listOf(
+                            "Intro line 1 ...",
+                            "Intro line 2 ...",
+                            "etc ... etc ... etc ..."
+                        ),
+                        lang = "en"
+                    )
                 )
-                apiCard(HttpMethod.Get, "/skills", listOf(langParam))
+                apiCard<Void>(HttpMethod.Get, "/skills", listOf(langParam))
             }
-
         }
     }
 }
@@ -173,12 +231,24 @@ private fun DIV.content() {
 private enum class Where {
     QUERY, HEADER, PATH;
 
-    override fun toString(): String = name.toLowerCase(Locale.US)
+    override fun toString(): String = name.toLowerCase(Locale.US).capitalize(Locale.US)
 }
 
 private data class Param(val name: String, val type: Class<*>, val `in`: Where, val desc: String)
 
-private fun DIV.apiCard(method: HttpMethod, route: String, params: List<Param>? = null) {
+@OptIn(ExperimentalSerializationApi::class)
+private val json = Json {
+    prettyPrint = true
+    prettyPrintIndent = "  "
+}
+
+@OptIn(ExperimentalSerializationApi::class)
+private inline fun <reified T> DIV.apiCard(
+    method: HttpMethod,
+    route: String,
+    params: List<Param>? = null,
+    response: T? = null
+) {
     div(classes = "mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet") {
         div(classes = "api-card mdl-card mdl-shadow--2dp") {
             div(classes = "mdl-card__title") {
@@ -191,48 +261,64 @@ private fun DIV.apiCard(method: HttpMethod, route: String, params: List<Param>? 
                     +route
                 }
             }
-            params?.let {
-                table(classes = "api-table mdl-data-table") {
-                    thead {
-                        tr {
-                            th(classes = "mdl-data-table__cell--non-numeric") {
-                                +"Name"
-                            }
-                            th(classes = "mdl-data-table__cell--non-numeric") {
-                                +"Type"
-                            }
-                            th(classes = "mdl-data-table__cell--non-numeric") {
-                                +"In"
-                            }
-                            th(classes = "mdl-data-table__cell--non-numeric") {
-                                +"Description"
+            params?.let { paramsTable(it) }
+            response?.let { response(it) }
+        }
+    }
+}
+
+private fun DIV.paramsTable(params: List<Param>) {
+    div(classes = "api-table-container") {
+        table(classes = "api-table mdl-data-table") {
+            thead {
+                tr {
+                    th(classes = "mdl-data-table__cell--non-numeric") {
+                        +"Name"
+                    }
+                    th(classes = "mdl-data-table__cell--non-numeric") {
+                        +"Type"
+                    }
+                    th(classes = "mdl-data-table__cell--non-numeric") {
+                        +"In"
+                    }
+                    th(classes = "mdl-data-table__cell--non-numeric") {
+                        +"Description"
+                    }
+                }
+            }
+            params.forEach { param ->
+                tbody {
+                    tr {
+                        td(classes = "mdl-data-table__cell--non-numeric") {
+                            span(classes = "mdl-chip") {
+                                span(classes = "mdl-chip__text") {
+                                    +param.name
+                                }
                             }
                         }
-                    }
-                    it.forEach { param ->
-                        tbody {
-                            tr {
-                                td(classes = "mdl-data-table__cell--non-numeric") {
-                                    span(classes = "mdl-chip") {
-                                        span(classes = "mdl-chip__text") {
-                                            +param.name
-                                        }
-                                    }
-                                }
-                                td(classes = "mdl-data-table__cell--non-numeric") {
-                                    +param.type.simpleName
-                                }
-                                td(classes = "mdl-data-table__cell--non-numeric") {
-                                    +param.`in`.toString()
-                                }
-                                td(classes = "mdl-data-table__cell--non-numeric white-space-normal") {
-                                    +param.desc
-                                }
-                            }
+                        td(classes = "mdl-data-table__cell--non-numeric") {
+                            +param.type.simpleName
+                        }
+                        td(classes = "mdl-data-table__cell--non-numeric") {
+                            +param.`in`.toString()
+                        }
+                        td(classes = "mdl-data-table__cell--non-numeric white-space-normal") {
+                            +param.desc
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+private inline fun <reified T> DIV.response(t: T) {
+    div(classes = "api-response") {
+        h6(classes = "mdl-typography-subhead") {
+            +"Response"
+        }
+        pre(classes = "mdl-color--grey-200") {
+            +json.encodeToString(t)
         }
     }
 }

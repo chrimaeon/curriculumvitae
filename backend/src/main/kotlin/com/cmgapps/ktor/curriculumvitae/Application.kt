@@ -61,9 +61,9 @@ fun Application.installFeatures() {
         format { call ->
             val method = call.request.httpMethod
             val path = call.request.origin.uri
-            val responseCode = call.response.status()
+            val status = call.response.status()
             val httpVersion = call.request.httpVersion
-            "${responseCode.toString()}: ${method.value} $path $httpVersion"
+            "$status: ${method.value} $path $httpVersion"
         }
     }
     install(StatusPages) {
