@@ -1,3 +1,4 @@
+import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.html.respondHtml
@@ -31,11 +32,11 @@ import kotlin.math.abs
  */
 
 fun Route.healthCheck() {
-    get("/healthz") {
+    get(Routes.HEALTHZ.route) {
         call.respond(HttpStatusCode.OK, "Ok")
     }
 
-    get("/status") {
+    get(Routes.STATUS.route) {
         call.respondHtml {
             head {
                 title { +"Ktor Server" }

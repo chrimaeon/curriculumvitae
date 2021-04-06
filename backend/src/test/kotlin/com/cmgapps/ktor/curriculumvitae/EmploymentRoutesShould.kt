@@ -26,12 +26,12 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
 
-class ProfileRoutesShould {
+class EmploymentRoutesShould {
 
     @Test
     fun `return Content-Type application json`() =
         withTestApplication(moduleFunction = { module() }) {
-            with(handleRequest(HttpMethod.Get, Routes.PROFILE.route)) {
+            with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
                 assertThat(
                     response.headers[HttpHeaders.ContentType],
                     `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString())
@@ -40,31 +40,26 @@ class ProfileRoutesShould {
         }
 
     @Test
-    fun `return profile`() =
+    fun `return employment`() =
         withTestApplication(moduleFunction = { module() }) {
-            with(handleRequest(HttpMethod.Get, Routes.PROFILE.route)) {
+            with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
                 assertThat(
                     response.content,
                     `is`(
-                        "{" +
-                            "\"name\":\"My Name\"," +
-                            "\"phone\":\"+1234567890\"," +
-                            "\"profileImageUrl\":\"http://localhost:80/assets/profile.png\"," +
-                            "\"address\":{" +
-                            "\"street\":\"Street 43\"," +
-                            "\"city\":\"No Where\"," +
-                            "\"postalCode\":\"90210\"" +
-                            "}," +
-                            "\"email\":\"me@home.at\"," +
-                            "\"intro\":[" +
-                            "\"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" +
-                            " nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat," +
-                            " sed diam voluptua. At vero eos et accusam et\"," +
-                            "\"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" +
-                            " nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam\"" +
-                            "]," +
-                            "\"lang\":\"en\"" +
-                            "}"
+                        "[" +
+                            "{" +
+                            "\"jobTitle\":\"Software Developer\"," +
+                            "\"employer\":\"CMG Mobile Apps\"," +
+                            "\"startDate\":\"2010-01-01\"," +
+                            "\"endDate\":null," +
+                            "\"city\":\"Graz\"," +
+                            "\"description\":" +
+                            "[" +
+                            "\"Founder\"," +
+                            "\"Software development\"" +
+                            "]" +
+                            "}" +
+                            "]"
                     )
                 )
             }

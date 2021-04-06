@@ -18,6 +18,7 @@ package com.cmgapps.ktor.curriculumvitae.routes
 
 import com.cmgapp.curriculumvitae.data.Address
 import com.cmgapp.curriculumvitae.data.Profile
+import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.features.origin
@@ -30,7 +31,7 @@ import io.ktor.routing.route
 import io.ktor.routing.routing
 
 fun Route.profileRouting() {
-    route("/profile") {
+    route(Routes.PROFILE.route) {
         get {
             val lang = call.request.queryParameters["lang"] ?: "en"
             val profileUrl = with(call.request) {

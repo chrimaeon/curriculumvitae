@@ -28,7 +28,7 @@ class RootRoutesShould {
 
     @Test
     fun `return OK on GET`() = withTestApplication(moduleFunction = { module() }) {
-        with(handleRequest(HttpMethod.Get, "/")) {
+        with(handleRequest(HttpMethod.Get, Routes.ROOT.route)) {
             assertThat(response.status(), `is`(HttpStatusCode.OK))
         }
     }
@@ -40,7 +40,7 @@ class RootRoutesShould {
             String(it.readAllBytes())
         } ?: error("resource not found")
 
-        with(handleRequest(HttpMethod.Get, "/")) {
+        with(handleRequest(HttpMethod.Get, Routes.ROOT.route)) {
             assertThat(
                 response.content,
                 `is`(expected)

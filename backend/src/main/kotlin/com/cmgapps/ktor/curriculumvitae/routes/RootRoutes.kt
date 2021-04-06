@@ -18,6 +18,8 @@ package com.cmgapps.ktor.curriculumvitae.routes
 
 import com.cmgapp.curriculumvitae.data.Address
 import com.cmgapp.curriculumvitae.data.Profile
+import com.cmgapp.shared.curriculumvitae.data.Employment
+import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.html.respondHtml
@@ -67,6 +69,7 @@ import kotlinx.html.unsafe
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.util.GregorianCalendar
 import java.util.Locale
 
 private const val pageTitle = "Curriculum Vitae BFF"
@@ -78,7 +81,7 @@ private fun STYLE.cssRules(rules: CSSBuilder.() -> Unit) {
 }
 
 private fun Route.rootRouting() {
-    get("/") {
+    get(Routes.ROOT.route) {
         call.respondHtml {
             head {
                 head()
@@ -222,7 +225,22 @@ private fun DIV.content() {
                         lang = "en"
                     )
                 )
-                apiCard<Void>(HttpMethod.Get, "/skills", listOf(langParam))
+                apiCard(
+                    HttpMethod.Get,
+                    "/employment",
+                    listOf(langParam),
+                    Employment(
+                        jobTitle = "Software Developer",
+                        employer = "CMG Mobile Apps",
+                        startDate = GregorianCalendar(2010, 0, 1).time,
+                        endDate = null,
+                        city = "Graz",
+                        description = listOf(
+                            "Founder",
+                            "Software development"
+                        )
+                    )
+                )
             }
         }
     }

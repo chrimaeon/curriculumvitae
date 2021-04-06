@@ -14,32 +14,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id("java-library")
-    kotlin("jvm")
-    kotlin("plugin.serialization") version kotlinVersion
-    ktlint
-}
+@file:UseSerializers(DateSerializer::class)
 
-tasks {
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
-    }
-}
+package com.cmgapp.shared.curriculumvitae.data
 
-dependencies {
-    implementation(Libs.Misc.kotlinxJsonSerialization)
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
+import java.util.Date
 
-    testImplementation(platform(Libs.Testing.junitBom))
-    testImplementation(Libs.Testing.junitJupiter)
-    testImplementation(Libs.Testing.hamcrest)
-}
-
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
+@Serializable
+data class Employment(
+    val jobTitle: String,
+    val employer: String,
+    val startDate: Date,
+    val endDate: Date?,
+    val city: String,
+    val description: List<String>
+)
