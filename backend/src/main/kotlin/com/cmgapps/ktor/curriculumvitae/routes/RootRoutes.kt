@@ -16,9 +16,9 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
-import com.cmgapp.curriculumvitae.data.Address
-import com.cmgapp.curriculumvitae.data.Profile
+import com.cmgapp.shared.curriculumvitae.data.Address
 import com.cmgapp.shared.curriculumvitae.data.Employment
+import com.cmgapp.shared.curriculumvitae.data.Profile
 import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -58,6 +58,7 @@ import kotlinx.html.pre
 import kotlinx.html.script
 import kotlinx.html.span
 import kotlinx.html.style
+import kotlinx.html.styleLink
 import kotlinx.html.table
 import kotlinx.html.tbody
 import kotlinx.html.td
@@ -98,16 +99,8 @@ private fun Route.rootRouting() {
 
 private fun HEAD.head() {
     meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
-    link(
-        rel = "stylesheet",
-        href = "https://fonts.googleapis.com/icon?family=Material+Icons",
-        type = "text/css"
-    )
-    link(
-        rel = "stylesheet",
-        href = "https://code.getmdl.io/1.3.0/material.light_blue-amber.min.css",
-        type = "text/css"
-    )
+    styleLink("https://fonts.googleapis.com/icon?family=Material+Icons")
+    styleLink("https://code.getmdl.io/1.3.0/material.light_blue-amber.min.css")
     link(
         rel = "preconnect",
         href = "https://fonts.gstatic.com"

@@ -24,6 +24,7 @@ import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.AutoHeadResponse
+import io.ktor.features.CachingHeaders
 import io.ktor.features.CallLogging
 import io.ktor.features.Compression
 import io.ktor.features.ContentNegotiation
@@ -32,7 +33,10 @@ import io.ktor.features.StatusPages
 import io.ktor.features.deflate
 import io.ktor.features.gzip
 import io.ktor.features.origin
+import io.ktor.http.CacheControl
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.content.CachingOptions
 import io.ktor.request.httpMethod
 import io.ktor.request.httpVersion
 import io.ktor.response.respond
@@ -79,6 +83,20 @@ fun Application.installFeatures() {
         exception<Throwable> { cause ->
             call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
             throw cause
+        }
+    }
+
+    install(CachingHeaders) {
+        options { outgoingContent ->
+            val contentType = outgoingContent.contentType?.withoutParameters()
+            when {
+                contentType?.match(ContentType.Image.Any) == true -> CachingOptions(
+                    CacheControl.MaxAge(
+                        maxAgeSeconds = 86400
+                    )
+                )
+                else -> null
+            }
         }
     }
 }

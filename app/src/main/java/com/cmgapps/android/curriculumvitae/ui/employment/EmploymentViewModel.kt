@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package com.cmgapp.curriculumvitae.data
+package com.cmgapps.android.curriculumvitae.ui.employment
 
-import kotlinx.serialization.Serializable
+import androidx.lifecycle.ViewModel
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-@Serializable
-data class Profile(
-    val name: String,
-    val phone: String,
-    val profileImageUrl: String,
-    val address: Address,
-    val email: String,
-    val intro: List<String>,
-    val lang: String,
-)
+@HiltViewModel
+class EmploymentViewModel @Inject constructor(employmentUseCase: GetEmploymentUseCase) :
+    ViewModel() {
 
-@Serializable
-data class Address(val street: String, val city: String, val postalCode: String)
+    val employment = employmentUseCase()
+}

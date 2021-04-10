@@ -24,16 +24,16 @@ object Gradle {
 
 const val accompanistVersion = "0.6.2"
 const val benManesVersionsVersion = "0.38.0"
-const val composeVersion = "1.0.0-beta03"
-const val hiltVersion = "2.33-beta"
-const val kotlinVersion = "1.4.31"
+const val composeVersion = "1.0.0-beta04"
+const val hiltVersion = "2.34-beta"
+const val kotlinVersion = "1.4.32"
 const val roomVersion = "2.2.6"
 const val retrofitVersion = "2.9.0"
-const val ktorVersion = "1.5.2"
+const val ktorVersion = "1.5.3"
 const val nettyTcnVersion = "2.0.38.Final"
 
 object Plugins {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha12"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha14"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
 }
@@ -47,10 +47,10 @@ object Libs {
         const val composeMaterial = "androidx.compose.material:material:$composeVersion"
         const val composeMaterialIconsExtended =
             "androidx.compose.material:material-icons-extended:$composeVersion"
-        const val composeActivity = "androidx.activity:activity-compose:1.3.0-alpha05"
-        const val composeViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha03"
+        const val composeActivity = "androidx.activity:activity-compose:1.3.0-alpha06"
+        const val composeViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
         const val composeLiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"
-        const val composeNavigation = "androidx.navigation:navigation-compose:1.0.0-alpha09"
+        const val composeNavigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
         const val composeConstraintLayout =
             "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
 
@@ -91,7 +91,7 @@ object Libs {
         const val androidCoreTesting = "androidx.arch.core:core-testing:2.1.0"
         const val junitBom = "org.junit:junit-bom:5.7.1"
         const val junitJupiter = "org.junit.jupiter:junit-jupiter"
-        const val mockito = "org.mockito:mockito-junit-jupiter:3.8.0"
+        const val mockito = "org.mockito:mockito-junit-jupiter:3.9.0"
         const val coroutineTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
         const val hamcrest = "org.hamcrest:hamcrest:2.2"
         const val extJunit = "androidx.test.ext:junit:1.1.2"
@@ -108,7 +108,7 @@ object Libs {
         const val logback = "ch.qos.logback:logback-classic:1.2.3"
         const val ktorSerialization = "io.ktor:ktor-serialization:$ktorVersion"
         const val ktorHtml = "io.ktor:ktor-html-builder:$ktorVersion"
-        const val kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.150-kotlin-1.4.31"
+        const val kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.153-kotlin-1.4.32"
         const val nettyTcn = "io.netty:netty-tcnative:$nettyTcnVersion"
         const val nettyTcnBoringSll = "io.netty:netty-tcnative-boringssl-static:$nettyTcnVersion"
     }

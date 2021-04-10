@@ -19,15 +19,12 @@ package com.cmgapps.android.curriculumvitae.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,7 +32,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
@@ -48,79 +44,48 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cmgapp.curriculumvitae.data.Address
-import com.cmgapp.curriculumvitae.data.Profile
+import com.cmgapp.shared.curriculumvitae.data.Address
+import com.cmgapp.shared.curriculumvitae.data.Profile
 import com.cmgapps.android.compomaeon.ui.Theme
-import com.cmgapps.android.curriculumvitae.R
+import com.cmgapps.android.curriculumvitae.FabTopKnobPadding
+import com.cmgapps.android.curriculumvitae.components.ContentError
+import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsHeight
-import timber.log.Timber
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel, onEmailClick: () -> Unit) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel,
+    onEmailClick: () -> Unit
+) {
     val profileResource by viewModel.profile.observeAsState()
 
     when (profileResource) {
         is Resource.Loading -> ContentLoading()
         is Resource.Success -> Content(
+            modifier = modifier,
             profile = (profileResource as Resource.Success<Profile>).data,
             onEmailClick = onEmailClick
         )
-        is Resource.Error -> {
-            Timber.tag("ProfileScreen")
-                .e((profileResource as Resource.Error).error)
-            ContentError()
-        }
+        is Resource.Error -> ContentError((profileResource as Resource.Error).error)
     }
 }
 
 @Composable
-fun ContentLoading() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-fun ContentError() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            modifier = Modifier
-                .background(
-                    shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colors.error
-                )
-                .padding(16.dp),
-            text = stringResource(id = R.string.generic_error),
-            color = MaterialTheme.colors.onError
-        )
-    }
-}
-
-@Composable
-fun Content(profile: Profile, onEmailClick: () -> Unit) {
+fun Content(modifier: Modifier = Modifier, profile: Profile, onEmailClick: () -> Unit) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(
                 start = 16.dp,
                 end = 16.dp,
-                bottom = 16.dp
             )
-            .navigationBarsPadding()
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
@@ -132,6 +97,7 @@ fun Content(profile: Profile, onEmailClick: () -> Unit) {
             modifier = Modifier.padding(top = 16.dp),
             text = profile.intro.joinToString("\n\n")
         )
+        Spacer(modifier = Modifier.height(FabTopKnobPadding))
     }
 }
 
@@ -263,22 +229,6 @@ private fun Context.onTelClick(phoneNumber: String) {
 }
 
 // region Previews
-@Preview(name = "Error")
-@Composable
-fun PreviewContentError() {
-    Theme(darkTheme = false) {
-        ContentError()
-    }
-}
-
-@Preview(name = "Error")
-@Composable
-fun PreviewDarkContentError() {
-    Theme(darkTheme = true) {
-        ContentError()
-    }
-}
-
 @Preview(name = "Content", widthDp = 320, heightDp = 640)
 @Composable
 fun PreviewContent() {

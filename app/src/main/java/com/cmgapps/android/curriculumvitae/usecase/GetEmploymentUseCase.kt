@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra
+package com.cmgapps.android.curriculumvitae.usecase
 
-import androidx.lifecycle.liveData
+import androidx.lifecycle.LiveData
+import com.cmgapp.shared.curriculumvitae.data.Employment
+import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 
-sealed class Resource<out T : Any> {
-    object Loading : Resource<Nothing>()
-    data class Success<out T : Any>(val data: T) : Resource<T>()
-    data class Error(val error: Throwable) : Resource<Nothing>()
-}
-
-fun <T : Any> loadingResourceLiveData(block: suspend () -> T) = liveData {
-    emit(Resource.Loading)
-    try {
-        emit(Resource.Success(block()))
-    } catch (exc: Exception) {
-        emit(Resource.Error(exc))
-    }
+class GetEmploymentUseCase(private val repo: EmploymentRepository) {
+    operator fun invoke(): LiveData<Resource<List<Employment>>> = repo.employment
 }

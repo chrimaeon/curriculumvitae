@@ -16,13 +16,15 @@
 
 package com.cmgapps.android.curriculumvitae.infra
 
-import com.cmgapp.curriculumvitae.data.Profile
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.cmgapp.shared.curriculumvitae.data.Employment
+import com.cmgapp.shared.curriculumvitae.data.Profile
 import retrofit2.http.GET
 
 interface CvApiService {
 
-    @ApplicationContext
     @GET("/profile")
     suspend fun getProfile(): Profile
+
+    @GET("/employment")
+    suspend fun getEmployment(): List<Employment>
 }

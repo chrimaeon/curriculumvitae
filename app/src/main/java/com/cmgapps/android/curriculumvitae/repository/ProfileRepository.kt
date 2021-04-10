@@ -16,20 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
-import androidx.lifecycle.liveData
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import timber.log.Timber
+import com.cmgapps.android.curriculumvitae.infra.loadingResourceLiveData
 
 class ProfileRepository(private val api: CvApiService) {
-    val profile = liveData {
-        emit(Resource.Loading)
-        try {
-            val profile = api.getProfile()
-            Timber.tag("ProfileRepository").d(profile.toString())
-            emit(Resource.Success(profile))
-        } catch (exc: Exception) {
-            emit(Resource.Error(exc))
-        }
-    }
+    val profile = loadingResourceLiveData { api.getProfile() }
 }

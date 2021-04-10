@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra
+package com.cmgapp.shared.curriculumvitae.data
 
-import androidx.lifecycle.liveData
+import kotlinx.serialization.Serializable
 
-sealed class Resource<out T : Any> {
-    object Loading : Resource<Nothing>()
-    data class Success<out T : Any>(val data: T) : Resource<T>()
-    data class Error(val error: Throwable) : Resource<Nothing>()
-}
+@Serializable
+data class Profile(
+    val name: String,
+    val phone: String,
+    val profileImageUrl: String,
+    val address: Address,
+    val email: String,
+    val intro: List<String>,
+    val lang: String,
+)
 
-fun <T : Any> loadingResourceLiveData(block: suspend () -> T) = liveData {
-    emit(Resource.Loading)
-    try {
-        emit(Resource.Success(block()))
-    } catch (exc: Exception) {
-        emit(Resource.Error(exc))
-    }
-}
+@Serializable
+data class Address(val street: String, val city: String, val postalCode: String)

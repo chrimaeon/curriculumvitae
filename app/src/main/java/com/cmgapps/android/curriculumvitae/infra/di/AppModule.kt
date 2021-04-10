@@ -48,7 +48,7 @@ object AppModule {
                 .cache(CoilUtils.createDefaultCache(context))
                 .addInterceptor {
                     // Simulate slow connection
-                    Thread.sleep(5000)
+                    Thread.sleep(3000)
                     it.proceed(it.request())
                 }
                 .build()

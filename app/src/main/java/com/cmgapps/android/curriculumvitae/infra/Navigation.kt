@@ -56,9 +56,9 @@ sealed class Screen(
         )
     )
 
-    object Work : Screen(
-        "work",
-        R.string.work_label,
+    object Employment : Screen(
+        "employment",
+        R.string.employment_label,
         StateIcon(
             defaultIcon = Icons.Outlined.WorkOutline,
             selectedIcon = Icons.Filled.Work
@@ -77,6 +77,6 @@ sealed class Screen(
 
 val screens = listOf(
     Screen.Profile,
-    Screen.Work,
+    Screen.Employment,
     Screen.Skills
 )

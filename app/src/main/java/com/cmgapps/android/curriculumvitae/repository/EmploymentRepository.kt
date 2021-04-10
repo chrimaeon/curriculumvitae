@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra
+package com.cmgapps.android.curriculumvitae.repository
 
-import androidx.lifecycle.liveData
+import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.infra.loadingResourceLiveData
 
-sealed class Resource<out T : Any> {
-    object Loading : Resource<Nothing>()
-    data class Success<out T : Any>(val data: T) : Resource<T>()
-    data class Error(val error: Throwable) : Resource<Nothing>()
-}
-
-fun <T : Any> loadingResourceLiveData(block: suspend () -> T) = liveData {
-    emit(Resource.Loading)
-    try {
-        emit(Resource.Success(block()))
-    } catch (exc: Exception) {
-        emit(Resource.Error(exc))
+class EmploymentRepository(private val api: CvApiService) {
+    val employment = loadingResourceLiveData {
+        api.getEmployment()
     }
 }

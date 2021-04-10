@@ -24,6 +24,7 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
         maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
     }
 }
 

@@ -17,18 +17,20 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
-    @Singleton
     fun provideProfileRepository(api: CvApiService) = ProfileRepository(api)
+
+    @Provides
+    fun provideEmploymentRepository(api: CvApiService) = EmploymentRepository(api)
 }

@@ -16,7 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
+import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
 import dagger.Module
 import dagger.Provides
@@ -28,5 +30,9 @@ import dagger.hilt.android.components.ViewModelComponent
 object UseCaseModule {
 
     @Provides
-    fun provideProfileUseCase(repository: ProfileRepository) = GetProfileUseCase(repository)
+    fun provideGetProfileUseCase(repository: ProfileRepository) = GetProfileUseCase(repository)
+
+    @Provides
+    fun provideGetEmploymentUseCase(repository: EmploymentRepository) =
+        GetEmploymentUseCase(repository)
 }
