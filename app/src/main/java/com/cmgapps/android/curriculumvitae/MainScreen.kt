@@ -16,7 +16,6 @@
 
 package com.cmgapps.android.curriculumvitae
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomAppBar
@@ -126,23 +125,24 @@ fun MainScreen(
         val modifier = Modifier.padding(innerPadding)
         val profileViewModel: ProfileViewModel = viewModel()
         val employmentViewModel: EmploymentViewModel = viewModel()
-        Crossfade(navController.currentDestination) {
-            NavHost(navController, startDestination = Screen.Profile.route) {
-                composable(Screen.Profile.route) {
-                    ProfileScreen(
-                        modifier,
-                        profileViewModel,
-                        onFabClick
-                    )
-                }
-                composable(Screen.Employment.route) {
-                    EmploymentScreen(
-                        modifier,
-                        employmentViewModel
-                    )
-                }
-                composable(Screen.Skills.route) { SkillsScreen() }
+
+        NavHost(navController, startDestination = Screen.Profile.route) {
+            composable(Screen.Profile.route) {
+                ProfileScreen(
+                    modifier = modifier,
+                    viewModel = profileViewModel,
+                    onEmailClick = onFabClick,
+                    bottomContentPadding = FabTopKnobPadding
+                )
             }
+            composable(Screen.Employment.route) {
+                EmploymentScreen(
+                    modifier = modifier,
+                    bottomContentPadding = FabTopKnobPadding,
+                    viewModel = employmentViewModel
+                )
+            }
+            composable(Screen.Skills.route) { SkillsScreen() }
         }
     }
 }

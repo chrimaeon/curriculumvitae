@@ -21,10 +21,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -50,18 +50,19 @@ import androidx.compose.ui.unit.dp
 import com.cmgapp.shared.curriculumvitae.data.Address
 import com.cmgapp.shared.curriculumvitae.data.Profile
 import com.cmgapps.android.compomaeon.ui.Theme
-import com.cmgapps.android.curriculumvitae.FabTopKnobPadding
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.insets.LocalWindowInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import dev.chrisbanes.accompanist.insets.toPaddingValues
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    bottomContentPadding: Dp = 0.dp,
     viewModel: ProfileViewModel,
     onEmailClick: () -> Unit
 ) {
@@ -71,6 +72,7 @@ fun ProfileScreen(
         is Resource.Loading -> ContentLoading()
         is Resource.Success -> Content(
             modifier = modifier,
+            bottomContentPadding = bottomContentPadding,
             profile = (profileResource as Resource.Success<Profile>).data,
             onEmailClick = onEmailClick
         )
@@ -79,30 +81,38 @@ fun ProfileScreen(
 }
 
 @Composable
-fun Content(modifier: Modifier = Modifier, profile: Profile, onEmailClick: () -> Unit) {
-    Column(
+private fun Content(
+    modifier: Modifier = Modifier,
+    bottomContentPadding: Dp = 0.dp,
+    profile: Profile,
+    onEmailClick: () -> Unit
+) {
+    Box(
         modifier = modifier
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-            )
             .fillMaxWidth()
+            .padding(
+                start = 24.dp,
+                end = 24.dp,
+            )
             .verticalScroll(rememberScrollState())
     ) {
-
-        Spacer(modifier = Modifier.statusBarsHeight(16.dp))
-        Header(profile, onEmailClick)
-        Text(
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(top = 16.dp),
-            text = profile.intro.joinToString("\n\n")
-        )
-        Spacer(modifier = Modifier.height(FabTopKnobPadding))
+        Column(
+            modifier = Modifier.padding(
+                LocalWindowInsets.current.statusBars.toPaddingValues(additionalBottom = bottomContentPadding),
+            )
+        ) {
+            Header(profile, onEmailClick)
+            Text(
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(top = 16.dp),
+                text = profile.intro.joinToString("\n\n")
+            )
+        }
     }
 }
 
 @Composable
-fun Header(
+private fun Header(
     profile: Profile,
     onEmailClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -151,7 +161,7 @@ fun Header(
 }
 
 @Composable
-fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
+private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
     val clip = Modifier.clip(CircleShape)
     CoilImage(
         modifier = modifier
@@ -175,7 +185,11 @@ fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile)
 }
 
 @Composable
-fun ProfileDetails(modifier: Modifier = Modifier, profile: Profile, onEmailClick: () -> Unit) {
+private fun ProfileDetails(
+    modifier: Modifier = Modifier,
+    profile: Profile,
+    onEmailClick: () -> Unit
+) {
     Text(
         modifier = modifier,
         text = profile.name,
@@ -271,7 +285,10 @@ fun PreviewLandscapeContent() {
     }
 }
 
-@Preview(name = "Content Dark", widthDp = 320, heightDp = 640)
+@Preview(
+    name = "Content Dark", widthDp = 320, heightDp = 640, showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun PreviewDarkContent() {
     Theme(darkTheme = true) {

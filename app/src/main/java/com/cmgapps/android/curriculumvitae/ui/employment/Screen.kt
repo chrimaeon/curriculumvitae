@@ -31,17 +31,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cmgapp.shared.curriculumvitae.data.Employment
-import com.cmgapps.android.curriculumvitae.FabTopKnobPadding
+import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.toPaddingValues
+import java.util.Date
 
 @Composable
-fun EmploymentScreen(modifier: Modifier = Modifier, viewModel: EmploymentViewModel) {
+fun EmploymentScreen(
+    modifier: Modifier = Modifier,
+    bottomContentPadding: Dp = 0.dp,
+    viewModel: EmploymentViewModel
+) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -51,22 +59,25 @@ fun EmploymentScreen(modifier: Modifier = Modifier, viewModel: EmploymentViewMod
         when (employments) {
             is Resource.Loading -> ContentLoading()
             is Resource.Error -> ContentError((employments as Resource.Error).error)
-            is Resource.Success -> Content((employments as Resource.Success<List<Employment>>).data)
+            is Resource.Success -> Content(
+                (employments as Resource.Success<List<Employment>>).data,
+                bottomContentPadding
+            )
         }
     }
 }
 
 @Composable
-fun Content(employments: List<Employment>) {
+fun Content(employments: List<Employment>, bottomContentPadding: Dp) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 8.dp),
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         contentPadding = LocalWindowInsets.current.systemBars.toPaddingValues(
             bottom = false,
             additionalTop = 8.dp,
-            additionalBottom = FabTopKnobPadding
+            additionalBottom = bottomContentPadding
         )
     ) {
         items(employments) { employment ->
@@ -83,3 +94,30 @@ fun Content(employments: List<Employment>) {
         }
     }
 }
+
+// region Preview
+@Preview
+@Composable
+fun PreviewContent() {
+    Theme {
+        ProvideWindowInsets {
+            Content(
+                employments = listOf(
+                    Employment(
+                        jobTitle = "Software developer",
+                        employer = "CMG Mobile Apps",
+                        startDate = Date(),
+                        endDate = null,
+                        city = "Graz",
+                        description = listOf(
+                            "Founder",
+                            "Solutions Architect"
+                        )
+                    )
+                ),
+                bottomContentPadding = 0.dp
+            )
+        }
+    }
+}
+// endregion
