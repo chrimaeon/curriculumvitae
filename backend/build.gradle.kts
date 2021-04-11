@@ -15,17 +15,50 @@
  */
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Properties
 
 plugins {
-    application
+    java
+    war
+    id("com.google.cloud.tools.appengine")
     kotlin("jvm")
     kotlin("plugin.serialization") version kotlinVersion
     id("org.kordamp.gradle.markdown") version "2.2.0"
     ktlint
 }
 
-application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+val localImplementation: Configuration by configurations.creating {
+    extendsFrom(configurations.implementation.get())
+}
+
+val localSourceSet: SourceSet = sourceSets.create("local") {
+    java {
+        srcDir(projectDir.resolve("src/local/kotlin"))
+        compileClasspath += sourceSets.main.get().output + configurations["localCompileClasspath"]
+        runtimeClasspath += output + sourceSets.main.get().output + configurations["localRuntimeClasspath"]
+    }
+}
+
+val bffVersion = "alpha1"
+version = bffVersion
+
+appengine {
+    tools {
+        val localPropsFile = rootDir.resolve("local.properties")
+        if (localPropsFile.exists()) {
+            val localProperties = Properties().apply {
+                localPropsFile.inputStream().use {
+                    load(it)
+                }
+            }
+            setCloudSdkHome(localProperties["gcloud.sdk.dir"])
+        }
+    }
+
+    deploy {
+        projectId = "GCLOUD_CONFIG"
+        version = bffVersion
+    }
 }
 
 java {
@@ -48,7 +81,7 @@ tasks {
     }
 
     htmlToMarkdown {
-        sourceDir = sourceSets["test"].resources.sourceDirectories.singleFile
+        sourceDir = sourceSets.test.get().resources.sourceDirectories.singleFile
         configuration = mapOf("tables" to true)
         doLast {
             copy {
@@ -61,19 +94,27 @@ tasks {
             }
         }
     }
+
+    register<JavaExec>("run") {
+        classpath =
+            sourceSets.main.get().runtimeClasspath + localSourceSet.runtimeClasspath
+        main = "MainKt"
+        jvmArgs("-Dio.ktor.development=true")
+    }
 }
 
 dependencies {
     implementation(project(":shared"))
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
-    implementation(Libs.Backend.ktorNettyServer)
+    localImplementation(Libs.Backend.ktorNettyServer)
+    implementation(Libs.Backend.ktorServlet)
     implementation(Libs.Backend.ktorHtml)
     implementation(Libs.Backend.kotlinCss)
     implementation(Libs.Backend.logback)
     implementation(Libs.Misc.kotlinxJsonSerialization)
     implementation(Libs.Backend.ktorSerialization)
-    implementation(Libs.Backend.nettyTcn)
-    implementation(Libs.Backend.nettyTcnBoringSll)
+
+    "providedCompile"(Libs.Backend.appEngine)
 
     testImplementation(Libs.Testing.ktorTesting)
     testImplementation(platform(Libs.Testing.junitBom))

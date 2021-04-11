@@ -36,6 +36,7 @@ object Plugins {
     const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha14"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+    const val appEngine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.1"
 }
 
 object Libs {
@@ -105,12 +106,12 @@ object Libs {
 
     object Backend {
         const val ktorNettyServer = "io.ktor:ktor-server-netty:$ktorVersion"
+        const val ktorServlet = "io.ktor:ktor-server-servlet:$ktorVersion"
         const val logback = "ch.qos.logback:logback-classic:1.2.3"
         const val ktorSerialization = "io.ktor:ktor-serialization:$ktorVersion"
         const val ktorHtml = "io.ktor:ktor-html-builder:$ktorVersion"
         const val kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.153-kotlin-1.4.32"
-        const val nettyTcn = "io.netty:netty-tcnative:$nettyTcnVersion"
-        const val nettyTcnBoringSll = "io.netty:netty-tcnative-boringssl-static:$nettyTcnVersion"
+        const val appEngine = "com.google.appengine:appengine:1.9.88"
     }
 }
 

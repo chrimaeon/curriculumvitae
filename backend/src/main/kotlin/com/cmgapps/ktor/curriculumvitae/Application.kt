@@ -52,8 +52,6 @@ enum class Routes(val route: String) {
     EMPLOYMENT("/employment")
 }
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
-
 fun Application.module() {
     installFeatures()
     registerRoutes()

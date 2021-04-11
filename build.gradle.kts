@@ -27,6 +27,7 @@ buildscript {
         classpath(Plugins.androidGradlePlugin)
         classpath(Plugins.kotlinGradlePlugin)
         classpath(Plugins.hiltGradlePlugin)
+        classpath(Plugins.appEngine)
     }
 }
 
