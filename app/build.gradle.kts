@@ -105,6 +105,20 @@ android {
     packagingOptions {
         resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
     }
+
+    lint {
+        // disable Timber Lint; see https://github.com/JakeWharton/timber/issues/408
+        disable(
+            "LogNotTimber",
+            "StringFormatInTimber",
+            "ThrowableNotAtBeginning",
+            "BinaryOperationInTimber",
+            "TimberArgCount",
+            "TimberArgTypes",
+            "TimberTagLength",
+            "TimberExceptionLogging"
+        )
+    }
 }
 
 configurations.all {
