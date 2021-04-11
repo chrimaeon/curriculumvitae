@@ -20,6 +20,7 @@ plugins {
     application
     kotlin("jvm")
     kotlin("plugin.serialization") version kotlinVersion
+    id("org.kordamp.gradle.markdown") version "2.2.0"
     ktlint
 }
 
@@ -43,6 +44,21 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
+        }
+    }
+
+    htmlToMarkdown {
+        sourceDir = sourceSets["test"].resources.sourceDirectories.singleFile
+        configuration = mapOf("tables" to true)
+        doLast {
+            copy {
+                from(outputDir)
+                include("root.md")
+                into(projectDir)
+                rename {
+                    "README.md"
+                }
+            }
         }
     }
 }
