@@ -50,7 +50,7 @@ class EmploymentRoutesShould {
                             "{" +
                             "\"jobTitle\":\"Software Developer\"," +
                             "\"employer\":\"CMG Mobile Apps\"," +
-                            "\"startDate\":\"2010-01-01\"," +
+                            "\"startDate\":\"2010-06-01\"," +
                             "\"endDate\":null," +
                             "\"city\":\"Graz\"," +
                             "\"description\":" +

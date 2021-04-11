@@ -93,6 +93,7 @@ private fun Content(
             .padding(
                 start = 24.dp,
                 end = 24.dp,
+                top = 16.dp
             )
             .verticalScroll(rememberScrollState())
     ) {

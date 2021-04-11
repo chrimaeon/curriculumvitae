@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
-        minSdkVersion(24)
+        minSdkVersion(26)
         targetSdk = 30
         versionCode = 1
         versionName = "1.0"

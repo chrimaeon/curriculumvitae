@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="Stylesheet"
-          type="text/css">
-    <link href="https://code.getmdl.io/1.3.0/material.light_blue-amber.min.css" rel="Stylesheet"
-          type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="Stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="Stylesheet" type="text/css" href="https://code.getmdl.io/1.3.0/material.light_blue-amber.min.css">
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"
-      rel="stylesheet">
-    <link href="/assets/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
-    <link href="/assets/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
-    <link href="/assets/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
+    <link rel="Stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;family=Roboto:wght@300;400;500;700&amp;display=swap">
+    <link href="/assets/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16">
+    <link href="/assets/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32">
+    <link href="/assets/favicon-96x96.png" rel="icon" type="image/png" sizes="96x96">
     <link href="/assets/favicon.ico" rel="icon" type="image/x-icon">
-    <script defer="" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script type="text/javascript" src="https://code.getmdl.io/1.3.0/material.min.js" defer=""></script>
     <title>Curriculum Vitae BFF</title>
     <style>pre {
 font-family: 'Roboto Mono', monospace;
@@ -48,51 +44,45 @@ white-space: pre-wrap;
 padding: 8px;
 border-radius: 4px;
 }
-
-    </style>
+</style>
   </head>
   <body>
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
-      <div class="mdl-layout__header-row"><span class="mdl-layout-title">Curriculum Vitae BFF</span>
-      </div>
-    </header>
-    <main class="mdl-layout__content">
-      <div class="page-content">
-        <h5 class="headline">Available API's</h5>
-        <div class="mdl-grid">
-          <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
-            <div class="api-card mdl-card mdl-shadow--2dp">
-              <div class="mdl-card__title"><span class="mdl-chip mdl-color--accent"><span
-                class="mdl-chip__text">GET</span></span>
-                <h3 class="mdl-card__title-text">/profile</h3>
-              </div>
-              <div class="api-table-container">
-                <table class="api-table mdl-data-table">
-                  <thead>
-                  <tr>
-                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                    <th class="mdl-data-table__cell--non-numeric">Type</th>
-                    <th class="mdl-data-table__cell--non-numeric">In</th>
-                    <th class="mdl-data-table__cell--non-numeric">Description</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td class="mdl-data-table__cell--non-numeric"><span class="mdl-chip"><span
-                      class="mdl-chip__text">lang</span></span></td>
-                    <td class="mdl-data-table__cell--non-numeric">String</td>
-                    <td class="mdl-data-table__cell--non-numeric">Query</td>
-                    <td class="mdl-data-table__cell--non-numeric white-space-normal">The language to
-                      return the answer; Defaults to 'en'
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="api-response">
-                <h6 class="mdl-typography-subhead">Response</h6>
-                <pre class="mdl-color--grey-200">{
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row"><span class="mdl-layout-title">Curriculum Vitae BFF</span></div>
+      </header>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <h5 class="headline">Available API's</h5>
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+              <div class="api-card mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title"><span class="mdl-chip mdl-color--accent"><span class="mdl-chip__text">GET</span></span>
+                  <h3 class="mdl-card__title-text">/profile</h3>
+                </div>
+                <div class="api-table-container">
+                  <table class="api-table mdl-data-table">
+                    <thead>
+                      <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Type</th>
+                        <th class="mdl-data-table__cell--non-numeric">In</th>
+                        <th class="mdl-data-table__cell--non-numeric">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><span class="mdl-chip"><span class="mdl-chip__text">lang</span></span></td>
+                        <td class="mdl-data-table__cell--non-numeric">String</td>
+                        <td class="mdl-data-table__cell--non-numeric">Query</td>
+                        <td class="mdl-data-table__cell--non-numeric white-space-normal">The language to return the answer; Defaults to 'en'</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="api-response">
+                  <h6 class="mdl-typography-subhead">Response</h6>
+                  <pre class="mdl-color--grey-200">{
   &quot;name&quot;: &quot;My Name&quot;,
   &quot;phone&quot;: &quot;+1234567890&quot;,
   &quot;profileImageUrl&quot;: &quot;https://via.placeholder.com/150&quot;,
@@ -109,44 +99,40 @@ border-radius: 4px;
   ],
   &quot;lang&quot;: &quot;en&quot;
 }</pre>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
-            <div class="api-card mdl-card mdl-shadow--2dp">
-              <div class="mdl-card__title"><span class="mdl-chip mdl-color--accent"><span
-                class="mdl-chip__text">GET</span></span>
-                <h3 class="mdl-card__title-text">/employment</h3>
-              </div>
-              <div class="api-table-container">
-                <table class="api-table mdl-data-table">
-                  <thead>
-                  <tr>
-                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                    <th class="mdl-data-table__cell--non-numeric">Type</th>
-                    <th class="mdl-data-table__cell--non-numeric">In</th>
-                    <th class="mdl-data-table__cell--non-numeric">Description</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td class="mdl-data-table__cell--non-numeric"><span class="mdl-chip"><span
-                      class="mdl-chip__text">lang</span></span></td>
-                    <td class="mdl-data-table__cell--non-numeric">String</td>
-                    <td class="mdl-data-table__cell--non-numeric">Query</td>
-                    <td class="mdl-data-table__cell--non-numeric white-space-normal">The language to
-                      return the answer; Defaults to 'en'
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="api-response">
-                <h6 class="mdl-typography-subhead">Response</h6>
-                <pre class="mdl-color--grey-200">{
+            <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+              <div class="api-card mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title"><span class="mdl-chip mdl-color--accent"><span class="mdl-chip__text">GET</span></span>
+                  <h3 class="mdl-card__title-text">/employment</h3>
+                </div>
+                <div class="api-table-container">
+                  <table class="api-table mdl-data-table">
+                    <thead>
+                      <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Type</th>
+                        <th class="mdl-data-table__cell--non-numeric">In</th>
+                        <th class="mdl-data-table__cell--non-numeric">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><span class="mdl-chip"><span class="mdl-chip__text">lang</span></span></td>
+                        <td class="mdl-data-table__cell--non-numeric">String</td>
+                        <td class="mdl-data-table__cell--non-numeric">Query</td>
+                        <td class="mdl-data-table__cell--non-numeric white-space-normal">The language to return the answer; Defaults to 'en'</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="api-response">
+                  <h6 class="mdl-typography-subhead">Response</h6>
+                  <pre class="mdl-color--grey-200">{
   &quot;jobTitle&quot;: &quot;Software Developer&quot;,
   &quot;employer&quot;: &quot;CMG Mobile Apps&quot;,
-  &quot;startDate&quot;: &quot;2010-01-01&quot;,
+  &quot;startDate&quot;: &quot;2010-06-01&quot;,
   &quot;endDate&quot;: null,
   &quot;city&quot;: &quot;Graz&quot;,
   &quot;description&quot;: [
@@ -154,12 +140,12 @@ border-radius: 4px;
     &quot;Software development&quot;
   ]
 }</pre>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
-  </div>
+      </main>
+    </div>
   </body>
 </html>

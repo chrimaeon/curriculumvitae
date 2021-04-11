@@ -69,7 +69,7 @@ fun MainScreen(
         isFloatingActionButtonDocked = true,
         bottomBar = {
             BottomAppBar(
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = MaterialTheme.colors.surface,
                 elevation = BottomNavigationDefaults.Elevation,
                 contentColor = MaterialTheme.colors.primary,
                 contentPadding = LocalWindowInsets.current.navigationBars.toPaddingValues(

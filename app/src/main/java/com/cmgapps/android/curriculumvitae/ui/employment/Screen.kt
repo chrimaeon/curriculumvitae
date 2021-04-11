@@ -18,6 +18,7 @@ package com.cmgapps.android.curriculumvitae.ui.employment
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,18 +32,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cmgapp.shared.curriculumvitae.data.Employment
 import com.cmgapps.android.compomaeon.ui.Theme
+import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.toPaddingValues
-import java.util.Date
+import java.time.LocalDate
+import java.time.Period
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun EmploymentScreen(
@@ -68,7 +74,7 @@ fun EmploymentScreen(
 }
 
 @Composable
-fun Content(employments: List<Employment>, bottomContentPadding: Dp) {
+private fun Content(employments: List<Employment>, bottomContentPadding: Dp) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -77,20 +83,55 @@ fun Content(employments: List<Employment>, bottomContentPadding: Dp) {
         contentPadding = LocalWindowInsets.current.systemBars.toPaddingValues(
             bottom = false,
             additionalTop = 8.dp,
-            additionalBottom = bottomContentPadding
+            additionalBottom = bottomContentPadding,
+            additionalStart = 2.dp,
+            additionalEnd = 2.dp
         )
     ) {
         items(employments) { employment ->
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                backgroundColor = MaterialTheme.colors.primary,
-                elevation = 1.dp
-            ) {
-                Text(
-                    text = employment.jobTitle,
-                    style = MaterialTheme.typography.h3
-                )
+            EmploymentCard(employment = employment)
+        }
+    }
+}
+
+@OptIn(ExperimentalTime::class)
+@Composable
+private fun EmploymentCard(employment: Employment) {
+    val resources = LocalContext.current.resources
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        elevation = 1.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(
+                text = employment.employer,
+                style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
+            )
+
+            val period: String = Period.between(
+                employment.startDate,
+                employment.endDate ?: LocalDate.now()
+            ).plusMonths(1).run {
+                buildString {
+                    if (years > 0) {
+                        append(resources.getQuantityString(R.plurals.years, years, years))
+                    }
+                    append(' ')
+                    append(resources.getQuantityString(R.plurals.months, months, months))
+                }
             }
+
+            Text(
+                text = period,
+                style = MaterialTheme.typography.body1
+            )
+            Text(
+                text = employment.jobTitle,
+                style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold)
+            )
         }
     }
 }
@@ -106,7 +147,7 @@ fun PreviewContent() {
                     Employment(
                         jobTitle = "Software developer",
                         employer = "CMG Mobile Apps",
-                        startDate = Date(),
+                        startDate = LocalDate.now(),
                         endDate = null,
                         city = "Graz",
                         description = listOf(

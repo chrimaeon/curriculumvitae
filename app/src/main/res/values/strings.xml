@@ -25,4 +25,13 @@
     <string name="you_are_hired">You are hired!</string>
     <string name="no_email">D\'oh, no email app found</string>
     <string name="generic_error">D\'oh, something went wrong 😞</string>
+    <plurals name="years">
+        <item quantity="one">%d Year</item>
+        <item quantity="other">%d Years</item>
+    </plurals>
+
+    <plurals name="months">
+        <item quantity="one">%d Month</item>
+        <item quantity="other">%d Months</item>
+    </plurals>
 </resources>

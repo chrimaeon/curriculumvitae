@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-@file:UseSerializers(DateSerializer::class)
+@file:UseSerializers(LocalDateSerializer::class)
 
 package com.cmgapp.shared.curriculumvitae.data
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import java.util.Date
+import java.time.LocalDate
 
 @Serializable
 data class Employment(
     val jobTitle: String,
     val employer: String,
-    val startDate: Date,
-    val endDate: Date?,
+    val startDate: LocalDate,
+    val endDate: LocalDate?,
     val city: String,
     val description: List<String>
 )

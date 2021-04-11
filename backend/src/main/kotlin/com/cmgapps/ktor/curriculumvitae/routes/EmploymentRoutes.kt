@@ -24,7 +24,7 @@ import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import java.util.GregorianCalendar
+import java.time.LocalDate
 
 fun Route.employmentRouting() {
     get(Routes.EMPLOYMENT.route) {
@@ -33,7 +33,7 @@ fun Route.employmentRouting() {
                 Employment(
                     jobTitle = "Software Developer",
                     employer = "CMG Mobile Apps",
-                    startDate = GregorianCalendar(2010, 0, 1).time,
+                    startDate = LocalDate.parse("2010-06-01"),
                     endDate = null,
                     city = "Graz",
                     description = listOf(

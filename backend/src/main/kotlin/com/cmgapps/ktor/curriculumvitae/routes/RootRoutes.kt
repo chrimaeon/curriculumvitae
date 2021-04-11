@@ -44,6 +44,7 @@ import kotlinx.css.width
 import kotlinx.html.DIV
 import kotlinx.html.HEAD
 import kotlinx.html.STYLE
+import kotlinx.html.ScriptType
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.h3
@@ -70,7 +71,7 @@ import kotlinx.html.unsafe
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.util.GregorianCalendar
+import java.time.LocalDate
 import java.util.Locale
 
 private const val pageTitle = "Curriculum Vitae BFF"
@@ -106,10 +107,7 @@ private fun HEAD.head() {
         href = "https://fonts.gstatic.com"
     )
 
-    link(
-        href = "https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap",
-        rel = "stylesheet"
-    )
+    styleLink("https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap")
 
     listOf("16x16", "32x32", "96x96").forEach {
         link(
@@ -127,7 +125,7 @@ private fun HEAD.head() {
         href = "/assets/favicon.ico"
     )
 
-    script(src = "https://code.getmdl.io/1.3.0/material.min.js") {
+    script(type = ScriptType.textJavaScript, src = "https://code.getmdl.io/1.3.0/material.min.js") {
         attributes["defer"] = ""
     }
 
@@ -225,7 +223,7 @@ private fun DIV.content() {
                     Employment(
                         jobTitle = "Software Developer",
                         employer = "CMG Mobile Apps",
-                        startDate = GregorianCalendar(2010, 0, 1).time,
+                        startDate = LocalDate.parse("2010-06-01"),
                         endDate = null,
                         city = "Graz",
                         description = listOf(

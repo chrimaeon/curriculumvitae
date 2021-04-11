@@ -18,6 +18,8 @@ package com.cmgapps.android.compomaeon.ui
 
 import androidx.compose.ui.graphics.Color
 
+val blueGray50 = Color(0xFFECEFF1)
+val blueGray800 = Color(0XFF37474F)
 val lightBlue200 = Color(0xFF81d4fa)
 val lightBlue500 = Color(0xFF03a9f4)
 val lightBlue700 = Color(0xFF0288d1)
