@@ -21,7 +21,7 @@ import java.util.Properties
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, String?> {
+class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, String> {
 
     private val properties: Properties? = if (propertiesFile.exists()) {
         Properties().apply {
@@ -32,7 +32,7 @@ class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, Strin
     private fun String.toSnakeCase(): String =
         replace(camelCaseRegEx, "$1_$2").toUpperCase(Locale.ROOT)
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>): String? {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): String {
         return properties?.getProperty(property.name)
             ?: System.getenv("CV_${property.name.toSnakeCase()}")
     }
@@ -42,4 +42,4 @@ class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, Strin
     }
 }
 
-fun Project.apiProperties() = PropertiesEnvDelegate(projectDir.resolve("api.properties"))
+fun Project.configProperties() = PropertiesEnvDelegate(projectDir.resolve("config.properties"))

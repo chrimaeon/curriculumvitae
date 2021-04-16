@@ -25,7 +25,7 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
-val xorDirPath = "generated/source/xor"
+val xorDirPath = buildDir.resolve("generated/source/xor")
 
 android {
     compileSdkVersion(30)
@@ -40,7 +40,7 @@ android {
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
 
-        val baseUrl by apiProperties()
+        val baseUrl by configProperties()
 
         resConfigs("en", "de")
 
@@ -54,7 +54,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     buildTypes {
@@ -74,7 +74,7 @@ android {
 
     sourceSets {
         named("main") {
-            java.srcDir(buildDir.resolve(xorDirPath))
+            java.srcDir(xorDirPath)
         }
 
         val sharedTestDir = project.projectDir.resolve("src").resolve("sharedTest")
@@ -121,30 +121,19 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        force(Libs.Testing.hamcrest)
-        dependencySubstitution {
-            substitute(module("org.hamcrest:hamcrest-core")).with(module(Libs.Testing.hamcrest))
-            substitute(module("org.hamcrest:hamcrest-integration")).with(module(Libs.Testing.hamcrest))
-            substitute(module("org.hamcrest:hamcrest-library")).with(module(Libs.Testing.hamcrest))
-        }
-    }
-}
-
 tasks {
     val generateEmailAddress by registering {
-        val outputDir = project.buildDir.resolve(xorDirPath)
+        val outputDir = xorDirPath
 
-        val emailAddress = "christian.grach@gmx.at"
-        inputs.property("email", emailAddress)
+        val email by configProperties()
+        inputs.property("email", email)
         val packageName = android.defaultConfig.applicationId ?: error("app id not set")
         inputs.property("packageName", packageName)
 
         outputs.dir(outputDir)
 
         doLast {
-            generateEmailAddress(emailAddress, packageName, outputDir)
+            generateEmailAddress(email, packageName, outputDir)
         }
     }
 
@@ -153,57 +142,46 @@ tasks {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencies {
-    implementation(project(":shared"))
-    implementation(Libs.AndroidX.coreKtx)
-    implementation(Libs.AndroidX.lifecycleLivedataKtx)
+    implementation(projects.shared)
+    implementation(libs.androidx.coreKtx)
+    implementation(libs.androidx.lifecycleLivedataKtx)
 
-    implementation(Libs.AndroidX.composeUi)
-    implementation(Libs.AndroidX.composeUiTooling)
-    implementation(Libs.AndroidX.composeFoundation)
-    implementation(Libs.AndroidX.composeMaterial)
-    implementation(Libs.AndroidX.composeMaterialIconsExtended)
-    implementation(Libs.AndroidX.composeActivity)
-    implementation(Libs.AndroidX.composeViewModel)
-    implementation(Libs.AndroidX.composeConstraintLayout)
-    implementation(Libs.AndroidX.composeLiveData)
+    implementation(libs.bundles.compose)
 
-    implementation(Libs.AndroidX.composeNavigation)
+    implementation(libs.bundles.accompanist)
 
-    implementation(Libs.Misc.accompanistInsets)
-    implementation(Libs.Misc.accompanistCoil)
-    implementation(Libs.Misc.timber)
+    implementation(libs.timber)
 
-    implementation(Libs.Misc.logtag)
-    kapt(Libs.Misc.logtagProcessor)
+    implementation(libs.logtag.logTag)
+    kapt(libs.logtag.processor)
 
-    implementation(Libs.Misc.hiltAndroid)
-    kapt(Libs.Misc.hiltCompiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
-    implementation(platform(Libs.Misc.okHttpBom))
-    implementation(Libs.Misc.okHttp)
-    debugImplementation(Libs.Misc.okHttpLoggingInterceptor)
-    implementation(Libs.Misc.retrofit)
-    implementation(Libs.Misc.retrofitKotlinSerialization)
-    implementation(Libs.Misc.kotlinxJsonSerialization)
+    implementation(platform(libs.okHttp.bom))
+    implementation("com.squareup.okhttp3:okhttp")
+    debugImplementation("com.squareup.okhttp3:logging-interceptor")
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.retrofit2.kotlinxSerialization)
+    implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(platform(Libs.Testing.junitBom))
-    testImplementation(Libs.Testing.junitJupiter)
-    testImplementation(Libs.Testing.androidCoreTesting)
-    testImplementation(Libs.Testing.mockito)
-    testImplementation(Libs.Testing.coroutineTest)
-    testImplementation(Libs.Testing.hamcrest)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(libs.androidx.coreTesting)
+    testImplementation(libs.mockito.jupiter)
+    testImplementation(libs.kotlinx.coroutinesTest)
+    testImplementation(libs.hamcrest)
 
-    androidTestImplementation(Libs.Testing.extJunit)
-    androidTestImplementation(Libs.Testing.archCoreTesting)
-    androidTestImplementation(Libs.Testing.espresso)
-    androidTestImplementation(Libs.Testing.hamcrest)
-    androidTestImplementation(Libs.Testing.retrofitMockServer)
-    androidTestImplementation(Libs.Testing.hamcrest)
+    androidTestImplementation(libs.androidx.extJunit)
+    androidTestImplementation(libs.androidx.coreTesting)
+    androidTestImplementation(libs.espresso)
+    androidTestImplementation(libs.hamcrest)
+    androidTestImplementation(libs.retrofit2.mockServer)
+    androidTestImplementation(libs.hamcrest)
+    androidTestImplementation(libs.compose.uiTest)
 
-
-    androidTestImplementation(Libs.Testing.composeUiTest)
-
-    androidTestImplementation(Libs.Testing.hiltTesting)
-    kaptAndroidTest(Libs.Misc.hiltCompiler)
+    androidTestImplementation(libs.hilt.testing)
+    kaptAndroidTest(libs.hilt.compiler)
 }

@@ -103,21 +103,20 @@ tasks {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencies {
-    implementation(project(":shared"))
-    implementation(kotlin("stdlib-jdk8", kotlinVersion))
-    localImplementation(Libs.Backend.ktorNettyServer)
-    implementation(Libs.Backend.ktorServlet)
-    implementation(Libs.Backend.ktorHtml)
-    implementation(Libs.Backend.kotlinCss)
-    implementation(Libs.Backend.logback)
-    implementation(Libs.Misc.kotlinxJsonSerialization)
-    implementation(Libs.Backend.ktorSerialization)
+    implementation(projects.shared)
+    implementation(kotlin("stdlib-jdk8", libs.versions.kotlin.get()))
+    localImplementation(libs.ktor.netty)
+    implementation(libs.bundles.ktor)
+    implementation(libs.kotlinCss)
+    implementation(libs.logback)
+    implementation(libs.kotlinx.serialization.json)
 
-    "providedCompile"(Libs.Backend.appEngine)
+    "providedCompile"(libs.appEngine)
 
-    testImplementation(Libs.Testing.ktorTesting)
-    testImplementation(platform(Libs.Testing.junitBom))
-    testImplementation(Libs.Testing.junitJupiter)
-    testImplementation(Libs.Testing.hamcrest)
+    testImplementation(libs.ktor.testing)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(libs.hamcrest)
 }

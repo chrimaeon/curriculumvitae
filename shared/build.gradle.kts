@@ -30,12 +30,13 @@ tasks {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencies {
-    implementation(Libs.Misc.kotlinxJsonSerialization)
+    implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(platform(Libs.Testing.junitBom))
-    testImplementation(Libs.Testing.junitJupiter)
-    testImplementation(Libs.Testing.hamcrest)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(libs.hamcrest)
 }
 
 

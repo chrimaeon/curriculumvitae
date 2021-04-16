@@ -47,6 +47,23 @@ allprojects {
             }
         }
     }
+
+    configurations.all {
+        resolutionStrategy {
+            @Suppress("UnstableApiUsage")
+            with(libs.hamcrest.get()) {
+                "${this.module.group}:${this.module.name}:${this.versionConstraint.displayName}"
+            }.let {
+                force(it)
+                dependencySubstitution {
+                    substitute(module("org.hamcrest:hamcrest-core")).with(module(it))
+                    substitute(module("org.hamcrest:hamcrest-integration")).with(module(it))
+                    substitute(module("org.hamcrest:hamcrest-library")).with(module(it))
+                }
+            }
+
+        }
+    }
 }
 
 tasks {
@@ -55,7 +72,7 @@ tasks {
     }
 
     named<Wrapper>("wrapper") {
-        gradleVersion = "7.0"
+        gradleVersion = libs.versions.gradle.get()
         distributionType = Wrapper.DistributionType.ALL
     }
 
