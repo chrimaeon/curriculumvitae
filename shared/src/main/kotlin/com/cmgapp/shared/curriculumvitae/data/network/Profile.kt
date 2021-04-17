@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapp.shared.curriculumvitae.data
+package com.cmgapp.shared.curriculumvitae.data.network
 
 import kotlinx.serialization.Serializable
 

@@ -16,8 +16,8 @@
 
 package com.cmgapps.android.curriculumvitae.test
 
-import com.cmgapp.shared.curriculumvitae.data.Address
-import com.cmgapp.shared.curriculumvitae.data.Profile
+import com.cmgapp.shared.curriculumvitae.data.network.Address
+import com.cmgapp.shared.curriculumvitae.data.network.Profile
 
 fun StubProfile() = Profile(
     name = "Firstname Lastname",

@@ -37,7 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cmgapp.shared.curriculumvitae.data.Employment
+import com.cmgapp.shared.curriculumvitae.data.network.Employment
 import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError

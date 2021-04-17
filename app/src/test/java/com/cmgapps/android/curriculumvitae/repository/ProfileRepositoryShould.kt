@@ -16,7 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
-import com.cmgapp.shared.curriculumvitae.data.Profile
+import com.cmgapp.shared.curriculumvitae.data.network.Profile
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.InstantTaskExecutorExtension

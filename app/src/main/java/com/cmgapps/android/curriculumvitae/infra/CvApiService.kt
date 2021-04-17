@@ -16,8 +16,8 @@
 
 package com.cmgapps.android.curriculumvitae.infra
 
-import com.cmgapp.shared.curriculumvitae.data.Employment
-import com.cmgapp.shared.curriculumvitae.data.Profile
+import com.cmgapp.shared.curriculumvitae.data.network.Employment
+import com.cmgapp.shared.curriculumvitae.data.network.Profile
 import retrofit2.http.GET
 
 interface CvApiService {

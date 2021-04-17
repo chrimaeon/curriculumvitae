@@ -17,7 +17,7 @@
 package com.cmgapps.android.curriculumvitae.usecase
 
 import androidx.lifecycle.LiveData
-import com.cmgapp.shared.curriculumvitae.data.Employment
+import com.cmgapp.shared.curriculumvitae.data.network.Employment
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 

@@ -47,8 +47,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cmgapp.shared.curriculumvitae.data.Address
-import com.cmgapp.shared.curriculumvitae.data.Profile
+import com.cmgapp.shared.curriculumvitae.data.network.Address
+import com.cmgapp.shared.curriculumvitae.data.network.Profile
 import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
