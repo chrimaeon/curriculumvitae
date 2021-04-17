@@ -16,6 +16,7 @@
 
 package com.cmgapp.shared.curriculumvitae.data
 
+import com.cmgapps.shared.curriculumvitae.data.DateSerializer
 import kotlinx.serialization.json.Json
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`

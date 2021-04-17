@@ -17,7 +17,8 @@
 package com.cmgapps.android.curriculumvitae.ui.profile
 
 import androidx.lifecycle.MutableLiveData
-import com.cmgapp.shared.curriculumvitae.data.network.Profile
+import com.cmgapps.android.curriculumvitae.data.domain.Profile
+import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.InstantTaskExecutorExtension
 import com.cmgapps.android.curriculumvitae.test.StubProfile
@@ -42,7 +43,7 @@ internal class ProfileViewModelShould {
 
     @BeforeEach
     fun beforeEach() {
-        profile = StubProfile()
+        profile = StubProfile().asDomainModel()
         `when`(getProfileUseCase.invoke()).thenReturn(MutableLiveData(Resource.Success(profile)))
         viewModel = ProfileViewModel(getProfileUseCase)
     }

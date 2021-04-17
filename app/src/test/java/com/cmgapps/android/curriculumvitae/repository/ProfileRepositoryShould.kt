@@ -16,7 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
-import com.cmgapp.shared.curriculumvitae.data.network.Profile
+import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.InstantTaskExecutorExtension
@@ -24,6 +24,7 @@ import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubProfile
 import com.cmgapps.android.curriculumvitae.test.getOrAwaitValue
 import com.cmgapps.android.curriculumvitae.test.observeForTesting
+import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -49,7 +50,6 @@ internal class ProfileRepositoryShould {
     @BeforeEach
     fun before() {
         profile = StubProfile()
-
         repository = ProfileRepository(apiService)
     }
 
@@ -76,7 +76,10 @@ internal class ProfileRepositoryShould {
         `when`(apiService.getProfile()).thenReturn(profile)
 
         repository.profile.observeForTesting {
-            assertThat((repository.profile.value as Resource.Success).data, `is`(profile))
+            assertThat(
+                (repository.profile.value as Resource.Success).data,
+                `is`(profile.asDomainModel())
+            )
         }
     }
 }

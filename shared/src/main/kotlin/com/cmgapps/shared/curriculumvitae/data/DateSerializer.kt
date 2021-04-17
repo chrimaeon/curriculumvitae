@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapp.shared.curriculumvitae.data
+package com.cmgapps.shared.curriculumvitae.data
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

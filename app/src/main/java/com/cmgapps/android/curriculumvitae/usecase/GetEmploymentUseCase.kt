@@ -17,9 +17,9 @@
 package com.cmgapps.android.curriculumvitae.usecase
 
 import androidx.lifecycle.LiveData
-import com.cmgapp.shared.curriculumvitae.data.network.Employment
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
+import com.cmgapps.shared.curriculumvitae.data.network.Employment
 
 class GetEmploymentUseCase(private val repo: EmploymentRepository) {
     operator fun invoke(): LiveData<Resource<List<Employment>>> = repo.employment

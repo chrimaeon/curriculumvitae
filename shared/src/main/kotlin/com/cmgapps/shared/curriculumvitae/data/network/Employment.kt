@@ -16,9 +16,9 @@
 
 @file:UseSerializers(LocalDateSerializer::class)
 
-package com.cmgapp.shared.curriculumvitae.data.network
+package com.cmgapps.shared.curriculumvitae.data.network
 
-import com.cmgapp.shared.curriculumvitae.data.LocalDateSerializer
+import com.cmgapps.shared.curriculumvitae.data.LocalDateSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import java.time.LocalDate

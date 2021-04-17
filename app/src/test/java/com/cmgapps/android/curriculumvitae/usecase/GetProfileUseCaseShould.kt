@@ -17,7 +17,8 @@
 package com.cmgapps.android.curriculumvitae.usecase
 
 import androidx.lifecycle.MutableLiveData
-import com.cmgapp.shared.curriculumvitae.data.network.Profile
+import com.cmgapps.android.curriculumvitae.data.domain.Profile
+import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.android.curriculumvitae.test.StubProfile
@@ -41,7 +42,7 @@ class GetProfileUseCaseShould {
 
     @BeforeEach
     fun before() {
-        profile = StubProfile()
+        profile = StubProfile().asDomainModel()
         userCase = GetProfileUseCase(repository)
     }
 

@@ -47,12 +47,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cmgapp.shared.curriculumvitae.data.network.Address
-import com.cmgapp.shared.curriculumvitae.data.network.Profile
 import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
+import com.cmgapps.android.curriculumvitae.data.domain.Address
+import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
@@ -257,7 +257,6 @@ fun PreviewContent() {
                     intro = listOf("Line1", "Line2"),
                     address = Address("Street 1", "Graz", "8010"),
                     email = "me@home.at",
-                    lang = "de",
                 ),
                 onEmailClick = {}
             )
@@ -278,7 +277,6 @@ fun PreviewLandscapeContent() {
                     intro = listOf("Line1", "Line2"),
                     address = Address("Street 1", "Graz", "8010"),
                     email = "me@home.at",
-                    lang = "de",
                 ),
                 onEmailClick = {}
             )
@@ -302,7 +300,6 @@ fun PreviewDarkContent() {
                     intro = listOf("Line1", "Line2"),
                     address = Address("Street 1", "Graz", "8010"),
                     email = "me@home.at",
-                    lang = "de",
                 ),
                 onEmailClick = {}
             )

@@ -16,9 +16,9 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
-import com.cmgapp.shared.curriculumvitae.data.network.Address
-import com.cmgapp.shared.curriculumvitae.data.network.Profile
 import com.cmgapps.ktor.curriculumvitae.Routes
+import com.cmgapps.shared.curriculumvitae.data.network.Address
+import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.features.origin
