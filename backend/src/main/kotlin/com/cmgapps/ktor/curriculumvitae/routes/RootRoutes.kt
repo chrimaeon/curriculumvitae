@@ -29,22 +29,29 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import kotlinx.css.CSSBuilder
+import kotlinx.css.Color
+import kotlinx.css.FontWeight
 import kotlinx.css.Overflow
 import kotlinx.css.WhiteSpace
 import kotlinx.css.borderRadius
+import kotlinx.css.color
 import kotlinx.css.fontFamily
+import kotlinx.css.fontWeight
 import kotlinx.css.margin
 import kotlinx.css.marginLeft
 import kotlinx.css.overflowX
 import kotlinx.css.padding
 import kotlinx.css.pct
+import kotlinx.css.properties.TextDecoration
 import kotlinx.css.px
+import kotlinx.css.textDecoration
 import kotlinx.css.whiteSpace
 import kotlinx.css.width
 import kotlinx.html.DIV
 import kotlinx.html.HEAD
 import kotlinx.html.STYLE
 import kotlinx.html.ScriptType
+import kotlinx.html.a
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.h3
@@ -148,6 +155,11 @@ private fun HEAD.head() {
             }
             ".api-card .mdl-card__title-text" {
                 marginLeft = 16.px
+            }
+            ".api-card .mdl-card__title-text a" {
+                color = Color.inherit
+                fontWeight = FontWeight.inherit
+                textDecoration = TextDecoration.none
             }
             ".api-table-container" {
                 overflowX = Overflow.scroll
@@ -267,7 +279,9 @@ private inline fun <reified T> DIV.apiCard(
                     }
                 }
                 h3(classes = "mdl-card__title-text") {
-                    +route
+                    a(href = route) {
+                        +route
+                    }
                 }
             }
             params?.let { paramsTable(it) }
