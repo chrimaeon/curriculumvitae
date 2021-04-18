@@ -16,44 +16,35 @@
 
 package com.cmgapps.android.curriculumvitae.usecase
 
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
+import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
-import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
-internal class GetProfileUseCaseShould {
+internal class RefreshEmploymentUseCaseShould {
 
     @Mock
-    lateinit var repository: ProfileRepository
+    lateinit var repository: EmploymentRepository
 
-    private lateinit var userCase: GetProfileUseCase
+    private lateinit var useCase: RefreshEmploymentUseCase
 
     @BeforeEach
-    fun before() {
-        userCase = GetProfileUseCase(repository)
+    fun beforeEach() {
+        useCase = RefreshEmploymentUseCase(repository)
     }
 
     @Test
-    fun `return profile`() = runBlockingTest {
-        val profile = StubDomainProfile()
-        `when`(repository.profile).thenReturn(flowOf(Resource.Success(profile)))
+    fun `call refesh`() = runBlockingTest {
+        useCase()
 
-        val result = userCase().single() as Resource.Success
-
-        assertThat(result.data, `is`(profile))
+        verify(repository).refreshEmployments()
     }
 }

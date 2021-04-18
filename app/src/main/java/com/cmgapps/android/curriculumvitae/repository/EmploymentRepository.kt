@@ -29,17 +29,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
+import kotlin.coroutines.CoroutineContext
 
 @LogTag
 class EmploymentRepository(
     private val api: CvApiService,
-    private val employmentDao: EmploymentDao
+    private val employmentDao: EmploymentDao,
+    private val coroutineContext: CoroutineContext = Dispatchers.IO
 ) {
     val employment: Flow<Resource<List<Employment>>> =
         employmentDao.getEmployments().asLoadingResourceFlow { asDomainModel() }
 
     suspend fun refreshEmployments() {
-        withContext(Dispatchers.IO) {
+        withContext(coroutineContext) {
             try {
                 employmentDao.insertAll(api.getEmployment().asDatabaseModel())
             } catch (exc: IOException) {

@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.usecase
+package com.cmgapps.android.curriculumvitae.ui.profile
 
 import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
-import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
+import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
+import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentViewModel
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
+import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
@@ -31,29 +33,38 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
-internal class GetProfileUseCaseShould {
+internal class EmploymentViewModelShould {
 
     @Mock
-    lateinit var repository: ProfileRepository
+    lateinit var getEmploymentUseCase: GetEmploymentUseCase
 
-    private lateinit var userCase: GetProfileUseCase
+    @Mock
+    lateinit var refreshEmploymentUseCase: RefreshEmploymentUseCase
+
+    private lateinit var viewModel: EmploymentViewModel
 
     @BeforeEach
-    fun before() {
-        userCase = GetProfileUseCase(repository)
+    fun beforeEach() {
+        `when`(getEmploymentUseCase.invoke())
+            .thenReturn(flowOf(Resource.Success(listOf(StubDomainEmployment()))))
+
+        viewModel = EmploymentViewModel(getEmploymentUseCase, refreshEmploymentUseCase)
     }
 
     @Test
-    fun `return profile`() = runBlockingTest {
-        val profile = StubDomainProfile()
-        `when`(repository.profile).thenReturn(flowOf(Resource.Success(profile)))
+    fun `return employments`() = runBlockingTest {
+        val result = viewModel.employment.single()
 
-        val result = userCase().single() as Resource.Success
+        assertThat((result as Resource.Success).data, `is`(listOf(StubDomainEmployment())))
+    }
 
-        assertThat(result.data, `is`(profile))
+    @Test
+    fun `refresh employments`() = runBlockingTest {
+        verify(refreshEmploymentUseCase).invoke()
     }
 }

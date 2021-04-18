@@ -17,9 +17,9 @@
 package com.cmgapps.android.curriculumvitae.usecase
 
 import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
+import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
-import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
+import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
@@ -35,25 +35,24 @@ import org.mockito.junit.jupiter.MockitoExtension
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
-internal class GetProfileUseCaseShould {
+internal class GetEmploymentUseCaseShould {
 
     @Mock
-    lateinit var repository: ProfileRepository
+    lateinit var repository: EmploymentRepository
 
-    private lateinit var userCase: GetProfileUseCase
+    private lateinit var useCase: GetEmploymentUseCase
 
     @BeforeEach
-    fun before() {
-        userCase = GetProfileUseCase(repository)
+    fun beforeEach() {
+        useCase = GetEmploymentUseCase(repository)
     }
 
     @Test
-    fun `return profile`() = runBlockingTest {
-        val profile = StubDomainProfile()
-        `when`(repository.profile).thenReturn(flowOf(Resource.Success(profile)))
+    fun `return employments`() = runBlockingTest {
+        val employments = listOf(StubDomainEmployment())
+        `when`(repository.employment).thenReturn(flowOf(Resource.Success(employments)))
 
-        val result = userCase().single() as Resource.Success
-
-        assertThat(result.data, `is`(profile))
+        val result = useCase().single() as Resource.Success
+        assertThat(result.data, `is`(employments))
     }
 }

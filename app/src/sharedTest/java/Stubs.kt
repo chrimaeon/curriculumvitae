@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
+@file:Suppress("TestFunctionName")
+
 package com.cmgapps.android.curriculumvitae.test
 
-import com.cmgapps.shared.curriculumvitae.data.network.Employment
+import com.cmgapps.android.curriculumvitae.data.database.EmploymentWithDescription
+import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import java.time.LocalDate
 import java.time.Month
+import com.cmgapps.android.curriculumvitae.data.database.Description as DatabaseDescription
+import com.cmgapps.android.curriculumvitae.data.database.Employment as DatabaseEmployemnt
 import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
 import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
 import com.cmgapps.shared.curriculumvitae.data.network.Address as NetworkAddress
+import com.cmgapps.shared.curriculumvitae.data.network.Employment as NetworkEmployment
 import com.cmgapps.shared.curriculumvitae.data.network.Profile as NetworkProfile
 
 fun StubNetworkProfile() = NetworkProfile(
@@ -51,14 +57,48 @@ fun StubDomainProfile() = DomainProfile(
     ),
 )
 
-fun StubNetworkEmployment() = Employment(
+fun StubNetworkEmployment() = NetworkEmployment(
     jobTitle = "Developer",
     employer = "My Company",
     startDate = LocalDate.of(2021, Month.APRIL, 17),
     endDate = null,
     city = "Home City",
     description = listOf(
-        "Description 1",
-        "Description 2"
+        "stub description",
     )
+)
+
+// Objects.hash(employer, jobTitle, startDate.toEpochDay())
+private const val employmentId = 1051736812
+
+fun StubDatabaseEmployment() = DatabaseEmployemnt(
+    id = employmentId,
+    jobTitle = "Developer",
+    employer = "My Company",
+    startDate = LocalDate.of(2021, Month.APRIL, 17),
+    endDate = null,
+    city = "Home City",
+)
+
+fun StubDatabaseDescription() = DatabaseDescription(
+    id = 602055562,
+    employmentId = employmentId,
+    description = "stub description"
+)
+
+fun StubEmploymentWithDescription() = EmploymentWithDescription(
+    employment = StubDatabaseEmployment(),
+    description = listOf(
+        StubDatabaseDescription()
+    )
+)
+
+fun StubDomainEmployment() = Employment(
+    id = employmentId,
+    jobTitle = "Developer",
+    employer = "My Company",
+    startDate = LocalDate.of(2021, Month.APRIL, 17),
+    endDate = null,
+    city = "Home City",
+    description = listOf("stub description")
 )
