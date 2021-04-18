@@ -45,6 +45,15 @@ android {
         resConfigs("en", "de")
 
         buildConfigField("String", "BASE_URL", """"$baseUrl"""")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.schemaLocation" to projectDir.resolve("schemas").absolutePath,
+                    "room.incremental" to "true",
+                )
+            }
+        }
     }
 
     buildFeatures {
@@ -159,6 +168,9 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 
     implementation(platform(libs.okHttp.bom))
     implementation("com.squareup.okhttp3:okhttp")

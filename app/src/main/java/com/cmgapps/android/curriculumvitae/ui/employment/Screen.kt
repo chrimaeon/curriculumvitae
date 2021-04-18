@@ -37,12 +37,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
+import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.shared.curriculumvitae.data.network.Employment
+import com.cmgapps.android.curriculumvitae.ui.Theme
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.toPaddingValues
@@ -88,7 +88,7 @@ private fun Content(employments: List<Employment>, bottomContentPadding: Dp) {
             additionalEnd = 2.dp
         )
     ) {
-        items(employments) { employment ->
+        items(employments, key = { it.id }) { employment ->
             EmploymentCard(employment = employment)
         }
     }
@@ -145,6 +145,7 @@ fun PreviewContent() {
             Content(
                 employments = listOf(
                     Employment(
+                        id = 1,
                         jobTitle = "Software developer",
                         employer = "CMG Mobile Apps",
                         startDate = LocalDate.now(),

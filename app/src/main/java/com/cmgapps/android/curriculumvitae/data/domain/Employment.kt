@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.usecase
+package com.cmgapps.android.curriculumvitae.data.domain
 
-import androidx.lifecycle.LiveData
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
+import java.time.LocalDate
 
-class GetEmploymentUseCase(private val repo: EmploymentRepository) {
-    operator fun invoke(): LiveData<Resource<List<Employment>>> = repo.employment
-}
+data class Employment(
+    val id: Int,
+    val jobTitle: String,
+    val employer: String,
+    val startDate: LocalDate,
+    val endDate: LocalDate?,
+    val city: String,
+    val description: List<String>
+)

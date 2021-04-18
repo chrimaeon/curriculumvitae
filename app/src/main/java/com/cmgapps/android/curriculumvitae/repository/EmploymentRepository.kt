@@ -16,11 +16,29 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import com.cmgapps.android.curriculumvitae.data.EmploymentDao
+import com.cmgapps.android.curriculumvitae.data.database.asDatabaseModel
+import com.cmgapps.android.curriculumvitae.data.database.asDomainModel
+import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.loadingResourceLiveData
+import com.cmgapps.android.curriculumvitae.infra.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class EmploymentRepository(private val api: CvApiService) {
-    val employment = loadingResourceLiveData {
-        api.getEmployment()
+class EmploymentRepository(
+    private val api: CvApiService,
+    private val employmentDao: EmploymentDao
+) {
+    val employment: LiveData<Resource<List<Employment>>> =
+        employmentDao.getEmployments().map {
+            Resource.Success(it.asDomainModel())
+        }
+
+    suspend fun refreshEmployments() {
+        withContext(Dispatchers.IO) {
+            employmentDao.insertAll(api.getEmployment().asDatabaseModel())
+        }
     }
 }

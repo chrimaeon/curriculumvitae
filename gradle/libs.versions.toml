@@ -6,6 +6,7 @@ hilt = "2.34.1-beta"
 compose = "1.0.0-beta04"
 accompanist = "0.6.2"
 retrofit = "2.9.0"
+room = "2.2.6"
 
 [libraries]
 # region Plugins
@@ -35,6 +36,9 @@ accompanist-coil = { module = "dev.chrisbanes.accompanist:accompanist-coil", ver
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 timber = "com.jakewharton.timber:timber:4.7.1"
 logtag-logTag = "com.cmgapps.logtag:log-tag:0.1.0"

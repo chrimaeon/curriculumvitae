@@ -20,6 +20,7 @@ import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
+import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,4 +36,8 @@ object UseCaseModule {
     @Provides
     fun provideGetEmploymentUseCase(repository: EmploymentRepository) =
         GetEmploymentUseCase(repository)
+
+    @Provides
+    fun provideRefreshEmploymentsUseCase(repository: EmploymentRepository) =
+        RefreshEmploymentUseCase(repository)
 }

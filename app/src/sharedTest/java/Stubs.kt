@@ -17,7 +17,10 @@
 package com.cmgapps.android.curriculumvitae.test
 
 import com.cmgapps.shared.curriculumvitae.data.network.Address
+import com.cmgapps.shared.curriculumvitae.data.network.Employment
 import com.cmgapps.shared.curriculumvitae.data.network.Profile
+import java.time.LocalDate
+import java.time.Month
 
 fun StubProfile() = Profile(
     name = "Firstname Lastname",
@@ -31,4 +34,16 @@ fun StubProfile() = Profile(
     lang = "de",
     phone = "+12345678",
     profileImageUrl = "http://image.undefined.com/image.jpeg"
+)
+
+fun StubEmployment() = Employment(
+    jobTitle = "Developer",
+    employer = "My Company",
+    startDate = LocalDate.of(2021, Month.APRIL, 17),
+    endDate = null,
+    city = "Home City",
+    description = listOf(
+        "Description 1",
+        "Description 2"
+    )
 )

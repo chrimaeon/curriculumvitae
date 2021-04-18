@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.usecase
+package com.cmgapps.android.curriculumvitae.data.database
 
-import androidx.lifecycle.LiveData
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
+import androidx.room.TypeConverter
+import java.time.LocalDate
 
-class GetEmploymentUseCase(private val repo: EmploymentRepository) {
-    operator fun invoke(): LiveData<Resource<List<Employment>>> = repo.employment
+class Converters {
+    @TypeConverter
+    fun dateToString(date: LocalDate?): String? = date?.toString()
+
+    @TypeConverter
+    fun dateFromString(value: String?): LocalDate? = value?.let { LocalDate.parse(value) }
 }

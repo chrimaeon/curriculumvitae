@@ -18,6 +18,7 @@ package com.cmgapps.android.curriculumvitae.infra.di
 
 import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.test.StubEmployment
 import com.cmgapps.android.curriculumvitae.test.StubProfile
 import dagger.Module
 import dagger.Provides
@@ -61,4 +62,6 @@ object MockApiServiceModule {
 private class MockCvApiService(private val delegate: BehaviorDelegate<CvApiService>) :
     CvApiService {
     override suspend fun getProfile() = delegate.returningResponse(StubProfile()).getProfile()
+    override suspend fun getEmployment() =
+        delegate.returningResponse(listOf(StubEmployment())).getEmployment()
 }

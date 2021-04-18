@@ -29,8 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.R
+import com.cmgapps.android.curriculumvitae.ui.Theme
 import timber.log.Timber
 
 @Composable

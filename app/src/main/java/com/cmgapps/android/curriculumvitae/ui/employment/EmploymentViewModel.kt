@@ -17,13 +17,24 @@
 package com.cmgapps.android.curriculumvitae.ui.employment
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
+import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EmploymentViewModel @Inject constructor(employmentUseCase: GetEmploymentUseCase) :
-    ViewModel() {
+class EmploymentViewModel @Inject constructor(
+    getEmploymentUseCase: GetEmploymentUseCase,
+    refreshEmploymentUseCase: RefreshEmploymentUseCase
+) : ViewModel() {
 
-    val employment = employmentUseCase()
+    val employment = getEmploymentUseCase()
+
+    init {
+        viewModelScope.launch {
+            refreshEmploymentUseCase()
+        }
+    }
 }

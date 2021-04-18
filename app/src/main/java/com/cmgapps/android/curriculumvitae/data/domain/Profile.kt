@@ -30,16 +30,16 @@ data class Profile(
 data class Address(val street: String, val city: String, val postalCode: String)
 
 fun NetworkProfile.asDomainModel() = Profile(
-    name = name,
-    phone = phone,
-    profileImageUrl = profileImageUrl,
-    address = with(address) {
+    name,
+    phone,
+    profileImageUrl,
+    with(address) {
         Address(
-            street = street,
-            city = city,
-            postalCode = postalCode
+            street,
+            city,
+            postalCode
         )
     },
-    email = email,
-    intro = intro,
+    email,
+    intro,
 )

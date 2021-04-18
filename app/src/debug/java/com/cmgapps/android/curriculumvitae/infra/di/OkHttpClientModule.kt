@@ -52,7 +52,7 @@ object OkHttpClientModule {
             ).build()
 
     @Provides
-    @SuppressLint("TrustAllX509TrustManager")
+    @SuppressLint("TrustAllX509TrustManager", "CustomX509TrustManager")
     fun provideTrustManager(): X509TrustManager {
         return object : X509TrustManager {
             override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {

@@ -46,11 +46,6 @@ object AppModule {
         val cachedClient =
             okHttpClient.newBuilder()
                 .cache(CoilUtils.createDefaultCache(context))
-                .addInterceptor {
-                    // Simulate slow connection
-                    Thread.sleep(3000)
-                    it.proceed(it.request())
-                }
                 .build()
         return ImageLoader.Builder(context)
             .okHttpClient(cachedClient)

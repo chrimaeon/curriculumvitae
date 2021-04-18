@@ -39,8 +39,8 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.view.WindowCompat
 import com.cmgapps.LogTag
-import com.cmgapps.android.compomaeon.ui.Theme
 import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
+import com.cmgapps.android.curriculumvitae.ui.Theme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.launch

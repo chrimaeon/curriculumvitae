@@ -19,11 +19,12 @@ package com.cmgapps.android.curriculumvitae
 import android.content.pm.ActivityInfo
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.cmgapps.android.curriculumvitae.test.StubEmployment
 import com.cmgapps.android.curriculumvitae.test.StubProfile
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -55,14 +56,14 @@ class MainActivityShould {
     @Test
     fun showMainNavigation() = with(composeTestRule) {
         onNodeWithText("Profile").assertIsDisplayed()
-        onNodeWithText("Work").assertIsDisplayed()
+        onNodeWithText("Employment").assertIsDisplayed()
         onNodeWithText("Skills").assertIsDisplayed()
         return@with
     }
 
     @Test
     fun showFab() {
-        composeTestRule.onNodeWithContentDescription("Send").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("Fab").assertIsDisplayed()
     }
 
     @Test
@@ -83,8 +84,9 @@ class MainActivityShould {
 
     @Test
     fun moveToWork() = with(composeTestRule) {
-        onNodeWithText("Work").assertIsDisplayed().performClick()
-        onNodeWithText("Work Item 0").assertIsDisplayed()
+        val employment = StubEmployment()
+        onNodeWithText("Employment").assertIsDisplayed().performClick()
+        onNodeWithText(employment.jobTitle).assertIsDisplayed()
         return@with
     }
 
@@ -92,7 +94,6 @@ class MainActivityShould {
     fun moveToSkills() = with(composeTestRule) {
         onNodeWithText("Skills").assertIsDisplayed().performClick()
         onNodeWithText("Android").assertIsDisplayed()
-
         return@with
     }
 }

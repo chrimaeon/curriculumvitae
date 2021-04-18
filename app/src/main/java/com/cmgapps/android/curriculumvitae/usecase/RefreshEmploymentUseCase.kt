@@ -14,24 +14,13 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra.di
+package com.cmgapps.android.curriculumvitae.usecase
 
-import com.cmgapps.android.curriculumvitae.data.EmploymentDao
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
-import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 
-@Module
-@InstallIn(SingletonComponent::class)
-object RepositoryModule {
+class RefreshEmploymentUseCase(private val employmentRepository: EmploymentRepository) {
 
-    @Provides
-    fun provideProfileRepository(api: CvApiService) = ProfileRepository(api)
-
-    @Provides
-    fun provideEmploymentRepository(api: CvApiService, employmentDao: EmploymentDao) = EmploymentRepository(api, employmentDao)
+    suspend operator fun invoke() {
+        employmentRepository.refreshEmployments()
+    }
 }

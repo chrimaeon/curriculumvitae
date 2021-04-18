@@ -16,22 +16,27 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
+import android.content.Context
+import androidx.room.Room
+import com.cmgapps.android.curriculumvitae.data.CvDatabase
 import com.cmgapps.android.curriculumvitae.data.EmploymentDao
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
-import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+@Module
+object DatabaseModule {
 
     @Provides
-    fun provideProfileRepository(api: CvApiService) = ProfileRepository(api)
+    @Singleton
+    fun provideEmploymentDao(database: CvDatabase): EmploymentDao = database.employmentDao
 
     @Provides
-    fun provideEmploymentRepository(api: CvApiService, employmentDao: EmploymentDao) = EmploymentRepository(api, employmentDao)
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): CvDatabase =
+        Room.databaseBuilder(context, CvDatabase::class.java, "CvDB").build()
 }

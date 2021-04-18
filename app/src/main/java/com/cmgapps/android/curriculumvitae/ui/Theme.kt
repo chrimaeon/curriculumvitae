@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.compomaeon.ui
+package com.cmgapps.android.curriculumvitae.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

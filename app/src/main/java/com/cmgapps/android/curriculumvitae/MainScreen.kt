@@ -35,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -151,7 +152,10 @@ val FabTopKnobPadding = 40.dp
 
 @Composable
 fun Fab(onClick: () -> Unit = {}) {
-    FloatingActionButton(onClick = onClick) {
+    FloatingActionButton(
+        modifier = Modifier.testTag("Fab"),
+        onClick = onClick
+    ) {
         Icon(
             imageVector = Icons.Default.Send,
             contentDescription = stringResource(id = R.string.send_action)
