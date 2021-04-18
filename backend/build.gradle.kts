@@ -15,6 +15,7 @@
  */
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.utils.addToStdlib.cast
 import java.util.Properties
 
 plugins {
@@ -39,8 +40,8 @@ val localSourceSet: SourceSet = sourceSets.create("local") {
     }
 }
 
-val bffVersion = "alpha1"
-version = bffVersion
+group = "com.cmgapps.ktor"
+version = "alpha1"
 
 appengine {
     tools {
@@ -55,9 +56,11 @@ appengine {
         }
     }
 
+    val project: Project = project
+
     deploy {
         projectId = "GCLOUD_CONFIG"
-        version = bffVersion
+        version = project.version.cast()
     }
 }
 

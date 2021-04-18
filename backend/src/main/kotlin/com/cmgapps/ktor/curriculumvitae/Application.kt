@@ -17,6 +17,7 @@
 package com.cmgapps.ktor.curriculumvitae
 
 import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
+import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
 import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
@@ -42,7 +43,6 @@ import io.ktor.request.httpVersion
 import io.ktor.response.respond
 import io.ktor.serialization.json
 import org.slf4j.event.Level
-import registerHealthCheckRoutes
 
 enum class Routes(val route: String) {
     ROOT("/"),
