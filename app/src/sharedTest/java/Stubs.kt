@@ -16,27 +16,42 @@
 
 package com.cmgapps.android.curriculumvitae.test
 
-import com.cmgapps.shared.curriculumvitae.data.network.Address
 import com.cmgapps.shared.curriculumvitae.data.network.Employment
-import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import java.time.LocalDate
 import java.time.Month
+import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
+import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
+import com.cmgapps.shared.curriculumvitae.data.network.Address as NetworkAddress
+import com.cmgapps.shared.curriculumvitae.data.network.Profile as NetworkProfile
 
-fun StubProfile() = Profile(
+fun StubNetworkProfile() = NetworkProfile(
     name = "Firstname Lastname",
-    address = Address(
+    address = NetworkAddress(
         city = "Graz",
         street = "Street 1",
-        postalCode = "8010"
+        postalCode = "8010",
     ),
     email = "me@home.at",
     intro = listOf("Line 1", "Line 2"),
     lang = "de",
     phone = "+12345678",
-    profileImageUrl = "http://image.undefined.com/image.jpeg"
+    profileImageUrl = "http://image.undefined.com/image.jpeg",
 )
 
-fun StubEmployment() = Employment(
+fun StubDomainProfile() = DomainProfile(
+    name = "Firstname Lastname",
+    email = "me@home.at",
+    intro = listOf("Line 1", "Line 2"),
+    phone = "+12345678",
+    profileImageUrl = "http://image.undefined.com/image.jpeg",
+    address = DomainAddress(
+        city = "Graz",
+        street = "Street 1",
+        postalCode = "8010",
+    ),
+)
+
+fun StubNetworkEmployment() = Employment(
     jobTitle = "Developer",
     employer = "My Company",
     startDate = LocalDate.of(2021, Month.APRIL, 17),

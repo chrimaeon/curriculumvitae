@@ -16,7 +16,10 @@
 
 package com.cmgapps.android.curriculumvitae.infra
 
-import androidx.lifecycle.liveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 sealed class Resource<out T : Any> {
     object Loading : Resource<Nothing>()
@@ -24,11 +27,19 @@ sealed class Resource<out T : Any> {
     data class Error(val error: Throwable) : Resource<Nothing>()
 }
 
-fun <T : Any> loadingResourceLiveData(block: suspend () -> T) = liveData {
-    emit(Resource.Loading)
-    try {
-        emit(Resource.Success(block()))
-    } catch (exc: Exception) {
-        emit(Resource.Error(exc))
+fun <T : Any, R : Any> (suspend () -> T).asLoadingResourceFlow(mapping: T.() -> R): Flow<Resource<R>> =
+    flow {
+        emit(Resource.Loading)
+        try {
+            emit(Resource.Success(invoke().mapping()))
+        } catch (exc: Exception) {
+            emit(Resource.Error(exc))
+        }
     }
-}
+
+fun <T : Any, R : Any> Flow<T>.asLoadingResourceFlow(mapping: T.() -> R): Flow<Resource<R>> =
+    this.catch {
+        Resource.Error(it)
+    }.map {
+        Resource.Success(it.mapping())
+    }

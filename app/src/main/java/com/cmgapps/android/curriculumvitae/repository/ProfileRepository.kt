@@ -16,10 +16,13 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
+import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.loadingResourceLiveData
+import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.asLoadingResourceFlow
+import kotlinx.coroutines.flow.Flow
 
 class ProfileRepository(private val api: CvApiService) {
-    val profile = loadingResourceLiveData { api.getProfile().asDomainModel() }
+    val profile: Flow<Resource<Profile>> = api::getProfile.asLoadingResourceFlow { asDomainModel() }
 }

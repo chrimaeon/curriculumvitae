@@ -16,8 +16,11 @@
 
 package com.cmgapps.android.curriculumvitae.data.database
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import java.time.LocalDate
@@ -25,21 +28,39 @@ import java.util.Objects
 import com.cmgapps.android.curriculumvitae.data.domain.Employment as DomainEmployment
 import com.cmgapps.shared.curriculumvitae.data.network.Employment as NetworkEmployment
 
-@Entity
+@Entity(
+    tableName = "employment"
+)
 data class Employment(
-    val jobTitle: String,
-    val employer: String,
-    val startDate: LocalDate,
     @PrimaryKey
     val id: Int,
+    @ColumnInfo(name = "job_title")
+    val jobTitle: String,
+    val employer: String,
+    @ColumnInfo(name = "start_date")
+    val startDate: LocalDate,
+    @ColumnInfo(name = "end_date")
     val endDate: LocalDate?,
     val city: String,
 )
 
-@Entity
+@Entity(
+    tableName = "description",
+    foreignKeys = [
+        ForeignKey(
+            entity = Employment::class,
+            parentColumns = ["id"],
+            childColumns = ["employment_id"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("employment_id")]
+)
 data class Description(
     @PrimaryKey
     val id: Int,
+    @ColumnInfo(name = "employment_id")
     val employmentId: Int,
     val description: String,
 )
@@ -48,7 +69,7 @@ data class EmploymentWithDescription(
     @Embedded val employment: Employment,
     @Relation(
         parentColumn = "id",
-        entityColumn = "employmentId"
+        entityColumn = "employment_id"
     )
     val description: List<Description>
 )

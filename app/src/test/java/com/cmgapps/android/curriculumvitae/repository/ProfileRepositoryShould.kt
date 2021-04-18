@@ -16,16 +16,15 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
-import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.test.InstantTaskExecutorExtension
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
-import com.cmgapps.android.curriculumvitae.test.StubProfile
-import com.cmgapps.android.curriculumvitae.test.getOrAwaitValue
-import com.cmgapps.android.curriculumvitae.test.observeForTesting
-import com.cmgapps.shared.curriculumvitae.data.network.Profile
+import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
+import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
@@ -38,48 +37,44 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@ExtendWith(value = [MockitoExtension::class, InstantTaskExecutorExtension::class, MainDispatcherExtension::class])
+@ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class ProfileRepositoryShould {
 
     @Mock
     lateinit var apiService: CvApiService
 
-    private lateinit var profile: Profile
     private lateinit var repository: ProfileRepository
 
     @BeforeEach
     fun before() {
-        profile = StubProfile()
         repository = ProfileRepository(apiService)
     }
 
     @Test
     fun `emit loading`() = runBlockingTest {
-        `when`(apiService.getProfile()).thenReturn(profile)
-
-        val resource = repository.profile.getOrAwaitValue()
+        val resource = repository.profile.first()
 
         assertThat(resource, instanceOf(Resource.Loading::class.java))
     }
 
     @Test
     fun `emit success resource`() = runBlockingTest {
-        `when`(apiService.getProfile()).thenReturn(profile)
+        `when`(apiService.getProfile()).thenReturn(StubNetworkProfile())
 
-        repository.profile.observeForTesting {
-            assertThat(repository.profile.value, instanceOf(Resource.Success::class.java))
-        }
+        val result = repository.profile.drop(1).single()
+
+        assertThat(result, instanceOf(Resource.Success::class.java))
     }
 
     @Test
     fun `emit success resource with profile`() = runBlockingTest {
-        `when`(apiService.getProfile()).thenReturn(profile)
+        `when`(apiService.getProfile()).thenReturn(StubNetworkProfile())
 
-        repository.profile.observeForTesting {
-            assertThat(
-                (repository.profile.value as Resource.Success).data,
-                `is`(profile.asDomainModel())
-            )
-        }
+        val result = repository.profile.drop(1).single()
+
+        assertThat(
+            (result as Resource.Success).data,
+            `is`(StubDomainProfile())
+        )
     }
 }

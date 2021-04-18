@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -154,8 +155,7 @@ tasks {
 @Suppress("UnstableApiUsage")
 dependencies {
     implementation(projects.shared)
-    implementation(libs.androidx.coreKtx)
-    implementation(libs.androidx.lifecycleLivedataKtx)
+    implementation(libs.bundles.androidx)
 
     implementation(libs.bundles.compose)
 

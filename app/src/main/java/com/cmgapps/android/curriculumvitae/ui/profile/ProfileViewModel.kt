@@ -17,13 +17,16 @@
 package com.cmgapps.android.curriculumvitae.ui.profile
 
 import androidx.lifecycle.ViewModel
+import com.cmgapps.android.curriculumvitae.data.domain.Profile
+import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(getProfile: GetProfileUseCase) :
     ViewModel() {
 
-    val profile = getProfile()
+    val profile: Flow<Resource<Profile>> = getProfile()
 }

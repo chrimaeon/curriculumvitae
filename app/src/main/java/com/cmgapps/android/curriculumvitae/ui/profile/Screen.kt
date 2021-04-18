@@ -36,8 +36,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +53,7 @@ import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Address
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
@@ -66,7 +67,8 @@ fun ProfileScreen(
     viewModel: ProfileViewModel,
     onEmailClick: () -> Unit
 ) {
-    val profileResource by viewModel.profile.observeAsState()
+    val profileResource by viewModel.profile.lifecycleAware()
+        .collectAsState(initial = Resource.Loading)
 
     when (profileResource) {
         is Resource.Loading -> ContentLoading()

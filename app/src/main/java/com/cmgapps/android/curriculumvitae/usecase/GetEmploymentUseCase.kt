@@ -16,11 +16,11 @@
 
 package com.cmgapps.android.curriculumvitae.usecase
 
-import androidx.lifecycle.LiveData
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
+import kotlinx.coroutines.flow.Flow
 
 class GetEmploymentUseCase(private val repo: EmploymentRepository) {
-    operator fun invoke(): LiveData<Resource<List<Employment>>> = repo.employment
+    operator fun invoke(): Flow<Resource<List<Employment>>> = repo.employment
 }

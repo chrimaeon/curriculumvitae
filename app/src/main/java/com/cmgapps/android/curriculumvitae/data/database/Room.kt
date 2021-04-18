@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data
+package com.cmgapps.android.curriculumvitae.data.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Insert
@@ -25,20 +24,17 @@ import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
 import androidx.room.TypeConverters
-import com.cmgapps.android.curriculumvitae.data.database.Converters
-import com.cmgapps.android.curriculumvitae.data.database.Description
-import com.cmgapps.android.curriculumvitae.data.database.Employment
-import com.cmgapps.android.curriculumvitae.data.database.EmploymentWithDescription
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class EmploymentDao {
 
     @Transaction
     @Query("SELECT * FROM employment")
-    abstract fun getEmployments(): LiveData<List<EmploymentWithDescription>>
+    abstract fun getEmployments(): Flow<List<EmploymentWithDescription>>
 
     @Transaction
-    open fun insertAll(employments: List<EmploymentWithDescription>) {
+    open suspend fun insertAll(employments: List<EmploymentWithDescription>) {
         employments.forEach {
             insertEmployment(it.employment)
             insertDescription(it.description)
@@ -46,10 +42,10 @@ abstract class EmploymentDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertEmployment(employment: Employment)
+    abstract suspend fun insertEmployment(employment: Employment)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertDescription(descriptions: List<Description>)
+    abstract suspend fun insertDescription(descriptions: List<Description>)
 }
 
 @Database(entities = [Employment::class, Description::class], version = 1)

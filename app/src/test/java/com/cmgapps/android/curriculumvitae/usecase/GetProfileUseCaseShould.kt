@@ -16,12 +16,14 @@
 
 package com.cmgapps.android.curriculumvitae.usecase
 
-import androidx.lifecycle.MutableLiveData
-import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
-import com.cmgapps.android.curriculumvitae.test.StubProfile
+import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
+import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
@@ -31,27 +33,27 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(MockitoExtension::class)
+@OptIn(ExperimentalCoroutinesApi::class)
+@ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 class GetProfileUseCaseShould {
 
     @Mock
     lateinit var repository: ProfileRepository
 
     private lateinit var userCase: GetProfileUseCase
-    private lateinit var profile: Profile
 
     @BeforeEach
     fun before() {
-        profile = StubProfile().asDomainModel()
         userCase = GetProfileUseCase(repository)
     }
 
     @Test
-    fun `return profile livedata`() {
-        `when`(repository.profile).thenReturn(MutableLiveData(Resource.Success(profile)))
+    fun `return profile`() = runBlockingTest {
+        val profile = StubDomainProfile()
+        `when`(repository.profile).thenReturn(flowOf(Resource.Success(profile)))
 
-        val profileLivedata = userCase()
+        val result = userCase().single() as Resource.Success
 
-        assertThat((profileLivedata.value as Resource.Success).data, `is`(profile))
+        assertThat(result.data, `is`(profile))
     }
 }

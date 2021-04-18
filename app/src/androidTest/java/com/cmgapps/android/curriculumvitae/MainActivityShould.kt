@@ -24,8 +24,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.cmgapps.android.curriculumvitae.test.StubEmployment
-import com.cmgapps.android.curriculumvitae.test.StubProfile
+import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
+import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -68,7 +68,7 @@ class MainActivityShould {
 
     @Test
     fun showProfileScreen() = with(composeTestRule) {
-        val profile = StubProfile()
+        val profile = StubNetworkProfile()
         onNodeWithText(profile.name).assertIsDisplayed()
         onNodeWithText(profile.address.street).assertIsDisplayed()
         onNodeWithText(profile.address.city, substring = true).assertIsDisplayed()
@@ -84,7 +84,7 @@ class MainActivityShould {
 
     @Test
     fun moveToWork() = with(composeTestRule) {
-        val employment = StubEmployment()
+        val employment = StubNetworkEmployment()
         onNodeWithText("Employment").assertIsDisplayed().performClick()
         onNodeWithText(employment.jobTitle).assertIsDisplayed()
         return@with

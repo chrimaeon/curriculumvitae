@@ -16,29 +16,35 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
-import com.cmgapps.android.curriculumvitae.data.EmploymentDao
+import com.cmgapps.LogTag
+import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
 import com.cmgapps.android.curriculumvitae.data.database.asDatabaseModel
 import com.cmgapps.android.curriculumvitae.data.database.asDomainModel
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.asLoadingResourceFlow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
+import java.io.IOException
 
+@LogTag
 class EmploymentRepository(
     private val api: CvApiService,
     private val employmentDao: EmploymentDao
 ) {
-    val employment: LiveData<Resource<List<Employment>>> =
-        employmentDao.getEmployments().map {
-            Resource.Success(it.asDomainModel())
-        }
+    val employment: Flow<Resource<List<Employment>>> =
+        employmentDao.getEmployments().asLoadingResourceFlow { asDomainModel() }
 
     suspend fun refreshEmployments() {
         withContext(Dispatchers.IO) {
-            employmentDao.insertAll(api.getEmployment().asDatabaseModel())
+            try {
+                employmentDao.insertAll(api.getEmployment().asDatabaseModel())
+            } catch (exc: IOException) {
+                Timber.tag(LOG_TAG).e(exc)
+            }
         }
     }
 }

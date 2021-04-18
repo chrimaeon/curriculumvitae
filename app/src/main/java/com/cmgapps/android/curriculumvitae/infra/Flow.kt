@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.usecase
+package com.cmgapps.android.curriculumvitae.infra
 
-import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import kotlinx.coroutines.flow.Flow
 
-class GetProfileUseCase(private val repo: ProfileRepository) {
-    operator fun invoke(): Flow<Resource<Profile>> = repo.profile
+@Composable
+fun <T> Flow<T>.lifecycleAware(
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    minLifecycleState: Lifecycle.State = Lifecycle.State.STARTED
+): Flow<T> = remember(this, lifecycleOwner) {
+    this.flowWithLifecycle(lifecycleOwner.lifecycle, minLifecycleState)
 }

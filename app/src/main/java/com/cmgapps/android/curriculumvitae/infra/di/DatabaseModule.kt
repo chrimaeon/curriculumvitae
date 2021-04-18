@@ -18,8 +18,8 @@ package com.cmgapps.android.curriculumvitae.infra.di
 
 import android.content.Context
 import androidx.room.Room
-import com.cmgapps.android.curriculumvitae.data.CvDatabase
-import com.cmgapps.android.curriculumvitae.data.EmploymentDao
+import com.cmgapps.android.curriculumvitae.data.database.CvDatabase
+import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

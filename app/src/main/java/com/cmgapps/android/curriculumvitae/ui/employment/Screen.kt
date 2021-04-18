@@ -28,8 +28,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -42,6 +42,7 @@ import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import dev.chrisbanes.accompanist.insets.LocalWindowInsets
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
@@ -60,7 +61,9 @@ fun EmploymentScreen(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        val employments by viewModel.employment.observeAsState(initial = Resource.Loading)
+
+        val employments by viewModel.employment.lifecycleAware()
+            .collectAsState(initial = Resource.Loading)
 
         when (employments) {
             is Resource.Loading -> ContentLoading()
@@ -118,8 +121,8 @@ private fun EmploymentCard(employment: Employment) {
                 buildString {
                     if (years > 0) {
                         append(resources.getQuantityString(R.plurals.years, years, years))
+                        append(' ')
                     }
-                    append(' ')
                     append(resources.getQuantityString(R.plurals.months, months, months))
                 }
             }
@@ -148,8 +151,8 @@ fun PreviewContent() {
                         id = 1,
                         jobTitle = "Software developer",
                         employer = "CMG Mobile Apps",
-                        startDate = LocalDate.now(),
-                        endDate = null,
+                        startDate = LocalDate.now().minusMonths(3),
+                        endDate = LocalDate.now().minusMonths(1),
                         city = "Graz",
                         description = listOf(
                             "Founder",

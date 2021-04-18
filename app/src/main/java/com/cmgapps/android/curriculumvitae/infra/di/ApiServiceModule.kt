@@ -41,7 +41,7 @@ object ApiServiceModule {
         okHttpClient: OkHttpClient,
         @Language lang: String
     ): CvApiService {
-        val interceptedClient = okHttpClient.newBuilder().addInterceptor { chain ->
+        val interceptedClient = okHttpClient.newBuilder().addNetworkInterceptor { chain ->
             val originalRequest = chain.request()
 
             originalRequest.url.newBuilder().addQueryParameter("lang", lang).build()
@@ -50,7 +50,8 @@ object ApiServiceModule {
                 }.let {
                     chain.proceed(it)
                 }
-        }.build()
+        }
+            .build()
 
         return Retrofit.Builder()
             .client(interceptedClient)

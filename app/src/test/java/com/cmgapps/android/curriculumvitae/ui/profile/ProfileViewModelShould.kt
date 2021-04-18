@@ -16,14 +16,14 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
-import androidx.lifecycle.MutableLiveData
-import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.test.InstantTaskExecutorExtension
-import com.cmgapps.android.curriculumvitae.test.StubProfile
-import com.cmgapps.android.curriculumvitae.test.getOrAwaitValue
+import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
+import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
@@ -33,23 +33,22 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(value = [MockitoExtension::class, InstantTaskExecutorExtension::class])
+@OptIn(ExperimentalCoroutinesApi::class)
+@ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class ProfileViewModelShould {
 
     @Mock
     lateinit var getProfileUseCase: GetProfileUseCase
     private lateinit var viewModel: ProfileViewModel
-    private lateinit var profile: Profile
 
     @BeforeEach
     fun beforeEach() {
-        profile = StubProfile().asDomainModel()
-        `when`(getProfileUseCase.invoke()).thenReturn(MutableLiveData(Resource.Success(profile)))
+        `when`(getProfileUseCase.invoke()).thenReturn(flowOf(Resource.Success(StubDomainProfile())))
         viewModel = ProfileViewModel(getProfileUseCase)
     }
 
     @Test
-    fun `get profile`() {
-        assertThat((viewModel.profile.getOrAwaitValue() as Resource.Success).data, `is`(profile))
+    fun `get profile`() = runBlockingTest {
+        assertThat((viewModel.profile.single() as Resource.Success).data, `is`(StubDomainProfile()))
     }
 }
