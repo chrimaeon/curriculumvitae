@@ -88,7 +88,7 @@ internal class EmploymentRepositoryShould {
     }
 
     @Nested
-    @DisplayName("refreshEmployments")
+    @DisplayName("refresh Employments")
     @ExtendWith(MainDispatcherExtension::class)
     internal inner class RefreshEmployments {
 

@@ -19,6 +19,8 @@
 package com.cmgapps.android.curriculumvitae.test
 
 import com.cmgapps.android.curriculumvitae.data.database.EmploymentWithDescription
+import com.cmgapps.android.curriculumvitae.data.datastore.Address
+import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import java.time.LocalDate
 import java.time.Month
@@ -102,3 +104,17 @@ fun StubDomainEmployment() = Employment(
     city = "Home City",
     description = listOf("stub description")
 )
+
+fun StubDataStoreProfile() = Profile.newBuilder().apply {
+    name = "Firstname Lastname"
+    address = Address.newBuilder().apply {
+        city = "Graz"
+        street = "Street 1"
+        postalCode = "8010"
+    }.build()
+    email = "me@home.at"
+    addAllIntro(listOf("Line 1", "Line 2"))
+    lang = "de"
+    phone = "+12345678"
+    profileImageUrl = "http://image.undefined.com/image.jpeg"
+}.build()

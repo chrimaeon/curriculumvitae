@@ -43,7 +43,8 @@ class ProfileRepository(
     suspend fun refreshProfile() {
         withContext(coroutineContext) {
             try {
-                profileDataStore.updateData { api.getProfile().asDataStoreModel() }
+                val profile = api.getProfile()
+                profileDataStore.updateData { profile.asDataStoreModel() }
             } catch (exc: Exception) {
                 Timber.tag(LOG_TAG).e(exc)
             }

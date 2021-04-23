@@ -20,6 +20,7 @@ import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
+import com.cmgapps.android.curriculumvitae.usecase.RefreshProfileUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 
@@ -39,16 +41,25 @@ internal class ProfileViewModelShould {
 
     @Mock
     lateinit var getProfileUseCase: GetProfileUseCase
+
+    @Mock
+    lateinit var refreshProfileUseCase: RefreshProfileUseCase
+
     private lateinit var viewModel: ProfileViewModel
 
     @BeforeEach
     fun beforeEach() {
         `when`(getProfileUseCase.invoke()).thenReturn(flowOf(Resource.Success(StubDomainProfile())))
-        viewModel = ProfileViewModel(getProfileUseCase)
+        viewModel = ProfileViewModel(getProfileUseCase, refreshProfileUseCase)
     }
 
     @Test
     fun `get profile`() = runBlockingTest {
         assertThat((viewModel.profile.single() as Resource.Success).data, `is`(StubDomainProfile()))
+    }
+
+    @Test
+    fun `refresh profile`() = runBlockingTest {
+        Mockito.verify(refreshProfileUseCase).invoke()
     }
 }

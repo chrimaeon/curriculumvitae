@@ -16,24 +16,31 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
+import androidx.datastore.core.DataStore
+import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
+import com.cmgapps.android.curriculumvitae.test.StubDataStoreProfile
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
 import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.instanceOf
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.any
+import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,38 +50,57 @@ internal class ProfileRepositoryShould {
     @Mock
     lateinit var apiService: CvApiService
 
+    @Mock
+    lateinit var dataStore: DataStore<Profile?>
+
     private lateinit var repository: ProfileRepository
 
     @BeforeEach
     fun before() {
-        repository = ProfileRepository(apiService)
+        `when`(dataStore.data).thenReturn(flowOf(StubDataStoreProfile()))
+        repository = ProfileRepository(apiService, dataStore, TestCoroutineDispatcher())
     }
 
-    @Test
-    fun `emit loading`() = runBlockingTest {
-        val resource = repository.profile.first()
+    @Nested
+    @DisplayName("profile flow")
+    internal inner class ProfileFlow {
 
-        assertThat(resource, instanceOf(Resource.Loading::class.java))
+        @Test
+        fun `emit success`() = runBlockingTest {
+
+            val result = repository.profile.single()
+            assertThat(result, instanceOf(Resource.Success::class.java))
+        }
+
+        @Test
+        fun `emit employments`() = runBlockingTest {
+
+            val result = repository.profile.single()
+            assertThat(
+                (result as Resource.Success).data,
+                `is`(StubDomainProfile())
+            )
+        }
     }
 
-    @Test
-    fun `emit success resource`() = runBlockingTest {
-        `when`(apiService.getProfile()).thenReturn(StubNetworkProfile())
+    @Nested
+    @DisplayName("refresh Profile")
+    @ExtendWith(MainDispatcherExtension::class)
+    internal inner class RefreshProfile {
 
-        val result = repository.profile.drop(1).single()
+        @Test
+        fun `call getProfile`() = runBlockingTest {
+            `when`(apiService.getProfile()).thenReturn(StubNetworkProfile())
 
-        assertThat(result, instanceOf(Resource.Success::class.java))
-    }
+            repository.refreshProfile()
+            verify(apiService).getProfile()
+        }
 
-    @Test
-    fun `emit success resource with profile`() = runBlockingTest {
-        `when`(apiService.getProfile()).thenReturn(StubNetworkProfile())
+        fun `update data store`() = runBlockingTest {
+            `when`(apiService.getProfile()).thenReturn(StubNetworkProfile())
 
-        val result = repository.profile.drop(1).single()
-
-        assertThat(
-            (result as Resource.Success).data,
-            `is`(StubDomainProfile())
-        )
+            repository.refreshProfile()
+            verify(dataStore).updateData(any())
+        }
     }
 }
