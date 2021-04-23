@@ -37,9 +37,13 @@ fun <T : Any, R : Any> (suspend () -> T).asLoadingResourceFlow(mapping: T.() -> 
         }
     }
 
-fun <T : Any, R : Any> Flow<T>.asLoadingResourceFlow(mapping: T.() -> R): Flow<Resource<R>> =
-    this.catch {
-        Resource.Error(it)
-    }.map {
-        Resource.Success(it.mapping())
+fun <T : Any, R : Any> Flow<T?>.asLoadingResourceFlow(mapping: T.() -> R): Flow<Resource<R>> =
+    this.map {
+        if (it == null) {
+            Resource.Loading
+        } else {
+            Resource.Success(it.mapping())
+        }
+    }.catch {
+        emit(Resource.Error(it))
     }

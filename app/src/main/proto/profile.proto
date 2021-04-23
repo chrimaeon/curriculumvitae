@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+syntax = "proto3";
 
-data class Profile(
-    val name: String,
-    val phone: String,
-    val profileImageUrl: String,
-    val address: Address,
-    val email: String,
-    val intro: List<String>,
-)
+option java_package = "com.cmgapps.android.curriculumvitae.data.datastore";
+option java_multiple_files = true;
 
-data class Address(val street: String, val city: String, val postalCode: String)
+message Profile {
+  string name = 1;
+  string phone = 2;
+  string profile_image_url = 3;
+  Address address = 4;
+  string email = 5;
+  repeated string intro = 6;
+  string lang = 7;
+}
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string postal_code = 3;
+}

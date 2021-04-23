@@ -26,33 +26,39 @@ import kotlin.io.path.Path
 import kotlin.io.path.div
 
 @OptIn(ExperimentalPathApi::class)
-val toml: TomlParseResult = with(Path(System.getProperty("user.dir")) / "gradle" / "libs.versions.toml") {
-    Toml.parse(toFile().inputStream()).apply {
-        if (hasErrors()) {
-            errors().forEach { error -> System.err.println(error.toString()) }
-            throw RuntimeException()
+private val toml: TomlParseResult =
+    with(Path(System.getProperty("user.dir")) / "gradle" / "libs.versions.toml") {
+        Toml.parse(toFile().inputStream()).apply {
+            if (hasErrors()) {
+                errors().forEach { error -> System.err.println(error.toString()) }
+                throw RuntimeException()
+            }
         }
     }
-}
 
-val hiltVersion = toml.getString("versions.hilt")
+val protobufPluginVersion = toml.getString("versions.plugin-protobuf")
 val kotlinVersion = toml.getString("versions.kotlin")
+val ktlintVersion = toml.getString("versions.ktlint")
 
 object Plugins {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha14"
-    val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
-    const val appEngine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.1"
+    val androidGradlePlugin =
+        "com.android.tools.build:gradle:" + toml.getString("versions.plugin-androidGradle")
+    val kotlinGradlePlugin =
+        "org.jetbrains.kotlin:kotlin-gradle-plugin:" + toml.getString("versions.kotlin")
+    val hiltGradlePlugin =
+        "com.google.dagger:hilt-android-gradle-plugin:" + toml.getString("versions.hilt")
+    val appEngine =
+        "com.google.cloud.tools:appengine-gradle-plugin:" + toml.getString("versions.plugin-appEngine")
 }
 
 object Libs {
     object Misc {
-        const val ktlint = "com.pinterest:ktlint:0.41.0"
+        val ktlint = "com.pinterest:ktlint:$ktlintVersion"
     }
 }
 
 val PluginDependenciesSpec.benManesVersions: PluginDependencySpec
-    get() = id("com.github.ben-manes.versions") version "0.38.0"
+    get() = id("com.github.ben-manes.versions") version toml.getString("versions.plugin-benManesVersions")
 
 val PluginDependenciesSpec.ktlint: PluginDependencySpec
     get() = id("com.cmgapps.gradle.ktlint")

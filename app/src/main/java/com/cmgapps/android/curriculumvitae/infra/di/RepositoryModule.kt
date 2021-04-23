@@ -16,7 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
+import androidx.datastore.core.DataStore
 import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
+import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
@@ -30,7 +32,7 @@ import dagger.hilt.components.SingletonComponent
 object RepositoryModule {
 
     @Provides
-    fun provideProfileRepository(api: CvApiService) = ProfileRepository(api)
+    fun provideProfileRepository(api: CvApiService, datastore: DataStore<Profile?>) = ProfileRepository(api, datastore)
 
     @Provides
     fun provideEmploymentRepository(api: CvApiService, employmentDao: EmploymentDao) = EmploymentRepository(api, employmentDao)

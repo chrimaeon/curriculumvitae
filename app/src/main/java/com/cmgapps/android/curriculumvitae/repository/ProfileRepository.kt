@@ -16,13 +16,37 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
-import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.data.domain.asDomainModel
+import androidx.datastore.core.DataStore
+import com.cmgapps.LogTag
+import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
+import com.cmgapps.android.curriculumvitae.data.datastore.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.infra.asLoadingResourceFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
+import timber.log.Timber
+import kotlin.coroutines.CoroutineContext
+import com.cmgapps.android.curriculumvitae.data.datastore.Profile as DataStoreProfile
+import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
 
-class ProfileRepository(private val api: CvApiService) {
-    val profile: Flow<Resource<Profile>> = api::getProfile.asLoadingResourceFlow { asDomainModel() }
+@LogTag
+class ProfileRepository(
+    private val api: CvApiService,
+    private val profileDataStore: DataStore<DataStoreProfile?>,
+    private val coroutineContext: CoroutineContext = Dispatchers.IO
+) {
+    val profile: Flow<Resource<DomainProfile>> =
+        profileDataStore.data.asLoadingResourceFlow { asDomainModel() }
+
+    suspend fun refreshProfile() {
+        withContext(coroutineContext) {
+            try {
+                profileDataStore.updateData { api.getProfile().asDataStoreModel() }
+            } catch (exc: Exception) {
+                Timber.tag(LOG_TAG).e(exc)
+            }
+        }
+    }
 }

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.android.curriculumvitae.usecase
 
-data class Profile(
-    val name: String,
-    val phone: String,
-    val profileImageUrl: String,
-    val address: Address,
-    val email: String,
-    val intro: List<String>,
-)
+import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 
-data class Address(val street: String, val city: String, val postalCode: String)
+class RefreshProfileUseCase(private val profileRepository: ProfileRepository) {
+
+    suspend operator fun invoke() {
+        profileRepository.refreshProfile()
+    }
+}

@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -15,7 +14,13 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.div
 
 plugins {
     id("com.android.application")
@@ -24,13 +29,15 @@ plugins {
     kotlin("plugin.serialization") version kotlinVersion
     ktlint
     id("dagger.hilt.android.plugin")
+    id("com.google.protobuf") version protobufPluginVersion
 }
 
-val xorDirPath = buildDir.resolve("generated/source/xor")
+@OptIn(ExperimentalPathApi::class)
+val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
     compileSdkVersion(30)
-    buildToolsVersion("30.0.3")
+    buildToolsVersion ="30.0.3"
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
@@ -131,6 +138,22 @@ android {
     }
 }
 
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:" + libs.versions.protobuf.get()
+    }
+
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                id("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
 tasks {
     val generateEmailAddress by registering {
         val outputDir = xorDirPath
@@ -143,7 +166,7 @@ tasks {
         outputs.dir(outputDir)
 
         doLast {
-            generateEmailAddress(email, packageName, outputDir)
+            generateEmailAddress(email, packageName, outputDir.toFile())
         }
     }
 
@@ -178,6 +201,7 @@ dependencies {
     implementation(libs.retrofit2.retrofit)
     implementation(libs.retrofit2.kotlinxSerialization)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.protobuf.javalite)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
