@@ -5,6 +5,8 @@
 !/.idea/codeStyles
 !/.idea/copyright
 !/.idea/inspectionProfiles
+!/.idea/.name
+!/.idea/icon*.png
 .DS_Store
 /build
 /captures
