@@ -33,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -47,6 +48,9 @@ import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.toPaddingValues
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import java.time.LocalDate
 import java.time.Period
 import kotlin.time.ExperimentalTime
@@ -66,33 +70,55 @@ fun EmploymentScreen(
             .collectAsState(initial = Resource.Loading)
 
         when (employments) {
-            is Resource.Loading -> ContentLoading()
+            Resource.Loading -> ContentLoading()
             is Resource.Error -> ContentError((employments as Resource.Error).error)
             is Resource.Success -> Content(
-                (employments as Resource.Success<List<Employment>>).data,
-                bottomContentPadding
+                employments = (employments as Resource.Success<List<Employment>>).data,
+                isRefreshing = viewModel.isRefreshing,
+                onRefresh = {
+                    viewModel.refresh()
+                },
+                bottomContentPadding = bottomContentPadding
             )
         }
     }
 }
 
 @Composable
-private fun Content(employments: List<Employment>, bottomContentPadding: Dp) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
-        contentPadding = LocalWindowInsets.current.systemBars.toPaddingValues(
-            bottom = false,
-            additionalTop = 8.dp,
-            additionalBottom = bottomContentPadding,
-            additionalStart = 2.dp,
-            additionalEnd = 2.dp
-        )
+private fun Content(
+    employments: List<Employment>,
+    isRefreshing: Boolean = false,
+    onRefresh: () -> Unit = {},
+    bottomContentPadding: Dp
+) {
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing),
+        onRefresh = onRefresh,
+        indicator = { state, trigger ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = trigger,
+                contentColor = MaterialTheme.colors.secondaryVariant,
+                refreshingOffset = with(LocalDensity.current) { LocalWindowInsets.current.statusBars.top.toDp() + 16.dp }
+            )
+        }
     ) {
-        items(employments, key = { it.id }) { employment ->
-            EmploymentCard(employment = employment)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+            contentPadding = LocalWindowInsets.current.systemBars.toPaddingValues(
+                bottom = false,
+                additionalTop = 8.dp,
+                additionalBottom = bottomContentPadding,
+                additionalStart = 2.dp,
+                additionalEnd = 2.dp
+            )
+        ) {
+            items(employments, key = { it.id }) { employment ->
+                EmploymentCard(employment = employment)
+            }
         }
     }
 }

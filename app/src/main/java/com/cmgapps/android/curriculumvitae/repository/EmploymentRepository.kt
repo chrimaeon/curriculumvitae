@@ -25,6 +25,7 @@ import com.cmgapps.android.curriculumvitae.infra.CvApiService
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.infra.asLoadingResourceFlow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -43,6 +44,7 @@ class EmploymentRepository(
     suspend fun refreshEmployments() {
         withContext(coroutineContext) {
             try {
+                delay(3000)
                 employmentDao.insertAll(api.getEmployment().asDatabaseModel())
             } catch (exc: IOException) {
                 Timber.tag(LOG_TAG).e(exc)

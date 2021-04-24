@@ -30,7 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EmploymentViewModel @Inject constructor(
     getEmploymentUseCase: GetEmploymentUseCase,
-    refreshEmploymentUseCase: RefreshEmploymentUseCase
+    private val refreshEmploymentUseCase: RefreshEmploymentUseCase
 ) : ViewModel() {
 
     val employment = getEmploymentUseCase()
@@ -38,11 +38,15 @@ class EmploymentViewModel @Inject constructor(
     var isRefreshing by mutableStateOf(false)
         private set
 
-    init {
+    fun refresh() {
         viewModelScope.launch {
             isRefreshing = true
             refreshEmploymentUseCase()
             isRefreshing = false
         }
+    }
+
+    init {
+        refresh()
     }
 }
