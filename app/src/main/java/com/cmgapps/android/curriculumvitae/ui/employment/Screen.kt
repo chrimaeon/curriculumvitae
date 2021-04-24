@@ -44,9 +44,9 @@ import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import dev.chrisbanes.accompanist.insets.LocalWindowInsets
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.toPaddingValues
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.toPaddingValues
 import java.time.LocalDate
 import java.time.Period
 import kotlin.time.ExperimentalTime

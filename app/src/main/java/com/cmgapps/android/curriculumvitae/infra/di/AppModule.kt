@@ -22,6 +22,7 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import coil.ImageLoader
 import coil.util.CoilUtils
+import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.data.datastore.ProfileDataStoreSerializer
 import dagger.Module
@@ -51,6 +52,15 @@ object AppModule {
         val cachedClient =
             okHttpClient.newBuilder()
                 .cache(CoilUtils.createDefaultCache(context))
+                .apply {
+                    if (BuildConfig.DEBUG) {
+                        // Simulate loading
+                        addInterceptor { chain ->
+                            Thread.sleep(2000)
+                            chain.proceed(chain.request())
+                        }
+                    }
+                }
                 .build()
         return ImageLoader.Builder(context)
             .okHttpClient(cachedClient)

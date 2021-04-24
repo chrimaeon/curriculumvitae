@@ -16,6 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
@@ -32,9 +35,14 @@ class EmploymentViewModel @Inject constructor(
 
     val employment = getEmploymentUseCase()
 
+    var isRefreshing by mutableStateOf(false)
+        private set
+
     init {
         viewModelScope.launch {
+            isRefreshing = true
             refreshEmploymentUseCase()
+            isRefreshing = false
         }
     }
 }

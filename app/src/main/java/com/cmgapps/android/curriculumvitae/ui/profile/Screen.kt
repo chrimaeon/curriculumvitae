@@ -19,12 +19,14 @@ package com.cmgapps.android.curriculumvitae.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -55,10 +57,11 @@ import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.LocalWindowInsets
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.toPaddingValues
+import com.google.accompanist.coil.rememberCoilPainter
+import com.google.accompanist.imageloading.ImageLoadState
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.toPaddingValues
 
 @Composable
 fun ProfileScreen(
@@ -165,26 +168,34 @@ private fun Header(
 
 @Composable
 private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
-    val clip = Modifier.clip(CircleShape)
-    CoilImage(
+    val coilPainter = rememberCoilPainter(
+        request = profile.profileImageUrl,
+        fadeIn = true,
+    )
+    Box(
         modifier = modifier
             .width(imageSize)
             .height(imageSize)
-            .then(
-                clip
-            ),
-        data = profile.profileImageUrl,
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        loading = {
-            ShimmerLoading(
-                modifier = clip
-                    .matchParentSize(),
-                color = MaterialTheme.colors.onBackground
-            )
-        },
-        fadeIn = true,
-    )
+            .clip(CircleShape)
+    ) {
+        Image(
+            painter = coilPainter,
+            modifier = Modifier.fillMaxSize(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+
+        when (coilPainter.loadState) {
+            ImageLoadState.Loading ->
+                ShimmerLoading(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.onBackground
+                )
+            else -> {
+                // Do nothing
+            }
+        }
+    }
 }
 
 @Composable
@@ -246,6 +257,13 @@ private fun Context.onTelClick(phoneNumber: String) {
 }
 
 // region Previews
+
+private const val name = "Firstname Lastname"
+private const val phone = "+43123456789"
+private const val profileImageUrl = "http://"
+private val address = Address("Street 1", "Graz", "8010")
+private const val email = "me@home.at"
+
 @Preview(name = "Content", widthDp = 320, heightDp = 640)
 @Composable
 fun PreviewContent() {
@@ -253,12 +271,12 @@ fun PreviewContent() {
         ProvideWindowInsets {
             Content(
                 profile = Profile(
-                    name = "Firstname Lastname",
-                    phone = "+43123456789",
-                    profileImageUrl = "http://",
+                    name = name,
+                    phone = phone,
+                    profileImageUrl = profileImageUrl,
                     intro = listOf("Line1", "Line2"),
-                    address = Address("Street 1", "Graz", "8010"),
-                    email = "me@home.at",
+                    address = address,
+                    email = email,
                 ),
                 onEmailClick = {}
             )
@@ -273,12 +291,12 @@ fun PreviewLandscapeContent() {
         ProvideWindowInsets {
             Content(
                 profile = Profile(
-                    name = "Firstname Lastname",
-                    phone = "+43123456789",
-                    profileImageUrl = "http://",
+                    name = name,
+                    phone = phone,
+                    profileImageUrl = profileImageUrl,
                     intro = listOf("Line1", "Line2"),
-                    address = Address("Street 1", "Graz", "8010"),
-                    email = "me@home.at",
+                    address = address,
+                    email = email,
                 ),
                 onEmailClick = {}
             )
@@ -296,12 +314,12 @@ fun PreviewDarkContent() {
         ProvideWindowInsets {
             Content(
                 profile = Profile(
-                    name = "Firstname Lastname",
-                    phone = "+43123456789",
-                    profileImageUrl = "http://",
+                    name = name,
+                    phone = phone,
+                    profileImageUrl = profileImageUrl,
                     intro = listOf("Line1", "Line2"),
-                    address = Address("Street 1", "Graz", "8010"),
-                    email = "me@home.at",
+                    address = address,
+                    email = email,
                 ),
                 onEmailClick = {}
             )

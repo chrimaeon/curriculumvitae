@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.KEY_ROUTE
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -54,8 +55,8 @@ import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentViewModel
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileViewModel
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
-import dev.chrisbanes.accompanist.insets.LocalWindowInsets
-import dev.chrisbanes.accompanist.insets.toPaddingValues
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.toPaddingValues
 
 @Composable
 fun MainScreen(
@@ -69,58 +70,7 @@ fun MainScreen(
         floatingActionButton = { Fab(onFabClick) },
         isFloatingActionButtonDocked = true,
         bottomBar = {
-            BottomAppBar(
-                backgroundColor = MaterialTheme.colors.surface,
-                elevation = BottomNavigationDefaults.Elevation,
-                contentColor = MaterialTheme.colors.primary,
-                contentPadding = LocalWindowInsets.current.navigationBars.toPaddingValues(
-                    additionalEnd = (56 + 16).dp
-                ),
-                cutoutShape = CircleShape
-            ) {
-                BottomNavigation(
-                    backgroundColor = Color.Transparent,
-                    elevation = 0.dp,
-                ) {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
-                    screens.forEach { screen ->
-                        val selected = currentRoute == screen.route
-                        val iconState = if (selected) IconState.Selected else IconState.Default
-
-                        BottomNavigationItem(
-                            icon = {
-                                Icon(
-                                    imageVector = screen.icon[iconState],
-                                    contentDescription = null
-                                )
-                            },
-                            label = {
-                                Text(
-                                    fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
-                                    text = stringResource(id = screen.labelRes)
-                                )
-                            },
-                            selected = selected,
-                            onClick = onClick@{
-                                if (screen.route == currentRoute) {
-                                    return@onClick
-                                }
-
-                                navController.navigate(screen.route) {
-                                    popUpTo(
-                                        navBackStackEntry?.destination?.id
-                                            ?: navController.graph.startDestination
-                                    ) {
-                                        inclusive = true
-                                    }
-                                    launchSingleTop = true
-                                }
-                            }
-                        )
-                    }
-                }
-            }
+            BottomBar(navController = navController)
         }
     ) { innerPadding ->
         val modifier = Modifier.padding(innerPadding)
@@ -149,6 +99,62 @@ fun MainScreen(
 }
 
 val FabTopKnobPadding = 40.dp
+
+@Composable
+fun BottomBar(navController: NavController) {
+    BottomAppBar(
+        backgroundColor = MaterialTheme.colors.surface,
+        elevation = BottomNavigationDefaults.Elevation,
+        contentColor = MaterialTheme.colors.primary,
+        contentPadding = LocalWindowInsets.current.navigationBars.toPaddingValues(
+            additionalEnd = (56 + 16).dp
+        ),
+        cutoutShape = CircleShape
+    ) {
+        BottomNavigation(
+            backgroundColor = Color.Transparent,
+            elevation = 0.dp,
+        ) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+            screens.forEach { screen ->
+                val selected = currentRoute == screen.route
+                val iconState = if (selected) IconState.Selected else IconState.Default
+
+                BottomNavigationItem(
+                    icon = {
+                        Icon(
+                            imageVector = screen.icon[iconState],
+                            contentDescription = null
+                        )
+                    },
+                    label = {
+                        Text(
+                            fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
+                            text = stringResource(id = screen.labelRes)
+                        )
+                    },
+                    selected = selected,
+                    onClick = onClick@{
+                        if (screen.route == currentRoute) {
+                            return@onClick
+                        }
+
+                        navController.navigate(screen.route) {
+                            popUpTo(
+                                navBackStackEntry?.destination?.id
+                                    ?: navController.graph.startDestination
+                            ) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun Fab(onClick: () -> Unit = {}) {

@@ -1,5 +1,5 @@
 [versions]
-accompanist = "0.6.2"
+accompanist = "0.8.1"
 compose = "1.0.0-beta05"
 gradle = "7.0"
 hilt = "2.35"
@@ -39,8 +39,9 @@ compose-viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha0
 compose-navigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
 compose-constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
 
-accompanist-insets = { module = "dev.chrisbanes.accompanist:accompanist-insets", version.ref = "accompanist" }
-accompanist-coil = { module = "dev.chrisbanes.accompanist:accompanist-coil", version.ref = "accompanist" }
+accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
+accompanist-coil = { module = "com.google.accompanist:accompanist-coil", version.ref = "accompanist" }
+accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
@@ -101,5 +102,5 @@ compose = [
   "compose-navigation",
   "compose-constraintLayout"
 ]
-accompanist = ["accompanist-insets", "accompanist-coil"]
+accompanist = ["accompanist-insets", "accompanist-coil", "accompanist-swiperefresh"]
 androidx = ["androidx-coreKtx", "androidx-lifecycleRuntimeKtx", "androidx-datastore"]
