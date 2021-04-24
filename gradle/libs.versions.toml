@@ -42,6 +42,7 @@ compose-constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
 accompanist-coil = { module = "com.google.accompanist:accompanist-coil", version.ref = "accompanist" }
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
@@ -102,5 +103,14 @@ compose = [
   "compose-navigation",
   "compose-constraintLayout"
 ]
-accompanist = ["accompanist-insets", "accompanist-coil", "accompanist-swiperefresh"]
-androidx = ["androidx-coreKtx", "androidx-lifecycleRuntimeKtx", "androidx-datastore"]
+accompanist = [
+  "accompanist-insets",
+  "accompanist-coil",
+  "accompanist-swiperefresh",
+  "accompanist-systemuicontroller"
+]
+androidx = [
+  "androidx-coreKtx",
+  "androidx-lifecycleRuntimeKtx",
+  "androidx-datastore",
+]

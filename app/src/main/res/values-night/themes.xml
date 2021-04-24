@@ -17,5 +17,5 @@
   -->
 
 <resources>
-    <style name="Theme.CurriculumVitae.Base" parent="android:Theme.Material.NoActionBar" />
+    <style name="Theme.CurriculumVitae" parent="android:Theme.Material.NoActionBar" />
 </resources>
