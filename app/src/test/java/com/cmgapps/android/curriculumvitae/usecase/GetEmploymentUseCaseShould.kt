@@ -16,7 +16,6 @@
 
 package com.cmgapps.android.curriculumvitae.usecase
 
-import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
@@ -50,9 +49,9 @@ internal class GetEmploymentUseCaseShould {
     @Test
     fun `return employments`() = runBlockingTest {
         val employments = listOf(StubDomainEmployment())
-        `when`(repository.employment).thenReturn(flowOf(Resource.Success(employments)))
+        `when`(repository.employment).thenReturn(flowOf(employments))
 
-        val result = useCase().single() as Resource.Success
-        assertThat(result.data, `is`(employments))
+        val result = useCase().single()
+        assertThat(result, `is`(employments))
     }
 }

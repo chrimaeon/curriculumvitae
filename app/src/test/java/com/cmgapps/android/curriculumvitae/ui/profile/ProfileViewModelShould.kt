@@ -16,7 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
-import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
@@ -49,13 +49,13 @@ internal class ProfileViewModelShould {
 
     @BeforeEach
     fun beforeEach() {
-        `when`(getProfileUseCase.invoke()).thenReturn(flowOf(Resource.Success(StubDomainProfile())))
+        `when`(getProfileUseCase.invoke()).thenReturn(flowOf(StubDomainProfile()))
         viewModel = ProfileViewModel(getProfileUseCase, refreshProfileUseCase)
     }
 
     @Test
     fun `get profile`() = runBlockingTest {
-        assertThat((viewModel.profile.single() as Resource.Success).data, `is`(StubDomainProfile()))
+        assertThat((viewModel.profile.single() as UiState.Success).data, `is`(StubDomainProfile()))
     }
 
     @Test

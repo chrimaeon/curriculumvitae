@@ -16,7 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
-import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentViewModel
@@ -51,7 +51,7 @@ internal class EmploymentViewModelShould {
     @BeforeEach
     fun beforeEach() {
         `when`(getEmploymentUseCase.invoke())
-            .thenReturn(flowOf(Resource.Success(listOf(StubDomainEmployment()))))
+            .thenReturn(flowOf(listOf(StubDomainEmployment())))
 
         viewModel = EmploymentViewModel(getEmploymentUseCase, refreshEmploymentUseCase)
     }
@@ -60,7 +60,7 @@ internal class EmploymentViewModelShould {
     fun `return employments`() = runBlockingTest {
         val result = viewModel.employment.single()
 
-        assertThat((result as Resource.Success).data, `is`(listOf(StubDomainEmployment())))
+        assertThat((result as UiState.Success).data, `is`(listOf(StubDomainEmployment())))
     }
 
     @Test

@@ -21,9 +21,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cmgapps.android.curriculumvitae.data.domain.Employment
+import com.cmgapps.android.curriculumvitae.infra.UiState
+import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +37,7 @@ class EmploymentViewModel @Inject constructor(
     private val refreshEmploymentUseCase: RefreshEmploymentUseCase
 ) : ViewModel() {
 
-    val employment = getEmploymentUseCase()
+    val employment: Flow<UiState<List<Employment>>> = getEmploymentUseCase().asUiStateFlow()
 
     var isRefreshing by mutableStateOf(false)
         private set

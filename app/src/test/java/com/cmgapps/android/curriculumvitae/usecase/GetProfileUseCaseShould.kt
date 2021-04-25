@@ -16,7 +16,6 @@
 
 package com.cmgapps.android.curriculumvitae.usecase
 
-import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
@@ -50,10 +49,10 @@ internal class GetProfileUseCaseShould {
     @Test
     fun `return profile`() = runBlockingTest {
         val profile = StubDomainProfile()
-        `when`(repository.profile).thenReturn(flowOf(Resource.Success(profile)))
+        `when`(repository.profile).thenReturn(flowOf(profile))
 
-        val result = userCase().single() as Resource.Success
+        val result = userCase().single()
 
-        assertThat(result.data, `is`(profile))
+        assertThat(result, `is`(profile))
     }
 }

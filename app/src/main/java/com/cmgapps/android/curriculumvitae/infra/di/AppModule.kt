@@ -17,14 +17,9 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.dataStoreFile
 import coil.ImageLoader
 import coil.util.CoilUtils
 import com.cmgapps.android.curriculumvitae.BuildConfig
-import com.cmgapps.android.curriculumvitae.data.datastore.Profile
-import com.cmgapps.android.curriculumvitae.data.datastore.ProfileDataStoreSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,13 +61,4 @@ object AppModule {
             .okHttpClient(cachedClient)
             .build()
     }
-
-    @Singleton
-    @Provides
-    fun provideProfileDataStore(@ApplicationContext context: Context): DataStore<Profile?> =
-        DataStoreFactory.create(
-            ProfileDataStoreSerializer
-        ) {
-            context.dataStoreFile("profile.pb")
-        }
 }

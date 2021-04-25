@@ -53,7 +53,7 @@ import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Address
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.google.accompanist.coil.rememberCoilPainter
@@ -70,17 +70,17 @@ fun ProfileScreen(
     onEmailClick: () -> Unit
 ) {
     val profileResource by viewModel.profile.lifecycleAware()
-        .collectAsState(initial = Resource.Loading)
+        .collectAsState(initial = UiState.Loading)
 
     when (profileResource) {
-        is Resource.Loading -> ContentLoading()
-        is Resource.Success -> Content(
+        UiState.Loading -> ContentLoading()
+        is UiState.Success -> Content(
             modifier = modifier,
+            profile = (profileResource as UiState.Success<Profile>).data,
+            onEmailClick = onEmailClick,
             bottomContentPadding = bottomContentPadding,
-            profile = (profileResource as Resource.Success<Profile>).data,
-            onEmailClick = onEmailClick
         )
-        is Resource.Error -> ContentError((profileResource as Resource.Error).error)
+        is UiState.Error -> ContentError((profileResource as UiState.Error).error)
     }
 }
 
@@ -172,7 +172,8 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
         fadeIn = true,
     )
     Box(
-        modifier = modifier.size(imageSize)
+        modifier = modifier
+            .size(imageSize)
             .clip(CircleShape)
     ) {
         Image(

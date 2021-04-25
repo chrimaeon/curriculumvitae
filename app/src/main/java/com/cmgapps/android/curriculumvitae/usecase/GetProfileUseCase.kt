@@ -17,10 +17,9 @@
 package com.cmgapps.android.curriculumvitae.usecase
 
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetProfileUseCase(private val repo: ProfileRepository) {
-    operator fun invoke(): Flow<Resource<Profile>> = repo.profile
+    operator fun invoke(): Flow<Profile?> = repo.profile
 }

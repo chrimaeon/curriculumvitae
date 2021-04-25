@@ -22,10 +22,9 @@ import com.cmgapps.android.curriculumvitae.data.database.asDatabaseModel
 import com.cmgapps.android.curriculumvitae.data.database.asDomainModel
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.infra.asLoadingResourceFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
@@ -37,8 +36,8 @@ class EmploymentRepository(
     private val employmentDao: EmploymentDao,
     private val coroutineContext: CoroutineContext = Dispatchers.IO
 ) {
-    val employment: Flow<Resource<List<Employment>>> =
-        employmentDao.getEmployments().asLoadingResourceFlow { asDomainModel() }
+    val employment: Flow<List<Employment>> =
+        employmentDao.getEmployments().map { it.asDomainModel() }
 
     suspend fun refreshEmployments() {
         withContext(coroutineContext) {

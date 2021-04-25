@@ -42,7 +42,7 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.google.accompanist.insets.LocalWindowInsets
@@ -67,13 +67,13 @@ fun EmploymentScreen(
     ) {
 
         val employments by viewModel.employment.lifecycleAware()
-            .collectAsState(initial = Resource.Loading)
+            .collectAsState(initial = UiState.Loading)
 
         when (employments) {
-            Resource.Loading -> ContentLoading()
-            is Resource.Error -> ContentError((employments as Resource.Error).error)
-            is Resource.Success -> Content(
-                employments = (employments as Resource.Success<List<Employment>>).data,
+            UiState.Loading -> ContentLoading()
+            is UiState.Error -> ContentError((employments as UiState.Error).error)
+            is UiState.Success -> Content(
+                employments = (employments as UiState.Success<List<Employment>>).data,
                 isRefreshing = viewModel.isRefreshing,
                 onRefresh = {
                     viewModel.refresh()

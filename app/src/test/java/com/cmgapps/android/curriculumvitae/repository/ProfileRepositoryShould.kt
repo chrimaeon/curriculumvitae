@@ -19,7 +19,6 @@ package com.cmgapps.android.curriculumvitae.repository
 import androidx.datastore.core.DataStore
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDataStoreProfile
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
@@ -31,7 +30,6 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.instanceOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -66,18 +64,11 @@ internal class ProfileRepositoryShould {
     internal inner class ProfileFlow {
 
         @Test
-        fun `emit success`() = runBlockingTest {
-
-            val result = repository.profile.single()
-            assertThat(result, instanceOf(Resource.Success::class.java))
-        }
-
-        @Test
         fun `emit employments`() = runBlockingTest {
 
             val result = repository.profile.single()
             assertThat(
-                (result as Resource.Success).data,
+                result,
                 `is`(StubDomainProfile())
             )
         }

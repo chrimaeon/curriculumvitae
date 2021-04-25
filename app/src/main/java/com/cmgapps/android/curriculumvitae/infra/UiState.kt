@@ -21,29 +21,31 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-sealed class Resource<out T : Any> {
-    object Loading : Resource<Nothing>()
-    data class Success<out T : Any>(val data: T) : Resource<T>()
-    data class Error(val error: Throwable) : Resource<Nothing>()
+sealed class UiState<out T : Any> {
+    object Loading : UiState<Nothing>()
+    data class Success<out T : Any>(val data: T) : UiState<T>()
+    data class Error(val error: Throwable) : UiState<Nothing>()
 }
 
-fun <T : Any, R : Any> (suspend () -> T).asLoadingResourceFlow(mapping: T.() -> R): Flow<Resource<R>> =
+fun <T : Any, R : Any> (suspend () -> T).asUiStateFlow(mapping: T.() -> R): Flow<UiState<R>> =
     flow {
-        emit(Resource.Loading)
+        emit(UiState.Loading)
         try {
-            emit(Resource.Success(invoke().mapping()))
+            emit(UiState.Success(invoke().mapping()))
         } catch (exc: Exception) {
-            emit(Resource.Error(exc))
+            emit(UiState.Error(exc))
         }
     }
 
-fun <T : Any, R : Any> Flow<T?>.asLoadingResourceFlow(mapping: T.() -> R): Flow<Resource<R>> =
+fun <T : Any, R : Any> Flow<T?>.asUiStateFlow(
+    @Suppress("UNCHECKED_CAST") mapping: T.() -> R = { this as R }
+): Flow<UiState<R>> =
     this.map {
         if (it == null) {
-            Resource.Loading
+            UiState.Loading
         } else {
-            Resource.Success(it.mapping())
+            UiState.Success(it.mapping())
         }
     }.catch {
-        emit(Resource.Error(it))
+        emit(UiState.Error(it))
     }

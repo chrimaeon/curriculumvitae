@@ -19,7 +19,8 @@ package com.cmgapps.android.curriculumvitae.ui.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.infra.Resource
+import com.cmgapps.android.curriculumvitae.infra.UiState
+import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,7 +35,7 @@ class ProfileViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val profile: Flow<Resource<Profile>> = getProfile()
+    val profile: Flow<UiState<Profile>> = getProfile().asUiStateFlow()
 
     init {
         viewModelScope.launch {

@@ -21,10 +21,9 @@ import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDomainModel
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.Resource
-import com.cmgapps.android.curriculumvitae.infra.asLoadingResourceFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
@@ -37,8 +36,7 @@ class ProfileRepository(
     private val profileDataStore: DataStore<DataStoreProfile?>,
     private val coroutineContext: CoroutineContext = Dispatchers.IO
 ) {
-    val profile: Flow<Resource<DomainProfile>> =
-        profileDataStore.data.asLoadingResourceFlow { asDomainModel() }
+    val profile: Flow<DomainProfile?> = profileDataStore.data.map { it?.asDomainModel() }
 
     suspend fun refreshProfile() {
         withContext(coroutineContext) {

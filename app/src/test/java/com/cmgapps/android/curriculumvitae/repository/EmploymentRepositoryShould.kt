@@ -18,7 +18,6 @@ package com.cmgapps.android.curriculumvitae.repository
 
 import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
 import com.cmgapps.android.curriculumvitae.infra.CvApiService
-import com.cmgapps.android.curriculumvitae.infra.Resource
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.test.StubEmploymentWithDescription
@@ -30,7 +29,6 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.instanceOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -70,18 +68,11 @@ internal class EmploymentRepositoryShould {
     internal inner class EmploymentFlow {
 
         @Test
-        fun `emit success`() = runBlockingTest {
-
-            val result = repository.employment.single()
-            assertThat(result, instanceOf(Resource.Success::class.java))
-        }
-
-        @Test
         fun `emit employments`() = runBlockingTest {
 
             val result = repository.employment.single()
             assertThat(
-                (result as Resource.Success).data,
+                result,
                 `is`(listOf(StubDomainEmployment()))
             )
         }
