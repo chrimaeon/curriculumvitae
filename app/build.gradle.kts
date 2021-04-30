@@ -36,12 +36,12 @@ plugins {
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion ="30.0.3"
+    compileSdk = 30
+    buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
-        minSdkVersion(26)
+        minSdk = 26
         targetSdk = 30
         versionCode = 1
         versionName = "1.0"
@@ -50,7 +50,7 @@ android {
 
         val baseUrl by configProperties()
 
-        resConfigs("en", "de")
+        resourceConfigurations.addAll(listOf("en", "de"))
 
         buildConfigField("String", "BASE_URL", """"$baseUrl"""")
 
@@ -202,6 +202,7 @@ dependencies {
     implementation(libs.retrofit2.kotlinxSerialization)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.protobuf.javalite)
+    implementation(libs.cmgapps.lintLogDebug)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")

@@ -48,6 +48,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
@@ -61,6 +62,9 @@ import com.google.accompanist.imageloading.ImageLoadState
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.toPaddingValues
+import timber.log.Timber
+
+private const val TAG = "ProfileScreen"
 
 @Composable
 fun ProfileScreen(
@@ -69,18 +73,21 @@ fun ProfileScreen(
     viewModel: ProfileViewModel,
     onEmailClick: () -> Unit
 ) {
-    val profileResource by viewModel.profile.lifecycleAware()
-        .collectAsState(initial = UiState.Loading)
+    val profileUiState by viewModel.profile.lifecycleAware()
+        .collectAsState(initial = UiState.Init)
 
-    when (profileResource) {
+    when (profileUiState) {
         UiState.Loading -> ContentLoading()
         is UiState.Success -> Content(
             modifier = modifier,
-            profile = (profileResource as UiState.Success<Profile>).data,
+            profile = (profileUiState as UiState.Success<Profile>).data,
             onEmailClick = onEmailClick,
             bottomContentPadding = bottomContentPadding,
         )
-        is UiState.Error -> ContentError((profileResource as UiState.Error).error)
+        is UiState.Error -> ContentError((profileUiState as UiState.Error).error)
+        else -> if (BuildConfig.DEBUG) {
+            Timber.tag(TAG).d(profileUiState.javaClass.simpleName)
+        }
     }
 }
 

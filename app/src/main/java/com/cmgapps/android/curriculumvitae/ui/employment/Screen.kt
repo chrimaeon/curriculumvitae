@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
@@ -51,9 +52,12 @@ import com.google.accompanist.insets.toPaddingValues
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.Period
 import kotlin.time.ExperimentalTime
+
+private const val TAG = "EmploymentScreen"
 
 @Composable
 fun EmploymentScreen(
@@ -66,20 +70,23 @@ fun EmploymentScreen(
         contentAlignment = Alignment.Center
     ) {
 
-        val employments by viewModel.employment.lifecycleAware()
-            .collectAsState(initial = UiState.Loading)
+        val employmentUiState by viewModel.employment.lifecycleAware()
+            .collectAsState(initial = UiState.Init)
 
-        when (employments) {
+        when (employmentUiState) {
             UiState.Loading -> ContentLoading()
-            is UiState.Error -> ContentError((employments as UiState.Error).error)
+            is UiState.Error -> ContentError((employmentUiState as UiState.Error).error)
             is UiState.Success -> Content(
-                employments = (employments as UiState.Success<List<Employment>>).data,
+                employments = (employmentUiState as UiState.Success<List<Employment>>).data,
                 isRefreshing = viewModel.isRefreshing,
                 onRefresh = {
                     viewModel.refresh()
                 },
                 bottomContentPadding = bottomContentPadding
             )
+            else -> if (BuildConfig.DEBUG) {
+                Timber.tag(TAG).d(employmentUiState.javaClass.simpleName)
+            }
         }
     }
 }
