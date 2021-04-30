@@ -137,7 +137,7 @@ private fun EmploymentCard(employment: Employment) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
-        elevation = 1.dp
+        elevation = 4.dp,
     ) {
         Column(
             modifier = Modifier.padding(8.dp)

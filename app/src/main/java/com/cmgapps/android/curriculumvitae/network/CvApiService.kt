@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra
+package com.cmgapps.android.curriculumvitae.network
 
 import com.cmgapps.shared.curriculumvitae.data.network.Employment
 import com.cmgapps.shared.curriculumvitae.data.network.Profile

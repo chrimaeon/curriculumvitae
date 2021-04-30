@@ -19,7 +19,7 @@ package com.cmgapps.android.curriculumvitae.infra.di
 import androidx.datastore.core.DataStore
 import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.network.CvApiService
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import dagger.Module

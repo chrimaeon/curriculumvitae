@@ -21,7 +21,7 @@ import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
 import com.cmgapps.android.curriculumvitae.data.database.asDatabaseModel
 import com.cmgapps.android.curriculumvitae.data.database.asDomainModel
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.network.CvApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

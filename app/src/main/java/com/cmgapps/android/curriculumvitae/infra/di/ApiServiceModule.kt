@@ -17,7 +17,7 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import com.cmgapps.android.curriculumvitae.BuildConfig
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.network.CvApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

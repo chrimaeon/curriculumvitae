@@ -17,7 +17,7 @@
 package com.cmgapps.android.curriculumvitae.repository
 
 import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.network.CvApiService
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.test.StubEmploymentWithDescription

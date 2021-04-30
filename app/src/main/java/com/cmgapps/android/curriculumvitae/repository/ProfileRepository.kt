@@ -20,7 +20,7 @@ import androidx.datastore.core.DataStore
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDomainModel
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.network.CvApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

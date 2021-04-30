@@ -83,7 +83,9 @@ class MainActivity : ComponentActivity() {
     private fun composeEmail() =
         Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")
-            Timber.tag(LOG_TAG).d(EMAIL_ADDRESS)
+            if (BuildConfig.DEBUG) {
+                Timber.tag(LOG_TAG).d(EMAIL_ADDRESS)
+            }
             putExtra(Intent.EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.you_are_hired))
         }

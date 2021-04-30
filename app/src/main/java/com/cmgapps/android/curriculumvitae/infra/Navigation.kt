@@ -37,8 +37,8 @@ class StateIcon(
     private val selectedIcon: ImageVector = defaultIcon,
 ) {
     operator fun get(state: IconState): ImageVector = when (state) {
-        is IconState.Selected -> selectedIcon
-        is IconState.Default -> defaultIcon
+        IconState.Selected -> selectedIcon
+        IconState.Default -> defaultIcon
     }
 }
 

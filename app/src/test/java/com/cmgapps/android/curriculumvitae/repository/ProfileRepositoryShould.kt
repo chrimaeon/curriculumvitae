@@ -18,7 +18,7 @@ package com.cmgapps.android.curriculumvitae.repository
 
 import androidx.datastore.core.DataStore
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
-import com.cmgapps.android.curriculumvitae.infra.CvApiService
+import com.cmgapps.android.curriculumvitae.network.CvApiService
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDataStoreProfile
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
