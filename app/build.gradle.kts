@@ -30,18 +30,21 @@ plugins {
     ktlint
     id("dagger.hilt.android.plugin")
     id("com.google.protobuf") version protobufPluginVersion
+    // `jacoco-convention`
+
+    // jacoco
 }
 
 @OptIn(ExperimentalPathApi::class)
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion ="30.0.3"
+    compileSdk = 30
+    buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
-        minSdkVersion(26)
+        minSdk = 26
         targetSdk = 30
         versionCode = 1
         versionName = "1.0"
@@ -50,7 +53,7 @@ android {
 
         val baseUrl by configProperties()
 
-        resConfigs("en", "de")
+        resourceConfigurations.addAll(listOf("en", "de"))
 
         buildConfigField("String", "BASE_URL", """"$baseUrl"""")
 
@@ -174,6 +177,58 @@ tasks {
         dependsOn(generateEmailAddress)
     }
 }
+
+// // Share sources folder with other projects for aggregated JaCoCo reports
+// configurations.create("transitiveSourcesElements") {
+//     isVisible = false
+//     isCanBeResolved = false
+//     isCanBeConsumed = true
+//     attributes {
+//         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+//         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
+//         attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named("source-folders"))
+//     }
+//
+//     (android.sourceSets.named("main").get().java.srcDirs + android.sourceSets.named("debug")
+//         .get().java.srcDirs).forEach {
+//             outgoing.artifact(it)
+//     }
+// }
+//
+// // Share sources folder with other projects for aggregated JaCoCo reports
+// configurations.create("transitiveClassesElements") {
+//     isVisible = false
+//     isCanBeResolved = false
+//     isCanBeConsumed = true
+//     attributes {
+//         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+//         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.LIBRARY))
+//         attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named("classes-folder"))
+//     }
+//
+//     configure<SourceSetContainer> {
+//         outgoing.artifact(buildDir.resolve("intermediates/javac/debug/classes"))
+//         outgoing.artifact(buildDir.resolve("tmp/kotlin-classes/debug"))
+//     }
+// }
+//
+// // Share the coverage data to be aggregated for the whole product
+// configurations.create("coverageDataElements") {
+//     isVisible = false
+//     isCanBeResolved = false
+//     isCanBeConsumed = true
+//     attributes {
+//         attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+//         attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
+//         attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named("jacoco-coverage-data"))
+//     }
+//
+//     afterEvaluate {
+//         outgoing.artifact(tasks.named("testDebugUnitTest").map { task ->
+//             task.extensions.getByType<JacocoTaskExtension>().destinationFile!!
+//         })
+//     }
+// }
 
 @Suppress("UnstableApiUsage")
 dependencies {

@@ -35,5 +35,6 @@ rootProject.name = "CurriculumVitae"
 include(
     ":shared",
     ":app",
-    ":backend"
+    ":backend",
+    ":code-coverage-report",
 )

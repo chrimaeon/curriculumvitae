@@ -15,32 +15,11 @@
  */
 
 plugins {
-    id("java-library")
-    kotlin("jvm")
-    kotlin("plugin.serialization") version kotlinVersion
-    ktlint
-    `jacoco-convention`
+    `jacoco-aggregation`
 }
 
-tasks {
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
-    }
-}
-
-@Suppress("UnstableApiUsage")
 dependencies {
-    implementation(libs.kotlinx.serialization.json)
-
-    testImplementation(platform(libs.junit.bom))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation(libs.hamcrest)
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    // implementation(projects.app)
+    implementation(projects.backend)
+    implementation(projects.shared)
 }

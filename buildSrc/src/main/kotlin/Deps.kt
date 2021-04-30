@@ -62,3 +62,9 @@ val PluginDependenciesSpec.benManesVersions: PluginDependencySpec
 
 val PluginDependenciesSpec.ktlint: PluginDependencySpec
     get() = id("com.cmgapps.gradle.ktlint")
+
+val PluginDependenciesSpec.`jacoco-convention`: PluginDependencySpec
+    get() = id("com.cmgapps.gradle.jacoco-convention")
+
+val PluginDependenciesSpec.`jacoco-aggregation`: PluginDependencySpec
+    get() = id("com.cmgapps.gradle.jacoco-aggregation")

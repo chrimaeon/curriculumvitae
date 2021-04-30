@@ -26,6 +26,7 @@ plugins {
     kotlin("plugin.serialization") version kotlinVersion
     id("org.kordamp.gradle.markdown") version "2.2.0"
     ktlint
+    `jacoco-convention`
 }
 
 val localImplementation: Configuration by configurations.creating {
