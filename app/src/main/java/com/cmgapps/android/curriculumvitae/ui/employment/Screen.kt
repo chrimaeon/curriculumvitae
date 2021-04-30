@@ -156,7 +156,9 @@ private fun EmploymentCard(employment: Employment) {
                         append(resources.getQuantityString(R.plurals.years, years, years))
                         append(' ')
                     }
-                    append(resources.getQuantityString(R.plurals.months, months, months))
+                    if (months > 0) {
+                        append(resources.getQuantityString(R.plurals.months, months, months))
+                    }
                 }
             }
 
