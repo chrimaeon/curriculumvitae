@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,11 +39,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
+import com.cmgapps.android.curriculumvitae.infra.SubScreen
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.Theme
@@ -63,26 +68,31 @@ private const val TAG = "EmploymentScreen"
 fun EmploymentScreen(
     modifier: Modifier = Modifier,
     bottomContentPadding: Dp = 0.dp,
-    viewModel: EmploymentViewModel
+    viewModel: EmploymentViewModel,
+    navController: NavController
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
 
-        val employmentUiState by viewModel.employment.lifecycleAware()
+        val employmentUiState by viewModel.employments.lifecycleAware()
             .collectAsState(initial = UiState.Init)
 
         when (employmentUiState) {
             UiState.Loading -> ContentLoading()
-            is UiState.Error -> ContentError((employmentUiState as UiState.Error).error)
+            is UiState.Error -> ContentError(
+                error = (employmentUiState as UiState.Error).error,
+                screenName = "EmploymentScreen"
+            )
             is UiState.Success -> Content(
                 employments = (employmentUiState as UiState.Success<List<Employment>>).data,
                 isRefreshing = viewModel.isRefreshing,
+                bottomContentPadding = bottomContentPadding,
+                navController = navController,
                 onRefresh = {
                     viewModel.refresh()
                 },
-                bottomContentPadding = bottomContentPadding
             )
             else -> if (BuildConfig.DEBUG) {
                 Timber.tag(TAG).d(employmentUiState.javaClass.simpleName)
@@ -95,8 +105,9 @@ fun EmploymentScreen(
 private fun Content(
     employments: List<Employment>,
     isRefreshing: Boolean = false,
+    bottomContentPadding: Dp,
+    navController: NavController,
     onRefresh: () -> Unit = {},
-    bottomContentPadding: Dp
 ) {
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing),
@@ -124,7 +135,7 @@ private fun Content(
             )
         ) {
             items(employments, key = { it.id }) { employment ->
-                EmploymentCard(employment = employment)
+                EmploymentCard(employment = employment, navController = navController)
             }
         }
     }
@@ -132,11 +143,14 @@ private fun Content(
 
 @OptIn(ExperimentalTime::class)
 @Composable
-private fun EmploymentCard(employment: Employment) {
+private fun EmploymentCard(employment: Employment, navController: NavController) {
     val resources = LocalContext.current.resources
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(SubScreen.EmploymentDetail.routeWithId(employment.id))
+            },
         elevation = 4.dp,
     ) {
         Column(
@@ -195,7 +209,8 @@ fun PreviewContent() {
                         )
                     )
                 ),
-                bottomContentPadding = 0.dp
+                bottomContentPadding = 0.dp,
+                navController = rememberNavController()
             )
         }
     }

@@ -18,7 +18,8 @@ package com.cmgapps.android.curriculumvitae.infra.di
 
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
-import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentWithIdUseCase
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshProfileUseCase
@@ -40,9 +41,13 @@ object UseCaseModule {
 
     @Provides
     fun provideGetEmploymentUseCase(repository: EmploymentRepository) =
-        GetEmploymentUseCase(repository)
+        GetEmploymentsUseCase(repository)
 
     @Provides
     fun provideRefreshEmploymentsUseCase(repository: EmploymentRepository) =
         RefreshEmploymentUseCase(repository)
+
+    @Provides
+    fun provideGetEmploymentWithIdUseCase(repository: EmploymentRepository) =
+        GetEmploymentWithIdUseCase(repository)
 }

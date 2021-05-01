@@ -34,12 +34,12 @@ import com.cmgapps.android.curriculumvitae.ui.Theme
 import timber.log.Timber
 
 @Composable
-fun ContentError(error: Throwable) {
+fun ContentError(error: Throwable, screenName: String = "ContentError") {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Timber.tag("ContentError").e(error)
+        Timber.tag(screenName).e(error)
         Text(
             modifier = Modifier
                 .background(

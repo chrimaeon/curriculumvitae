@@ -84,7 +84,10 @@ fun ProfileScreen(
             onEmailClick = onEmailClick,
             bottomContentPadding = bottomContentPadding,
         )
-        is UiState.Error -> ContentError((profileUiState as UiState.Error).error)
+        is UiState.Error -> ContentError(
+            error = (profileUiState as UiState.Error).error,
+            screenName = "ProfileScreen"
+        )
         else -> if (BuildConfig.DEBUG) {
             Timber.tag(TAG).d(profileUiState.javaClass.simpleName)
         }
@@ -137,14 +140,14 @@ private fun Header(
 
         if (isLandscape) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                val alignVertical = Modifier.align(Alignment.CenterVertically)
                 ProfileImage(
-                    modifier = alignVertical,
+                    modifier = Modifier.align(Alignment.CenterVertically),
                     imageSize = imageSize,
                     profile = profile
                 )
                 Column(
-                    modifier = alignVertical
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
                         .padding(start = 16.dp)
                 ) {
                     ProfileDetails(
@@ -155,15 +158,13 @@ private fun Header(
             }
         } else {
             Column(modifier = Modifier.fillMaxWidth()) {
-                val centerHorizontalModifier = Modifier
-                    .align(Alignment.CenterHorizontally)
                 ProfileImage(
-                    modifier = centerHorizontalModifier,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                     imageSize = imageSize,
                     profile = profile
                 )
                 ProfileDetails(
-                    modifier = centerHorizontalModifier,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                     profile = profile,
                     onEmailClick = onEmailClick
                 )

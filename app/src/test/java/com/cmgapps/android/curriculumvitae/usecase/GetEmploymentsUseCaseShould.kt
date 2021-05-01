@@ -34,22 +34,22 @@ import org.mockito.junit.jupiter.MockitoExtension
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
-internal class GetEmploymentUseCaseShould {
+internal class GetEmploymentsUseCaseShould {
 
     @Mock
     lateinit var repository: EmploymentRepository
 
-    private lateinit var useCase: GetEmploymentUseCase
+    private lateinit var useCase: GetEmploymentsUseCase
 
     @BeforeEach
     fun beforeEach() {
-        useCase = GetEmploymentUseCase(repository)
+        useCase = GetEmploymentsUseCase(repository)
     }
 
     @Test
     fun `return employments`() = runBlockingTest {
         val employments = listOf(StubDomainEmployment())
-        `when`(repository.employment).thenReturn(flowOf(employments))
+        `when`(repository.employments).thenReturn(flowOf(employments))
 
         val result = useCase().single()
         assertThat(result, `is`(employments))

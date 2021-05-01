@@ -20,7 +20,7 @@ import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentViewModel
-import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentUseCase
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -41,7 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 internal class EmploymentViewModelShould {
 
     @Mock
-    lateinit var getEmploymentUseCase: GetEmploymentUseCase
+    lateinit var getEmploymentsUseCase: GetEmploymentsUseCase
 
     @Mock
     lateinit var refreshEmploymentUseCase: RefreshEmploymentUseCase
@@ -50,15 +50,15 @@ internal class EmploymentViewModelShould {
 
     @BeforeEach
     fun beforeEach() {
-        `when`(getEmploymentUseCase.invoke())
+        `when`(getEmploymentsUseCase.invoke())
             .thenReturn(flowOf(listOf(StubDomainEmployment())))
 
-        viewModel = EmploymentViewModel(getEmploymentUseCase, refreshEmploymentUseCase)
+        viewModel = EmploymentViewModel(getEmploymentsUseCase, refreshEmploymentUseCase)
     }
 
     @Test
     fun `return employments`() = runBlockingTest {
-        val result = viewModel.employment.single()
+        val result = viewModel.employments.single()
 
         assertThat((result as UiState.Success).data, `is`(listOf(StubDomainEmployment())))
     }

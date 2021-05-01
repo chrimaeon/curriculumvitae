@@ -34,6 +34,10 @@ abstract class EmploymentDao {
     abstract fun getEmployments(): Flow<List<EmploymentWithDescription>>
 
     @Transaction
+    @Query("SELECT * FROM employment WHERE id = :id")
+    abstract fun getEmployment(id: Int): Flow<EmploymentWithDescription>
+
+    @Transaction
     open suspend fun insertAll(employments: List<EmploymentWithDescription>) {
         employments.forEach {
             insertEmployment(it.employment)

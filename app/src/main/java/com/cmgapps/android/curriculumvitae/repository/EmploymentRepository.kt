@@ -36,8 +36,10 @@ class EmploymentRepository(
     private val employmentDao: EmploymentDao,
     private val coroutineContext: CoroutineContext = Dispatchers.IO
 ) {
-    val employment: Flow<List<Employment>> =
+    val employments: Flow<List<Employment>> =
         employmentDao.getEmployments().map { it.asDomainModel() }
+
+    fun employment(id: Int) = employmentDao.getEmployment(id).map { it.asDomainModel() }
 
     suspend fun refreshEmployments() {
         withContext(coroutineContext) {

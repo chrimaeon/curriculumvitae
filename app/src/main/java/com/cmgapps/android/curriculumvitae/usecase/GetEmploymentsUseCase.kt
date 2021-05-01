@@ -20,6 +20,6 @@ import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetEmploymentUseCase(private val repo: EmploymentRepository) {
-    operator fun invoke(): Flow<List<Employment>> = repo.employment
+class GetEmploymentsUseCase(private val repo: EmploymentRepository) {
+    operator fun invoke(): Flow<List<Employment>> = repo.employments
 }

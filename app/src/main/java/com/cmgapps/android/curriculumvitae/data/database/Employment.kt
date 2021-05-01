@@ -74,17 +74,17 @@ data class EmploymentWithDescription(
     val description: List<Description>
 )
 
-fun List<EmploymentWithDescription>.asDomainModel() = map {
-    DomainEmployment(
-        it.employment.id,
-        it.employment.jobTitle,
-        it.employment.employer,
-        it.employment.startDate,
-        it.employment.endDate,
-        it.employment.city,
-        it.description.map { it.description }
-    )
-}
+fun List<EmploymentWithDescription>.asDomainModel() = map { it.asDomainModel() }
+
+fun EmploymentWithDescription.asDomainModel() = DomainEmployment(
+    employment.id,
+    employment.jobTitle,
+    employment.employer,
+    employment.startDate,
+    employment.endDate,
+    employment.city,
+    description.map { it.description }
+)
 
 fun List<NetworkEmployment>.asDatabaseModel() = map {
     val employmentId = Objects.hash(it.employer, it.jobTitle, it.startDate.toEpochDay())

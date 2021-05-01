@@ -17,9 +17,9 @@
 package com.cmgapps.android.curriculumvitae.ui
 
 import androidx.compose.ui.graphics.Color
+import kotlin.math.max
+import kotlin.math.min
 
-val blueGray50 = Color(0xFFECEFF1)
-val blueGray800 = Color(0XFF37474F)
 val lightBlue200 = Color(0xFF81d4fa)
 val lightBlue500 = Color(0xFF03a9f4)
 val lightBlue700 = Color(0xFF0288d1)
@@ -28,3 +28,13 @@ val amber500 = Color(0xFFffca28)
 val amber700 = Color(0xFFffa000)
 val darkSystemBars = Color(0x40000000)
 val lightSystemBars = Color(0xB3FFFFFF)
+
+fun Color.darker(factor: Float): Color {
+    println(factor)
+    return Color(
+        alpha = this.alpha,
+        red = min(1F, max(this.red * factor, 0F)),
+        green = min(1F, max(this.green * factor, 0F)),
+        blue = min(1F, max(this.blue * factor, 0f))
+    )
+}

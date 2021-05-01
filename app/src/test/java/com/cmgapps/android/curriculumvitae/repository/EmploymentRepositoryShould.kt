@@ -70,7 +70,7 @@ internal class EmploymentRepositoryShould {
         @Test
         fun `emit employments`() = runBlockingTest {
 
-            val result = repository.employment.single()
+            val result = repository.employments.single()
             assertThat(
                 result,
                 `is`(listOf(StubDomainEmployment()))

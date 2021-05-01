@@ -14,43 +14,21 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.ui.employment
+package com.cmgapps.android.curriculumvitae.ui.employment.detail
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
-import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
-import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentWithIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EmploymentViewModel @Inject constructor(
-    getEmploymentsUseCase: GetEmploymentsUseCase,
-    private val refreshEmploymentUseCase: RefreshEmploymentUseCase
+class EmploymentDetailViewModel @Inject constructor(
+    private val getEmploymentUseCase: GetEmploymentWithIdUseCase
 ) : ViewModel() {
 
-    val employments: Flow<UiState<List<Employment>>> = getEmploymentsUseCase().asUiStateFlow()
-
-    var isRefreshing by mutableStateOf(false)
-        private set
-
-    fun refresh() {
-        viewModelScope.launch {
-            isRefreshing = true
-            refreshEmploymentUseCase()
-            isRefreshing = false
-        }
-    }
-
-    init {
-        refresh()
-    }
+    fun employment(id: Int): Flow<UiState<Employment>> = getEmploymentUseCase(id).asUiStateFlow()
 }

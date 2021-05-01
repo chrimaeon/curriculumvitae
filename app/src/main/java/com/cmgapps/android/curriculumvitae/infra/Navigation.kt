@@ -25,6 +25,9 @@ import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.BuildCircle
 import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavType
+import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.compose.navArgument
 import com.cmgapps.android.curriculumvitae.R
 
 sealed class IconState {
@@ -80,3 +83,25 @@ val screens = listOf(
     Screen.Employment,
     Screen.Skills
 )
+
+enum class NavArguments(val argumentName: String) {
+    EMPLOYMENT_ID("employmentId")
+}
+
+sealed class SubScreen(
+    val route: String,
+    val arguments: List<NamedNavArgument> = emptyList()
+) {
+    object EmploymentDetail : SubScreen(
+        "employment/detail/{${NavArguments.EMPLOYMENT_ID.argumentName}}",
+        arguments = listOf(
+            navArgument(
+                NavArguments.EMPLOYMENT_ID.argumentName
+            ) {
+                type = NavType.IntType
+            }
+        )
+    ) {
+        fun routeWithId(id: Int): String = "employment/detail/$id"
+    }
+}

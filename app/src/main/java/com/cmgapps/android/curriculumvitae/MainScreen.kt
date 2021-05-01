@@ -33,13 +33,16 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.KEY_ROUTE
 import androidx.navigation.compose.NavHost
@@ -47,13 +50,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.IconState
+import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.infra.Screen
+import com.cmgapps.android.curriculumvitae.infra.SubScreen
 import com.cmgapps.android.curriculumvitae.infra.screens
 import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentScreen
-import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentViewModel
+import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetails
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
-import com.cmgapps.android.curriculumvitae.ui.profile.ProfileViewModel
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.toPaddingValues
@@ -65,24 +70,26 @@ fun MainScreen(
 ) {
 
     val navController = rememberNavController()
+    var isOnMainScreen by remember { mutableStateOf(true) }
+    navController.addOnDestinationChangedListener { _, _, arguments ->
+        isOnMainScreen = arguments?.getString(KEY_ROUTE).let { currentRoute ->
+            screens.any { it.route == currentRoute }
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
-        floatingActionButton = { Fab(onFabClick) },
+        floatingActionButton = { if (isOnMainScreen) Fab(onFabClick) },
         isFloatingActionButtonDocked = true,
-        bottomBar = {
-            BottomBar(navController = navController)
-        }
+        bottomBar = { if (isOnMainScreen) BottomBar(navController = navController) }
     ) { innerPadding ->
         val modifier = Modifier.padding(innerPadding)
-        val profileViewModel: ProfileViewModel = viewModel()
-        val employmentViewModel: EmploymentViewModel = viewModel()
 
         NavHost(navController, startDestination = Screen.Profile.route) {
             composable(Screen.Profile.route) {
                 ProfileScreen(
                     modifier = modifier,
-                    viewModel = profileViewModel,
+                    viewModel = hiltNavGraphViewModel(),
                     onEmailClick = onFabClick,
                     bottomContentPadding = FabTopKnobPadding
                 )
@@ -91,10 +98,26 @@ fun MainScreen(
                 EmploymentScreen(
                     modifier = modifier,
                     bottomContentPadding = FabTopKnobPadding,
-                    viewModel = employmentViewModel
+                    viewModel = hiltNavGraphViewModel(),
+                    navController = navController,
                 )
             }
-            composable(Screen.Skills.route) { SkillsScreen() }
+            composable(
+                route = SubScreen.EmploymentDetail.route,
+                arguments = SubScreen.EmploymentDetail.arguments
+            ) {
+                it.arguments?.getInt(NavArguments.EMPLOYMENT_ID.argumentName)?.let {
+                    EmploymentDetails(
+                        modifier = modifier,
+                        employmentId = it,
+                        viewModel = hiltNavGraphViewModel(),
+                        navController = navController
+                    )
+                } ?: ContentError(error = IllegalStateException("employment id not set"))
+            }
+            composable(Screen.Skills.route) {
+                SkillsScreen()
+            }
         }
     }
 }
