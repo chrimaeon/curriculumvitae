@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
 sealed class UiState<out T : Any> {
     object Init : UiState<Nothing>()
@@ -52,7 +53,9 @@ private val uiStateDebounce: (UiState<Any>) -> Long = {
 // }
 
 @OptIn(FlowPreview::class)
-fun <T : Any, R : Any> (suspend () -> T).asUiStateFlow(mapping: T.() -> R): Flow<UiState<R>> =
+fun <T : Any, R : Any> (suspend () -> T).asUiStateFlow(
+    @Suppress("UNCHECKED_CAST") mapping: T.() -> R = { this as R }
+): Flow<UiState<R>> =
     flow {
         emit(UiState.Loading)
         try {
@@ -66,13 +69,15 @@ fun <T : Any, R : Any> (suspend () -> T).asUiStateFlow(mapping: T.() -> R): Flow
 fun <T : Any, R : Any> Flow<T?>.asUiStateFlow(
     @Suppress("UNCHECKED_CAST") mapping: T.() -> R = { this as R }
 ): Flow<UiState<R>> =
-    this.map {
-        if (it == null) {
-            UiState.Loading
-        } else {
-            UiState.Success(it.mapping())
+    this.onStart { emit(null) }
+        .map {
+            if (it == null) {
+                UiState.Loading
+            } else {
+                UiState.Success(it.mapping())
+            }
         }
-    }.debounce(uiStateDebounce)
+        .debounce(uiStateDebounce)
         .catch {
             emit(UiState.Error(it))
         }

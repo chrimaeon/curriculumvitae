@@ -16,12 +16,12 @@
 
 package com.cmgapps.android.curriculumvitae.usecase
 
+import app.cash.turbine.test
 import com.cmgapps.android.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
@@ -31,8 +31,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class GetProfileUseCaseShould {
 
@@ -51,8 +52,9 @@ internal class GetProfileUseCaseShould {
         val profile = StubDomainProfile()
         `when`(repository.profile).thenReturn(flowOf(profile))
 
-        val result = userCase().single()
-
-        assertThat(result, `is`(profile))
+        userCase().test {
+            assertThat(expectItem(), `is`(profile))
+            expectComplete()
+        }
     }
 }

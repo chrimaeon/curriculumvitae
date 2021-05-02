@@ -18,7 +18,6 @@ package com.cmgapps.android.curriculumvitae.usecase
 
 import app.cash.turbine.test
 import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
-import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -28,32 +27,32 @@ import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
-@ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
-internal class GetEmploymentsUseCaseShould {
+@ExtendWith(MockitoExtension::class)
+class GetEmploymentWithIdUseCaseShould {
 
     @Mock
-    lateinit var repository: EmploymentRepository
+    lateinit var repo: EmploymentRepository
 
-    private lateinit var useCase: GetEmploymentsUseCase
+    private lateinit var useCase: GetEmploymentWithIdUseCase
 
     @BeforeEach
     fun beforeEach() {
-        useCase = GetEmploymentsUseCase(repository)
+        useCase = GetEmploymentWithIdUseCase(repo)
     }
 
     @Test
-    fun `return employments`() = runBlockingTest {
-        val employments = listOf(StubDomainEmployment())
-        `when`(repository.employments).thenReturn(flowOf(employments))
+    fun `return employment`() = runBlockingTest {
+        `when`(repo.employment(anyInt())).thenReturn(flowOf(StubDomainEmployment()))
 
-        useCase().test {
-            assertThat(expectItem(), `is`(employments))
+        repo.employment(0).test {
+            assertThat(expectItem(), `is`(StubDomainEmployment()))
             expectComplete()
         }
     }

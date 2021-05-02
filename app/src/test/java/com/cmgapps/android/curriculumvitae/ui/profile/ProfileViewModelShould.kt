@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
+import app.cash.turbine.test
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
@@ -23,7 +24,6 @@ import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshProfileUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
@@ -34,8 +34,9 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class ProfileViewModelShould {
 
@@ -55,7 +56,10 @@ internal class ProfileViewModelShould {
 
     @Test
     fun `get profile`() = runBlockingTest {
-        assertThat((viewModel.profile.single() as UiState.Success).data, `is`(StubDomainProfile()))
+        viewModel.profile.test {
+            assertThat((expectItem() as UiState.Success).data, `is`(StubDomainProfile()))
+            expectComplete()
+        }
     }
 
     @Test

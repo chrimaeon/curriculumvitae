@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.repository
 
+import app.cash.turbine.test
 import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
 import com.cmgapps.android.curriculumvitae.network.CvApiService
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
@@ -24,7 +25,6 @@ import com.cmgapps.android.curriculumvitae.test.StubEmploymentWithDescription
 import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -38,8 +38,9 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class EmploymentRepositoryShould {
 
@@ -70,11 +71,10 @@ internal class EmploymentRepositoryShould {
         @Test
         fun `emit employments`() = runBlockingTest {
 
-            val result = repository.employments.single()
-            assertThat(
-                result,
-                `is`(listOf(StubDomainEmployment()))
-            )
+            repository.employments.test {
+                assertThat(expectItem(), `is`(listOf(StubDomainEmployment())))
+                expectComplete()
+            }
         }
     }
 

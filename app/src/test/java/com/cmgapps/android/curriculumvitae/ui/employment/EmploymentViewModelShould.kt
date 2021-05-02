@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.ui.profile
+package com.cmgapps.android.curriculumvitae.ui.employment
 
+import app.cash.turbine.test
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
-import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentViewModel
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
@@ -35,8 +34,9 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class EmploymentViewModelShould {
 
@@ -50,7 +50,7 @@ internal class EmploymentViewModelShould {
 
     @BeforeEach
     fun beforeEach() {
-        `when`(getEmploymentsUseCase.invoke())
+        `when`(getEmploymentsUseCase())
             .thenReturn(flowOf(listOf(StubDomainEmployment())))
 
         viewModel = EmploymentViewModel(getEmploymentsUseCase, refreshEmploymentUseCase)
@@ -58,9 +58,11 @@ internal class EmploymentViewModelShould {
 
     @Test
     fun `return employments`() = runBlockingTest {
-        val result = viewModel.employments.single()
 
-        assertThat((result as UiState.Success).data, `is`(listOf(StubDomainEmployment())))
+        viewModel.employments.test {
+            assertThat((expectItem() as UiState.Success).data, `is`(listOf(StubDomainEmployment())))
+            expectComplete()
+        }
     }
 
     @Test

@@ -210,6 +210,7 @@ dependencies {
     testImplementation(libs.mockito.jupiter)
     testImplementation(libs.kotlinx.coroutinesTest)
     testImplementation(libs.hamcrest)
+    testImplementation(libs.turbine)
 
     androidTestImplementation(libs.androidx.extJunit)
     androidTestImplementation(libs.androidx.coreTesting)

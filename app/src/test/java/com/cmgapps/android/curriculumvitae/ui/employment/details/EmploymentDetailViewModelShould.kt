@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.usecase
+package com.cmgapps.android.curriculumvitae.ui.employment.details
 
 import app.cash.turbine.test
-import com.cmgapps.android.curriculumvitae.repository.EmploymentRepository
-import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
+import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
+import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetailViewModel
+import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentWithIdUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -28,32 +29,32 @@ import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
-@ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
-internal class GetEmploymentsUseCaseShould {
+@ExtendWith(MockitoExtension::class)
+class EmploymentDetailViewModelShould {
 
     @Mock
-    lateinit var repository: EmploymentRepository
+    lateinit var getEmploymentWithIdUseCase: GetEmploymentWithIdUseCase
 
-    private lateinit var useCase: GetEmploymentsUseCase
+    private lateinit var viewModel: EmploymentDetailViewModel
 
     @BeforeEach
     fun beforeEach() {
-        useCase = GetEmploymentsUseCase(repository)
+        `when`(getEmploymentWithIdUseCase.invoke(anyInt()))
+            .thenReturn(flowOf(StubDomainEmployment()))
+        viewModel = EmploymentDetailViewModel(getEmploymentWithIdUseCase)
     }
 
     @Test
-    fun `return employments`() = runBlockingTest {
-        val employments = listOf(StubDomainEmployment())
-        `when`(repository.employments).thenReturn(flowOf(employments))
-
-        useCase().test {
-            assertThat(expectItem(), `is`(employments))
+    fun `get employment`() = runBlockingTest {
+        viewModel.employment(0).test {
+            assertThat((expectItem() as UiState.Success).data, `is`(StubDomainEmployment()))
             expectComplete()
         }
     }
