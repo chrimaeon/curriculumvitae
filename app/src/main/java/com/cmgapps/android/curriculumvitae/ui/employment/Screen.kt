@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -150,7 +151,7 @@ private fun EmploymentCard(employment: Employment, navController: NavController)
             .fillMaxWidth()
             .clickable {
                 navController.navigate(SubScreen.EmploymentDetail.routeWithId(employment.id))
-            },
+            }.testTag("employmentCard${employment.id}"),
         elevation = 4.dp,
     ) {
         Column(

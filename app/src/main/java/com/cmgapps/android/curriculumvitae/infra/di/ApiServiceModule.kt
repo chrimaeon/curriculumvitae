@@ -41,16 +41,17 @@ object ApiServiceModule {
         okHttpClient: OkHttpClient,
         @Language lang: String
     ): CvApiService {
-        val interceptedClient = okHttpClient.newBuilder().addNetworkInterceptor { chain ->
-            val originalRequest = chain.request()
+        val interceptedClient = okHttpClient.newBuilder()
+            .addNetworkInterceptor { chain ->
+                val originalRequest = chain.request()
 
-            originalRequest.url.newBuilder().addQueryParameter("lang", lang).build()
-                .let {
-                    originalRequest.newBuilder().url(it).build()
-                }.let {
-                    chain.proceed(it)
-                }
-        }
+                originalRequest.url.newBuilder().addQueryParameter("lang", lang).build()
+                    .let {
+                        originalRequest.newBuilder().url(it).build()
+                    }.let {
+                        chain.proceed(it)
+                    }
+            }
             .build()
 
         return Retrofit.Builder()

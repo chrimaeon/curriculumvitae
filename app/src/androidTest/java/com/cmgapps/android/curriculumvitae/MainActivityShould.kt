@@ -24,7 +24,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
+import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -84,9 +84,9 @@ class MainActivityShould {
 
     @Test
     fun moveToWork() = with(composeTestRule) {
-        val employment = StubNetworkEmployment()
+        val employment = StubDomainEmployment()
         onNodeWithText("Employment").assertIsDisplayed().performClick()
-        onNodeWithText(employment.jobTitle).assertIsDisplayed()
+        onNodeWithTag("employmentCard${employment.id}").assertIsDisplayed()
         return@with
     }
 

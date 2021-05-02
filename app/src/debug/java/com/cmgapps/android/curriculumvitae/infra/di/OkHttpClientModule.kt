@@ -34,6 +34,7 @@ import javax.net.ssl.X509TrustManager
 @InstallIn(SingletonComponent::class)
 object OkHttpClientModule {
 
+    @SuppressLint("LogDebugConditional")
     @Provides
     @Singleton
     fun provideOkHttpClient(
@@ -56,9 +57,11 @@ object OkHttpClientModule {
     fun provideTrustManager(): X509TrustManager {
         return object : X509TrustManager {
             override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                // do nothing
             }
 
             override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                // do nothing
             }
 
             override fun getAcceptedIssuers() = emptyArray<X509Certificate>()

@@ -25,7 +25,7 @@ import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import java.time.LocalDate
 import java.time.Month
 import com.cmgapps.android.curriculumvitae.data.database.Description as DatabaseDescription
-import com.cmgapps.android.curriculumvitae.data.database.Employment as DatabaseEmployemnt
+import com.cmgapps.android.curriculumvitae.data.database.Employment as DatabaseEmployment
 import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
 import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
 import com.cmgapps.shared.curriculumvitae.data.network.Address as NetworkAddress
@@ -73,7 +73,7 @@ fun StubNetworkEmployment() = NetworkEmployment(
 // Objects.hash(employer, jobTitle, startDate.toEpochDay())
 private const val employmentId = 1051736812
 
-fun StubDatabaseEmployment() = DatabaseEmployemnt(
+fun StubDatabaseEmployment() = DatabaseEmployment(
     id = employmentId,
     jobTitle = "Developer",
     employer = "My Company",
@@ -105,7 +105,7 @@ fun StubDomainEmployment() = Employment(
     description = listOf("stub description")
 )
 
-fun StubDataStoreProfile() = Profile.newBuilder().apply {
+fun StubDataStoreProfile(): Profile = Profile.newBuilder().apply {
     name = "Firstname Lastname"
     address = Address.newBuilder().apply {
         city = "Graz"

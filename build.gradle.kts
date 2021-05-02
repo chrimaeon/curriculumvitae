@@ -80,7 +80,7 @@ tasks {
     named<DependencyUpdatesTask>("dependencyUpdates") {
         revision = "release"
         rejectVersionIf {
-            !candidate.group.contains("compose|com\\.google\\.dagger|com\\.android\\.tools\\.build".toRegex()) &&
+            !candidate.group.contains("compose|com\\.google\\.dagger|com\\.android\\.tools\\.build|androidx\\.datastore".toRegex()) &&
                 !candidate.module.contains("compose") &&
                 listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->
                     """(?i).*[.-]?$qualifier[.\d-]*""".toRegex()

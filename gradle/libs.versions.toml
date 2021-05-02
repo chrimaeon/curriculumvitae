@@ -25,7 +25,6 @@ plugin-protobuf = "0.8.16"
 # endregion
 
 # region App
-androidx-coreKtx = "androidx.core:core-ktx:1.5.0-rc1"
 androidx-lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha01"
 androidx-datastore = "androidx.datastore:datastore:1.0.0-beta01"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
@@ -62,7 +61,7 @@ okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.1"
 retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit2-kotlinxSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
-cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.6.0"
+cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 # endregion
 
 # region Testing
@@ -112,7 +111,6 @@ accompanist = [
   "accompanist-systemuicontroller"
 ]
 androidx = [
-  "androidx-coreKtx",
   "androidx-lifecycleRuntimeKtx",
   "androidx-datastore",
   "androidx-hiltNavigationCompose",
