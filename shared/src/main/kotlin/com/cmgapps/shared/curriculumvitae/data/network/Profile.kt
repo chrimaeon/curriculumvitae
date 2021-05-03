@@ -26,7 +26,6 @@ data class Profile(
     val address: Address,
     val email: String,
     val intro: List<String>,
-    val lang: String,
 )
 
 @Serializable

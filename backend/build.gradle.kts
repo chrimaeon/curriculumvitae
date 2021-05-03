@@ -113,7 +113,7 @@ dependencies {
     localImplementation(libs.ktor.netty)
     implementation(libs.bundles.ktor)
     implementation(libs.kotlinCss)
-    implementation(libs.logback)
+    implementation(libs.bundles.logback)
     implementation(libs.kotlinx.serialization.json)
 
     "providedCompile"(libs.appEngine)
@@ -122,4 +122,5 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation(libs.hamcrest)
+    testImplementation(libs.mockito.jupiter)
 }

@@ -24,6 +24,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
 import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
+import com.cmgapps.shared.curriculumvitae.data.network.Profile as NetworkProfile
 
 @Suppress("BlockingMethodInNonBlockingContext")
 @LogTag("ProfileDataStore")
@@ -56,7 +57,7 @@ fun Profile.asDomainModel() = DomainProfile(
     intro = introList
 )
 
-fun com.cmgapps.shared.curriculumvitae.data.network.Profile.asDataStoreModel(): Profile =
+fun NetworkProfile.asDataStoreModel(): Profile =
     Profile.newBuilder().apply {
         name = this@asDataStoreModel.name
         phone = this@asDataStoreModel.phone
@@ -68,5 +69,4 @@ fun com.cmgapps.shared.curriculumvitae.data.network.Profile.asDataStoreModel(): 
         }.build()
         email = this@asDataStoreModel.email
         addAllIntro(this@asDataStoreModel.intro)
-        lang = this@asDataStoreModel.lang
     }.build()

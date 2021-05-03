@@ -24,6 +24,7 @@ import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.application.log
 import io.ktor.features.AutoHeadResponse
 import io.ktor.features.CachingHeaders
 import io.ktor.features.CallLogging
@@ -43,6 +44,8 @@ import io.ktor.request.httpVersion
 import io.ktor.response.respond
 import io.ktor.serialization.json
 import org.slf4j.event.Level
+import java.io.PrintWriter
+import java.io.StringWriter
 
 enum class Routes(val route: String) {
     ROOT("/"),
@@ -52,9 +55,9 @@ enum class Routes(val route: String) {
     EMPLOYMENT("/employment")
 }
 
-fun Application.module() {
+fun Application.module(modelLoader: ModelLoader = ClassLoaderModelLoader()) {
     installFeatures()
-    registerRoutes()
+    registerRoutes(modelLoader)
 }
 
 fun Application.installFeatures() {
@@ -79,6 +82,12 @@ fun Application.installFeatures() {
     }
     install(StatusPages) {
         exception<Throwable> { cause ->
+            StringWriter().use { stringWriter ->
+                PrintWriter(stringWriter).use { printWriter ->
+                    cause.printStackTrace(printWriter)
+                }
+                log.error(stringWriter.toString())
+            }
             call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
             throw cause
         }
@@ -99,10 +108,10 @@ fun Application.installFeatures() {
     }
 }
 
-fun Application.registerRoutes() {
+fun Application.registerRoutes(modelLoader: ModelLoader) {
     registerRootRouting()
     registerHealthCheckRoutes()
     registerStaticRoutes()
-    registerProfileRoutes()
+    registerProfileRoutes(modelLoader)
     registerEmploymentRoutes()
 }

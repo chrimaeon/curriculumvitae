@@ -41,7 +41,6 @@ fun StubNetworkProfile() = NetworkProfile(
     ),
     email = "me@home.at",
     intro = listOf("Line 1", "Line 2"),
-    lang = "de",
     phone = "+12345678",
     profileImageUrl = "http://image.undefined.com/image.jpeg",
 )
@@ -114,7 +113,6 @@ fun StubDataStoreProfile(): Profile = Profile.newBuilder().apply {
     }.build()
     email = "me@home.at"
     addAllIntro(listOf("Line 1", "Line 2"))
-    lang = "de"
     phone = "+12345678"
     profileImageUrl = "http://image.undefined.com/image.jpeg"
 }.build()

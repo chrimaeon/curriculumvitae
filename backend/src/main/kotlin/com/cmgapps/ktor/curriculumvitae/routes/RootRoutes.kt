@@ -225,7 +225,6 @@ private fun DIV.content() {
                             "Intro line 2 ...",
                             "etc ... etc ... etc ..."
                         ),
-                        lang = "en"
                     )
                 )
                 apiCard(

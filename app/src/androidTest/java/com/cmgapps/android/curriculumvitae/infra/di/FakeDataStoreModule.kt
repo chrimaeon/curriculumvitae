@@ -37,11 +37,11 @@ class FakeDataStoreModule {
     fun provideProfileDataStore(): DataStore<Profile?> =
         object : DataStore<Profile?> {
 
-            private var profile = StubDataStoreProfile()
+            private var profile: Profile? = StubDataStoreProfile()
 
             private val profileFlow = MutableStateFlow(profile)
 
-            override val data: Flow<Profile> = profileFlow
+            override val data: Flow<Profile?> = profileFlow
 
             override suspend fun updateData(transform: suspend (t: Profile?) -> Profile?) =
                 transform(profile).also {

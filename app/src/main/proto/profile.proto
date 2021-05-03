@@ -26,7 +26,6 @@ message Profile {
   Address address = 4;
   string email = 5;
   repeated string intro = 6;
-  string lang = 7;
 }
 
 message Address {

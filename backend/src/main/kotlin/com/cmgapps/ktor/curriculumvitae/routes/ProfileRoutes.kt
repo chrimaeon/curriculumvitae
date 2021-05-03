@@ -16,8 +16,9 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import com.cmgapps.ktor.curriculumvitae.Language
+import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.cmgapps.ktor.curriculumvitae.Routes
-import com.cmgapps.shared.curriculumvitae.data.network.Address
 import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -29,41 +30,35 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
 import io.ktor.routing.routing
+import kotlinx.serialization.serializer
+import java.util.Locale
 
-fun Route.profileRouting() {
+private fun Route.profileRouting(profiles: Map<Language, Profile>) {
     route(Routes.PROFILE.route) {
         get {
-            val lang = call.request.queryParameters["lang"] ?: "en"
-            val profileUrl = with(call.request) {
-                "${origin.scheme}://${host()}:${port()}/assets/profile.png"
+
+            val lang: Language = try {
+                enumValueOf((call.request.queryParameters["lang"] ?: "en").toUpperCase(Locale.ROOT))
+            } catch (exc: Exception) {
+                Language.EN
             }
-            call.respond(
-                Profile(
-                    name = "My Name",
-                    phone = "+1234567890",
-                    profileImageUrl = profileUrl,
-                    address = Address(
-                        street = "Street 43",
-                        city = "No Where",
-                        postalCode = "90210"
-                    ),
-                    email = "me@home.at",
-                    intro = listOf(
-                        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy" +
-                            " eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed" +
-                            " diam voluptua. At vero eos et accusam et",
-                        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy" +
-                            " eirmod tempor invidunt ut labore et dolore magna aliquyam",
-                    ),
-                    lang = lang
-                )
-            )
+
+            val host = with(call.request) {
+                "${origin.scheme}://${host()}:${port()}"
+            }
+
+            val profile = profiles[lang]?.let {
+                it.copy(profileImageUrl = it.profileImageUrl.replace("{{host}}", host))
+            } ?: error("No profile found for $lang")
+            call.respond(profile)
         }
     }
 }
 
-fun Application.registerProfileRoutes() {
-    routing {
-        profileRouting()
+fun Application.registerProfileRoutes(modelLoader: ModelLoader) {
+    modelLoader.loadModels(serializer<Profile>(), "profile.json").let {
+        routing {
+            profileRouting(it)
+        }
     }
 }

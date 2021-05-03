@@ -86,7 +86,8 @@ ktor-html = { module = "io.ktor:ktor-html-builder", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization", version.ref = "ktor" }
 ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 
-logback = "ch.qos.logback:logback-classic:1.2.3"
+logback-classic = "ch.qos.logback:logback-classic:1.2.3"
+logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.120.5-alpha"
 kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.153-kotlin-1.4.32"
 appEngine = "com.google.appengine:appengine:1.9.88"
 # endregion
@@ -116,3 +117,5 @@ androidx = [
   "androidx-datastore",
   "androidx-hiltNavigationCompose",
 ]
+
+logback = ["logback-classic", "logback-gcloud"]
