@@ -26,8 +26,7 @@ GET
         "Intro line 1 ...",
         "Intro line 2 ...",
         "etc ... etc ... etc ..."
-      ],
-      "lang": "en"
+      ]
     }
 
 GET
