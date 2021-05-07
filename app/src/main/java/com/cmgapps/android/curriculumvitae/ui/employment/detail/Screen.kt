@@ -48,9 +48,9 @@ import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.android.curriculumvitae.ui.darker
 import com.cmgapps.android.curriculumvitae.ui.lightBlue500
+import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.toPaddingValues
 import timber.log.Timber
@@ -139,42 +139,39 @@ fun EmploymentDetails(employment: Employment, navController: NavController) {
     }
 }
 
-@Preview(widthDp = 320, heightDp = 680)
+// region Preview
+
+private val employment = Employment(
+    12,
+    "Job Title",
+    "Employer",
+    LocalDate.now(),
+    null,
+    "Graz",
+    listOf("Line 1")
+)
+
+@Preview(name = "Content", widthDp = 320, heightDp = 680)
 @Composable
 fun PreviewEmploymentDetails() {
-
-    Theme(darkTheme = false) {
-        EmploymentDetails(
-            employment = Employment(
-                12,
-                "Job Title",
-                "Employer",
-                LocalDate.now(),
-                null,
-                "Graz",
-                listOf("Line 1")
-            ),
-            navController = rememberNavController()
-        )
+    ThemedPreview {
+        EmploymentDetails(employment, rememberNavController())
     }
 }
 
-@Preview(widthDp = 320, heightDp = 680)
+@Preview(name = "Content Dark", widthDp = 320, heightDp = 680)
 @Composable
 fun PreviewEmploymentDetailsDark() {
-
-    Theme(darkTheme = true) {
-        EmploymentDetails(
-            employment = Employment(
-                12,
-                "Job Title",
-                "Employer",
-                LocalDate.now(),
-                null,
-                "Graz",
-                listOf("Line 1")
-            ),
-            navController = rememberNavController()
-        )
+    ThemedPreview(darkTheme = true) {
+        EmploymentDetails(employment, rememberNavController())
     }
 }
+
+@Preview(name = "Content Land", widthDp = 680, heightDp = 320)
+@Composable
+fun PreviewEmploymentDetailsLandscape() {
+    ThemedPreview(darkTheme = true) {
+        EmploymentDetails(employment, rememberNavController())
+    }
+}
+// endregion

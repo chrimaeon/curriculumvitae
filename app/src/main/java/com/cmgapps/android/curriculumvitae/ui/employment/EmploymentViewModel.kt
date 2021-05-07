@@ -21,7 +21,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cmgapps.LogTag
+import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
+import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
@@ -29,8 +32,11 @@ import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
+@LogTag
 @HiltViewModel
 class EmploymentViewModel @Inject constructor(
     getEmploymentsUseCase: GetEmploymentsUseCase,
@@ -39,14 +45,19 @@ class EmploymentViewModel @Inject constructor(
 
     val employments: Flow<UiState<List<Employment>>> = getEmploymentsUseCase().asUiStateFlow()
 
-    var isRefreshing by mutableStateOf(false)
+    var uiEvent: UiEvent by mutableStateOf(UiEvent.Init)
         private set
 
     fun refresh() {
         viewModelScope.launch {
-            isRefreshing = true
-            refreshEmploymentUseCase()
-            isRefreshing = false
+            uiEvent = UiEvent.IsRefreshing
+            uiEvent = try {
+                refreshEmploymentUseCase()
+                UiEvent.DoneRefreshing
+            } catch (exc: IOException) {
+                Timber.tag(LOG_TAG).e(exc)
+                UiEvent.Error(R.string.refresh_error)
+            }
         }
     }
 

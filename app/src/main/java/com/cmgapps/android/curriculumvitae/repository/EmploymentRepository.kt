@@ -26,8 +26,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.io.IOException
 import kotlin.coroutines.CoroutineContext
 
 @LogTag
@@ -43,11 +41,7 @@ class EmploymentRepository(
 
     suspend fun refreshEmployments() {
         withContext(coroutineContext) {
-            try {
-                employmentDao.insertAll(api.getEmployment().asDatabaseModel())
-            } catch (exc: IOException) {
-                Timber.tag(LOG_TAG).e(exc)
-            }
+            employmentDao.insertAll(api.getEmployment().asDatabaseModel())
         }
     }
 }

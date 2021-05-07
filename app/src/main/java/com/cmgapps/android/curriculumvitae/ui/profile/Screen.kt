@@ -45,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -54,9 +55,10 @@ import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Address
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
+import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
-import com.cmgapps.android.curriculumvitae.ui.Theme
+import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.imageloading.ImageLoadState
 import com.google.accompanist.insets.LocalWindowInsets
@@ -71,8 +73,15 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     bottomContentPadding: Dp = 0.dp,
     viewModel: ProfileViewModel,
-    onEmailClick: () -> Unit
+    onEmailClick: () -> Unit,
+    onError: @Composable (String) -> Unit
 ) {
+    val uiEvent = viewModel.uiEvent
+
+    if (uiEvent is UiEvent.Error) {
+        onError(stringResource(id = uiEvent.resId))
+    }
+
     val profileUiState by viewModel.profile.lifecycleAware()
         .collectAsState(initial = UiState.Init)
 
@@ -263,70 +272,48 @@ private fun Context.onTelClick(phoneNumber: String) {
 }
 
 // region Previews
+private val profile = Profile(
+    "Firstname Lastname",
+    "+43123456789",
+    "http://",
+    Address("Street 1", "Graz", "8010"),
+    email = "me@home.at",
+    listOf("Line1", "Line2"),
+)
 
-private const val name = "Firstname Lastname"
-private const val phone = "+43123456789"
-private const val profileImageUrl = "http://"
-private val address = Address("Street 1", "Graz", "8010")
-private const val email = "me@home.at"
-
-@Preview(name = "Content", widthDp = 320, heightDp = 640)
+@Preview(name = "Content", widthDp = 320, heightDp = 680)
 @Composable
 fun PreviewContent() {
-    Theme(darkTheme = false) {
+    ThemedPreview {
         ProvideWindowInsets {
             Content(
-                profile = Profile(
-                    name = name,
-                    phone = phone,
-                    profileImageUrl = profileImageUrl,
-                    intro = listOf("Line1", "Line2"),
-                    address = address,
-                    email = email,
-                ),
+                profile = profile,
                 onEmailClick = {}
             )
         }
     }
 }
 
-@Preview(name = "Content Land", widthDp = 640, heightDp = 320)
+@Preview(name = "Content Land", widthDp = 680, heightDp = 320)
 @Composable
 fun PreviewLandscapeContent() {
-    Theme(darkTheme = false) {
+    ThemedPreview {
         ProvideWindowInsets {
             Content(
-                profile = Profile(
-                    name = name,
-                    phone = phone,
-                    profileImageUrl = profileImageUrl,
-                    intro = listOf("Line1", "Line2"),
-                    address = address,
-                    email = email,
-                ),
+                profile = profile,
                 onEmailClick = {}
             )
         }
     }
 }
 
-@Preview(
-    name = "Content Dark", widthDp = 320, heightDp = 640, showBackground = true,
-    backgroundColor = 0xFF000000,
-)
+@Preview(name = "Content Dark", widthDp = 320, heightDp = 680)
 @Composable
 fun PreviewDarkContent() {
-    Theme(darkTheme = true) {
+    ThemedPreview(darkTheme = true) {
         ProvideWindowInsets {
             Content(
-                profile = Profile(
-                    name = name,
-                    phone = phone,
-                    profileImageUrl = profileImageUrl,
-                    intro = listOf("Line1", "Line2"),
-                    address = address,
-                    email = email,
-                ),
+                profile = profile,
                 onEmailClick = {}
             )
         }

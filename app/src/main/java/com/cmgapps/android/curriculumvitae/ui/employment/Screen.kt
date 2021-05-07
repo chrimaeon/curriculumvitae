@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -49,9 +50,10 @@ import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.SubScreen
+import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
-import com.cmgapps.android.curriculumvitae.ui.Theme
+import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.toPaddingValues
@@ -70,7 +72,8 @@ fun EmploymentScreen(
     modifier: Modifier = Modifier,
     bottomContentPadding: Dp = 0.dp,
     viewModel: EmploymentViewModel,
-    navController: NavController
+    navController: NavController,
+    onError: @Composable (String) -> Unit
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -80,6 +83,12 @@ fun EmploymentScreen(
         val employmentUiState by viewModel.employments.lifecycleAware()
             .collectAsState(initial = UiState.Init)
 
+        val uiEvent = viewModel.uiEvent
+
+        if (uiEvent is UiEvent.Error) {
+            onError(stringResource(id = uiEvent.resId))
+        }
+
         when (employmentUiState) {
             UiState.Loading -> ContentLoading()
             is UiState.Error -> ContentError(
@@ -88,7 +97,7 @@ fun EmploymentScreen(
             )
             is UiState.Success -> Content(
                 employments = (employmentUiState as UiState.Success<List<Employment>>).data,
-                isRefreshing = viewModel.isRefreshing,
+                uiEvent = uiEvent,
                 bottomContentPadding = bottomContentPadding,
                 navController = navController,
                 onRefresh = {
@@ -96,7 +105,7 @@ fun EmploymentScreen(
                 },
             )
             else -> if (BuildConfig.DEBUG) {
-                Timber.tag(TAG).d(employmentUiState.javaClass.simpleName)
+                Timber.tag(TAG).d(employmentUiState.javaClass.name)
             }
         }
     }
@@ -105,11 +114,19 @@ fun EmploymentScreen(
 @Composable
 private fun Content(
     employments: List<Employment>,
-    isRefreshing: Boolean = false,
+    uiEvent: UiEvent,
     bottomContentPadding: Dp,
     navController: NavController,
     onRefresh: () -> Unit = {},
 ) {
+    var isRefreshing = false
+    when (uiEvent) {
+        UiEvent.IsRefreshing -> isRefreshing = true
+        UiEvent.DoneRefreshing, is UiEvent.Error -> isRefreshing = false
+        else -> {
+            // ignore
+        }
+    }
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing),
         onRefresh = onRefresh,
@@ -151,7 +168,8 @@ private fun EmploymentCard(employment: Employment, navController: NavController)
             .fillMaxWidth()
             .clickable {
                 navController.navigate(SubScreen.EmploymentDetail.routeWithId(employment.id))
-            }.testTag("employmentCard${employment.id}"),
+            }
+            .testTag("employmentCard${employment.id}"),
         elevation = 4.dp,
     ) {
         Column(
@@ -190,29 +208,38 @@ private fun EmploymentCard(employment: Employment, navController: NavController)
 }
 
 // region Preview
-@Preview
+
+private val employments = listOf(
+    Employment(
+        id = 1,
+        jobTitle = "Software developer",
+        employer = "CMG Mobile Apps",
+        startDate = LocalDate.now().minusMonths(3),
+        endDate = LocalDate.now().minusMonths(1),
+        city = "Graz",
+        description = listOf(
+            "Founder",
+            "Solutions Architect"
+        )
+    )
+)
+
+@Preview(name = "Content", widthDp = 320, heightDp = 680)
 @Composable
 fun PreviewContent() {
-    Theme {
+    ThemedPreview {
         ProvideWindowInsets {
-            Content(
-                employments = listOf(
-                    Employment(
-                        id = 1,
-                        jobTitle = "Software developer",
-                        employer = "CMG Mobile Apps",
-                        startDate = LocalDate.now().minusMonths(3),
-                        endDate = LocalDate.now().minusMonths(1),
-                        city = "Graz",
-                        description = listOf(
-                            "Founder",
-                            "Solutions Architect"
-                        )
-                    )
-                ),
-                bottomContentPadding = 0.dp,
-                navController = rememberNavController()
-            )
+            Content(employments, UiEvent.Init, 0.dp, rememberNavController())
+        }
+    }
+}
+
+@Preview(name = "Content Dark", widthDp = 320, heightDp = 680)
+@Composable
+fun PreviewContentDark() {
+    ThemedPreview(darkTheme = true) {
+        ProvideWindowInsets {
+            Content(employments, UiEvent.Init, 0.dp, rememberNavController())
         }
     }
 }

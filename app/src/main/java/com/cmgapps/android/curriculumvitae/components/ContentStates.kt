@@ -30,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cmgapps.android.curriculumvitae.R
-import com.cmgapps.android.curriculumvitae.ui.Theme
+import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import timber.log.Timber
 
 @Composable
@@ -66,9 +66,17 @@ fun ContentLoading() {
 // region Preview
 @Preview(name = "Error")
 @Composable
+fun PreviewContentError() {
+    ThemedPreview(darkTheme = false) {
+        ContentError(IllegalStateException())
+    }
+}
+
+@Preview(name = "Error Dark")
+@Composable
 fun PreviewDarkContentError() {
-    Theme(darkTheme = true) {
-        ContentError(IllegalStateException("just previewing"))
+    ThemedPreview(darkTheme = true) {
+        ContentError(IllegalStateException())
     }
 }
 // endregion

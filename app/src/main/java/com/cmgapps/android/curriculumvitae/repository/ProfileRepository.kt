@@ -25,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile as DataStoreProfile
 import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
@@ -40,12 +39,8 @@ class ProfileRepository(
 
     suspend fun refreshProfile() {
         withContext(coroutineContext) {
-            try {
-                val profile = api.getProfile()
-                profileDataStore.updateData { profile.asDataStoreModel() }
-            } catch (exc: Exception) {
-                Timber.tag(LOG_TAG).e(exc)
-            }
+            val profile = api.getProfile()
+            profileDataStore.updateData { profile.asDataStoreModel() }
         }
     }
 }

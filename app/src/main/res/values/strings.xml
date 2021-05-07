@@ -26,6 +26,7 @@
     <string name="no_email">D\'oh, no email app found</string>
     <string name="generic_error">D\'oh, something went wrong 😞</string>
     <string name="navigate_up">navigate up</string>
+    <string name="refresh_error">D\'oh, cannot refresh</string>
     <plurals name="years">
         <item quantity="one">%d Year</item>
         <item quantity="other">%d Years</item>

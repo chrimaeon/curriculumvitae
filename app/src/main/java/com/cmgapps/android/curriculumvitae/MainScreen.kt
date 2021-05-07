@@ -32,6 +32,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -85,13 +86,20 @@ fun MainScreen(
     ) { innerPadding ->
         val modifier = Modifier.padding(innerPadding)
 
+        val onError: @Composable (String) -> Unit = { message ->
+            LaunchedEffect(scaffoldState) {
+                scaffoldState.snackbarHostState.showSnackbar(message)
+            }
+        }
+
         NavHost(navController, startDestination = Screen.Profile.route) {
             composable(Screen.Profile.route) {
                 ProfileScreen(
                     modifier = modifier,
                     viewModel = hiltNavGraphViewModel(),
                     onEmailClick = onFabClick,
-                    bottomContentPadding = FabTopKnobPadding
+                    bottomContentPadding = FabTopKnobPadding,
+                    onError = onError
                 )
             }
             composable(Screen.Employment.route) {
@@ -100,13 +108,14 @@ fun MainScreen(
                     bottomContentPadding = FabTopKnobPadding,
                     viewModel = hiltNavGraphViewModel(),
                     navController = navController,
+                    onError = onError
                 )
             }
             composable(
                 route = SubScreen.EmploymentDetail.route,
                 arguments = SubScreen.EmploymentDetail.arguments
-            ) {
-                it.arguments?.getInt(NavArguments.EMPLOYMENT_ID.argumentName)?.let {
+            ) { entry ->
+                entry.arguments?.getInt(NavArguments.EMPLOYMENT_ID.argumentName)?.let {
                     EmploymentDetails(
                         modifier = modifier,
                         employmentId = it,
