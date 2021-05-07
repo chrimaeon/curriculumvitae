@@ -14,6 +14,10 @@ Ktor Back end for the app
 
 see [backend/README.md]
 
+## MAD Scorecard
+
+![MAD Scorecard](art/summary.png)
+
 ## License
 
 ```text
