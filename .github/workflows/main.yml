@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     env:
       CV_BASE_URL: https://www.host.undefined
@@ -30,6 +30,7 @@ jobs:
       - name: Check :shared
         run: ./gradlew :shared:check
       - name: Archive Shared Test results
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: shared-test-results
@@ -39,6 +40,7 @@ jobs:
       - name: Check :app
         run: ./gradlew :app:check
       - name: Archive App Test results
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: app-test-results
@@ -48,6 +50,7 @@ jobs:
       - name: Check :backend
         run: ./gradlew :backend:check
       - name: Archive Backend Test results
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: bff-test-results
