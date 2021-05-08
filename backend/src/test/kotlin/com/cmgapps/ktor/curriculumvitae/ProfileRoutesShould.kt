@@ -16,8 +16,6 @@
 
 package com.cmgapps.ktor.curriculumvitae
 
-import com.cmgapps.shared.curriculumvitae.data.network.Address
-import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -27,23 +25,8 @@ import io.ktor.server.testing.withTestApplication
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(MockitoExtension::class)
 class ProfileRoutesShould {
-
-    @Mock
-    lateinit var modelLoader: ModelLoader
-
-    // Workaround for non-null parameter
-    private fun <T> anyObject(): T {
-        return any()
-    }
 
     @Test
     fun `return Content-Type application json`() =
@@ -58,49 +41,25 @@ class ProfileRoutesShould {
 
     @Test
     fun `return profile`() {
-        val profile = Profile(
-            name = "My Name",
-            phone = "+1234567890",
-            profileImageUrl = "{{host}}/assets/profile.png",
-            address = Address(
-                street = "Street 43",
-                city = "No Where",
-                postalCode = "90210"
-            ),
-            email = "me@home.at",
-            intro = listOf(
-                "Line 1",
-                "Line 2",
-                "etc ... etc ... etc"
-            )
-        )
 
-        `when`(modelLoader.loadModels<Profile>(anyObject(), anyString())).thenReturn(
-            mapOf(
-                Language.EN to profile,
-                Language.DE to profile
-            )
-        )
-
-        withTestApplication(moduleFunction = { module(modelLoader) }) {
+        withTestApplication(moduleFunction = { module() }) {
             with(handleRequest(HttpMethod.Get, Routes.PROFILE.route)) {
                 assertThat(
                     response.content,
                     `is`(
                         "{" +
-                            "\"name\":\"My Name\"," +
+                            "\"name\":\"Firstname Lastname\"," +
                             "\"phone\":\"+1234567890\"," +
                             "\"profileImageUrl\":\"http://localhost:80/assets/profile.png\"," +
                             "\"address\":{" +
-                            "\"street\":\"Street 43\"," +
-                            "\"city\":\"No Where\"," +
-                            "\"postalCode\":\"90210\"" +
+                            "\"street\":\"Homestreet 1\"," +
+                            "\"city\":\"City\"," +
+                            "\"postalCode\":\"42\"" +
                             "}," +
-                            "\"email\":\"me@home.at\"," +
+                            "\"email\":\"me@home.us\"," +
                             "\"intro\":[" +
                             "\"Line 1\"," +
-                            "\"Line 2\"," +
-                            "\"etc ... etc ... etc\"" +
+                            "\"Line 2\"" +
                             "]" +
                             "}"
                     )

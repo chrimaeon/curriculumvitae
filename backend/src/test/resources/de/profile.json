@@ -1,15 +1,15 @@
 {
-  "name": "Christian Grach",
-  "phone": "+4369917249214",
+  "name": "Vorname Nachname",
+  "phone": "+1234567890",
   "profileImageUrl": "{{host}}/assets/profile.png",
   "address": {
-    "street": "Schönaugasse 64a",
-    "city": "Graz",
-    "postalCode": "8010"
+    "street": "Heimatstrasse 1",
+    "city": "Stadt",
+    "postalCode": "42"
   },
-  "email": "christian.grach@gmx.at",
+  "email": "email@home.at",
   "intro": [
-    "Ich bin ein sehr erfahrener Android App-Entwickler, der 2011 mit Android 2.3 begonnen hat. Ich habe Apps zusammen mit Lynda.com/Linkedin und PicMonkey erstellt.",
-    "Ich habe auch begonnen, mein Wissen in Webtechnologien wie Angular für Frontend und Nest.js für die Backend-Entwicklung zu erweitern."
+    "Zeile 1",
+    "Zeile 2"
   ]
 }
