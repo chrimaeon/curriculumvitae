@@ -3,7 +3,7 @@
   "phone": "+1234567890",
   "profileImageUrl": "{{host}}/assets/profile.png",
   "address": {
-    "street": "Heimatstrasse 1",
+    "street": "Heimatstraße 1",
     "city": "Stadt",
     "postalCode": "42"
   },

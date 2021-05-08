@@ -40,10 +40,65 @@ class ProfileRoutesShould {
         }
 
     @Test
-    fun `return profile`() {
-
+    fun `return default profile in EN`() {
         withTestApplication(moduleFunction = { module() }) {
             with(handleRequest(HttpMethod.Get, Routes.PROFILE.route)) {
+                assertThat(
+                    response.content,
+                    `is`(
+                        "{" +
+                            "\"name\":\"Firstname Lastname\"," +
+                            "\"phone\":\"+1234567890\"," +
+                            "\"profileImageUrl\":\"http://localhost:80/assets/profile.png\"," +
+                            "\"address\":{" +
+                            "\"street\":\"Homestreet 1\"," +
+                            "\"city\":\"City\"," +
+                            "\"postalCode\":\"42\"" +
+                            "}," +
+                            "\"email\":\"me@home.us\"," +
+                            "\"intro\":[" +
+                            "\"Line 1\"," +
+                            "\"Line 2\"" +
+                            "]" +
+                            "}"
+                    )
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `return profile in DE`() {
+        withTestApplication(moduleFunction = { module() }) {
+            with(handleRequest(HttpMethod.Get, Routes.PROFILE.route + "?lang=de")) {
+                assertThat(
+                    response.content,
+                    `is`(
+                        "{" +
+                            "\"name\":\"Vorname Nachname\"," +
+                            "\"phone\":\"+1234567890\"," +
+                            "\"profileImageUrl\":\"http://localhost:80/assets/profile.png\"," +
+                            "\"address\":{" +
+                            "\"street\":\"Heimatstraße 1\"," +
+                            "\"city\":\"Stadt\"," +
+                            "\"postalCode\":\"42\"" +
+                            "}," +
+                            "\"email\":\"email@home.at\"," +
+                            "\"intro\":[" +
+                            "\"Zeile 1\"," +
+                            "\"Zeile 2\"" +
+                            "]" +
+                            "}"
+                    )
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `return profile in EN if lang not found`() {
+        withTestApplication(moduleFunction = { module() }) {
+            with(handleRequest(HttpMethod.Get, Routes.PROFILE.route + "?lang=fr")) {
                 assertThat(
                     response.content,
                     `is`(
