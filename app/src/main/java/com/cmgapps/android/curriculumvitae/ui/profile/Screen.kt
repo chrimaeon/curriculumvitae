@@ -26,8 +26,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -50,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cmgapps.android.curriculumvitae.BuildConfig
+import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
@@ -172,6 +175,7 @@ private fun Header(
                     imageSize = imageSize,
                     profile = profile
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 ProfileDetails(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     profile = profile,
@@ -187,6 +191,7 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
     val coilPainter = rememberCoilPainter(
         request = profile.profileImageUrl,
         fadeIn = true,
+        previewPlaceholder = R.drawable.ic_profile_24dp
     )
     Box(
         modifier = modifier
@@ -201,7 +206,7 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
         )
 
         when (coilPainter.loadState) {
-            ImageLoadState.Loading ->
+            is ImageLoadState.Loading ->
                 ShimmerLoading(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.onBackground
