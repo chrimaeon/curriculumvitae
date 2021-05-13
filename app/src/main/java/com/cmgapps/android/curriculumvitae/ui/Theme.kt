@@ -51,6 +51,7 @@ fun Theme(
 
     MaterialTheme(
         colors = colors,
+        typography = Typography,
         content = content
     )
 }

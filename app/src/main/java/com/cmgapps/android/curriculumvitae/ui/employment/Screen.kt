@@ -177,7 +177,7 @@ private fun EmploymentCard(employment: Employment, navController: NavController)
         ) {
             Text(
                 text = employment.employer,
-                style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
             )
 
             val period: String = Period.between(

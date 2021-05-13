@@ -47,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -191,7 +192,7 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
     val coilPainter = rememberCoilPainter(
         request = profile.profileImageUrl,
         fadeIn = true,
-        previewPlaceholder = R.drawable.ic_profile_24dp
+        previewPlaceholder = R.drawable.ic_outline_person_24
     )
     Box(
         modifier = modifier
@@ -211,6 +212,14 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.onBackground
                 )
+            is ImageLoadState.Error -> {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_outline_person_24),
+                    modifier = Modifier.fillMaxSize(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            }
             else -> {
                 // Do nothing
             }
