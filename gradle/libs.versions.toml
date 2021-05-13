@@ -1,12 +1,12 @@
 [versions]
-accompanist = "0.9.0"
+accompanist = "0.9.1"
 compose = "1.0.0-beta06"
-gradle = "7.0"
+gradle = "7.0.1"
 hilt = "2.35.1"
 kotlin = "1.4.32"
 ktlint = "0.41.0"
 ktor = "1.5.4"
-protobuf = "3.16.0"
+protobuf = "3.17.0"
 retrofit = "2.9.0"
 room = "2.3.0"
 
@@ -71,7 +71,7 @@ compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = 
 junit-bom = "org.junit:junit-bom:5.7.1"
 hamcrest = "org.hamcrest:hamcrest:2.2"
 retrofit2-mockServer = { module = "com.squareup.retrofit2:retrofit-mock", version.ref = "retrofit" }
-mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.9.0"
+mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.10.0"
 kotlinx-coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 espresso = "androidx.test.espresso:espresso-core:3.3.0"
