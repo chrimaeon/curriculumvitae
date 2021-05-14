@@ -73,6 +73,15 @@ class MainActivity : ComponentActivity() {
                                     scaffoldState.snackbarHostState.showSnackbar(getString(R.string.no_email))
                                 }
                             }
+                        },
+                        onInfoWebsiteLinkClick = {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(getString(R.string.info_cmgapps_href))
+                            )
+                            if (intent.resolveActivity(packageManager) != null) {
+                                startActivity(intent)
+                            }
                         }
                     )
                 }

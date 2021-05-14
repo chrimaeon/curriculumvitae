@@ -19,6 +19,7 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.time.LocalDate
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
 
@@ -30,6 +31,7 @@ plugins {
     ktlint
     id("dagger.hilt.android.plugin")
     id("com.google.protobuf") version protobufPluginVersion
+    id("com.cmgapps.licenses") version "2.1.0"
 }
 
 @OptIn(ExperimentalPathApi::class)
@@ -75,12 +77,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BUILD_YEAR", "\"DEBUG\"")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BUILD_YEAR", "\"${LocalDate.now().year}\"")
         }
     }
 
@@ -92,6 +99,20 @@ android {
     sourceSets {
         named("main") {
             java.srcDir(xorDirPath)
+        }
+
+        named("debug") {
+            assets {
+                @OptIn(ExperimentalPathApi::class)
+                srcDir(buildDir.toPath() / "reports" / "licenses" / "licenseDebugReport")
+            }
+        }
+
+        named("release") {
+            assets {
+                @OptIn(ExperimentalPathApi::class)
+                srcDir(buildDir.toPath() / "reports" / "licenses" / "licenseReleaseReport")
+            }
         }
 
         val sharedTestDir = project.projectDir.resolve("src").resolve("sharedTest")
