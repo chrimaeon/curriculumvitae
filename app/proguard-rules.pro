@@ -1,53 +1,32 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
+# Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
 #
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#      http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# region Okio
-# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
--dontwarn org.codehaus.mojo.animal_sniffer.*
-# endregion
+-dontwarn org.bouncycastle.**
+-dontwarn org.conscrypt.**
+-dontwarn org.openjsse.**
 
-# region Retrofit
-# Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
-# EnclosingMethod is required to use InnerClasses.
--keepattributes Signature, InnerClasses, EnclosingMethod
-
-# Retrofit does reflection on method and parameter annotations.
--keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
-
-# Retain service method parameters when optimizing.
--keepclassmembers,allowshrinking,allowobfuscation interface * {
-    @retrofit2.http.* <methods>;
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+  public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void checkNotNull(java.lang.Object);
+  public static void checkNotNull(java.lang.Object, java.lang.String);
+  public static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
+  public static void checkNotNullParameter(java.lang.Object, java.lang.String);
+  public static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void throwUninitializedPropertyAccessException(java.lang.String);
 }
-
-# Ignore annotation used for build tooling.
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
-# Ignore JSR 305 annotations for embedding nullability information.
--dontwarn javax.annotation.**
-
-# Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
--dontwarn kotlin.Unit
-
-# Top-level functions that can only be used by Kotlin.
--dontwarn retrofit2.KotlinExtensions
--dontwarn retrofit2.KotlinExtensions$*
-
-# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
-# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface <1>
-# endregion

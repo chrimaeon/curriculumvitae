@@ -20,6 +20,7 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.LocalDate
+import java.util.Properties
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
 
@@ -76,13 +77,27 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
+    val releaseSigningConfig = signingConfigs.register("release") {
+        val keystoreDir = projectDir.resolve("keystore")
+        val keyProps = Properties().apply {
+            keystoreDir.resolve("curriculumvitae.keystore.properties").inputStream().use {
+                load(it)
+            }
+        }
+        storeFile = keystoreDir.resolve("upload.jks")
+        storePassword = keyProps.getProperty("storePass")
+        keyAlias = keyProps.getProperty("alias")
+        keyPassword = keyProps.getProperty("pass")
+    }
+
     buildTypes {
         debug {
             buildConfigField("String", "BUILD_YEAR", "\"DEBUG\"")
         }
 
         release {
-            isMinifyEnabled = false
+            signingConfig = releaseSigningConfig.get()
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -159,6 +174,15 @@ android {
     }
 }
 
+// FIXME currently not working
+// androidComponents {
+//     onVariants { variant ->
+//         variant.getMergeAssetsProvider() {
+//             dependsOn("license${variant.name.capitalize(Locale.ROOT)}Report")
+//         }
+//     }
+// }
+
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:" + libs.versions.protobuf.get()
@@ -172,6 +196,14 @@ protobuf {
                 }
             }
         }
+    }
+}
+
+licenses {
+    additionalProjects(":shared")
+
+    reports {
+        html.enabled = true
     }
 }
 
