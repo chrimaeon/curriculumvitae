@@ -64,13 +64,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.KEY_ROUTE
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.IconState
@@ -96,10 +94,10 @@ fun MainScreen(
 
     val navController = rememberNavController()
     var isOnMainScreen by remember { mutableStateOf(true) }
-    navController.addOnDestinationChangedListener { _, _, arguments ->
-        isOnMainScreen = arguments?.getString(KEY_ROUTE).let { currentRoute ->
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        isOnMainScreen = destination.route?.let { currentRoute ->
             screens.any { it.route == currentRoute }
-        }
+        } ?: false
     }
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -136,7 +134,7 @@ fun MainScreen(
                 composable(Screen.Profile.route) {
                     ProfileScreen(
                         modifier = modifier,
-                        viewModel = hiltNavGraphViewModel(),
+                        viewModel = hiltViewModel(),
                         onEmailClick = onFabClick,
                         bottomContentPadding = FabTopKnobPadding,
                         onError = onError
@@ -146,7 +144,7 @@ fun MainScreen(
                     EmploymentScreen(
                         modifier = modifier,
                         bottomContentPadding = FabTopKnobPadding,
-                        viewModel = hiltNavGraphViewModel(),
+                        viewModel = hiltViewModel(),
                         navController = navController,
                         onError = onError
                     )
@@ -159,7 +157,7 @@ fun MainScreen(
                         EmploymentDetails(
                             modifier = modifier,
                             employmentId = it,
-                            viewModel = hiltNavGraphViewModel(),
+                            viewModel = hiltViewModel(),
                             navController = navController
                         )
                     } ?: ContentError(error = IllegalStateException("employment id not set"))
@@ -193,7 +191,7 @@ private fun BottomBar(navController: NavController, bottomSheetState: BottomShee
 
             val coroutineScope = rememberCoroutineScope()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+            val currentRoute = navBackStackEntry?.destination?.route
             screens.forEach { screen ->
                 val selected = currentRoute == screen.route
                 val iconState = if (selected) IconState.Selected else IconState.Default
@@ -215,14 +213,14 @@ private fun BottomBar(navController: NavController, bottomSheetState: BottomShee
                     },
                     selected = selected,
                     onClick = onClick@{
-                        if (screen.route == currentRoute) {
+                        if (selected) {
                             return@onClick
                         }
 
                         navController.navigate(screen.route) {
                             popUpTo(
                                 navBackStackEntry?.destination?.id
-                                    ?: navController.graph.startDestination
+                                    ?: navController.graph.startDestinationId
                             ) {
                                 inclusive = true
                             }
