@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+import com.android.build.api.artifact.SingleArtifact
+import com.cmgapps.gradle.CopyLicenseAssetTask
+import com.cmgapps.gradle.GitVersionTask
+import com.cmgapps.gradle.ManifestTransformerTask
+import com.cmgapps.license.LicensesTask
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
@@ -32,7 +37,7 @@ plugins {
     ktlint
     id("dagger.hilt.android.plugin")
     id("com.google.protobuf") version protobufPluginVersion
-    id("com.cmgapps.licenses") version "2.1.0"
+    id("com.cmgapps.licenses") version licensesVersion
 }
 
 @OptIn(ExperimentalPathApi::class)
@@ -118,20 +123,6 @@ android {
             java.srcDir(xorDirPath)
         }
 
-        named("debug") {
-            assets {
-                @OptIn(ExperimentalPathApi::class)
-                srcDir(buildDir.toPath() / "reports" / "licenses" / "licenseDebugReport")
-            }
-        }
-
-        named("release") {
-            assets {
-                @OptIn(ExperimentalPathApi::class)
-                srcDir(buildDir.toPath() / "reports" / "licenses" / "licenseReleaseReport")
-            }
-        }
-
         val sharedTestDir = project.projectDir.resolve("src").resolve("sharedTest")
 
         named("test") {
@@ -176,14 +167,56 @@ android {
     }
 }
 
-// FIXME currently not working
-// androidComponents {
-//     onVariants { variant ->
-//         variant.getMergeAssetsProvider() {
-//             dependsOn("license${variant.name.capitalize(Locale.ROOT)}Report")
-//         }
-//     }
-// }
+class HtmlLicenseAsset(private val fileName: String) :
+    com.android.build.api.artifact.Artifact.Single<RegularFile>(
+        com.android.build.api.artifact.ArtifactKind.FILE,
+        Category.INTERMEDIATES,
+    ), com.android.build.api.artifact.Artifact.Replaceable {
+    override fun getFolderName(): String {
+        return "merged_assets"
+    }
+
+    override fun getFileSystemLocationName(): String {
+        return fileName
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        // TODO does not work correctly -> task is not triggered
+        val copyLicenseAsset =
+            tasks.register<CopyLicenseAssetTask>("copyLicense${variant.name.capitalize()}Asset") {
+                val licenseReportTask =
+                    tasks.named<LicensesTask>("license${variant.name.capitalize()}Report")
+                licenseFile.set(licenseReportTask.flatMap { it.reports.html.destination })
+                dependsOn(licenseReportTask)
+            }
+
+        variant.artifacts.use(copyLicenseAsset)
+            .wiredWith(CopyLicenseAssetTask::output)
+            .toCreate(HtmlLicenseAsset("license.html"))
+    }
+
+    onVariants(selector().withBuildType("release")) { variant ->
+        val gitVersion by tasks.registering(GitVersionTask::class) {
+            gitVersionOutputFile.set(
+                project.buildDir.resolve("intermediates").resolve("git").resolve("output")
+            )
+        }
+
+        val manifestUpdater =
+            tasks.register<ManifestTransformerTask>("${variant.name}ManifestUpdater") {
+                gitInfoFile.set(gitVersion.flatMap(GitVersionTask::gitVersionOutputFile))
+            }
+
+        variant.artifacts.use(manifestUpdater)
+            .wiredWithFiles(
+                ManifestTransformerTask::androidManifest,
+                ManifestTransformerTask::updatedManifest
+            )
+            .toTransform(SingleArtifact.MERGED_MANIFEST)
+    }
+}
 
 protobuf {
     protoc {
@@ -203,9 +236,8 @@ protobuf {
 
 licenses {
     additionalProjects(":shared")
-
     reports {
-        html.enabled = true
+        html.enabled.set(true)
     }
 }
 

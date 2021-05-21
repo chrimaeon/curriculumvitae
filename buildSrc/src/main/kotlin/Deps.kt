@@ -39,6 +39,7 @@ private val toml: TomlParseResult =
 val protobufPluginVersion = toml.getString("versions.plugin-protobuf")
 val kotlinVersion = toml.getString("versions.kotlin")
 val ktlintVersion = toml.getString("versions.ktlint")
+val licensesVersion = toml.getString("versions.plugin-licenses")
 
 object Plugins {
     val androidGradlePlugin =

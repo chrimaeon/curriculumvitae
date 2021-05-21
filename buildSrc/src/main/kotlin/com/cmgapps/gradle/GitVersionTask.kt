@@ -14,5 +14,22 @@
  * limitations under the License.
  */
 
+package com.cmgapps.gradle
 
-fun isCi(): Boolean = System.getenv("CI") != null
+import org.gradle.api.DefaultTask
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.TaskAction
+import runCommand
+
+abstract class GitVersionTask : DefaultTask() {
+
+    @get:OutputFile
+    abstract val gitVersionOutputFile: RegularFileProperty
+
+    @TaskAction
+    fun taskAction() {
+        val gitVersion = "git rev-list --count HEAD".runCommand(workingDir = project.rootDir)
+        gitVersionOutputFile.get().asFile.writeText(gitVersion)
+    }
+}

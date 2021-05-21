@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+package com.cmgapps.gradle
 
-plugins {
-    `kotlin-dsl`
-}
+import org.gradle.api.DefaultTask
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.TaskAction
 
-repositories {
-    mavenCentral()
-}
+abstract class CopyLicenseAssetTask : DefaultTask() {
 
-tasks {
-    withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-        }
+    @get:InputFile
+    abstract val licenseFile: RegularFileProperty
+
+    @get:OutputFile
+    abstract val output: RegularFileProperty
+
+    @TaskAction
+    fun taskAction() {
+        output.get().asFile.writeText(licenseFile.get().asFile.readText())
     }
-}
-
-dependencies {
-    implementation("com.squareup:kotlinpoet:1.8.0")
-    implementation("org.tomlj:tomlj:1.0.0")
-    testImplementation("junit:junit:4.13.2")
 }
