@@ -58,12 +58,11 @@ import java.time.LocalDate
 
 @Composable
 fun EmploymentDetails(
-    employmentId: Int,
     viewModel: EmploymentDetailViewModel,
     navController: NavController,
     modifier: Modifier
 ) {
-    val employment by viewModel.employment(employmentId).collectAsState(initial = UiState.Init)
+    val employment by viewModel.employment.collectAsState(initial = UiState.Init)
 
     Box(modifier = modifier.fillMaxSize()) {
         when (employment) {

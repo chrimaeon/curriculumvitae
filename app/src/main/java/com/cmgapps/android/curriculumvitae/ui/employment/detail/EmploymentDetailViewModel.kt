@@ -16,8 +16,10 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
+import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentWithIdUseCase
@@ -27,8 +29,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EmploymentDetailViewModel @Inject constructor(
-    private val getEmploymentUseCase: GetEmploymentWithIdUseCase
+    savedStateHandle: SavedStateHandle,
+    getEmploymentUseCase: GetEmploymentWithIdUseCase
 ) : ViewModel() {
 
-    fun employment(id: Int): Flow<UiState<Employment>> = getEmploymentUseCase(id).asUiStateFlow()
+    val employment: Flow<UiState<Employment>> = getEmploymentUseCase(
+        savedStateHandle[NavArguments.EMPLOYMENT_ID.argumentName] ?: error("Employment ID not set")
+    ).asUiStateFlow()
 }

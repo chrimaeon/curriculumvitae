@@ -17,6 +17,7 @@
 package com.cmgapps.android.curriculumvitae.ui.employment
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,9 +29,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -165,7 +168,10 @@ private fun EmploymentCard(employment: Employment, navController: NavController)
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(color = MaterialTheme.colors.primary)
+            ) {
                 navController.navigate(SubScreen.EmploymentDetail.routeWithId(employment.id))
             }
             .testTag("employmentCard${employment.id}"),

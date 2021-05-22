@@ -70,9 +70,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.IconState
-import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.infra.Screen
 import com.cmgapps.android.curriculumvitae.infra.SubScreen
 import com.cmgapps.android.curriculumvitae.infra.screens
@@ -152,15 +150,12 @@ fun MainScreen(
                 composable(
                     route = SubScreen.EmploymentDetail.route,
                     arguments = SubScreen.EmploymentDetail.arguments
-                ) { entry ->
-                    entry.arguments?.getInt(NavArguments.EMPLOYMENT_ID.argumentName)?.let {
-                        EmploymentDetails(
-                            modifier = modifier,
-                            employmentId = it,
-                            viewModel = hiltViewModel(),
-                            navController = navController
-                        )
-                    } ?: ContentError(error = IllegalStateException("employment id not set"))
+                ) {
+                    EmploymentDetails(
+                        modifier = modifier,
+                        viewModel = hiltViewModel(),
+                        navController = navController
+                    )
                 }
                 composable(Screen.Skills.route) {
                     SkillsScreen()
