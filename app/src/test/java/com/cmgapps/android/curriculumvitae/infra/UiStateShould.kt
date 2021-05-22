@@ -28,12 +28,15 @@ import org.hamcrest.Matchers.instanceOf
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
-import kotlin.time.seconds
+import kotlin.time.toDuration
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 @Suppress("BlockingMethodInNonBlockingContext")
 internal class UiStateShould {
+
+    private val oneSecond = 1.toDuration(DurationUnit.SECONDS)
 
     @Nested
     @DisplayName("Flow<T>.asUiStateFlow")
@@ -41,7 +44,7 @@ internal class UiStateShould {
 
         @Test
         fun `return success immediately`() = runBlocking {
-            flowOf("Test").asUiStateFlow { this }.test(1.seconds) {
+            flowOf("Test").asUiStateFlow { this }.test(oneSecond) {
                 assertThat(expectItem(), instanceOf(UiState.Success::class.java))
                 expectComplete()
             }
@@ -51,7 +54,7 @@ internal class UiStateShould {
         fun `emit loading with delay`() = runBlocking {
             channelFlow<String?> {
                 Thread.sleep(600)
-            }.asUiStateFlow { this }.test(1.seconds) {
+            }.asUiStateFlow { this }.test(oneSecond) {
                 assertThat(expectItem(), instanceOf(UiState.Loading::class.java))
                 expectComplete()
             }
@@ -61,7 +64,7 @@ internal class UiStateShould {
         fun `emit loading with delay if null`() = runBlocking {
             channelFlow<String?> {
                 send(null)
-            }.asUiStateFlow { this }.test(1.seconds) {
+            }.asUiStateFlow { this }.test(oneSecond) {
                 assertThat(expectItem(), instanceOf(UiState.Loading::class.java))
                 expectComplete()
             }
@@ -75,7 +78,7 @@ internal class UiStateShould {
                     Thread.sleep(600)
                     send("Test")
                 }
-            }.asUiStateFlow { this }.test(1.seconds) {
+            }.asUiStateFlow { this }.test(oneSecond) {
                 assertThat(expectItem(), instanceOf(UiState.Loading::class.java))
                 assertThat(expectItem(), instanceOf(UiState.Success::class.java))
                 expectComplete()

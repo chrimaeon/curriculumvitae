@@ -16,7 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment.details
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetailViewModel
@@ -29,7 +31,6 @@ import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
@@ -40,20 +41,27 @@ import kotlin.time.ExperimentalTime
 class EmploymentDetailViewModelShould {
 
     @Mock
-    lateinit var getEmploymentWithIdUseCase: GetEmploymentWithIdUseCase
+    lateinit var getEmploymentWithIdUseCaseMock: GetEmploymentWithIdUseCase
+
+    @Mock
+    lateinit var savedStateHandleMock: SavedStateHandle
 
     private lateinit var viewModel: EmploymentDetailViewModel
 
     @BeforeEach
     fun beforeEach() {
-        `when`(getEmploymentWithIdUseCase.invoke(anyInt()))
+        val employmentId = 0
+        `when`(getEmploymentWithIdUseCaseMock.invoke(employmentId))
             .thenReturn(flowOf(StubDomainEmployment()))
-        viewModel = EmploymentDetailViewModel(getEmploymentWithIdUseCase)
+        `when`(savedStateHandleMock.get<Int>(NavArguments.EMPLOYMENT_ID.argumentName)).thenReturn(
+            employmentId
+        )
+        viewModel = EmploymentDetailViewModel(savedStateHandleMock, getEmploymentWithIdUseCaseMock)
     }
 
     @Test
     fun `get employment`() = runBlockingTest {
-        viewModel.employment(0).test {
+        viewModel.employment.test {
             assertThat((expectItem() as UiState.Success).data, `is`(StubDomainEmployment()))
             expectComplete()
         }
