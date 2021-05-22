@@ -48,7 +48,6 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,6 +69,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
 import com.cmgapps.android.curriculumvitae.infra.SubScreen
@@ -121,13 +121,6 @@ fun MainScreen(
             }
         ) { innerPadding ->
             val modifier = Modifier.padding(innerPadding)
-
-            val onError: @Composable (String) -> Unit = { message ->
-                LaunchedEffect(scaffoldState) {
-                    scaffoldState.snackbarHostState.showSnackbar(message)
-                }
-            }
-
             NavHost(navController, startDestination = Screen.Profile.route) {
                 composable(Screen.Profile.route) {
                     ProfileScreen(
@@ -135,27 +128,29 @@ fun MainScreen(
                         viewModel = hiltViewModel(),
                         onEmailClick = onFabClick,
                         bottomContentPadding = FabTopKnobPadding,
-                        onError = onError
+                        snackbarHostState = scaffoldState.snackbarHostState
                     )
                 }
-                composable(Screen.Employment.route) {
-                    EmploymentScreen(
-                        modifier = modifier,
-                        bottomContentPadding = FabTopKnobPadding,
-                        viewModel = hiltViewModel(),
-                        navController = navController,
-                        onError = onError
-                    )
-                }
-                composable(
-                    route = SubScreen.EmploymentDetail.route,
-                    arguments = SubScreen.EmploymentDetail.arguments
-                ) {
-                    EmploymentDetails(
-                        modifier = modifier,
-                        viewModel = hiltViewModel(),
-                        navController = navController
-                    )
+                navigation(startDestination = Screen.Employment.route, route = "employments") {
+                    composable(Screen.Employment.route) {
+                        EmploymentScreen(
+                            modifier = modifier,
+                            bottomContentPadding = FabTopKnobPadding,
+                            viewModel = hiltViewModel(),
+                            navController = navController,
+                            snackbarHostState = scaffoldState.snackbarHostState
+                        )
+                    }
+                    composable(
+                        route = SubScreen.EmploymentDetail.route,
+                        arguments = SubScreen.EmploymentDetail.arguments
+                    ) {
+                        EmploymentDetails(
+                            modifier = modifier,
+                            viewModel = hiltViewModel(),
+                            navController = navController
+                        )
+                    }
                 }
                 composable(Screen.Skills.route) {
                     SkillsScreen()

@@ -36,9 +36,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -78,12 +80,15 @@ fun ProfileScreen(
     bottomContentPadding: Dp = 0.dp,
     viewModel: ProfileViewModel,
     onEmailClick: () -> Unit,
-    onError: @Composable (String) -> Unit
+    snackbarHostState: SnackbarHostState
 ) {
     val uiEvent = viewModel.uiEvent
 
     if (uiEvent is UiEvent.Error) {
-        onError(stringResource(id = uiEvent.resId))
+        val errorMessage = stringResource(id = uiEvent.resId)
+        LaunchedEffect(snackbarHostState) {
+            snackbarHostState.showSnackbar(errorMessage)
+        }
     }
 
     val profileUiState by viewModel.profile.lifecycleAware()

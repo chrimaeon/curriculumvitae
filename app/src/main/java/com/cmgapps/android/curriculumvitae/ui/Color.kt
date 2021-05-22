@@ -30,7 +30,6 @@ val darkSystemBars = Color(0x40000000)
 val lightSystemBars = Color(0xB3FFFFFF)
 
 fun Color.darker(factor: Float): Color {
-    println(factor)
     return Color(
         alpha = this.alpha,
         red = min(1F, max(this.red * factor, 0F)),

@@ -28,9 +28,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -75,7 +77,7 @@ fun EmploymentScreen(
     bottomContentPadding: Dp = 0.dp,
     viewModel: EmploymentViewModel,
     navController: NavController,
-    onError: @Composable (String) -> Unit
+    snackbarHostState: SnackbarHostState
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -88,7 +90,10 @@ fun EmploymentScreen(
         val uiEvent = viewModel.uiEvent
 
         if (uiEvent is UiEvent.Error) {
-            onError(stringResource(id = uiEvent.resId))
+            val errorMessage = stringResource(id = uiEvent.resId)
+            LaunchedEffect(snackbarHostState) {
+                snackbarHostState.showSnackbar(errorMessage)
+            }
         }
 
         when (employmentUiState) {
