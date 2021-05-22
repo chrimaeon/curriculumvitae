@@ -69,7 +69,7 @@ androidx-coreTesting = "androidx.arch.core:core-testing:2.1.0"
 androidx-extJunit = "androidx.test.ext:junit:1.1.2"
 androidx-espresso = "androidx.test.espresso:espresso-core:3.3.0"
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
-junit-bom = "org.junit:junit-bom:5.7.1"
+junit-bom = "org.junit:junit-bom:5.7.2"
 hamcrest = "org.hamcrest:hamcrest:2.2"
 retrofit2-mockServer = { module = "com.squareup.retrofit2:retrofit-mock", version.ref = "retrofit" }
 mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.10.0"
