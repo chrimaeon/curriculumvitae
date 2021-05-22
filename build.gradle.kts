@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("UnstableApiUsage", "SpellCheckingInspection")
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.updates.gradle.GradleReleaseChannel.CURRENT
@@ -82,20 +82,30 @@ tasks {
     }
 
     named<DependencyUpdatesTask>("dependencyUpdates") {
+
         revision = "release"
         rejectVersionIf {
-            !candidate.group.contains(
-                ("compose|" +
-                    "com\\.google\\.dagger|" +
-                    "com\\.android\\.tools\\.build|" +
-                    "androidx\\.datastore|" +
-                    "com\\.google\\.cloud").toRegex()
-            ) &&
-                !candidate.module.contains("compose") &&
+
+            fun String.filterGroup(): Boolean = listOf(
+                "compose",
+                "com.google.dagger",
+                "com.android.tools.build",
+                "androidx.datastore",
+                "com.google.cloud",
+            ).any { this.contains(it) }
+
+            fun String.filterModule(): Boolean = listOf("compose").any { this.contains(it) }
+
+            fun ModuleComponentIdentifier.rejectedVersion(): Boolean =
                 listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->
                     """(?i).*[.-]?$qualifier[.\d-]*""".toRegex()
-                        .containsMatchIn(candidate.version)
+                        .containsMatchIn(version)
                 }
+
+            fun ModuleComponentIdentifier.filter(): ModuleComponentIdentifier? =
+                if (group.filterGroup() || module.filterModule()) null else this
+
+            candidate.filter()?.rejectedVersion() ?: false
         }
         gradleReleaseChannel = CURRENT.id
     }
