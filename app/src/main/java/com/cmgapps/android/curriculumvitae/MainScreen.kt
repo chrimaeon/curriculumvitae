@@ -105,7 +105,7 @@ fun MainScreen(
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
-            BottomSheetContent(onInfoWebsiteLinkClick)
+            BottomSheetContent(onInfoWebsiteLinkClick = onInfoWebsiteLinkClick)
         },
         sheetPeekHeight = 0.dp
     ) {
@@ -261,13 +261,21 @@ private fun Fab(onClick: () -> Unit = {}) {
 }
 
 @Composable
-private fun BottomSheetContent(onInfoWebsiteLinkClick: () -> Unit) {
+private fun BottomSheetContent(
+    modifier: Modifier = Modifier,
+    onInfoWebsiteLinkClick: () -> Unit
+) {
     var ossDialogOpen by remember { mutableStateOf(false) }
     var oflDialogOpen by remember { mutableStateOf(false) }
     Column(
-        Modifier
+        modifier
             .fillMaxWidth()
-            .padding(24.dp)
+            .padding(
+                LocalWindowInsets.current.navigationBars.toPaddingValues(
+                    additionalHorizontal = 24.dp,
+                    additionalVertical = 24.dp
+                )
+            )
     ) {
         Text(
             text = stringResource(id = R.string.app_name),
