@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnstableApiUsage")
+
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.updates.gradle.GradleReleaseChannel.CURRENT
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -24,10 +26,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(Plugins.androidGradlePlugin)
-        classpath(Plugins.kotlinGradlePlugin)
-        classpath(Plugins.hiltGradlePlugin)
-        classpath(Plugins.appEngine)
+        val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+        classpath(libs.findDependency("plugin-android").get())
+        classpath(libs.findDependency("plugin-kotlin").get())
+        classpath(libs.findDependency("plugin-hiltAndroid").get())
+        classpath(libs.findDependency("plugin-appEngine").get())
     }
 }
 
@@ -80,7 +84,13 @@ tasks {
     named<DependencyUpdatesTask>("dependencyUpdates") {
         revision = "release"
         rejectVersionIf {
-            !candidate.group.contains("compose|com\\.google\\.dagger|com\\.android\\.tools\\.build|androidx\\.datastore".toRegex()) &&
+            !candidate.group.contains(
+                ("compose|" +
+                    "com\\.google\\.dagger|" +
+                    "com\\.android\\.tools\\.build|" +
+                    "androidx\\.datastore|" +
+                    "com\\.google\\.cloud").toRegex()
+            ) &&
                 !candidate.module.contains("compose") &&
                 listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->
                     """(?i).*[.-]?$qualifier[.\d-]*""".toRegex()

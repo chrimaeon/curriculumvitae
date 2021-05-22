@@ -16,11 +16,13 @@
 
 package com.cmgapps.gradle.ktlint
 
-import Libs
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.JavaExec
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
 
+@Suppress("UnstableApiUsage")
 fun Project.configureKtlint() {
 
     val ktlintConfiguration = configurations.create("ktlint")
@@ -62,5 +64,6 @@ fun Project.configureKtlint() {
 
     }
 
-    dependencies.add(ktlintConfiguration.name, Libs.Misc.ktlint)
+    val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
+    dependencies.add(ktlintConfiguration.name, libs.findDependency("ktlint").get())
 }

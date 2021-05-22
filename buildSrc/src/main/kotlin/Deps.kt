@@ -38,25 +38,7 @@ private val toml: TomlParseResult =
 
 val protobufPluginVersion = toml.getString("versions.plugin-protobuf")
 val kotlinVersion = toml.getString("versions.kotlin")
-val ktlintVersion = toml.getString("versions.ktlint")
 val licensesVersion = toml.getString("versions.plugin-licenses")
-
-object Plugins {
-    val androidGradlePlugin =
-        "com.android.tools.build:gradle:" + toml.getString("versions.plugin-androidGradle")
-    val kotlinGradlePlugin =
-        "org.jetbrains.kotlin:kotlin-gradle-plugin:" + toml.getString("versions.kotlin")
-    val hiltGradlePlugin =
-        "com.google.dagger:hilt-android-gradle-plugin:" + toml.getString("versions.hilt")
-    val appEngine =
-        "com.google.cloud.tools:appengine-gradle-plugin:" + toml.getString("versions.plugin-appEngine")
-}
-
-object Libs {
-    object Misc {
-        val ktlint = "com.pinterest:ktlint:$ktlintVersion"
-    }
-}
 
 val PluginDependenciesSpec.benManesVersions: PluginDependencySpec
     get() = id("com.github.ben-manes.versions") version toml.getString("versions.plugin-benManesVersions")

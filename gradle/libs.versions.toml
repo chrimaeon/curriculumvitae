@@ -4,7 +4,6 @@ compose = "1.0.0-beta07"
 gradle = "7.0.2"
 hilt = "2.35.1"
 kotlin = "1.4.32"
-ktlint = "0.41.0"
 ktor = "1.5.4"
 protobuf = "3.17.0"
 retrofit = "2.9.0"
@@ -18,11 +17,10 @@ plugin-licenses = "3.1.0"
 
 [libraries]
 # region Plugins
-# TODO does not work correctly in buildscripts
-#plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-androidGradle" }
-#plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-#plugin-hiltAndroid = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-#plugin-appEngine = { module = "com.google.cloud.tools:appengine-gradle-plugin", version.ref = "plugin-appEngine" }
+plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-androidGradle" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-hiltAndroid = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+plugin-appEngine = { module = "com.google.cloud.tools:appengine-gradle-plugin", version.ref = "plugin-appEngine" }
 # endregion
 
 # region App
@@ -62,6 +60,7 @@ retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref =
 retrofit2-kotlinxSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
+ktlint = "com.pinterest:ktlint:0.41.0"
 # endregion
 
 # region Testing
@@ -87,9 +86,9 @@ ktor-serialization = { module = "io.ktor:ktor-serialization", version.ref = "kto
 ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.3"
-logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.120.5-alpha"
+logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.120.8-alpha"
 kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.153-kotlin-1.4.32"
-appEngine = "com.google.appengine:appengine:1.9.88"
+appEngine = "com.google.appengine:appengine:1.9.89"
 # endregion
 
 
