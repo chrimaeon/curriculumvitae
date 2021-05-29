@@ -2,16 +2,16 @@
 accompanist = "0.10.0"
 compose = "1.0.0-beta07"
 gradle = "7.0.2"
-hilt = "2.35.1"
+hilt = "2.36"
 kotlin = "1.4.32"
-ktor = "1.5.4"
-protobuf = "3.17.0"
+ktor = "1.6.0"
+protobuf = "3.17.2"
 retrofit = "2.9.0"
 room = "2.3.0"
 
-plugin-androidGradle = "7.0.0-beta02"
+plugin-androidGradle = "7.0.0-beta03"
 plugin-appEngine = "2.4.1"
-plugin-benManesVersions = "0.38.0"
+plugin-benManesVersions = "0.39.0"
 plugin-protobuf = "0.8.16"
 plugin-licenses = "3.1.0"
 
@@ -58,7 +58,7 @@ kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1
 okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.1"
 retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit2-kotlinxSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+protobuf-javalite = "com.google.protobuf:protobuf-javalite:3.17.1"
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.41.0"
 # endregion
