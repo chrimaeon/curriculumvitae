@@ -303,17 +303,19 @@ private fun BottomSheetContent(
 
     if (ossDialogOpen) {
         WebViewDialog(
-            url = "file:///android_asset/licenses.html",
+            url = "licenses.html".asAssetFileUrl(),
             onDismissRequest = { ossDialogOpen = false }
         )
     }
     if (oflDialogOpen) {
         WebViewDialog(
-            url = "file:///android_asset/ofl-licenses.html",
+            url = "ofl-licenses.html".asAssetFileUrl(),
             onDismissRequest = { oflDialogOpen = false },
         )
     }
 }
+
+private fun String.asAssetFileUrl() = "file:///android_asset/$this"
 
 @Composable
 private fun InfoTextWithLink(
