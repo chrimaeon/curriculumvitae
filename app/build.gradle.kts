@@ -202,6 +202,7 @@ androidComponents {
             gitVersionOutputFile.set(
                 project.buildDir.resolve("intermediates").resolve("git").resolve("output")
             )
+            outputs.upToDateWhen { false }
         }
 
         val manifestUpdater =
