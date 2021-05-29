@@ -87,7 +87,7 @@ fun generateEmailAddress(emailAddress: String, packageName: String, outputDir: F
         )
         .build()
 
-    FileSpec.builder("${packageName}.email", "Email").apply {
+    FileSpec.builder("$packageName.email", "Email").apply {
         addFunction(xorFun)
         addProperty(emailCharsProperty)
         addProperty(emailAddressProperty)
@@ -98,4 +98,3 @@ fun generateEmailAddress(emailAddress: String, packageName: String, outputDir: F
 private fun CharArray.xor(key: CharArray) = mapIndexed { index, char ->
     (char.toInt() xor key[index % key.size].toInt()).toChar()
 }.toCharArray()
-

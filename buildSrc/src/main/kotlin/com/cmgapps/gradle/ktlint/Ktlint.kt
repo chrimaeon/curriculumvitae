@@ -28,9 +28,8 @@ fun Project.configureKtlint() {
     val ktlintConfiguration = configurations.create("ktlint")
 
     tasks {
-
         val inputFiles = fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
-        val outputDir = "${buildDir}/reports"
+        val outputDir = "$buildDir/reports"
 
         register("ktlintFormat", JavaExec::class.java) {
             inputs.files(inputFiles)
@@ -54,14 +53,13 @@ fun Project.configureKtlint() {
             args = listOf(
                 "src/**/*.kt",
                 "--reporter=plain",
-                "--reporter=html,output=${outputDir}/ktlint.html"
+                "--reporter=html,output=$outputDir/ktlint.html"
             )
         }
 
         named("check") {
             dependsOn(ktlintTask)
         }
-
     }
 
     val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")

@@ -131,7 +131,6 @@ android {
 
         named("androidTest") {
             java.srcDir(sharedTestDir.resolve("java"))
-
         }
     }
 
@@ -171,7 +170,8 @@ class HtmlLicenseAsset(private val fileName: String) :
     com.android.build.api.artifact.Artifact.Single<RegularFile>(
         com.android.build.api.artifact.ArtifactKind.FILE,
         Category.INTERMEDIATES,
-    ), com.android.build.api.artifact.Artifact.Replaceable {
+    ),
+    com.android.build.api.artifact.Artifact.Replaceable {
     override fun getFolderName(): String {
         return "merged_assets"
     }

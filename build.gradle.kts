@@ -66,7 +66,6 @@ allprojects {
                     substitute(module("org.hamcrest:hamcrest-library")).with(module(it))
                 }
             }
-
         }
     }
 }
