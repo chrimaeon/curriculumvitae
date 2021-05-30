@@ -70,7 +70,11 @@ class ProfileRoutesShould {
     @Test
     fun `return profile in DE`() {
         withTestApplication(moduleFunction = { module() }) {
-            with(handleRequest(HttpMethod.Get, Routes.PROFILE.route + "?lang=de")) {
+            with(
+                handleRequest(HttpMethod.Get, Routes.PROFILE.route) {
+                    addHeader(HttpHeaders.AcceptLanguage, "de")
+                }
+            ) {
                 assertThat(
                     response.content,
                     `is`(

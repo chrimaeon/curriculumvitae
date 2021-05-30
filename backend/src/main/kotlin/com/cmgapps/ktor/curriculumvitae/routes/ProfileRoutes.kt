@@ -23,6 +23,7 @@ import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.features.origin
+import io.ktor.request.acceptLanguageItems
 import io.ktor.request.host
 import io.ktor.request.port
 import io.ktor.response.respond
@@ -31,17 +32,16 @@ import io.ktor.routing.get
 import io.ktor.routing.route
 import io.ktor.routing.routing
 import kotlinx.serialization.serializer
-import java.util.Locale
 
 private fun Route.profileRouting(profiles: Map<Language, Profile>) {
     route(Routes.PROFILE.route) {
         get {
-
-            val lang: Language = try {
-                enumValueOf((call.request.queryParameters["lang"] ?: "en").toUpperCase(Locale.ROOT))
-            } catch (exc: Exception) {
-                Language.EN
-            }
+            val lang: Language =
+                if (call.request.acceptLanguageItems().any { it.value.startsWith("de") }) {
+                    Language.DE
+                } else {
+                    Language.EN
+                }
 
             val host = with(call.request) {
                 "${origin.scheme}://${host()}:${port()}"

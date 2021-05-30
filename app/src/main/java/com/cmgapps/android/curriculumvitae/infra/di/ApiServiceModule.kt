@@ -43,14 +43,9 @@ object ApiServiceModule {
     ): CvApiService {
         val interceptedClient = okHttpClient.newBuilder()
             .addNetworkInterceptor { chain ->
-                val originalRequest = chain.request()
-
-                originalRequest.url.newBuilder().addQueryParameter("lang", lang).build()
-                    .let {
-                        originalRequest.newBuilder().url(it).build()
-                    }.let {
-                        chain.proceed(it)
-                    }
+                chain.request().newBuilder().header("Accept-Language", lang).let {
+                    chain.proceed(it.build())
+                }
             }
             .build()
 

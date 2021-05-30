@@ -46,6 +46,9 @@ import io.ktor.serialization.json
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
 
 enum class Routes(val route: String) {
     ROOT("/"),
@@ -60,6 +63,7 @@ fun Application.module(modelLoader: ModelLoader = ClassLoaderModelLoader()) {
     registerRoutes(modelLoader)
 }
 
+@OptIn(ExperimentalTime::class)
 fun Application.installFeatures() {
     install(DefaultHeaders)
     install(AutoHeadResponse)
@@ -99,7 +103,7 @@ fun Application.installFeatures() {
             when {
                 contentType?.match(ContentType.Image.Any) == true -> CachingOptions(
                     CacheControl.MaxAge(
-                        maxAgeSeconds = 86400
+                        maxAgeSeconds = Duration.days(1).toInt(DurationUnit.SECONDS)
                     )
                 )
                 else -> null
