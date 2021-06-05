@@ -251,7 +251,8 @@ private fun DIV.content() {
 private enum class Where {
     QUERY, HEADER, PATH;
 
-    override fun toString(): String = name.toLowerCase(Locale.US).capitalize(Locale.US)
+    override fun toString(): String = name.lowercase(Locale.US)
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.US) else it.toString() }
 }
 
 private data class Param(val name: String, val type: Class<*>, val `in`: Where, val desc: String)
@@ -289,21 +290,23 @@ private inline fun <reified T> DIV.apiCard(
     }
 }
 
+private const val NON_NUMERIC_TABLE_CELL = "mdl-data-table__cell--non-numeric"
+
 private fun DIV.paramsTable(params: List<Param>) {
     div(classes = "api-table-container") {
         table(classes = "api-table mdl-data-table") {
             thead {
                 tr {
-                    th(classes = "mdl-data-table__cell--non-numeric") {
+                    th(classes = NON_NUMERIC_TABLE_CELL) {
                         +"Name"
                     }
-                    th(classes = "mdl-data-table__cell--non-numeric") {
+                    th(classes = NON_NUMERIC_TABLE_CELL) {
                         +"Type"
                     }
-                    th(classes = "mdl-data-table__cell--non-numeric") {
+                    th(classes = NON_NUMERIC_TABLE_CELL) {
                         +"In"
                     }
-                    th(classes = "mdl-data-table__cell--non-numeric") {
+                    th(classes = NON_NUMERIC_TABLE_CELL) {
                         +"Description"
                     }
                 }
@@ -311,20 +314,20 @@ private fun DIV.paramsTable(params: List<Param>) {
             params.forEach { param ->
                 tbody {
                     tr {
-                        td(classes = "mdl-data-table__cell--non-numeric") {
+                        td(classes = NON_NUMERIC_TABLE_CELL) {
                             span(classes = "mdl-chip") {
                                 span(classes = "mdl-chip__text") {
                                     +param.name
                                 }
                             }
                         }
-                        td(classes = "mdl-data-table__cell--non-numeric") {
+                        td(classes = NON_NUMERIC_TABLE_CELL) {
                             +param.type.simpleName
                         }
-                        td(classes = "mdl-data-table__cell--non-numeric") {
+                        td(classes = NON_NUMERIC_TABLE_CELL) {
                             +param.`in`.toString()
                         }
-                        td(classes = "mdl-data-table__cell--non-numeric white-space-normal") {
+                        td(classes = "$NON_NUMERIC_TABLE_CELL white-space-normal") {
                             +param.desc
                         }
                     }

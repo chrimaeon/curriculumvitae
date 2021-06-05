@@ -52,7 +52,7 @@ import com.cmgapps.android.curriculumvitae.ui.darker
 import com.cmgapps.android.curriculumvitae.ui.lightBlue500
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.toPaddingValues
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import timber.log.Timber
 import java.time.LocalDate
 
@@ -113,7 +113,8 @@ fun EmploymentDetails(employment: Employment, navController: NavController) {
             }
             IconButton(
                 modifier = Modifier.padding(
-                    LocalWindowInsets.current.statusBars.toPaddingValues(
+                    rememberInsetsPaddingValues(
+                        insets = LocalWindowInsets.current.statusBars,
                         additionalTop = 8.dp
                     )
                 ),

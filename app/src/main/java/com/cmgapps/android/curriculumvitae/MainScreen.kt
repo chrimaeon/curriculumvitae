@@ -79,7 +79,7 @@ import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetail
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
 import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.toPaddingValues
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -169,7 +169,8 @@ private fun BottomBar(navController: NavController, bottomSheetState: BottomShee
         backgroundColor = MaterialTheme.colors.surface,
         elevation = BottomNavigationDefaults.Elevation,
         contentColor = MaterialTheme.colors.primary,
-        contentPadding = LocalWindowInsets.current.navigationBars.toPaddingValues(
+        contentPadding = rememberInsetsPaddingValues(
+            insets = LocalWindowInsets.current.navigationBars,
             additionalEnd = (56 + 16).dp
         ),
         cutoutShape = CircleShape
@@ -266,9 +267,12 @@ private fun BottomSheetContent(
         modifier
             .fillMaxWidth()
             .padding(
-                LocalWindowInsets.current.navigationBars.toPaddingValues(
-                    additionalHorizontal = 24.dp,
-                    additionalVertical = 24.dp
+                rememberInsetsPaddingValues(
+                    insets = LocalWindowInsets.current.navigationBars,
+                    additionalStart = 24.dp,
+                    additionalTop = 24.dp,
+                    additionalEnd = 24.dp,
+                    additionalBottom = 24.dp
                 )
             )
     ) {

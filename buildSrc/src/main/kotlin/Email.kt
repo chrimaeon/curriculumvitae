@@ -28,7 +28,7 @@ import java.io.File
 fun generateEmailAddress(emailAddress: String, packageName: String, outputDir: File) {
     val charClassName = Char::class.asClassName()
     val mapIndexedMember = charClassName.member("mapIndexed")
-    val charToIntMember = charClassName.member("toInt")
+    val charCodeMember = charClassName.member("code")
     val intToCharMember = Int::class.asClassName().member("toChar")
     val toCharArrayMember = MemberName("kotlin.collections", "toCharArray")
     val sizeMember = CharArray::class.asClassName().member("size")
@@ -44,13 +44,13 @@ fun generateEmailAddress(emailAddress: String, packageName: String, outputDir: F
         .addStatement(
             """
             |return %1N { %2L, %3L ->
-            |    (%3L.%4N() xor %5N[%2L %% %5N.%6N].%4N()).%7N()
+            |    (%3L.%4N xor %5N[%2L %% %5N.%6N].%4N).%7N()
             |}.%8N()
             """.trimMargin(),
             mapIndexedMember,
             indexVar,
             charVar,
-            charToIntMember,
+            charCodeMember,
             keyParameter,
             sizeMember,
             intToCharMember,

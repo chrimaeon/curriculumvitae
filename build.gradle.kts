@@ -91,6 +91,7 @@ tasks {
                 "com.android.tools.build",
                 "androidx.datastore",
                 "com.google.cloud",
+                "com.google.devtools.ksp",
             ).any { this.contains(it) }
 
             fun String.filterModule(): Boolean = listOf("compose").any { this.contains(it) }

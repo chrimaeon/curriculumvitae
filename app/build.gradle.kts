@@ -38,6 +38,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.protobuf") version protobufPluginVersion
     id("com.cmgapps.licenses") version licensesVersion
+    id("com.google.devtools.ksp") version "1.5.10-1.0.0-beta01"
 }
 
 @OptIn(ExperimentalPathApi::class)
@@ -121,6 +122,21 @@ android {
     sourceSets {
         named("main") {
             java.srcDir(xorDirPath)
+        }
+
+        @OptIn(ExperimentalStdlibApi::class)
+        fun kspDirs(variant: String): Array<File> = buildList {
+            listOf("kotlin", "java").forEach {
+                add(buildDir.resolve("generated/ksp").resolve(variant).resolve(it))
+            }
+        }.toTypedArray()
+
+        named("debug") {
+            java.srcDirs(*kspDirs("debug"))
+        }
+
+        named("release") {
+            java.srcDirs(*kspDirs("release"))
         }
 
         val sharedTestDir = project.projectDir.resolve("src").resolve("sharedTest")
@@ -275,7 +291,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.logtag.logTag)
-    kapt(libs.logtag.processor)
+    ksp(libs.logtag.processor)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

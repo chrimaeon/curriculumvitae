@@ -60,7 +60,7 @@ import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.toPaddingValues
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -151,12 +151,13 @@ private fun Content(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
-            contentPadding = LocalWindowInsets.current.systemBars.toPaddingValues(
-                bottom = false,
-                additionalTop = 8.dp,
-                additionalBottom = bottomContentPadding,
+            contentPadding = rememberInsetsPaddingValues(
+                insets = LocalWindowInsets.current.systemBars,
+                applyBottom = false,
                 additionalStart = 2.dp,
-                additionalEnd = 2.dp
+                additionalTop = 8.dp,
+                additionalEnd = 2.dp,
+                additionalBottom = bottomContentPadding
             )
         ) {
             items(employments, key = { it.id }) { employment ->

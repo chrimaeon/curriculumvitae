@@ -69,7 +69,7 @@ import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.imageloading.ImageLoadState
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.toPaddingValues
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import timber.log.Timber
 
 private const val TAG = "ProfileScreen"
@@ -131,7 +131,10 @@ private fun Content(
     ) {
         Column(
             modifier = Modifier.padding(
-                LocalWindowInsets.current.statusBars.toPaddingValues(additionalBottom = bottomContentPadding),
+                rememberInsetsPaddingValues(
+                    insets = LocalWindowInsets.current.statusBars,
+                    additionalBottom = bottomContentPadding
+                ),
             )
         ) {
             Header(profile, onEmailClick)
