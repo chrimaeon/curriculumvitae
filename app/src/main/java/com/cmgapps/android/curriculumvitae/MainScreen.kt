@@ -70,6 +70,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
 import com.cmgapps.android.curriculumvitae.infra.SubScreen
@@ -191,7 +192,7 @@ private fun BottomBar(navController: NavController, bottomSheetState: BottomShee
                     icon = {
                         Icon(
                             imageVector = screen.icon[iconState],
-                            contentDescription = null
+                            contentDescription = DecorativeImage
                         )
                     },
                     label = {
@@ -224,7 +225,7 @@ private fun BottomBar(navController: NavController, bottomSheetState: BottomShee
                 icon = {
                     Icon(
                         imageVector = Icons.Outlined.Info,
-                        contentDescription = null
+                        contentDescription = DecorativeImage
                     )
                 },
                 label = {

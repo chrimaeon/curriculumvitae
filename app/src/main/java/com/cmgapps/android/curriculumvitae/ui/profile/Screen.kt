@@ -61,6 +61,7 @@ import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Address
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
+import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
@@ -210,7 +211,7 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
         Image(
             painter = coilPainter,
             modifier = Modifier.fillMaxSize(),
-            contentDescription = null,
+            contentDescription = DecorativeImage,
             contentScale = ContentScale.Crop
         )
 
@@ -224,7 +225,7 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
                 Image(
                     painter = painterResource(id = R.drawable.ic_outline_person_24),
                     modifier = Modifier.fillMaxSize(),
-                    contentDescription = null,
+                    contentDescription = DecorativeImage,
                     contentScale = ContentScale.Crop
                 )
             }
