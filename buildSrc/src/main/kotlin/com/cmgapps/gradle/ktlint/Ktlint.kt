@@ -28,7 +28,9 @@ fun Project.configureKtlint() {
     val ktlintConfiguration = configurations.create("ktlint")
 
     tasks {
-        val inputFiles = fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
+        val inputFiles = fileTree("src") {
+            include("**/*.kt")
+        }
         val outputDir = "$buildDir/reports"
 
         register("ktlintFormat", JavaExec::class.java) {

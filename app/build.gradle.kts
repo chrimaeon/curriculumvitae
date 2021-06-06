@@ -124,10 +124,10 @@ android {
             java.srcDir(xorDirPath)
         }
 
-        @OptIn(ExperimentalStdlibApi::class)
-        fun kspDirs(variant: String): Array<File> = buildList {
+        @OptIn(ExperimentalStdlibApi::class, ExperimentalPathApi::class)
+        fun kspDirs(variant: String) = buildList {
             listOf("kotlin", "java").forEach {
-                add(buildDir.resolve("generated/ksp").resolve(variant).resolve(it))
+                add(buildDir.toPath() / "generated" / "ksp" / variant / it)
             }
         }.toTypedArray()
 
