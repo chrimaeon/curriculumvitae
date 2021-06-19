@@ -16,17 +16,18 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
@@ -35,7 +36,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -48,10 +48,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
-import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.SubScreen
 import com.cmgapps.android.curriculumvitae.infra.UiEvent
@@ -61,10 +59,12 @@ import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.Period
 import kotlin.time.ExperimentalTime
@@ -96,14 +96,21 @@ fun EmploymentScreen(
             }
         }
 
-        when (employmentUiState) {
-            UiState.Loading -> ContentLoading()
-            is UiState.Error -> ContentError(
+        if (employmentUiState is UiState.Error) {
+            ContentError(
                 error = (employmentUiState as UiState.Error).error,
                 screenName = "EmploymentScreen"
             )
-            is UiState.Success -> Content(
-                employments = (employmentUiState as UiState.Success<List<Employment>>).data,
+        } else {
+            @Suppress("UnnecessaryVariable")
+            val employments = when (val state = employmentUiState) {
+                is UiState.Success -> state.data
+                is UiState.Loading -> emptyList()
+                else -> null
+            }
+
+            Content(
+                employments = employments,
                 uiEvent = uiEvent,
                 bottomContentPadding = bottomContentPadding,
                 navController = navController,
@@ -111,29 +118,23 @@ fun EmploymentScreen(
                     viewModel.refresh()
                 },
             )
-            else -> if (BuildConfig.DEBUG) {
-                Timber.tag(TAG).d(employmentUiState.javaClass.name)
-            }
         }
     }
 }
 
 @Composable
 private fun Content(
-    employments: List<Employment>,
+    employments: List<Employment>?,
     uiEvent: UiEvent,
     bottomContentPadding: Dp,
     navController: NavController,
     onRefresh: () -> Unit = {},
 ) {
-    var isRefreshing = false
-    when (uiEvent) {
-        UiEvent.IsRefreshing -> isRefreshing = true
-        UiEvent.DoneRefreshing, is UiEvent.Error -> isRefreshing = false
-        else -> {
-            // ignore
-        }
+    val isRefreshing = when (uiEvent) {
+        UiEvent.IsRefreshing -> true
+        else -> false
     }
+
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing),
         onRefresh = onRefresh,
@@ -150,7 +151,7 @@ private fun Content(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
             contentPadding = rememberInsetsPaddingValues(
                 insets = LocalWindowInsets.current.systemBars,
                 applyBottom = false,
@@ -160,8 +161,16 @@ private fun Content(
                 additionalBottom = bottomContentPadding
             )
         ) {
-            items(employments, key = { it.id }) { employment ->
-                EmploymentCard(employment = employment, navController = navController)
+            if (employments != null) {
+                if (employments.isNotEmpty()) {
+                    items(employments, key = { it.id }) { employment ->
+                        EmploymentCard(employment = employment, navController = navController)
+                    }
+                } else {
+                    items(10) {
+                        EmploymentCard(employment = null, navController = navController)
+                    }
+                }
             }
         }
     }
@@ -169,49 +178,67 @@ private fun Content(
 
 @OptIn(ExperimentalTime::class)
 @Composable
-private fun EmploymentCard(employment: Employment, navController: NavController) {
-    val resources = LocalContext.current.resources
+private fun EmploymentCard(employment: Employment?, navController: NavController?) {
+    @OptIn(ExperimentalMaterialApi::class)
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(color = MaterialTheme.colors.primary)
-            ) {
-                navController.navigate(SubScreen.EmploymentDetail.routeWithId(employment.id))
-            }
-            .testTag("employmentCard${employment.id}"),
+            .testTag("employmentCard${employment?.id ?: 1}"),
         elevation = 4.dp,
+        onClick = {
+            employment?.let {
+                navController?.navigate(SubScreen.EmploymentDetail.routeWithId(it.id))
+            }
+        },
+        indication = rememberRipple(color = MaterialTheme.colors.primary),
     ) {
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
+            val sharedModifier = Modifier
+                .placeholder(
+                    visible = employment == null,
+                    highlight = PlaceholderHighlight.shimmer()
+                )
+                .fillMaxWidth()
+
             Text(
-                text = employment.employer,
+                modifier = sharedModifier,
+                text = employment?.employer.orEmpty(),
                 style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
             )
 
-            val period: String = Period.between(
-                employment.startDate,
-                employment.endDate ?: LocalDate.now()
-            ).plusMonths(1).run {
-                buildString {
-                    if (years > 0) {
-                        append(resources.getQuantityString(R.plurals.years, years, years))
-                        append(' ')
+            Spacer(modifier = Modifier.height(4.dp))
+
+            val period: String = employment?.let {
+                Period.between(
+                    employment.startDate,
+                    employment.endDate ?: LocalDate.now()
+                ).plusMonths(1).run {
+                    val resources = LocalContext.current.resources
+                    buildString {
+                        if (years > 0) {
+                            append(resources.getQuantityString(R.plurals.years, years, years))
+                            append(' ')
+                        }
+                        if (months > 0) {
+                            append(resources.getQuantityString(R.plurals.months, months, months))
+                        }
                     }
-                    if (months > 0) {
-                        append(resources.getQuantityString(R.plurals.months, months, months))
-                    }
-                }
-            }
+                }.trim()
+            }.orEmpty()
 
             Text(
+                modifier = sharedModifier,
                 text = period,
                 style = MaterialTheme.typography.body1
             )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
             Text(
-                text = employment.jobTitle,
+                modifier = sharedModifier,
+                text = employment?.jobTitle.orEmpty(),
                 style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         }
