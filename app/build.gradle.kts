@@ -38,7 +38,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.protobuf") version protobufPluginVersion
     id("com.cmgapps.licenses") version licensesVersion
-    id("com.google.devtools.ksp") version "1.5.10-1.0.0-beta01"
+    id("com.google.devtools.ksp") version "1.5.10-1.0.0-beta02"
 }
 
 @OptIn(ExperimentalPathApi::class)

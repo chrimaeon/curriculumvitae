@@ -43,7 +43,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,7 +61,6 @@ import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
-import com.cmgapps.android.curriculumvitae.components.ShimmerLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Address
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
@@ -68,9 +70,15 @@ import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.imageloading.ImageLoadState
+import com.google.accompanist.imageloading.isFinalState
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
 import timber.log.Timber
 
 private const val TAG = "ProfileScreen"
@@ -203,10 +211,24 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
         fadeIn = true,
         previewPlaceholder = R.drawable.ic_outline_person_24
     )
+
+    var showPlaceholder by remember { mutableStateOf(true) }
+
+    LaunchedEffect(coilPainter) {
+        snapshotFlow { coilPainter.loadState }
+            .filter { it.isFinalState() }
+            .collect { showPlaceholder = false }
+    }
+
     Box(
         modifier = modifier
             .size(imageSize)
             .clip(CircleShape)
+            .placeholder(
+                visible = showPlaceholder,
+                shape = CircleShape,
+                highlight = PlaceholderHighlight.shimmer()
+            )
     ) {
         Image(
             painter = coilPainter,
@@ -215,13 +237,9 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
             contentScale = ContentScale.Crop
         )
 
-        when (coilPainter.loadState) {
-            is ImageLoadState.Loading ->
-                ShimmerLoading(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.onBackground
-                )
+        when (val loadState = coilPainter.loadState) {
             is ImageLoadState.Error -> {
+                Timber.tag(TAG).e(loadState.throwable)
                 Image(
                     painter = painterResource(id = R.drawable.ic_outline_person_24),
                     modifier = Modifier.fillMaxSize(),
