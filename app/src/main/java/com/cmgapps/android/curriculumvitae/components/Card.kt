@@ -42,10 +42,10 @@ fun AnimatedCard(
     val interactionSource = remember { MutableInteractionSource() }
 
     LaunchedEffect(interactionSource) {
-        interactionSource.interactions.collect {
-            when (it) {
-                is PressInteraction.Press -> pressed.value = true
-                else -> pressed.value = false
+        interactionSource.interactions.collect { interaction ->
+            pressed.value = when (interaction) {
+                is PressInteraction.Press -> true
+                else -> false
             }
         }
     }

@@ -17,6 +17,7 @@
 package com.cmgapps.android.curriculumvitae
 
 import android.content.pm.ActivityInfo
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -94,6 +95,18 @@ class MainActivityShould {
     fun moveToSkills() = with(composeTestRule) {
         onNodeWithText("Skills").assertIsDisplayed().performClick()
         onNodeWithText("Android").assertIsDisplayed()
+        return@with
+    }
+
+    @Test
+    fun openInfoBottomSheet() = with(composeTestRule) {
+        onNodeWithText("Info").assertIsDisplayed().performClick()
+        onNodeWithText("Curriculum Vitae").assertIsDisplayed()
+        onNodeWithText("Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})").assertIsDisplayed()
+        onNodeWithText("Copyright \u00A9 ${BuildConfig.BUILD_YEAR} Christian Grach").assertIsDisplayed()
+        onNodeWithText("m.cmgapps.com").assertIsDisplayed().assertHasClickAction()
+        onNodeWithText("Open Source Licenses").assertIsDisplayed().assertHasClickAction()
+        onNodeWithText("Open Font Licenses").assertIsDisplayed().assertHasClickAction()
         return@with
     }
 }
