@@ -20,8 +20,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -38,8 +38,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -67,6 +67,7 @@ import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
+import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.imageloading.ImageLoadState
@@ -279,28 +280,23 @@ private fun ProfileDetails(
 
     val primaryColor = MaterialTheme.colors.primary
 
-    Text(
-        modifier = modifier.clickable(
-            interactionSource = remember { MutableInteractionSource() },
-            indication = rememberRipple(bounded = false, color = primaryColor),
-            onClick = onEmailClick
-        ),
-        text = profile.email,
-        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
-    )
+    CompositionLocalProvider(LocalIndication provides themedRipple(bounded = false)) {
 
-    val context = LocalContext.current
-    val phoneNumber = profile.phone
+        Text(
+            modifier = modifier.clickable(onClick = onEmailClick),
+            text = profile.email,
+            style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
+        )
 
-    Text(
-        modifier = modifier.clickable(
-            interactionSource = remember { MutableInteractionSource() },
-            indication = rememberRipple(bounded = false, color = primaryColor),
-            onClick = { context.onTelClick(phoneNumber) }
-        ),
-        text = phoneNumber,
-        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
-    )
+        val context = LocalContext.current
+        val phoneNumber = profile.phone
+
+        Text(
+            modifier = modifier.clickable(onClick = { context.onTelClick(phoneNumber) }),
+            text = phoneNumber,
+            style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
+        )
+    }
 }
 
 private fun Context.onTelClick(phoneNumber: String) {

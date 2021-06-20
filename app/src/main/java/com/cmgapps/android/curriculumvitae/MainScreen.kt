@@ -46,7 +46,6 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,7 +56,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -79,6 +77,7 @@ import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentScreen
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetails
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
+import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import kotlinx.coroutines.launch
@@ -332,9 +331,8 @@ private fun InfoTextWithLink(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(color = MaterialTheme.colors.primaryVariant),
+                indication = themedRipple(),
                 onClick = onClick,
-                role = Role.Button
             )
             .padding(vertical = 8.dp),
         text = text

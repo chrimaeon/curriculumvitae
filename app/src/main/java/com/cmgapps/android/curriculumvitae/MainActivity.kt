@@ -21,18 +21,13 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.view.WindowCompat
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import com.cmgapps.android.curriculumvitae.ui.darkSystemBars
-import com.cmgapps.android.curriculumvitae.ui.lightSystemBars
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -51,16 +46,6 @@ class MainActivity : ComponentActivity() {
                 ProvideWindowInsets(consumeWindowInsets = true) {
                     val scaffoldState = rememberScaffoldState()
                     val coroutineScope = rememberCoroutineScope()
-
-                    val systemUiController = rememberSystemUiController()
-                    val isLightTheme = MaterialTheme.colors.isLight
-                    val systemBarsColor = if (isLightTheme) lightSystemBars else darkSystemBars
-                    SideEffect {
-                        systemUiController.setSystemBarsColor(
-                            systemBarsColor,
-                            darkIcons = isLightTheme
-                        )
-                    }
 
                     MainScreen(
                         scaffoldState = scaffoldState,

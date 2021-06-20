@@ -16,11 +16,16 @@
 
 package com.cmgapps.android.curriculumvitae.ui
 
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
     primary = lightBlue200,
@@ -49,9 +54,24 @@ fun Theme(
         LightColorPalette
     }
 
+    val systemUiController = rememberSystemUiController()
+    val systemBarsColor = if (darkTheme) darkSystemBars else lightSystemBars
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            systemBarsColor,
+            darkIcons = !darkTheme
+        )
+    }
+
     MaterialTheme(
         colors = colors,
         typography = Typography,
         content = content
     )
 }
+
+@Composable
+fun themedRipple(bounded: Boolean = true): Indication = rememberRipple(
+    color = if (MaterialTheme.colors.isLight) MaterialTheme.colors.primary else LocalContentColor.current,
+    bounded = bounded
+)

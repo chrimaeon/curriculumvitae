@@ -16,4 +16,5 @@
 
 package com.cmgapps.android.curriculumvitae.infra
 
+@JvmField
 val DecorativeImage: String? = null

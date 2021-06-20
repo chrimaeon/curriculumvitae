@@ -47,6 +47,10 @@ object ApiServiceModule {
                     chain.proceed(it.build())
                 }
             }
+            // .addInterceptor {
+            //     Thread.sleep(10000)
+            //     it.proceed(it.request())
+            // }
             .build()
 
         return Retrofit.Builder()
