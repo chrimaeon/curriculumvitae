@@ -155,11 +155,12 @@ android {
     }
 
     testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-            it.testLogging {
+        unitTests.all { test ->
+            test.useJUnitPlatform()
+            test.testLogging {
                 events("passed", "skipped", "failed")
             }
+            test.afterSuite(testCompletionLog())
         }
     }
 

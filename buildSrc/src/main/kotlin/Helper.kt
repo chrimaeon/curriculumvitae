@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import org.gradle.api.Project
+import org.gradle.api.tasks.testing.TestDescriptor
+import org.gradle.api.tasks.testing.TestResult
+import org.gradle.kotlin.dsl.KotlinClosure2
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -38,3 +42,30 @@ fun String.runCommand(
             }
             inputStream.bufferedReader().readText().trim()
         }
+
+fun Project.testCompletionLog() =
+    KotlinClosure2<TestDescriptor, TestResult, Unit>(
+        { descriptor, result ->
+            if (descriptor.parent == null) {
+                val results =
+                    "| ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped) |"
+                val log = buildString(results.length * 3) {
+                    append('\n')
+                    repeat(results.length) {
+                        append("-")
+                    }
+
+                    append('\n')
+                    append(results)
+                    append('\n')
+
+                    repeat(results.length) {
+                        append("-")
+                    }
+                }
+                logger.lifecycle(log)
+            }
+        },
+        this,
+        this
+    )
