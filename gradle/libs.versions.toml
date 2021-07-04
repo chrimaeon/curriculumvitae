@@ -88,7 +88,7 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.3"
 logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.121.2-alpha"
-kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.213-kotlin-1.5.10"
+kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.213-kotlin-1.5.10"
 appEngine = "com.google.appengine:appengine:1.9.89"
 # endregion
 
