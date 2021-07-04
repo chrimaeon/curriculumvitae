@@ -28,10 +28,10 @@ buildscript {
     dependencies {
         val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-        classpath(libs.findDependency("plugin-android").get())
-        classpath(libs.findDependency("plugin-kotlin").get())
-        classpath(libs.findDependency("plugin-hiltAndroid").get())
-        classpath(libs.findDependency("plugin-appEngine").get())
+        classpath(libs.findDependency("plugin-android").orElseThrow())
+        classpath(libs.findDependency("plugin-kotlin").orElseThrow())
+        classpath(libs.findDependency("plugin-hiltAndroid").orElseThrow())
+        classpath(libs.findDependency("plugin-appEngine").orElseThrow())
     }
 }
 
@@ -61,9 +61,9 @@ allprojects {
             }.let {
                 force(it)
                 dependencySubstitution {
-                    substitute(module("org.hamcrest:hamcrest-core")).with(module(it))
-                    substitute(module("org.hamcrest:hamcrest-integration")).with(module(it))
-                    substitute(module("org.hamcrest:hamcrest-library")).with(module(it))
+                    substitute(module("org.hamcrest:hamcrest-core")).using(module(it))
+                    substitute(module("org.hamcrest:hamcrest-integration")).using(module(it))
+                    substitute(module("org.hamcrest:hamcrest-library")).using(module(it))
                 }
             }
         }
@@ -92,6 +92,7 @@ tasks {
                 "androidx.datastore",
                 "com.google.cloud",
                 "com.google.devtools.ksp",
+                "androidx.lifecycle",
             ).any { this.contains(it) }
 
             fun String.filterModule(): Boolean = listOf("compose").any { this.contains(it) }

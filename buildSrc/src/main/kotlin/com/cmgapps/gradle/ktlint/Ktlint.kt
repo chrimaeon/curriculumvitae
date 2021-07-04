@@ -39,7 +39,7 @@ fun Project.configureKtlint() {
 
             group = "Formatting"
             description = "Fix Kotlin code style deviations."
-            main = "com.pinterest.ktlint.Main"
+            mainClass.set("com.pinterest.ktlint.Main")
             classpath = ktlintConfiguration
             args = listOf("-F", "src/**/*.kt")
         }
@@ -50,7 +50,7 @@ fun Project.configureKtlint() {
 
             group = "Verification"
             description = "Check Kotlin code style."
-            main = "com.pinterest.ktlint.Main"
+            mainClass.set("com.pinterest.ktlint.Main")
             classpath = ktlintConfiguration
             args = listOf(
                 "src/**/*.kt",
@@ -65,5 +65,5 @@ fun Project.configureKtlint() {
     }
 
     val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
-    dependencies.add(ktlintConfiguration.name, libs.findDependency("ktlint").get())
+    dependencies.add(ktlintConfiguration.name, libs.findDependency("ktlint").orElseThrow())
 }

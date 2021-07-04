@@ -62,15 +62,6 @@ android {
         resourceConfigurations.addAll(listOf("en", "de"))
 
         buildConfigField("String", "BASE_URL", """"$baseUrl"""")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to projectDir.resolve("schemas").absolutePath,
-                    "room.incremental" to "true",
-                )
-            }
-        }
     }
 
     buildFeatures {
@@ -124,29 +115,23 @@ android {
             java.srcDir(xorDirPath)
         }
 
-        @OptIn(ExperimentalStdlibApi::class, ExperimentalPathApi::class)
-        fun kspDirs(variant: String) = buildList {
-            listOf("kotlin", "java").forEach {
-                add(buildDir.toPath() / "generated" / "ksp" / variant / it)
+        listOf("debug", "release").map { named(it) }.forEach { sourceSet ->
+            sourceSet {
+                java {
+                    listOf("kotlin", "java").forEach {
+                        @OptIn(ExperimentalPathApi::class)
+                        srcDir(buildDir.toPath() / "generated" / "ksp" / sourceSet.name / it)
+                    }
+                }
             }
-        }.toTypedArray()
-
-        named("debug") {
-            java.srcDirs(*kspDirs("debug"))
         }
 
-        named("release") {
-            java.srcDirs(*kspDirs("release"))
-        }
-
-        val sharedTestDir = project.projectDir.resolve("src").resolve("sharedTest")
-
-        named("test") {
-            java.srcDir(sharedTestDir.resolve("java"))
-        }
-
-        named("androidTest") {
-            java.srcDir(sharedTestDir.resolve("java"))
+        listOf("test", "androidTest").map { named(it) }.forEach { sourceSet ->
+            sourceSet {
+                java.srcDir(
+                    project.projectDir.resolve("src").resolve("sharedTest").resolve("java")
+                )
+            }
         }
     }
 
@@ -180,6 +165,14 @@ android {
             "TimberTagLength",
             "TimberExceptionLogging"
         )
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+    arguments {
+        arg("room.schemaLocation", projectDir.resolve("schemas").absolutePath)
+        arg("room.incremental", "true")
     }
 }
 
@@ -319,7 +312,7 @@ dependencies {
 
     androidTestImplementation(libs.androidx.extJunit)
     androidTestImplementation(libs.androidx.coreTesting)
-    androidTestImplementation(libs.espresso)
+    androidTestImplementation(libs.androidx.espresso)
     androidTestImplementation(libs.hamcrest)
     androidTestImplementation(libs.retrofit2.mockServer)
     androidTestImplementation(libs.hamcrest)

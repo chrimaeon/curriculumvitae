@@ -1,16 +1,16 @@
 [versions]
-accompanist = "0.12.0"
-compose = "1.0.0-beta09"
-gradle = "7.0.2"
+accompanist = "0.13.0"
+compose = "1.0.0-rc01"
+gradle = "7.1.1"
 hilt = "2.37"
 kotlin = "1.5.10"
-ktor = "1.6.0"
+ktor = "1.6.1"
 protobuf = "3.17.3"
 retrofit = "2.9.0"
 room = "2.3.0"
 logtag = "0.2.0"
 
-plugin-androidGradle = "7.0.0-beta03"
+plugin-androidGradle = "7.0.0-beta05"
 plugin-appEngine = "2.4.1"
 plugin-benManesVersions = "0.39.0"
 plugin-protobuf = "0.8.16"
@@ -25,8 +25,8 @@ plugin-appEngine = { module = "com.google.cloud.tools:appengine-gradle-plugin", 
 # endregion
 
 # region App
-androidx-lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha01"
-androidx-datastore = "androidx.datastore:datastore:1.0.0-beta02"
+androidx-lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha02"
+androidx-datastore = "androidx.datastore:datastore:1.0.0-rc01"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
@@ -34,9 +34,9 @@ compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-materialIconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
-compose-activity = "androidx.activity:activity-compose:1.3.0-beta2"
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose" }
 compose-viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-compose-navigation = "androidx.navigation:navigation-compose:2.4.0-alpha03"
+compose-navigation = "androidx.navigation:navigation-compose:2.4.0-alpha04"
 
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
 accompanist-coil = { module = "com.google.accompanist:accompanist-coil", version.ref = "accompanist" }
@@ -67,16 +67,15 @@ ktlint = "com.pinterest:ktlint:0.41.0"
 
 # region Testing
 androidx-coreTesting = "androidx.arch.core:core-testing:2.1.0"
-androidx-extJunit = "androidx.test.ext:junit:1.1.2"
-androidx-espresso = "androidx.test.espresso:espresso-core:3.3.0"
+androidx-extJunit = "androidx.test.ext:junit:1.1.3"
+androidx-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 junit-bom = "org.junit:junit-bom:5.7.2"
 hamcrest = "org.hamcrest:hamcrest:2.2"
 retrofit2-mockServer = { module = "com.squareup.retrofit2:retrofit-mock", version.ref = "retrofit" }
-mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.11.1"
+mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.11.2"
 kotlinx-coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
-espresso = "androidx.test.espresso:espresso-core:3.3.0"
 turbine = "app.cash.turbine:turbine:0.5.2"
 # endregion
 
@@ -89,7 +88,7 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.3"
 logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.121.2-alpha"
-kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.156-kotlin-1.5.0"
+kotlinCss = "org.jetbrains:kotlin-css:1.0.0-pre.213-kotlin-1.5.10"
 appEngine = "com.google.appengine:appengine:1.9.89"
 # endregion
 
