@@ -15,10 +15,8 @@
  */
 
 import com.android.build.api.artifact.SingleArtifact
-import com.cmgapps.gradle.CopyLicenseAssetTask
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
-import com.cmgapps.license.LicensesTask
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
@@ -45,13 +43,13 @@ plugins {
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    compileSdk = 30
+    compileSdkPreview = "S"
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
         minSdk = 26
-        targetSdk = 30
+        targetSdkPreview = "S"
         versionCode = 1
         versionName = "1.0"
 
@@ -176,36 +174,36 @@ kapt {
     }
 }
 
-class HtmlLicenseAsset(private val fileName: String) :
-    com.android.build.api.artifact.Artifact.Single<RegularFile>(
-        com.android.build.api.artifact.ArtifactKind.FILE,
-        Category.INTERMEDIATES,
-    ),
-    com.android.build.api.artifact.Artifact.Replaceable {
-    override fun getFolderName(): String {
-        return "merged_assets"
-    }
-
-    override fun getFileSystemLocationName(): String {
-        return fileName
-    }
-}
+// class HtmlLicenseAsset(private val fileName: String) :
+//     com.android.build.api.artifact.Artifact.Single<RegularFile>(
+//         com.android.build.api.artifact.ArtifactKind.FILE,
+//         Category.INTERMEDIATES,
+//     ),
+//     com.android.build.api.artifact.Artifact.Replaceable {
+//     override fun getFolderName(): String {
+//         return "merged_assets"
+//     }
+//
+//     override fun getFileSystemLocationName(): String {
+//         return fileName
+//     }
+// }
 
 androidComponents {
-    onVariants { variant ->
-        // TODO does not work correctly -> task is not triggered
-        val copyLicenseAsset =
-            tasks.register<CopyLicenseAssetTask>("copyLicense${variant.name.capitalize()}Asset") {
-                val licenseReportTask =
-                    tasks.named<LicensesTask>("license${variant.name.capitalize()}Report")
-                licenseFile.set(licenseReportTask.flatMap { it.reports.html.destination })
-                dependsOn(licenseReportTask)
-            }
-
-        variant.artifacts.use(copyLicenseAsset)
-            .wiredWith(CopyLicenseAssetTask::output)
-            .toCreate(HtmlLicenseAsset("license.html"))
-    }
+    // onVariants { variant ->
+    // // TODO does not work correctly -> task is not triggered
+    // val copyLicenseAsset =
+    //     tasks.register<CopyLicenseAssetTask>("copyLicense${variant.name.capitalize()}Asset") {
+    //         val licenseReportTask =
+    //             tasks.named<LicensesTask>("license${variant.name.capitalize()}Report")
+    //         licenseFile.set(licenseReportTask.flatMap { it.reports.html.destination })
+    //         dependsOn(licenseReportTask)
+    //     }
+    //
+    // variant.artifacts.use(copyLicenseAsset)
+    //     .wiredWith(CopyLicenseAssetTask::output)
+    //     .toCreate(HtmlLicenseAsset("license.html"))
+    // }
 
     onVariants(selector().withBuildType("release")) { variant ->
         val gitVersion by tasks.registering(GitVersionTask::class) {
