@@ -164,6 +164,20 @@ android {
             "TimberExceptionLogging"
         )
     }
+
+    applicationVariants.all {
+        val variantName = name
+        val licenseTask = tasks.named("license${variantName.capitalize()}Report")
+
+        val copyTask = tasks.register<Copy>("copy${licenseTask.name}") {
+            from(licenseTask)
+            into(android.sourceSets.getByName(variantName).assets.srcDirs.single())
+        }
+
+        mergeAssetsProvider {
+            dependsOn(copyTask)
+        }
+    }
 }
 
 kapt {

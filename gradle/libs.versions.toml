@@ -14,7 +14,7 @@ plugin-androidGradle = "7.0.0-beta05"
 plugin-appEngine = "2.4.1"
 plugin-benManesVersions = "0.39.0"
 plugin-protobuf = "0.8.16"
-plugin-licenses = "3.1.0"
+plugin-licenses = "3.2.0"
 
 [libraries]
 # region Plugins
