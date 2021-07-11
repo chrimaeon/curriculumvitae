@@ -44,7 +44,7 @@ object OkHttpClientModule {
         OkHttpClient.Builder()
             .sslSocketFactory(sslSocketFactory, trustManager)
             .hostnameVerifier { _, _ -> true }
-            .addInterceptor(
+            .addNetworkInterceptor(
                 HttpLoggingInterceptor { message ->
                     Timber.tag("HttpLoggingInterceptor").d(message)
                 }.apply {
