@@ -43,13 +43,13 @@ plugins {
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    compileSdkPreview = "S"
+    compileSdk = 31
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
         minSdk = 26
-        targetSdkPreview = "S"
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
 
@@ -313,6 +313,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.protobuf.javalite)
     implementation(libs.cmgapps.lintLogDebug)
+    implementation(libs.coil.compose)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")

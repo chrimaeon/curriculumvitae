@@ -52,11 +52,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.LocalImageLoader
+import coil.compose.rememberImagePainter
 import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
@@ -69,9 +72,6 @@ import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
-import com.google.accompanist.coil.rememberCoilPainter
-import com.google.accompanist.imageloading.ImageLoadState
-import com.google.accompanist.imageloading.isFinalState
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -207,17 +207,32 @@ private fun Header(
 
 @Composable
 private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
-    val coilPainter = rememberCoilPainter(
-        request = profile.profileImageUrl,
-        fadeIn = true,
-        previewPlaceholder = R.drawable.ic_outline_person_24
+    val coilPainter = rememberImagePainter(
+        data = profile.profileImageUrl,
+        imageLoader = LocalImageLoader.current,
+        builder = {
+            crossfade(true)
+            error(
+                drawableResId = R.drawable.ic_outline_person_24
+            )
+        }
     )
 
     var showPlaceholder by remember { mutableStateOf(true) }
 
+    @OptIn(ExperimentalCoilApi::class)
     LaunchedEffect(coilPainter) {
-        snapshotFlow { coilPainter.loadState }
-            .filter { it.isFinalState() }
+        snapshotFlow { coilPainter.state }
+            .filter {
+                when (it) {
+                    is ImagePainter.State.Success -> true
+                    is ImagePainter.State.Error -> {
+                        Timber.tag(TAG).e(it.throwable)
+                        true
+                    }
+                    else -> false
+                }
+            }
             .collect { showPlaceholder = false }
     }
 
@@ -237,21 +252,6 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
             contentDescription = DecorativeImage,
             contentScale = ContentScale.Crop
         )
-
-        when (val loadState = coilPainter.loadState) {
-            is ImageLoadState.Error -> {
-                Timber.tag(TAG).e(loadState.throwable)
-                Image(
-                    painter = painterResource(id = R.drawable.ic_outline_person_24),
-                    modifier = Modifier.fillMaxSize(),
-                    contentDescription = DecorativeImage,
-                    contentScale = ContentScale.Crop
-                )
-            }
-            else -> {
-                // Do nothing
-            }
-        }
     }
 }
 
