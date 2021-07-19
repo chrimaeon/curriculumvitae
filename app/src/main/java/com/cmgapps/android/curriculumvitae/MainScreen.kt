@@ -30,13 +30,13 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetState
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
@@ -44,7 +44,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -98,16 +98,13 @@ fun MainScreen(
         } ?: false
     }
 
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
-    BottomSheetScaffold(
-        scaffoldState = bottomSheetScaffoldState,
+    ModalBottomSheetLayout(
+        sheetState = bottomSheetState,
         sheetContent = {
             BottomSheetContent(onInfoWebsiteLinkClick = onInfoWebsiteLinkClick)
         },
-        sheetPeekHeight = 0.dp
     ) {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -116,7 +113,7 @@ fun MainScreen(
             bottomBar = {
                 if (isOnMainScreen) BottomBar(
                     navController = navController,
-                    bottomSheetState = bottomSheetScaffoldState.bottomSheetState
+                    bottomSheetState = bottomSheetState
                 )
             }
         ) { innerPadding ->
@@ -164,7 +161,7 @@ val FabTopKnobPadding = 40.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun BottomBar(navController: NavController, bottomSheetState: BottomSheetState) {
+private fun BottomBar(navController: NavController, bottomSheetState: ModalBottomSheetState) {
     BottomAppBar(
         backgroundColor = MaterialTheme.colors.surface,
         elevation = BottomNavigationDefaults.Elevation,
@@ -235,7 +232,7 @@ private fun BottomBar(navController: NavController, bottomSheetState: BottomShee
                 selected = false,
                 onClick = {
                     coroutineScope.launch {
-                        bottomSheetState.expand()
+                        bottomSheetState.show()
                     }
                 }
             )
