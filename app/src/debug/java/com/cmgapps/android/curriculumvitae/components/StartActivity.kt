@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra.di
+package com.cmgapps.android.curriculumvitae.components
 
-import javax.inject.Qualifier
+import android.content.Intent
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import com.cmgapps.android.curriculumvitae.debug.DebugActivity
 
-@Qualifier
-@Target(
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.PROPERTY_GETTER,
-    AnnotationTarget.PROPERTY_SETTER,
-    AnnotationTarget.VALUE_PARAMETER,
-    AnnotationTarget.FIELD
-)
-annotation class Language
+@Composable
+fun StartActivity() {
+    val context = LocalContext.current
+    TextButton(
+        onClick = { context.startActivity(Intent(context, DebugActivity::class.java)) }
+    ) {
+        Text("Open Debug Activity")
+    }
+}

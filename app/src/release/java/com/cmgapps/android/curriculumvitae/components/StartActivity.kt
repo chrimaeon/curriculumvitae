@@ -14,26 +14,11 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra.di
+package com.cmgapps.android.curriculumvitae.components
 
-import com.cmgapps.android.curriculumvitae.BuildConfig
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import javax.inject.Singleton
+import androidx.compose.runtime.Composable
 
-@Module
-@InstallIn(SingletonComponent::class)
-object OkHttpClientModule {
-
-    @Provides
-    @Singleton
-    fun provideOkHttp(): OkHttpClient = OkHttpClient()
-
-    @Provides
-    @BaseUrl
-    @Singleton
-    fun provideBaseUrl() = BuildConfig.BASE_URL
+@Composable
+fun StartActivity() {
+    // Not needed for release
 }

@@ -63,11 +63,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.cmgapps.android.curriculumvitae.components.StartActivity
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
@@ -179,9 +182,10 @@ private fun BottomBar(navController: NavController, bottomSheetState: ModalBotto
 
             val coroutineScope = rememberCoroutineScope()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
+            val currentDestination = navBackStackEntry?.destination
             screens.forEach { screen ->
-                val selected = currentRoute == screen.route
+                val selected =
+                    currentDestination?.hierarchy?.any { it.route == screen.route } == true
                 val iconState = if (selected) IconState.Selected else IconState.Default
 
                 BottomNavigationItem(
@@ -206,13 +210,12 @@ private fun BottomBar(navController: NavController, bottomSheetState: ModalBotto
                         }
 
                         navController.navigate(screen.route) {
-                            popUpTo(
-                                navBackStackEntry?.destination?.id
-                                    ?: navController.graph.startDestinationId
-                            ) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
                                 inclusive = true
                             }
                             launchSingleTop = true
+                            restoreState = true
                         }
                     }
                 )
@@ -300,6 +303,9 @@ private fun BottomSheetContent(
             text = stringResource(id = R.string.info_open_font_licenses),
             onClick = { oflDialogOpen = true }
         )
+        if (BuildConfig.DEBUG) {
+            StartActivity()
+        }
     }
 
     if (ossDialogOpen) {

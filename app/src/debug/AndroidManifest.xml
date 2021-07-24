@@ -21,6 +21,10 @@
     <application
         android:allowBackup="false"
         android:usesCleartextTraffic="true"
-        tools:ignore="MissingApplicationIcon" />
+        tools:ignore="MissingApplicationIcon">
+        <activity
+            android:name=".debug.DebugActivity"
+            android:theme="@style/Theme.CurriculumVitae" />
+    </application>
 
 </manifest>

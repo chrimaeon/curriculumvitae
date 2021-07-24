@@ -17,9 +17,14 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
+import com.cmgapps.android.curriculumvitae.BuildConfig
+import com.cmgapps.android.curriculumvitae.debug.DebugActivity.Companion.BASE_URL_KEY
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,6 +40,7 @@ import javax.net.ssl.X509TrustManager
 object OkHttpClientModule {
 
     @SuppressLint("LogDebugConditional")
+    @SuppressWarnings("kotlin:S5527")
     @Provides
     @Singleton
     fun provideOkHttpClient(
@@ -54,6 +60,7 @@ object OkHttpClientModule {
 
     @Provides
     @SuppressLint("TrustAllX509TrustManager", "CustomX509TrustManager")
+    @SuppressWarnings("kotlin:S4830")
     fun provideTrustManager(): X509TrustManager {
         return object : X509TrustManager {
             override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
@@ -69,9 +76,23 @@ object OkHttpClientModule {
     }
 
     @Provides
+    @SuppressWarnings("kotlin:S4423")
     fun provideSslSockerFactory(trustManager: X509TrustManager): SSLSocketFactory {
         val sslContext = SSLContext.getInstance("SSL")
         sslContext.init(null, arrayOf(trustManager), java.security.SecureRandom())
         return sslContext.socketFactory
     }
+
+    @Provides
+    @BaseUrl
+    @Singleton
+    fun provideBaseUrl(@BaseUrlPreferences sharedPreferences: SharedPreferences): String {
+        return sharedPreferences.getString(BASE_URL_KEY, BuildConfig.BASE_URL)!!
+    }
+
+    @Provides
+    @Singleton
+    @BaseUrlPreferences
+    fun provideBaseUrlPreferences(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences("baseUrl", Context.MODE_PRIVATE)
 }

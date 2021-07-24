@@ -16,7 +16,6 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.network.CvApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -39,7 +38,8 @@ object ApiServiceModule {
     @Singleton
     fun provideApiService(
         okHttpClient: OkHttpClient,
-        @Language lang: String
+        @Language lang: String,
+        @BaseUrl baseUrl: String,
     ): CvApiService {
         val interceptedClient = okHttpClient.newBuilder()
             .addNetworkInterceptor { chain ->
@@ -55,7 +55,7 @@ object ApiServiceModule {
 
         return Retrofit.Builder()
             .client(interceptedClient)
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build().run {
                 create(CvApiService::class.java)

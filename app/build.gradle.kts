@@ -89,7 +89,15 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BUILD_YEAR", "\"DEBUG\"")
+            buildConfigField("String", "BUILD_YEAR", """"DEBUG"""")
+
+            val debugBaseUrls by configProperties()
+            buildConfigField(
+                "String[]",
+                "DEBUG_BASE_URLS",
+                debugBaseUrls.split(",")
+                    .joinToString(prefix = "{", postfix = "}") { """"$it"""" }
+            )
         }
 
         release {
@@ -100,6 +108,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "BUILD_YEAR", "\"${LocalDate.now().year}\"")
+            buildConfigField("String[]", "DEBUG_BASE_URLS", """{}""")
         }
     }
 
