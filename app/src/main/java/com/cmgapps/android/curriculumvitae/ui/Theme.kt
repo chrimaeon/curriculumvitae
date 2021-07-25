@@ -25,6 +25,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
@@ -32,7 +33,6 @@ private val DarkColorPalette = darkColors(
     primaryVariant = lightBlue700,
     secondary = amber200,
     secondaryVariant = amber200,
-    // background = blueGray800,
 )
 
 private val LightColorPalette = lightColors(
@@ -40,12 +40,13 @@ private val LightColorPalette = lightColors(
     primaryVariant = lightBlue700,
     secondary = amber200,
     secondaryVariant = amber700,
-    // background = blueGray50
 )
 
 @Composable
 fun Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    lightSystemBarColor: Color = lightSystemBars,
+    darkSystemBarColor: Color = darkSystemBars,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
@@ -55,7 +56,7 @@ fun Theme(
     }
 
     val systemUiController = rememberSystemUiController()
-    val systemBarsColor = if (darkTheme) darkSystemBars else lightSystemBars
+    val systemBarsColor = if (darkTheme) darkSystemBarColor else lightSystemBarColor
     SideEffect {
         systemUiController.setSystemBarsColor(
             systemBarsColor,

@@ -86,13 +86,13 @@ object OkHttpClientModule {
     @Provides
     @BaseUrl
     @Singleton
-    fun provideBaseUrl(@BaseUrlPreferences sharedPreferences: SharedPreferences): String {
+    fun provideBaseUrl(@DebugPreferences sharedPreferences: SharedPreferences): String {
         return sharedPreferences.getString(BASE_URL_KEY, BuildConfig.BASE_URL)!!
     }
 
     @Provides
     @Singleton
-    @BaseUrlPreferences
+    @DebugPreferences
     fun provideBaseUrlPreferences(@ApplicationContext context: Context): SharedPreferences =
-        context.getSharedPreferences("baseUrl", Context.MODE_PRIVATE)
+        context.getSharedPreferences("DebugPrefs", Context.MODE_PRIVATE)
 }

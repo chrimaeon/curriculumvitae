@@ -68,6 +68,8 @@ retrofit2-kotlinxSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-ser
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.41.0"
+processPhoenix = "com.jakewharton:process-phoenix:2.0.0"
+leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 # endregion
 
 # region Testing
@@ -96,7 +98,6 @@ logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.121.3-alpha"
 kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.213-kotlin-1.5.10"
 appEngine = "com.google.appengine:appengine:1.9.90"
 # endregion
-
 
 [bundles]
 ktor = ["ktor-servlet", "ktor-html", "ktor-serialization"]

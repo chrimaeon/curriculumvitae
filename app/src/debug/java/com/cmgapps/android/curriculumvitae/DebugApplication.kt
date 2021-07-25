@@ -16,25 +16,30 @@
 
 package com.cmgapps.android.curriculumvitae
 
-import android.app.Application
-import coil.Coil
-import coil.ImageLoader
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
-import javax.inject.Inject
+import android.os.Build
+import android.os.StrictMode
 
-@HiltAndroidApp
-open class Application : Application() {
-
-    @Inject
-    lateinit var timberTree: Timber.Tree
-
-    @Inject
-    lateinit var imageLoader: ImageLoader
+class DebugApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(timberTree)
-        Coil.setImageLoader(imageLoader)
+        enableStrictMode()
+    }
+
+    private fun enableStrictMode() {
+        StrictMode.setThreadPolicy(
+            StrictMode.ThreadPolicy.Builder().detectAll()
+                .penaltyLog()
+                .build()
+        )
+        StrictMode.setVmPolicy(
+            StrictMode.VmPolicy.Builder().detectAll().apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    detectNonSdkApiUsage()
+                }
+            }
+                .penaltyLog()
+                .build()
+        )
     }
 }

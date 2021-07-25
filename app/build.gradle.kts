@@ -324,6 +324,9 @@ dependencies {
     implementation(libs.cmgapps.lintLogDebug)
     implementation(libs.coil.compose)
 
+    debugImplementation(libs.processPhoenix)
+    debugImplementation(libs.leakCanary)
+
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation(libs.androidx.coreTesting)

@@ -46,4 +46,4 @@ annotation class BaseUrl
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.FIELD
 )
-annotation class BaseUrlPreferences
+annotation class DebugPreferences
