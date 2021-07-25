@@ -137,9 +137,10 @@ fun MainScreen(
                             modifier = modifier,
                             bottomContentPadding = FabTopKnobPadding,
                             viewModel = hiltViewModel(),
-                            navController = navController,
                             snackbarHostState = scaffoldState.snackbarHostState
-                        )
+                        ) { id ->
+                            navController.navigate(SubScreen.EmploymentDetail.routeWithId(id))
+                        }
                     }
                     composable(
                         route = SubScreen.EmploymentDetail.route,
@@ -148,8 +149,9 @@ fun MainScreen(
                         EmploymentDetails(
                             modifier = modifier,
                             viewModel = hiltViewModel(),
-                            navController = navController
-                        )
+                        ) {
+                            navController.popBackStack()
+                        }
                     }
                 }
                 composable(Screen.Skills.route) {

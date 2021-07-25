@@ -40,8 +40,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
@@ -59,8 +57,8 @@ import java.time.LocalDate
 @Composable
 fun EmploymentDetails(
     viewModel: EmploymentDetailViewModel,
-    navController: NavController,
-    modifier: Modifier
+    modifier: Modifier,
+    navigateUp: () -> Unit,
 ) {
     val employment by viewModel.employment.collectAsState(initial = UiState.Init)
 
@@ -69,7 +67,7 @@ fun EmploymentDetails(
             UiState.Loading -> ContentLoading()
             is UiState.Success -> EmploymentDetails(
                 employment = (employment as UiState.Success<Employment>).data,
-                navController = navController,
+                navigateUp = navigateUp,
             )
             is UiState.Error -> ContentError(
                 error = (employment as UiState.Error).error,
@@ -83,7 +81,7 @@ fun EmploymentDetails(
 }
 
 @Composable
-fun EmploymentDetails(employment: Employment, navController: NavController) {
+private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -118,7 +116,7 @@ fun EmploymentDetails(employment: Employment, navController: NavController) {
                         additionalTop = 8.dp
                     )
                 ),
-                onClick = { navController.popBackStack() }
+                onClick = { navigateUp() }
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -155,7 +153,7 @@ private val employment = Employment(
 @Composable
 fun PreviewEmploymentDetails() {
     ThemedPreview {
-        EmploymentDetails(employment, rememberNavController())
+        EmploymentDetails(employment) {}
     }
 }
 
@@ -163,7 +161,7 @@ fun PreviewEmploymentDetails() {
 @Composable
 fun PreviewEmploymentDetailsDark() {
     ThemedPreview(darkTheme = true) {
-        EmploymentDetails(employment, rememberNavController())
+        EmploymentDetails(employment) {}
     }
 }
 
@@ -171,7 +169,7 @@ fun PreviewEmploymentDetailsDark() {
 @Composable
 fun PreviewEmploymentDetailsLandscape() {
     ThemedPreview(darkTheme = true) {
-        EmploymentDetails(employment, rememberNavController())
+        EmploymentDetails(employment) {}
     }
 }
 // endregion

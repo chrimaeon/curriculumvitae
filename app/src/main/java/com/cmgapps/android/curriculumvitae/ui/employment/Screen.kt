@@ -54,14 +54,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.AnimatedCard
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
-import com.cmgapps.android.curriculumvitae.infra.SubScreen
 import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
@@ -86,8 +83,8 @@ fun EmploymentScreen(
     modifier: Modifier = Modifier,
     bottomContentPadding: Dp = 0.dp,
     viewModel: EmploymentViewModel,
-    navController: NavController,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    navigateToEmploymentDetails: (employmentId: Int) -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -123,7 +120,7 @@ fun EmploymentScreen(
                 employments = employments,
                 uiEvent = uiEvent,
                 bottomContentPadding = bottomContentPadding,
-                navController = navController,
+                navigateToEmploymentDetails = navigateToEmploymentDetails,
                 onRefresh = {
                     viewModel.refresh()
                 },
@@ -137,7 +134,7 @@ private fun Content(
     employments: List<Employment>?,
     uiEvent: UiEvent,
     bottomContentPadding: Dp,
-    navController: NavController,
+    navigateToEmploymentDetails: (employmentId: Int) -> Unit,
     onRefresh: () -> Unit = {},
 ) {
     val isRefreshing = when (uiEvent) {
@@ -174,11 +171,17 @@ private fun Content(
             if (employments != null) {
                 if (employments.isNotEmpty()) {
                     items(employments, key = { it.id }) { employment ->
-                        EmploymentCard(employment = employment, navController = navController)
+                        EmploymentCard(
+                            employment = employment,
+                            navigateToEmploymentDetails = navigateToEmploymentDetails
+                        )
                     }
                 } else {
                     items(10) {
-                        EmploymentCard(employment = null, navController = navController)
+                        EmploymentCard(
+                            employment = null,
+                            navigateToEmploymentDetails = navigateToEmploymentDetails
+                        )
                     }
                 }
             }
@@ -188,7 +191,10 @@ private fun Content(
 
 @OptIn(ExperimentalTime::class)
 @Composable
-private fun EmploymentCard(employment: Employment?, navController: NavController?) {
+private fun EmploymentCard(
+    employment: Employment?,
+    navigateToEmploymentDetails: (employmentId: Int) -> Unit
+) {
 
     AnimatedCard(
         modifier = Modifier
@@ -196,7 +202,7 @@ private fun EmploymentCard(employment: Employment?, navController: NavController
             .testTag("employmentCard${employment?.id ?: 1}"),
         onClick = {
             employment?.let {
-                navController?.navigate(SubScreen.EmploymentDetail.routeWithId(it.id))
+                navigateToEmploymentDetails(it.id)
             }
         },
     ) {
@@ -306,7 +312,7 @@ private val employments = listOf(
 fun PreviewContent() {
     ThemedPreview {
         ProvideWindowInsets {
-            Content(employments, UiEvent.Init, 0.dp, rememberNavController())
+            Content(employments, UiEvent.Init, 0.dp, {})
         }
     }
 }
@@ -316,7 +322,7 @@ fun PreviewContent() {
 fun PreviewContentDark() {
     ThemedPreview(darkTheme = true) {
         ProvideWindowInsets {
-            Content(employments, UiEvent.Init, 0.dp, rememberNavController())
+            Content(employments, UiEvent.Init, 0.dp, {})
         }
     }
 }
