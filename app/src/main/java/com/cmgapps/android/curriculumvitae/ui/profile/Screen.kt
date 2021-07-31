@@ -41,7 +41,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,16 +59,12 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.LocalImageLoader
 import coil.compose.rememberImagePainter
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Address
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
-import com.cmgapps.android.curriculumvitae.infra.UiEvent
-import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
@@ -92,33 +87,31 @@ fun ProfileScreen(
     onEmailClick: () -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
-    val uiEvent = viewModel.uiEvent
 
-    if (uiEvent is UiEvent.Error) {
-        val errorMessage = stringResource(id = uiEvent.resId)
+    val uiState = viewModel.uiState
+
+    if (uiState.loading) {
+        ContentLoading()
+    }
+
+    if (uiState.networkError) {
+        val errorMessage = stringResource(id = R.string.refresh_error)
         LaunchedEffect(snackbarHostState) {
             snackbarHostState.showSnackbar(errorMessage)
         }
     }
 
-    val profileUiState by viewModel.profile.lifecycleAware()
-        .collectAsState(initial = UiState.Init)
+    if (uiState.exception != null && !uiState.networkError && uiState.data == null) {
+        ContentError(error = uiState.exception, screenName = TAG)
+    }
 
-    when (profileUiState) {
-        UiState.Loading -> ContentLoading()
-        is UiState.Success -> Content(
+    if (uiState.data != null) {
+        Content(
             modifier = modifier,
-            profile = (profileUiState as UiState.Success<Profile>).data,
+            profile = uiState.data,
             onEmailClick = onEmailClick,
             bottomContentPadding = bottomContentPadding,
         )
-        is UiState.Error -> ContentError(
-            error = (profileUiState as UiState.Error).error,
-            screenName = "ProfileScreen"
-        )
-        else -> if (BuildConfig.DEBUG) {
-            Timber.tag(TAG).d(profileUiState.javaClass.simpleName)
-        }
     }
 }
 

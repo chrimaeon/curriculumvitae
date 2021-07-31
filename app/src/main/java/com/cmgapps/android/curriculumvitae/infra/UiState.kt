@@ -16,68 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.infra
 
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-
-sealed class UiState<out T : Any> {
-    object Init : UiState<Nothing>()
-    object Loading : UiState<Nothing>()
-    data class Success<out T : Any>(val data: T) : UiState<T>()
-    data class Error(val error: Throwable) : UiState<Nothing>()
-}
-
-private const val DELAY = 500L
-
-private val uiStateDebounce: (UiState<Any>) -> Long = {
-    when (it) {
-        UiState.Loading -> DELAY
-        else -> 0L
-    }
-}
-
-// compile error java.lang.IllegalStateException: Type variable TypeVariable(T) should not be fixed!
-// @OptIn(ExperimentalTime::class, FlowPreview::class)
-// private fun <T> Flow<T>.debounceIf(
-//     duration: Duration = 500L.milliseconds,
-//     predicate: (T) -> Boolean
-// ): Flow<T> = this.debounce {
-//     when {
-//         predicate(it) -> duration
-//         else -> Duration.ZERO
-//     }
-// }
-
-@OptIn(FlowPreview::class)
-fun <T : Any, R : Any> (suspend () -> T).asUiStateFlow(
-    @Suppress("UNCHECKED_CAST") mapping: T.() -> R = { this as R }
-): Flow<UiState<R>> =
-    flow {
-        emit(UiState.Loading)
-        try {
-            emit(UiState.Success(invoke().mapping()))
-        } catch (exc: Exception) {
-            emit(UiState.Error(exc))
-        }
-    }.debounce(uiStateDebounce)
-
-@OptIn(FlowPreview::class)
-fun <T : Any, R : Any> Flow<T?>.asUiStateFlow(
-    @Suppress("UNCHECKED_CAST") mapping: T.() -> R = { this as R }
-): Flow<UiState<R>> =
-    this.onStart { emit(null) }
-        .map {
-            if (it == null) {
-                UiState.Loading
-            } else {
-                UiState.Success(it.mapping())
-            }
-        }
-        .debounce(uiStateDebounce)
-        .catch {
-            emit(UiState.Error(it))
-        }
+data class UiState<T : Any?>(
+    val loading: Boolean = false,
+    val exception: Throwable? = null,
+    val networkError: Boolean = false,
+    val data: T? = null
+)

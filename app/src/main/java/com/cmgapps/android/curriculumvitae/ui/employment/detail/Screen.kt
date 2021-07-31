@@ -31,8 +31,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
@@ -40,18 +38,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.ui.darker
 import com.cmgapps.android.curriculumvitae.ui.lightBlue500
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -60,22 +55,19 @@ fun EmploymentDetails(
     modifier: Modifier,
     navigateUp: () -> Unit,
 ) {
-    val employment by viewModel.employment.collectAsState(initial = UiState.Init)
+    val uiState = viewModel.uiState
 
     Box(modifier = modifier.fillMaxSize()) {
-        when (employment) {
-            UiState.Loading -> ContentLoading()
-            is UiState.Success -> EmploymentDetails(
-                employment = (employment as UiState.Success<Employment>).data,
+        when {
+            uiState.loading -> ContentLoading()
+            uiState.data != null -> EmploymentDetails(
+                employment = uiState.data,
                 navigateUp = navigateUp,
             )
-            is UiState.Error -> ContentError(
-                error = (employment as UiState.Error).error,
+            uiState.exception != null -> ContentError(
+                error = uiState.exception,
                 screenName = "EmploymentDetails",
             )
-            else -> if (BuildConfig.DEBUG) {
-                Timber.tag("EmploymentDetails").d(employment.javaClass.simpleName)
-            }
         }
     }
 }

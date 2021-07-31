@@ -22,15 +22,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.LogTag
-import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
-import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
@@ -41,22 +39,27 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     getProfile: GetProfileUseCase,
     refreshProfileUseCase: RefreshProfileUseCase
-) :
-    ViewModel() {
+) : ViewModel() {
 
-    val profile: Flow<UiState<Profile>> = getProfile().asUiStateFlow()
-
-    var uiEvent: UiEvent by mutableStateOf(UiEvent.Init)
+    var uiState: UiState<Profile> by mutableStateOf(UiState(loading = true))
         private set
 
     init {
         viewModelScope.launch {
-            try {
+            uiState = try {
                 refreshProfileUseCase()
+                uiState.copy(loading = false)
             } catch (exc: IOException) {
                 Timber.tag(LOG_TAG).e(exc)
-                uiEvent = UiEvent.Error(R.string.refresh_error)
+                uiState.copy(loading = false, networkError = true, exception = exc)
             }
+        }
+
+        viewModelScope.launch {
+            getProfile().catch { error ->
+                Timber.tag(LOG_TAG).e(error)
+                uiState.copy(exception = error, networkError = false)
+            }.collect { if (it != null) uiState = UiState(data = it) }
         }
     }
 }

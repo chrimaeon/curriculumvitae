@@ -39,8 +39,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,9 +57,7 @@ import com.cmgapps.android.curriculumvitae.components.AnimatedCard
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
-import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.infra.lifecycleAware
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -91,59 +87,42 @@ fun EmploymentScreen(
         contentAlignment = Alignment.Center
     ) {
 
-        val employmentUiState by viewModel.employments.lifecycleAware()
-            .collectAsState(initial = UiState.Init)
+        val uiState = viewModel.uiState
 
-        val uiEvent = viewModel.uiEvent
-
-        if (uiEvent is UiEvent.Error) {
-            val errorMessage = stringResource(id = uiEvent.resId)
+        if (uiState.networkError) {
+            val errorMessage = stringResource(id = R.string.refresh_error)
             LaunchedEffect(snackbarHostState) {
                 snackbarHostState.showSnackbar(errorMessage)
             }
         }
 
-        if (employmentUiState is UiState.Error) {
+        if (uiState.exception != null && !uiState.networkError && uiState.data == null) {
             ContentError(
-                error = (employmentUiState as UiState.Error).error,
+                error = uiState.exception,
                 screenName = "EmploymentScreen"
             )
-        } else {
-            @Suppress("UnnecessaryVariable")
-            val employments = when (val state = employmentUiState) {
-                is UiState.Success -> state.data
-                is UiState.Loading -> emptyList()
-                else -> null
-            }
-
-            Content(
-                employments = employments,
-                uiEvent = uiEvent,
-                bottomContentPadding = bottomContentPadding,
-                navigateToEmploymentDetails = navigateToEmploymentDetails,
-                onRefresh = {
-                    viewModel.refresh()
-                },
-            )
         }
+
+        Content(
+            uiState = uiState,
+            bottomContentPadding = bottomContentPadding,
+            navigateToEmploymentDetails = navigateToEmploymentDetails,
+            onRefresh = {
+                viewModel.refresh()
+            },
+        )
     }
 }
 
 @Composable
 private fun Content(
-    employments: List<Employment>?,
-    uiEvent: UiEvent,
+    uiState: UiState<List<Employment>?>,
     bottomContentPadding: Dp,
     navigateToEmploymentDetails: (employmentId: Int) -> Unit,
     onRefresh: () -> Unit = {},
 ) {
-    val isRefreshing = when (uiEvent) {
-        UiEvent.IsRefreshing -> true
-        else -> false
-    }
-
     SwipeRefresh(
-        state = rememberSwipeRefreshState(isRefreshing),
+        state = rememberSwipeRefreshState(uiState.loading),
         onRefresh = onRefresh,
         indicator = { state, trigger ->
             SwipeRefreshIndicator(
@@ -168,7 +147,8 @@ private fun Content(
                 additionalBottom = bottomContentPadding
             )
         ) {
-            if (employments != null) {
+            if (uiState.data != null) {
+                val employments: List<Employment> = uiState.data
                 if (employments.isNotEmpty()) {
                     items(employments, key = { it.id }) { employment ->
                         EmploymentCard(
@@ -292,7 +272,7 @@ private fun EmploymentCard(
 
 // region Preview
 
-private val employments = listOf(
+private val previewEmployments = listOf(
     Employment(
         id = 1,
         jobTitle = "Software developer",
@@ -312,7 +292,7 @@ private val employments = listOf(
 fun PreviewContent() {
     ThemedPreview {
         ProvideWindowInsets {
-            Content(employments, UiEvent.Init, 0.dp, {})
+            Content(UiState(data = previewEmployments), 0.dp, {})
         }
     }
 }
@@ -322,7 +302,7 @@ fun PreviewContent() {
 fun PreviewContentDark() {
     ThemedPreview(darkTheme = true) {
         ProvideWindowInsets {
-            Content(employments, UiEvent.Init, 0.dp, {})
+            Content(UiState(data = previewEmployments), 0.dp, {})
         }
     }
 }

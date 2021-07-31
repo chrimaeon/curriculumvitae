@@ -16,15 +16,20 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment.detail
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentWithIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +38,17 @@ class EmploymentDetailViewModel @Inject constructor(
     getEmploymentUseCase: GetEmploymentWithIdUseCase
 ) : ViewModel() {
 
-    val employment: Flow<UiState<Employment>> = getEmploymentUseCase(
-        savedStateHandle[NavArguments.EMPLOYMENT_ID.argumentName] ?: error("Employment ID not set")
-    ).asUiStateFlow()
+    var uiState: UiState<Employment> by mutableStateOf(UiState(loading = true))
+
+    init {
+        viewModelScope.launch {
+            getEmploymentUseCase(
+                savedStateHandle[NavArguments.EMPLOYMENT_ID.argumentName] ?: error(
+                    "EmploymentId not set"
+                )
+            )
+                .catch { uiState = uiState.copy(loading = false, exception = it) }
+                .collect { uiState = UiState(data = it) }
+        }
+    }
 }

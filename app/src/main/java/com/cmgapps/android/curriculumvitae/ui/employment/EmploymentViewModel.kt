@@ -22,15 +22,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.LogTag
-import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import com.cmgapps.android.curriculumvitae.infra.UiEvent
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.infra.asUiStateFlow
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
 import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
@@ -43,25 +40,27 @@ class EmploymentViewModel @Inject constructor(
     private val refreshEmploymentUseCase: RefreshEmploymentUseCase
 ) : ViewModel() {
 
-    val employments: Flow<UiState<List<Employment>>> = getEmploymentsUseCase().asUiStateFlow()
-
-    var uiEvent: UiEvent by mutableStateOf(UiEvent.Init)
+    var uiState: UiState<List<Employment>?> by mutableStateOf(UiState(loading = true))
         private set
 
     fun refresh() {
         viewModelScope.launch {
-            uiEvent = UiEvent.IsRefreshing
-            uiEvent = try {
+            try {
+                uiState = uiState.copy(loading = true)
                 refreshEmploymentUseCase()
-                UiEvent.DoneRefreshing
+                uiState = uiState.copy(loading = false)
             } catch (exc: IOException) {
                 Timber.tag(LOG_TAG).e(exc)
-                UiEvent.Error(R.string.refresh_error)
+                uiState = uiState.copy(loading = false, exception = exc, networkError = true)
             }
         }
     }
 
     init {
+        viewModelScope.launch {
+            getEmploymentsUseCase().collect { uiState = UiState(data = it) }
+        }
+
         refresh()
     }
 }
