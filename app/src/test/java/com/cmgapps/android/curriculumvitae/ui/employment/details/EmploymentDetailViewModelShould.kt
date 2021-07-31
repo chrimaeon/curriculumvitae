@@ -17,15 +17,13 @@
 package com.cmgapps.android.curriculumvitae.ui.employment.details
 
 import androidx.lifecycle.SavedStateHandle
-import app.cash.turbine.test
 import com.cmgapps.android.curriculumvitae.infra.NavArguments
-import com.cmgapps.android.curriculumvitae.infra.UiState
+import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetailViewModel
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentWithIdUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
@@ -37,7 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
-@ExtendWith(MockitoExtension::class)
+@ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 class EmploymentDetailViewModelShould {
 
     @Mock
@@ -60,10 +58,7 @@ class EmploymentDetailViewModelShould {
     }
 
     @Test
-    fun `get employment`() = runBlockingTest {
-        viewModel.employment.test {
-            assertThat((expectItem() as UiState.Success).data, `is`(StubDomainEmployment()))
-            expectComplete()
-        }
+    fun `get employment`() {
+        assertThat(viewModel.uiState.data, `is`(StubDomainEmployment()))
     }
 }

@@ -16,8 +16,6 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment
 
-import app.cash.turbine.test
-import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
@@ -57,12 +55,8 @@ internal class EmploymentViewModelShould {
     }
 
     @Test
-    fun `return employments`() = runBlockingTest {
-
-        viewModel.employments.test {
-            assertThat((expectItem() as UiState.Success).data, `is`(listOf(StubDomainEmployment())))
-            expectComplete()
-        }
+    fun `return employments`() {
+        assertThat(viewModel.uiState.data, `is`(listOf(StubDomainEmployment())))
     }
 
     @Test

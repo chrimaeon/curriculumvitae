@@ -16,8 +16,6 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
-import app.cash.turbine.test
-import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
 import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
@@ -55,11 +53,8 @@ internal class ProfileViewModelShould {
     }
 
     @Test
-    fun `get profile`() = runBlockingTest {
-        viewModel.profile.test {
-            assertThat((expectItem() as UiState.Success).data, `is`(StubDomainProfile()))
-            expectComplete()
-        }
+    fun `get profile`() {
+        assertThat(viewModel.uiState.data, `is`(StubDomainProfile()))
     }
 
     @Test
