@@ -11,6 +11,7 @@ jobs:
     env:
       CV_BASE_URL: https://www.host.undefined
       CV_EMAIL: me@home.at
+      CV_DEBUG_BASE_URLS: https://www.host.undefined
 
     steps:
       - uses: actions/checkout@v2

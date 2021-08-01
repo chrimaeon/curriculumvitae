@@ -323,6 +323,7 @@ dependencies {
     implementation(libs.protobuf.javalite)
     implementation(libs.cmgapps.lintLogDebug)
     implementation(libs.coil.compose)
+    implementation(libs.collapsingToolbar)
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)

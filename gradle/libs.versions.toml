@@ -70,6 +70,7 @@ cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.42.0"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.1"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
+collapsingToolbar = "me.onebone:toolbar-compose:2.1.2"
 # endregion
 
 # region Testing

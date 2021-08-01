@@ -147,7 +147,6 @@ fun MainScreen(
                         arguments = SubScreen.EmploymentDetail.arguments
                     ) {
                         EmploymentDetails(
-                            modifier = modifier,
                             viewModel = hiltViewModel(),
                         ) {
                             navController.popBackStack()
