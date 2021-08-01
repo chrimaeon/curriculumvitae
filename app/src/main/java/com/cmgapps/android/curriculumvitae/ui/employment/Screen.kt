@@ -52,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.AnimatedCard
 import com.cmgapps.android.curriculumvitae.components.ContentError
@@ -72,8 +73,7 @@ import java.time.LocalDate
 import java.time.Period
 import kotlin.time.ExperimentalTime
 
-private const val TAG = "EmploymentScreen"
-
+@LogTag
 @Composable
 fun EmploymentScreen(
     modifier: Modifier = Modifier,
@@ -86,7 +86,6 @@ fun EmploymentScreen(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
         val uiState = viewModel.uiState
 
         if (uiState.networkError) {
@@ -175,7 +174,6 @@ private fun EmploymentCard(
     employment: Employment?,
     navigateToEmploymentDetails: (employmentId: Int) -> Unit
 ) {
-
     AnimatedCard(
         modifier = Modifier
             .fillMaxWidth()

@@ -86,9 +86,6 @@ tasks {
         rejectVersionIf {
 
             fun String.filterGroup(): Boolean = listOf(
-                "compose",
-                "com.google.dagger",
-                "com.android.tools.build",
                 "androidx.datastore",
                 "com.google.cloud",
                 "com.google.devtools.ksp",

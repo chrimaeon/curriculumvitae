@@ -9,7 +9,7 @@ ktor = "1.6.2"
 protobuf = "3.17.3"
 retrofit = "2.9.0"
 room = "2.3.0"
-logtag = "0.2.0"
+logtag = "0.3.0"
 
 plugin-androidGradle = "7.0.0"
 plugin-appEngine = "2.4.1"
