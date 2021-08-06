@@ -90,7 +90,7 @@ fun ProfileScreen(
 
     val uiState = viewModel.uiState
 
-    if (uiState.loading) {
+    if (uiState.loading && uiState.data == null) {
         ContentLoading()
     }
 

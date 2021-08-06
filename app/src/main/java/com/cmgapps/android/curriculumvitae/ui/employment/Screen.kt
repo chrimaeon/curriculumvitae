@@ -95,7 +95,7 @@ fun EmploymentScreen(
             }
         }
 
-        if (uiState.exception != null && !uiState.networkError && uiState.data == null) {
+        if (uiState.exception != null && !uiState.networkError && uiState.data.isNullOrEmpty()) {
             ContentError(
                 error = uiState.exception,
                 screenName = "EmploymentScreen"

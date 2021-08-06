@@ -22,22 +22,24 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.LogTag
+import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
-import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
+import com.dropbox.android.external.store4.ResponseOrigin
+import com.dropbox.android.external.store4.Store
+import com.dropbox.android.external.store4.StoreRequest
+import com.dropbox.android.external.store4.StoreResponse
+import com.dropbox.android.external.store4.fresh
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 @LogTag
 @HiltViewModel
 class EmploymentViewModel @Inject constructor(
-    getEmploymentsUseCase: GetEmploymentsUseCase,
-    private val refreshEmploymentUseCase: RefreshEmploymentUseCase
+    private val store: Store<String, List<Employment>>
 ) : ViewModel() {
 
     var uiState: UiState<List<Employment>?> by mutableStateOf(UiState(loading = true))
@@ -45,22 +47,45 @@ class EmploymentViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch {
-            try {
-                uiState = uiState.copy(loading = true)
-                refreshEmploymentUseCase()
-                uiState = uiState.copy(loading = false)
-            } catch (exc: IOException) {
-                Timber.tag(LOG_TAG).e(exc)
-                uiState = uiState.copy(loading = false, exception = exc, networkError = true)
-            }
+            uiState = uiState.copy(loading = true)
+            uiState = UiState(data = store.fresh(KEY))
         }
     }
 
     init {
         viewModelScope.launch {
-            getEmploymentsUseCase().collect { uiState = UiState(data = it) }
+            store.stream(StoreRequest.cached(KEY, refresh = true)).collect { response ->
+                when (response) {
+                    is StoreResponse.Loading -> uiState = uiState.copy(loading = true)
+                    is StoreResponse.Data -> {
+                        uiState = uiState.copy(
+                            loading = response.origin != ResponseOrigin.Fetcher,
+                            data = response.value
+                        )
+                    }
+                    is StoreResponse.Error -> {
+                        val origin = response.origin
+                        val exception = Exception(
+                            response.errorMessageOrNull(),
+                            if (response is StoreResponse.Error.Exception) response.error else null
+                        )
+                        uiState = uiState.copy(
+                            loading = origin == ResponseOrigin.SourceOfTruth,
+                            networkError = origin == ResponseOrigin.Fetcher,
+                            exception = exception
+                        )
+                    }
+                    is StoreResponse.NoNewData -> {
+                        if (BuildConfig.DEBUG) {
+                            Timber.tag(LOG_TAG).d("No new data")
+                        }
+                    }
+                }
+            }
         }
+    }
 
-        refresh()
+    companion object {
+        const val KEY = "employment"
     }
 }

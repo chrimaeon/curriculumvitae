@@ -16,10 +16,12 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment
 
+import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
-import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentsUseCase
-import com.cmgapps.android.curriculumvitae.usecase.RefreshEmploymentUseCase
+import com.dropbox.android.external.store4.ResponseOrigin
+import com.dropbox.android.external.store4.Store
+import com.dropbox.android.external.store4.StoreResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -29,9 +31,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.whenever
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
@@ -39,19 +44,20 @@ import kotlin.time.ExperimentalTime
 internal class EmploymentViewModelShould {
 
     @Mock
-    lateinit var getEmploymentsUseCase: GetEmploymentsUseCase
-
-    @Mock
-    lateinit var refreshEmploymentUseCase: RefreshEmploymentUseCase
+    lateinit var store: Store<String, List<Employment>>
 
     private lateinit var viewModel: EmploymentViewModel
 
     @BeforeEach
     fun beforeEach() {
-        `when`(getEmploymentsUseCase())
-            .thenReturn(flowOf(listOf(StubDomainEmployment())))
+        whenever(store.stream(any())) doReturn flowOf(
+            StoreResponse.Data(
+                listOf(StubDomainEmployment()),
+                ResponseOrigin.Fetcher
+            )
+        )
 
-        viewModel = EmploymentViewModel(getEmploymentsUseCase, refreshEmploymentUseCase)
+        viewModel = EmploymentViewModel(store)
     }
 
     @Test
@@ -61,6 +67,7 @@ internal class EmploymentViewModelShould {
 
     @Test
     fun `refresh employments`() = runBlockingTest {
-        verify(refreshEmploymentUseCase).invoke()
+        viewModel.refresh()
+        verify(store, times(2)).stream(any())
     }
 }

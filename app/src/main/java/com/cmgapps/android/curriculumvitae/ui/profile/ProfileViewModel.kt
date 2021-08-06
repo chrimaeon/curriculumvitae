@@ -22,23 +22,23 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.LogTag
+import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
-import com.cmgapps.android.curriculumvitae.usecase.RefreshProfileUseCase
+import com.dropbox.android.external.store4.ResponseOrigin
+import com.dropbox.android.external.store4.Store
+import com.dropbox.android.external.store4.StoreRequest
+import com.dropbox.android.external.store4.StoreResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 @LogTag
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    getProfile: GetProfileUseCase,
-    refreshProfileUseCase: RefreshProfileUseCase
+    profileStore: Store<String, Profile>
 ) : ViewModel() {
 
     var uiState: UiState<Profile> by mutableStateOf(UiState(loading = true))
@@ -46,20 +46,31 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            uiState = try {
-                refreshProfileUseCase()
-                uiState.copy(loading = false)
-            } catch (exc: IOException) {
-                Timber.tag(LOG_TAG).e(exc)
-                uiState.copy(loading = false, networkError = true, exception = exc)
-            }
-        }
-
-        viewModelScope.launch {
-            getProfile().catch { error ->
-                Timber.tag(LOG_TAG).e(error)
-                uiState.copy(exception = error, networkError = false)
-            }.collect { if (it != null) uiState = UiState(data = it) }
+            profileStore.stream(StoreRequest.cached("profile", refresh = true))
+                .collect { response ->
+                    when (response) {
+                        is StoreResponse.Loading -> uiState = uiState.copy(loading = true)
+                        is StoreResponse.Data ->
+                            uiState = UiState(data = response.value)
+                        is StoreResponse.Error -> {
+                            val origin = response.origin
+                            val exception = Exception(
+                                response.errorMessageOrNull(),
+                                if (response is StoreResponse.Error.Exception) response.error else null
+                            )
+                            uiState = uiState.copy(
+                                loading = origin == ResponseOrigin.SourceOfTruth,
+                                networkError = origin == ResponseOrigin.Fetcher,
+                                exception = exception
+                            )
+                        }
+                        is StoreResponse.NoNewData -> {
+                            if (BuildConfig.DEBUG) {
+                                Timber.tag(LOG_TAG).d("No new data")
+                            }
+                        }
+                    }
+                }
         }
     }
 }

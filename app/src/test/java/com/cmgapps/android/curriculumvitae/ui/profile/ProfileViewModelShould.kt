@@ -16,10 +16,13 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
+import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
-import com.cmgapps.android.curriculumvitae.usecase.GetProfileUseCase
-import com.cmgapps.android.curriculumvitae.usecase.RefreshProfileUseCase
+import com.dropbox.android.external.store4.ResponseOrigin
+import com.dropbox.android.external.store4.Store
+import com.dropbox.android.external.store4.StoreRequest
+import com.dropbox.android.external.store4.StoreResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -29,9 +32,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
@@ -39,17 +44,19 @@ import kotlin.time.ExperimentalTime
 internal class ProfileViewModelShould {
 
     @Mock
-    lateinit var getProfileUseCase: GetProfileUseCase
-
-    @Mock
-    lateinit var refreshProfileUseCase: RefreshProfileUseCase
+    lateinit var store: Store<String, Profile>
 
     private lateinit var viewModel: ProfileViewModel
 
     @BeforeEach
     fun beforeEach() {
-        `when`(getProfileUseCase.invoke()).thenReturn(flowOf(StubDomainProfile()))
-        viewModel = ProfileViewModel(getProfileUseCase, refreshProfileUseCase)
+        whenever(store.stream(any())) doReturn flowOf(
+            StoreResponse.Data(
+                StubDomainProfile(),
+                ResponseOrigin.Fetcher
+            )
+        )
+        viewModel = ProfileViewModel(store)
     }
 
     @Test
@@ -59,6 +66,6 @@ internal class ProfileViewModelShould {
 
     @Test
     fun `refresh profile`() = runBlockingTest {
-        Mockito.verify(refreshProfileUseCase).invoke()
+        verify(store).stream(StoreRequest.cached("profile", true))
     }
 }

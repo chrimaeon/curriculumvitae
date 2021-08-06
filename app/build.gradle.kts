@@ -324,6 +324,7 @@ dependencies {
     implementation(libs.cmgapps.lintLogDebug)
     implementation(libs.coil.compose)
     implementation(libs.collapsingToolbar)
+    implementation(libs.dropbox.store)
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)
@@ -332,6 +333,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation(libs.androidx.coreTesting)
     testImplementation(libs.mockito.jupiter)
+    testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlinx.coroutinesTest)
     testImplementation(libs.hamcrest)
     testImplementation(libs.turbine)

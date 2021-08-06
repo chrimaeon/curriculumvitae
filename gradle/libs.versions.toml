@@ -71,6 +71,7 @@ ktlint = "com.pinterest:ktlint:0.42.0"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.1"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 collapsingToolbar = "me.onebone:toolbar-compose:2.1.2"
+dropbox-store = "com.dropbox.mobile.store:store4:4.0.2-KT15"
 # endregion
 
 # region Testing
@@ -82,6 +83,7 @@ junit-bom = "org.junit:junit-bom:5.7.2"
 hamcrest = "org.hamcrest:hamcrest:2.2"
 retrofit2-mockServer = { module = "com.squareup.retrofit2:retrofit-mock", version.ref = "retrofit" }
 mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.11.2"
+mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:3.2.0"
 kotlinx-coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 turbine = "app.cash.turbine:turbine:0.6.0"

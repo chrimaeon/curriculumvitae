@@ -25,30 +25,29 @@ import androidx.lifecycle.viewModelScope
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.infra.UiState
-import com.cmgapps.android.curriculumvitae.usecase.GetEmploymentWithIdUseCase
+import com.dropbox.android.external.store4.Store
+import com.dropbox.android.external.store4.get
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EmploymentDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    getEmploymentUseCase: GetEmploymentWithIdUseCase
+    store: Store<Int, Employment>
 ) : ViewModel() {
 
     var uiState: UiState<Employment> by mutableStateOf(UiState(loading = true))
 
     init {
         viewModelScope.launch {
-            getEmploymentUseCase(
-                savedStateHandle[NavArguments.EMPLOYMENT_ID.argumentName] ?: error(
-                    "EmploymentId not set"
-                )
-            )
-                .catch { uiState = uiState.copy(loading = false, exception = it) }
-                .collect { uiState = UiState(data = it) }
+            uiState = try {
+                val id: Int = savedStateHandle[NavArguments.EMPLOYMENT_ID.argumentName]
+                    ?: throw IllegalArgumentException("ID not set on navigation")
+                UiState(data = store.get(id))
+            } catch (exc: Exception) {
+                UiState(exception = exc)
+            }
         }
     }
 }
