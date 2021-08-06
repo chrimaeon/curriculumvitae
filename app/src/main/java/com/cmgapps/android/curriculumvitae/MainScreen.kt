@@ -17,8 +17,6 @@
 package com.cmgapps.android.curriculumvitae
 
 import android.webkit.WebView
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +28,7 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ButtonDefaults.textButtonColors
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -41,6 +40,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.outlined.Info
@@ -54,6 +54,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +62,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
+import androidx.core.content.pm.PackageInfoCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -70,7 +72,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.cmgapps.android.curriculumvitae.components.StartActivity
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
@@ -80,7 +81,6 @@ import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentScreen
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetails
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
-import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import kotlinx.coroutines.launch
@@ -270,7 +270,6 @@ private fun BottomSheetContent(
             .padding(
                 rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.navigationBars,
-                    additionalStart = 24.dp,
                     additionalTop = 24.dp,
                     additionalEnd = 24.dp,
                     additionalBottom = 24.dp
@@ -280,21 +279,30 @@ private fun BottomSheetContent(
         Text(
             text = stringResource(id = R.string.app_name),
             style = MaterialTheme.typography.h5,
+            modifier = Modifier.padding(start = 24.dp),
         )
-        Text(
-            text = stringResource(
-                id = R.string.version,
-                BuildConfig.VERSION_NAME,
-                BuildConfig.VERSION_CODE
+        val context = LocalContext.current
+        with(context.packageManager.getPackageInfo(context.packageName, 0)) {
+            Text(
+                text = stringResource(
+                    id = R.string.version,
+                    versionName,
+                    PackageInfoCompat.getLongVersionCode(this)
+                ),
+                modifier = Modifier.padding(start = 24.dp),
             )
-        )
+        }
         Spacer(Modifier.height(24.dp))
         Text(
-            text = stringResource(id = R.string.info_copyright, BuildConfig.BUILD_YEAR)
+            text = stringResource(
+                id = R.string.info_copyright,
+                BuildConfig.BUILD_YEAR
+            ),
+            modifier = Modifier.padding(start = 24.dp),
         )
         InfoTextWithLink(
             text = stringResource(id = R.string.info_cmgapps_link),
-            onClick = { onInfoWebsiteLinkClick() }
+            onClick = { onInfoWebsiteLinkClick() },
         )
         InfoTextWithLink(
             text = stringResource(id = R.string.info_oss_licenses),
@@ -304,9 +312,6 @@ private fun BottomSheetContent(
             text = stringResource(id = R.string.info_open_font_licenses),
             onClick = { oflDialogOpen = true }
         )
-        if (BuildConfig.DEBUG) {
-            StartActivity()
-        }
     }
 
     if (ossDialogOpen) {
@@ -330,17 +335,13 @@ private fun InfoTextWithLink(
     text: String,
     onClick: () -> Unit,
 ) {
-    Text(
-        color = MaterialTheme.colors.primaryVariant,
-        modifier = Modifier
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = themedRipple(),
-                onClick = onClick,
-            )
-            .padding(vertical = 8.dp),
-        text = text
-    )
+    TextButton(
+        modifier = Modifier.padding(start = 16.dp),
+        colors = textButtonColors(contentColor = MaterialTheme.colors.primaryVariant),
+        onClick = onClick,
+    ) {
+        Text(text)
+    }
 }
 
 @Composable

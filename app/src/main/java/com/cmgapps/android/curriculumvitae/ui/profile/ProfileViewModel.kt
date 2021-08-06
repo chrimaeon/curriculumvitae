@@ -63,6 +63,7 @@ class ProfileViewModel @Inject constructor(
                                 networkError = origin == ResponseOrigin.Fetcher,
                                 exception = exception
                             )
+                            Timber.tag(LOG_TAG).e(exception)
                         }
                         is StoreResponse.NoNewData -> {
                             if (BuildConfig.DEBUG) {

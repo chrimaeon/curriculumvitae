@@ -59,6 +59,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.LocalImageLoader
 import coil.compose.rememberImagePainter
+import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
@@ -77,8 +78,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import timber.log.Timber
 
-private const val TAG = "ProfileScreen"
-
+@LogTag
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
@@ -102,7 +102,7 @@ fun ProfileScreen(
     }
 
     if (uiState.exception != null && !uiState.networkError && uiState.data == null) {
-        ContentError(error = uiState.exception, screenName = TAG)
+        ContentError()
     }
 
     if (uiState.data != null) {
@@ -220,7 +220,7 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
                 when (it) {
                     is ImagePainter.State.Success -> true
                     is ImagePainter.State.Error -> {
-                        Timber.tag(TAG).e(it.throwable)
+                        Timber.tag(ComposableProfileScreen.LOG_TAG).e(it.throwable)
                         true
                     }
                     else -> false

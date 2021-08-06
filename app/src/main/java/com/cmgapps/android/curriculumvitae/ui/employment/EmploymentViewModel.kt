@@ -48,7 +48,12 @@ class EmploymentViewModel @Inject constructor(
     fun refresh() {
         viewModelScope.launch {
             uiState = uiState.copy(loading = true)
-            uiState = UiState(data = store.fresh(KEY))
+            uiState = try {
+                UiState(data = store.fresh(KEY))
+            } catch (exc: Exception) {
+                Timber.tag(LOG_TAG).e(exc)
+                uiState.copy(networkError = true, exception = exc)
+            }
         }
     }
 

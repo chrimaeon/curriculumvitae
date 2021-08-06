@@ -79,10 +79,7 @@ fun EmploymentDetails(
                 employment = uiState.data,
                 navigateUp = navigateUp,
             )
-            uiState.exception != null -> ContentError(
-                error = uiState.exception,
-                screenName = "EmploymentDetails",
-            )
+            uiState.exception != null -> ContentError()
         }
     }
 }

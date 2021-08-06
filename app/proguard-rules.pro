@@ -30,3 +30,31 @@
   public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
   public static void throwUninitializedPropertyAccessException(java.lang.String);
 }
+
+# region Kotlin serialization
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.AnnotationsKt # core serialization annotations
+
+# kotlinx-serialization-json specific. Add this if you have java.lang.NoClassDefFoundError kotlinx.serialization.json.JsonObjectSerializer
+-keepclassmembers class kotlinx.serialization.json.** {
+    *** Companion;
+}
+-keepclasseswithmembers class kotlinx.serialization.json.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Change here com.yourcompany.yourpackage
+-keep,includedescriptorclasses class com.cmgapps.shared.curriculumvitae.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.cmgapps.shared.curriculumvitae.** { # <-- change package name to your app's
+    *** Companion;
+}
+-keepclasseswithmembers class com.cmgapps.shared.curriculumvitae.** { # <-- change package name to your app's
+    kotlinx.serialization.KSerializer serializer(...);
+}
+# endregion
+
+# region protobuf
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite {
+  <fields>;
+}
+# endregion

@@ -31,15 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
-import timber.log.Timber
 
 @Composable
-fun ContentError(error: Throwable, screenName: String = "ContentError") {
+fun ContentError() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Timber.tag(screenName).e(error)
         Text(
             modifier = Modifier
                 .background(
@@ -68,7 +66,7 @@ fun ContentLoading() {
 @Composable
 fun PreviewContentError() {
     ThemedPreview(darkTheme = false) {
-        ContentError(IllegalStateException())
+        ContentError()
     }
 }
 
@@ -76,7 +74,7 @@ fun PreviewContentError() {
 @Composable
 fun PreviewDarkContentError() {
     ThemedPreview(darkTheme = true) {
-        ContentError(IllegalStateException())
+        ContentError()
     }
 }
 // endregion
