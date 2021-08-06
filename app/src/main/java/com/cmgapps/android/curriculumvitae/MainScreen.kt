@@ -213,8 +213,7 @@ private fun BottomBar(navController: NavController, bottomSheetState: ModalBotto
                         navController.navigate(screen.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true
-                                // TODO issue with Compose Navigation 2.4.0-alpha05
-                                // inclusive = true
+                                inclusive = true
                             }
                             launchSingleTop = true
                             restoreState = true
