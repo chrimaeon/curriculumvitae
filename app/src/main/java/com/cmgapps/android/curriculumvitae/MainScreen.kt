@@ -33,22 +33,16 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,6 +59,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navigation
+import androidx.navigation.plusAssign
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
@@ -73,6 +68,7 @@ import com.cmgapps.android.curriculumvitae.infra.screens
 import com.cmgapps.android.curriculumvitae.ui.InfoBottomSheet
 import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentScreen
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetails
+import com.cmgapps.android.curriculumvitae.ui.info.InfoSheet
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
 import com.google.accompanist.insets.LocalWindowInsets
@@ -81,8 +77,12 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.google.accompanist.navigation.material.bottomSheet
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialNavigationApi::class,  ExperimentalAnimationApi::class)
 @Composable
 fun MainScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
@@ -91,6 +91,9 @@ fun MainScreen(
 ) {
 
     val navController = rememberAnimatedNavController()
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+    navController.navigatorProvider += bottomSheetNavigator
+
     var isOnMainScreen by remember { mutableStateOf(true) }
     navController.addOnDestinationChangedListener { _, destination, _ ->
         isOnMainScreen = destination.route?.let { currentRoute ->
@@ -98,24 +101,12 @@ fun MainScreen(
         } ?: false
     }
 
-    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-
-    ModalBottomSheetLayout(
-        sheetState = bottomSheetState,
-        sheetContent = {
-            InfoBottomSheet(onOpenWebsite)
-        },
-    ) {
+    ModalBottomSheetLayout(bottomSheetNavigator) {
         Scaffold(
             scaffoldState = scaffoldState,
             floatingActionButton = { if (isOnMainScreen) Fab(onFabClick) },
             isFloatingActionButtonDocked = true,
-            bottomBar = {
-                if (isOnMainScreen) BottomBar(
-                    navController = navController,
-                    bottomSheetState = bottomSheetState
-                )
-            }
+            bottomBar = { if (isOnMainScreen) BottomBar(navController = navController) }
         ) { innerPadding ->
             MainScreenNavHost(
                 modifier = Modifier.padding(innerPadding),
@@ -190,6 +181,10 @@ fun MainScreenNavHost(
             enterTransition = defaultEnterTransition,
             exitTransition = defaultExitTransition,
         ) { SkillsScreen() }
+        
+        bottomSheet(Screen.Info.route) {
+            InfoSheet(onInfoWebsiteLinkClick = onInfoWebsiteLinkClick)
+        }
     }
 }
 
@@ -220,7 +215,7 @@ private fun exitTransition() = fadeOut(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun BottomBar(navController: NavController, bottomSheetState: ModalBottomSheetState) {
+private fun BottomBar(navController: NavController) {
     BottomAppBar(
         backgroundColor = MaterialTheme.colors.surface,
         elevation = BottomNavigationDefaults.Elevation,
@@ -236,7 +231,6 @@ private fun BottomBar(navController: NavController, bottomSheetState: ModalBotto
             elevation = 0.dp,
         ) {
 
-            val coroutineScope = rememberCoroutineScope()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             screens.forEach { screen ->
@@ -276,25 +270,6 @@ private fun BottomBar(navController: NavController, bottomSheetState: ModalBotto
                     }
                 )
             }
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = DecorativeImage
-                    )
-                },
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.info)
-                    )
-                },
-                selected = false,
-                onClick = {
-                    coroutineScope.launch {
-                        bottomSheetState.show()
-                    }
-                }
-            )
         }
     }
 }

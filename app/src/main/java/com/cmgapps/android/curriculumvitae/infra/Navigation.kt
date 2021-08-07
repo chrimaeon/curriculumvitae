@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.BuildCircle
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.BuildCircle
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
@@ -76,12 +77,22 @@ sealed class Screen(
             selectedIcon = Icons.Filled.BuildCircle
         )
     )
+
+    object Info : Screen(
+        "info",
+        R.string.info,
+        StateIcon(
+            defaultIcon = Icons.Outlined.Info,
+            selectedIcon = Icons.Outlined.Info
+        )
+    )
 }
 
 val screens = listOf(
     Screen.Profile,
     Screen.Employment,
-    Screen.Skills
+    Screen.Skills,
+    Screen.Info
 )
 
 enum class NavArguments(val argumentName: String) {
