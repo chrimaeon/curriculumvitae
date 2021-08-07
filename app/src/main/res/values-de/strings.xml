@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="app_name">Curriculum Vitae</string>
+    <string name="profile_label">Profil</string>
+    <string name="employment_label">Arbeit</string>
+    <string name="skills_label">Kompetenzen</string>
+    <string name="send_action">Senden</string>
+    <string name="you_are_hired">Du bist eingestellt!</string>
+    <string name="no_email">Neinn! Keine E-Mail App gefunden</string>
+    <string name="generic_error">Neinn! Da ist etwas schief gelaufen 😞</string>
+    <string name="navigate_up">nach oben navigieren</string>
+    <string name="refresh_error">Neinn! Kann nicht neu laden</string>
+    <string name="info">Info</string>
+    <string name="version">Version %1$s (%2$s)</string>
+    <string name="info_copyright">Copyright \u00A9 %1$s Christian Grach</string>
+    <string name="info_cmgapps_link">m.cmgapps.com</string>
+    <string name="info_cmgapps_href">https://m.cmgapps.com/?utm_source=curriculum_vitae_android&amp;utm_medium=info_dialog&amp;utm_campaign=cv_app</string>
+    <string name="info_oss_licenses">Open Source Lizenzen</string>
+    <string name="info_open_font_licenses">Open Font Lizenzen</string>
+    <plurals name="years">
+        <item quantity="one">%d Jahr</item>
+        <item quantity="other">%d Jahre</item>
+    </plurals>
+
+    <plurals name="months">
+        <item quantity="one">%d Monat</item>
+        <item quantity="other">%d Monate</item>
+    </plurals>
+
+</resources>
