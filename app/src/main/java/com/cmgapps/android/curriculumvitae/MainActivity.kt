@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -30,7 +31,6 @@ import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @LogTag
 @AndroidEntryPoint
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     MainScreen(
                         scaffoldState = scaffoldState,
                         onFabClick = {
-                            val intent = composeEmail()
+                            val intent = createEmailIntent()
                             if (intent.resolveActivity(packageManager) != null) {
                                 startActivity(intent)
                             } else {
@@ -58,10 +58,10 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         },
-                        onInfoWebsiteLinkClick = {
+                        onOpenWebsite = { uri ->
                             val intent = Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse(getString(R.string.info_cmgapps_href))
+                                uri,
                             )
                             if (intent.resolveActivity(packageManager) != null) {
                                 startActivity(intent)
@@ -72,14 +72,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 
-    private fun composeEmail() =
-        Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-            if (BuildConfig.DEBUG) {
-                Timber.tag(LOG_TAG).d(EMAIL_ADDRESS)
-            }
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
-            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.you_are_hired))
-        }
+private fun Context.createEmailIntent() = Intent(Intent.ACTION_SENDTO).apply {
+    data = Uri.parse("mailto:")
+    putExtra(Intent.EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
+    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.you_are_hired))
 }

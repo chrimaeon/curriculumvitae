@@ -47,6 +47,7 @@ accompanist-insets = { module = "com.google.accompanist:accompanist-insets", ver
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanist" }
+accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
@@ -120,6 +121,7 @@ accompanist = [
   "accompanist-swiperefresh",
   "accompanist-systemuicontroller",
   "accompanist-placeholder",
+  "accompanist-navigation-animation",
 ]
 androidx = [
   "androidx-lifecycleRuntimeKtx",
