@@ -101,7 +101,7 @@ tasks {
     register<JavaExec>("run") {
         classpath =
             sourceSets.main.get().runtimeClasspath + localSourceSet.runtimeClasspath
-        main = "MainKt"
+        mainClass.set("MainKt")
         jvmArgs("-Dio.ktor.development=true")
     }
 }

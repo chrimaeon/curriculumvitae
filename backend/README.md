@@ -6,9 +6,9 @@ GET
 
 ### /profile ###
 
-| Name | Type   | In    | Description                                         |
-| ---- | ------ | ----- | --------------------------------------------------- |
-| lang | String | Query | The language to return the answer; Defaults to 'en' |
+| Name            | Type   | In     | Description                                                                              |
+| --------------- | ------ | ------ | ---------------------------------------------------------------------------------------- |
+| Accept-Language | String | Header | A HTTP language header; see https://datatracker.ietf.org/doc/html/rfc7231\#section-5.3.5 |
 
 ###### Response ######
 
@@ -33,9 +33,9 @@ GET
 
 ### /employment ###
 
-| Name | Type   | In    | Description                                         |
-| ---- | ------ | ----- | --------------------------------------------------- |
-| lang | String | Query | The language to return the answer; Defaults to 'en' |
+| Name            | Type   | In     | Description                                                                              |
+| --------------- | ------ | ------ | ---------------------------------------------------------------------------------------- |
+| Accept-Language | String | Header | A HTTP language header; see https://datatracker.ietf.org/doc/html/rfc7231\#section-5.3.5 |
 
 ###### Response ######
 
