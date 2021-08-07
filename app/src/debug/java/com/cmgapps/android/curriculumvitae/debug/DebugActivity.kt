@@ -16,37 +16,67 @@
 
 package com.cmgapps.android.curriculumvitae.debug
 
-import android.content.SharedPreferences
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.ui.graphics.Color
-import com.cmgapps.android.curriculumvitae.infra.di.DebugPreferences
-import com.cmgapps.android.curriculumvitae.ui.Theme
-import com.cmgapps.android.curriculumvitae.ui.lightBlue700
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NavUtils
+import androidx.core.app.TaskStackBuilder
+import androidx.preference.DropDownPreference
+import androidx.preference.PreferenceFragmentCompat
+import com.cmgapps.android.curriculumvitae.BuildConfig
+import com.cmgapps.android.curriculumvitae.R
+import com.cmgapps.android.curriculumvitae.databinding.ActivityDebugBinding
+import com.jakewharton.processphoenix.ProcessPhoenix
 
-@AndroidEntryPoint
-class DebugActivity : ComponentActivity() {
-
-    @Inject
-    @DebugPreferences
-    lateinit var debugPreferences: SharedPreferences
-
+class DebugActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            Theme(
-                darkSystemBarColor = Color(0xFF121212),
-                lightSystemBarColor = lightBlue700,
-            ) {
-                DebugScreen(debugPreferences)
+        val binding = ActivityDebugBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        // set actionbar first for navigation click listener not to be overridden
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.debug_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.reload -> {
+                ProcessPhoenix.triggerRebirth(this)
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun navigateUpTo(upIntent: Intent?): Boolean {
+        TaskStackBuilder.create(this@DebugActivity)
+            .addNextIntentWithParentStack(
+                NavUtils.getParentActivityIntent(this@DebugActivity)!!
+            ).startActivities()
+        return true
     }
 
     companion object {
         const val BASE_URL_KEY = "baseUrl"
+    }
+}
+
+class DebugSettingFragment : PreferenceFragmentCompat() {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.debug_preferences, rootKey)
+
+        preferenceManager.findPreference<DropDownPreference>(DebugActivity.BASE_URL_KEY)
+            ?.apply {
+                setDefaultValue(BuildConfig.BASE_URL)
+                entries = BuildConfig.DEBUG_BASE_URLS
+                entryValues = BuildConfig.DEBUG_BASE_URLS
+            }
     }
 }

@@ -33,6 +33,7 @@ androidx-lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-a
 androidx-datastore = "androidx.datastore:datastore:1.0.0"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
 androidx-splashscreen = "androidx.core:core-splashscreen:1.0.0-alpha01"
+androidx-preference = "androidx.preference:preference:1.1.0"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }

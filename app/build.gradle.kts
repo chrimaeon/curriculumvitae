@@ -89,6 +89,11 @@ android {
 
     buildTypes {
         debug {
+
+            buildFeatures {
+                viewBinding = true
+            }
+
             buildConfigField("String", "BUILD_YEAR", """"DEBUG"""")
 
             val debugBaseUrls by configProperties()
@@ -328,6 +333,7 @@ dependencies {
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)
+    debugImplementation(libs.androidx.preference)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")

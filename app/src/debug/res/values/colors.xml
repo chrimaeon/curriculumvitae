@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,16 +14,10 @@
   ~ limitations under the License.
   -->
 
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
-    <shortcut
-        android:shortcutId="debug"
-        android:enabled="true"
-        android:icon="@drawable/ic_debug"
-        android:shortcutShortLabel="@string/shortcut_label_debug"
-        android:shortcutLongLabel="@string/shortcut_label_debug">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="com.cmgapps.android.curriculumvitae"
-            android:targetClass="com.cmgapps.android.curriculumvitae.debug.DebugActivity" />
-    </shortcut>
-</shortcuts>
+<resources>
+    <color name="primary">#FF03A9F4</color>
+    <color name="primaryDark">#FF0288D1</color>
+    <color name="accent">#FFFFE082</color>
+    <color name="actionBarBackground">@color/primary</color>
+    <color name="robotGreen">#3DDC84</color>
+</resources>

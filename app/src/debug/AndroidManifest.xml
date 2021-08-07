@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
   ~
@@ -24,7 +26,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="MissingApplicationIcon"
         tools:replace="android:name">
-        <activity android:name=".debug.DebugActivity" />
+        <activity
+            android:name=".debug.DebugActivity"
+            android:label="@string/shortcut_label_debug"
+            android:exported="true"
+            android:theme="@style/Theme.DebugActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

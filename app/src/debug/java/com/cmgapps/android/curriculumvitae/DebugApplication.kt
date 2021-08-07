@@ -19,6 +19,7 @@ package com.cmgapps.android.curriculumvitae
 import android.os.Build
 import android.os.StrictMode
 
+@Suppress("unused")
 class DebugApplication : Application() {
 
     override fun onCreate() {
