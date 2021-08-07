@@ -77,7 +77,7 @@ object OkHttpClientModule {
 
     @Provides
     @SuppressWarnings("kotlin:S4423")
-    fun provideSslSockerFactory(trustManager: X509TrustManager): SSLSocketFactory {
+    fun provideSslSocketFactory(trustManager: X509TrustManager): SSLSocketFactory {
         val sslContext = SSLContext.getInstance("SSL")
         sslContext.init(null, arrayOf(trustManager), java.security.SecureRandom())
         return sslContext.socketFactory

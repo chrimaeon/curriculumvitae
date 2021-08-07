@@ -24,9 +24,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="MissingApplicationIcon"
         tools:replace="android:name">
-        <activity
-            android:name=".debug.DebugActivity"
-            android:theme="@style/Theme.CurriculumVitae" />
+        <activity android:name=".debug.DebugActivity" />
     </application>
 
 </manifest>
