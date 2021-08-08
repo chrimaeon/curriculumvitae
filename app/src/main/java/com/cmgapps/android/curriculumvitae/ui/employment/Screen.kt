@@ -16,8 +16,8 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,7 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
@@ -39,11 +39,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
@@ -131,31 +137,40 @@ private fun Content(
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
+                .fillMaxSize(),
             contentPadding = rememberInsetsPaddingValues(
                 insets = LocalWindowInsets.current.systemBars,
                 applyBottom = false,
                 additionalStart = 2.dp,
                 additionalTop = 8.dp,
-                additionalEnd = 2.dp,
+                additionalEnd = 16.dp,
                 additionalBottom = bottomContentPadding
             )
         ) {
             if (uiState.data != null) {
                 val employments: List<Employment> = uiState.data
                 if (employments.isNotEmpty()) {
-                    items(employments, key = { it.id }) { employment ->
+                    itemsIndexed(
+                        employments,
+                        key = { _, employment -> employment.id },
+                    ) { index, employment ->
+                        val isFirst = index == 0
+                        val isLast = index == employments.size - 1
                         EmploymentCard(
                             employment = employment,
+                            isFirst = isFirst,
+                            isLast = isLast,
                             navigateToEmploymentDetails = navigateToEmploymentDetails
                         )
                     }
                 } else {
-                    items(10) {
+                    items(10) { index ->
+                        val isFirst = index == 0
+                        val isLast = index == 9
                         EmploymentCard(
                             employment = null,
+                            isFirst = isFirst,
+                            isLast = isLast,
                             navigateToEmploymentDetails = navigateToEmploymentDetails
                         )
                     }
@@ -169,104 +184,171 @@ private fun Content(
 @Composable
 private fun EmploymentCard(
     employment: Employment?,
+    isFirst: Boolean = false,
+    isLast: Boolean = false,
     navigateToEmploymentDetails: (employmentId: Int) -> Unit
 ) {
-    AnimatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .testTag("employmentCard${employment?.id ?: 1}"),
-        onClick = {
-            employment?.let {
-                navigateToEmploymentDetails(it.id)
-            }
-        },
+    var layoutHeight by remember { mutableStateOf(0) }
+
+    Row(
+        Modifier.returningHeight { layoutHeight = it }
     ) {
-        Row(
-            modifier = Modifier.padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+
+        Breadcrumbs(
+            height = with(LocalDensity.current) { layoutHeight.toDp() },
+            isFirst = isFirst,
+            isLast = isLast,
+        )
+
+        AnimatedCard(
+            modifier = Modifier
+                .padding(
+                    top = if (isFirst) 0.dp else 8.dp,
+                    bottom = if (isLast) 0.dp else 8.dp
+                )
+                .testTag("employmentCard${employment?.id ?: 1}"),
+            onClick = {
+                employment?.let {
+                    navigateToEmploymentDetails(it.id)
+                }
+            },
         ) {
-            Surface(
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(CircleShape)
-                    .placeholder(
-                        visible = employment == null,
-                        highlight = PlaceholderHighlight.shimmer()
-                    ),
-                color = MaterialTheme.colors.primary
+            Row(
+                modifier = Modifier.padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp),
-                    imageVector = Icons.Filled.Apartment,
-                    contentDescription = DecorativeImage,
-                    colorFilter = ColorFilter.tint(Color.White)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Column {
-                val sharedModifier = Modifier
-                    .placeholder(
-                        visible = employment == null,
-                        highlight = PlaceholderHighlight.shimmer()
-                    )
-                    .fillMaxWidth()
-
-                Text(
-                    modifier = sharedModifier,
-                    text = employment?.employer.orEmpty(),
-                    style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                val period: String = employment?.let {
-                    Period.between(
-                        employment.startDate,
-                        employment.endDate ?: LocalDate.now()
-                    ).plusMonths(1).run {
-                        val resources = LocalContext.current.resources
-                        buildString {
-                            if (years > 0) {
-                                append(resources.getQuantityString(R.plurals.years, years, years))
-                                append(' ')
-                            }
-                            if (months > 0) {
-                                append(
-                                    resources.getQuantityString(
-                                        R.plurals.months,
-                                        months,
-                                        months
-                                    )
-                                )
-                            }
-                        }
-                    }.trim()
-                }.orEmpty()
-
-                Text(
-                    modifier = sharedModifier,
-                    text = period,
-                    style = MaterialTheme.typography.body1
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    modifier = sharedModifier,
-                    text = employment?.jobTitle.orEmpty(),
-                    style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold)
-                )
+                Avatar(isLoading = employment == null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Description(employment)
             }
         }
     }
 }
 
-// region Preview
+@Composable
+private fun Breadcrumbs(
+    height: Dp,
+    isFirst: Boolean = false,
+    isLast: Boolean = false
+) {
+    val strokeWidth = with(LocalDensity.current) { 1.dp.toPx() }
+    val dotRadius = with(LocalDensity.current) { 4.dp.toPx() }
 
+    Canvas(
+        Modifier
+            .width(32.dp)
+            .height(height)
+    ) {
+        val canvasWidth = size.width
+        val canvasHeight = size.height
+
+        drawLine(
+            color = Color.LightGray,
+            start = Offset(canvasWidth / 2, if (isFirst) canvasHeight / 2 else 0f),
+            end = Offset(canvasWidth / 2, if (isLast) canvasHeight / 2 else canvasHeight),
+            strokeWidth = strokeWidth
+        )
+
+        drawCircle(
+            color = Color.LightGray,
+            center = center,
+            radius = dotRadius
+        )
+    }
+}
+
+@Composable
+private fun Avatar(
+    isLoading: Boolean
+) {
+    Surface(
+        modifier = Modifier
+            .size(56.dp)
+            .clip(CircleShape)
+            .placeholder(
+                visible = isLoading,
+                highlight = PlaceholderHighlight.shimmer()
+            ),
+        color = MaterialTheme.colors.primary
+    ) {
+        Image(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            imageVector = Icons.Filled.Apartment,
+            contentDescription = DecorativeImage,
+            colorFilter = ColorFilter.tint(Color.White)
+        )
+    }
+}
+
+@Composable
+private fun Description(
+    employment: Employment?
+) {
+    Column {
+        val sharedModifier = Modifier
+            .placeholder(
+                visible = employment == null,
+                highlight = PlaceholderHighlight.shimmer()
+            )
+            .fillMaxWidth()
+
+        Text(
+            modifier = sharedModifier,
+            text = employment?.employer.orEmpty(),
+            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
+        )
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        val period: String = employment?.let {
+            Period.between(
+                employment.startDate,
+                employment.endDate ?: LocalDate.now()
+            ).plusMonths(1).run {
+                val resources = LocalContext.current.resources
+                buildString {
+                    if (years > 0) {
+                        append(
+                            resources.getQuantityString(
+                                R.plurals.years,
+                                years,
+                                years
+                            )
+                        )
+                        append(' ')
+                    }
+                    if (months > 0) {
+                        append(
+                            resources.getQuantityString(
+                                R.plurals.months,
+                                months,
+                                months
+                            )
+                        )
+                    }
+                }
+            }.trim()
+        }.orEmpty()
+
+        Text(
+            modifier = sharedModifier,
+            text = period,
+            style = MaterialTheme.typography.body1
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            modifier = sharedModifier,
+            text = employment?.jobTitle.orEmpty(),
+            style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold)
+        )
+    }
+}
+
+// region Preview
 private val previewEmployments = listOf(
     Employment(
         id = 1,
@@ -281,6 +363,15 @@ private val previewEmployments = listOf(
         )
     )
 )
+
+private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
+    layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+        onHeightMeasured(placeable.height)
+        layout(placeable.width, placeable.height) {
+            placeable.placeRelative(0, 0)
+        }
+    }
 
 @Preview(name = "Content", widthDp = 320, heightDp = 680)
 @Composable
