@@ -33,7 +33,7 @@ androidx-lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-a
 androidx-datastore = "androidx.datastore:datastore:1.0.0"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
 androidx-splashscreen = "androidx.core:core-splashscreen:1.0.0-alpha01"
-androidx-preference = "androidx.preference:preference:1.1.0"
+androidx-preference = "androidx.preference:preference:1.1.1"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
@@ -70,7 +70,7 @@ retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref =
 retrofit2-kotlinxSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
-ktlint = "com.pinterest:ktlint:0.42.0"
+ktlint = "com.pinterest:ktlint:0.42.1"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.1"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 collapsingToolbar = "me.onebone:toolbar-compose:2.1.2"
@@ -101,7 +101,7 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.5"
 logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.121.5-alpha"
-kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.226-kotlin-1.5.21"
+kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.228-kotlin-1.5.21"
 appEngine = "com.google.appengine:appengine:1.9.90"
 # endregion
 

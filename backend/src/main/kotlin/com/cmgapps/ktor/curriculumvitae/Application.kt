@@ -22,7 +22,6 @@ import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
 import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
 import io.ktor.application.Application
-import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.application.log
@@ -43,9 +42,7 @@ import io.ktor.http.content.CachingOptions
 import io.ktor.request.httpMethod
 import io.ktor.request.httpVersion
 import io.ktor.response.respond
-import io.ktor.response.respondText
 import io.ktor.serialization.json
-import kotlinx.css.CSSBuilder
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -121,8 +118,4 @@ fun Application.registerRoutes(modelLoader: ModelLoader) {
     registerStaticRoutes()
     registerProfileRoutes(modelLoader)
     registerEmploymentRoutes()
-}
-
-internal suspend inline fun ApplicationCall.respondCss(builder: CSSBuilder.() -> Unit) {
-    this.respondText(CSSBuilder().apply(builder).toString(), ContentType.Text.CSS)
 }

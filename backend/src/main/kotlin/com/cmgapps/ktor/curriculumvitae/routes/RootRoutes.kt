@@ -29,8 +29,8 @@ import io.ktor.http.HttpMethod
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import kotlinx.css.CSSBuilder
 import kotlinx.css.Color
+import kotlinx.css.CssBuilder
 import kotlinx.css.FontWeight
 import kotlinx.css.Overflow
 import kotlinx.css.WhiteSpace
@@ -71,9 +71,9 @@ import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import java.util.Locale
 
-private fun STYLE.cssRules(rules: CSSBuilder.() -> Unit) {
+private fun STYLE.cssRules(rules: CssBuilder.() -> Unit) {
     this.unsafe {
-        +CSSBuilder().apply(rules).toString()
+        +CssBuilder().apply(rules).toString()
     }
 }
 
