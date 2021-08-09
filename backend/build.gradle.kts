@@ -109,9 +109,10 @@ tasks {
 @Suppress("UnstableApiUsage")
 dependencies {
     implementation(projects.shared)
+    implementation(projects.common)
     implementation(kotlin("stdlib-jdk8", libs.versions.kotlin.get()))
     localImplementation(libs.ktor.netty)
-    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.ktor.server)
     implementation(libs.kotlinCss)
     implementation(libs.bundles.logback)
     implementation(libs.kotlinx.serialization.json)

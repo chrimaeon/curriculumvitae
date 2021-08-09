@@ -23,20 +23,24 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
+        maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 
 rootProject.name = "CurriculumVitae"
 include(
+    "common",
     ":shared",
     ":app",
-    ":backend"
+    ":backend",
+    "compose-web",
 )

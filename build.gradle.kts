@@ -71,9 +71,9 @@ allprojects {
 }
 
 tasks {
-    register<Delete>("clean") {
-        delete(rootProject.buildDir)
-    }
+    // register<Delete>("clean") {
+    //     delete(rootProject.buildDir)
+    // }
 
     named<Wrapper>("wrapper") {
         gradleVersion = libs.versions.gradle.get()

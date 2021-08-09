@@ -26,6 +26,7 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.application.log
 import io.ktor.features.AutoHeadResponse
+import io.ktor.features.CORS
 import io.ktor.features.CachingHeaders
 import io.ktor.features.CallLogging
 import io.ktor.features.Compression
@@ -37,6 +38,7 @@ import io.ktor.features.gzip
 import io.ktor.features.origin
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.CachingOptions
 import io.ktor.request.httpMethod
@@ -109,6 +111,16 @@ fun Application.installFeatures() {
                 else -> null
             }
         }
+    }
+
+    install(CORS) {
+        header(HttpHeaders.Authorization)
+        header(HttpHeaders.ContentType)
+        header(HttpHeaders.AccessControlAllowOrigin)
+        // header("any header") if you want to add any header
+        allowCredentials = true
+        allowNonSimpleContentTypes = true
+        anyHost()
     }
 }
 

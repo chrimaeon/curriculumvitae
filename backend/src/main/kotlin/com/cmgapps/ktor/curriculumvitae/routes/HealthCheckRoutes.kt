@@ -19,16 +19,13 @@ package com.cmgapps.ktor.curriculumvitae.routes
 import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
-import io.ktor.html.respondHtml
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
+import io.ktor.response.respondText
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import kotlinx.html.body
-import kotlinx.html.head
-import kotlinx.html.p
-import kotlinx.html.title
 import java.lang.Long.signum
 import java.text.StringCharacterIterator
 import kotlin.math.abs
@@ -38,19 +35,15 @@ fun Route.healthCheck() {
         call.respond(HttpStatusCode.OK, "Ok")
     }
 
+    val runtime = Runtime.getRuntime()
     get(Routes.STATUS.route) {
-        call.respondHtml {
-            head {
-                title { +"Ktor Server" }
-            }
-            body {
-                val runtime = Runtime.getRuntime()
-                p { +"Available processors: ${runtime.availableProcessors()}" }
-                p { +"Free memory: ${runtime.freeMemory().humanReadableSize()}" }
-                p { +"Total memory: ${runtime.totalMemory().humanReadableSize()}" }
-                p { +"Max. memory: ${runtime.maxMemory().humanReadableSize()}" }
-            }
-        }
+        call.respondText(
+            """{"availableProcessors": ${runtime.availableProcessors()},
+                |"freeMemory": ${runtime.freeMemory()},
+                |"totalMemory": ${runtime.totalMemory()},
+                |"maxMemory": ${runtime.maxMemory()}}""".trimMargin(),
+            ContentType.Application.Json
+        )
     }
 }
 
