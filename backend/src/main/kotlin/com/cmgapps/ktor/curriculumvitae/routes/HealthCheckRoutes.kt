@@ -16,16 +16,21 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import com.cmgapps.common.curriculumvitae.data.network.Status
 import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
-import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.cio.websocket.Frame
 import io.ktor.response.respond
-import io.ktor.response.respondText
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
+import io.ktor.websocket.webSocket
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.lang.Long.signum
 import java.text.StringCharacterIterator
 import kotlin.math.abs
@@ -36,14 +41,23 @@ fun Route.healthCheck() {
     }
 
     val runtime = Runtime.getRuntime()
-    get(Routes.STATUS.route) {
-        call.respondText(
-            """{"availableProcessors": ${runtime.availableProcessors()},
-                |"freeMemory": ${runtime.freeMemory()},
-                |"totalMemory": ${runtime.totalMemory()},
-                |"maxMemory": ${runtime.maxMemory()}}""".trimMargin(),
-            ContentType.Application.Json
-        )
+    @OptIn(ExperimentalCoroutinesApi::class)
+    webSocket(Routes.STATUS.route) {
+        while (!incoming.isClosedForReceive) {
+            outgoing.send(
+                Frame.Text(
+                    Json.encodeToString(
+                        Status(
+                            availableProcessors = runtime.availableProcessors(),
+                            freeMemory = runtime.freeMemory(),
+                            totalMemory = runtime.totalMemory(),
+                            maxMemory = runtime.maxMemory(),
+                        )
+                    )
+                )
+            )
+            delay(2000L)
+        }
     }
 }
 

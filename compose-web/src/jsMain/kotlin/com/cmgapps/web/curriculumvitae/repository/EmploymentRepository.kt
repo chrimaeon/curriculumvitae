@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.web.curriculumvitae.repository
 
-import kotlinx.datetime.LocalDate
+import com.cmgapps.common.curriculumvitae.data.network.CvApi
+import com.cmgapps.web.curriculumvitae.data.domain.Employment
+import com.cmgapps.web.curriculumvitae.data.domain.asDomainModel
 
-data class Employment(
-    val id: Int,
-    val jobTitle: String,
-    val employer: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate?,
-    val city: String,
-    val description: List<String>
-)
+class EmploymentRepository(private val api: CvApi) {
+    suspend fun getEmployments(): List<Employment> = api.getEmployments().asDomainModel()
+}

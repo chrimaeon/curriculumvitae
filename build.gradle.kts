@@ -71,10 +71,6 @@ allprojects {
 }
 
 tasks {
-    // register<Delete>("clean") {
-    //     delete(rootProject.buildDir)
-    // }
-
     named<Wrapper>("wrapper") {
         gradleVersion = libs.versions.gradle.get()
         distributionType = Wrapper.DistributionType.ALL
@@ -90,6 +86,7 @@ tasks {
                 "com.google.cloud",
                 "com.google.devtools.ksp",
                 "androidx.lifecycle",
+                "org.jetbrains.compose",
             ).any { this.contains(it) }
 
             fun String.filterModule(): Boolean = listOf("compose").any { this.contains(it) }

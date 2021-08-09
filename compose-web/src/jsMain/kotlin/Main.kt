@@ -14,29 +14,34 @@
  * limitations under the License.
  */
 
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.cmgapps.curriculumvitae.data.network.Status
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Text
+import com.cmgapps.web.curriculumvitae.component.Crossfade
+import com.cmgapps.web.curriculumvitae.component.Route
+import com.cmgapps.web.curriculumvitae.ui.EmploymentScreen
+import com.cmgapps.web.curriculumvitae.ui.MaterialPage
+import com.cmgapps.web.curriculumvitae.ui.ProfileScreen
 import org.jetbrains.compose.web.renderComposable
-import repository.StatusRepository
 
 fun main() {
-    val repo = StatusRepository()
+    // val api = CvApi(HttpClient(Js), Url("http://localhost:8080"))
+    // val statusRepository = StatusRepository(api)
+    // val profileRepository = ProfileRepository(api)
+    // val employmentRepository = EmploymentRepository(api)
 
     renderComposable(rootElementId = "root") {
-        var status by remember { mutableStateOf<Status?>(null) }
+        val (route, setRoute) = remember { mutableStateOf(Route.Profile as Route) }
 
-        LaunchedEffect(true) {
-            status = repo.getStatus()
-        }
-
-        Div {
-            Text(status?.toString() ?: "Loading")
+        MaterialPage(
+            title = "Curriculum Vitae - ${route.title}",
+            setRoute = setRoute,
+        ) {
+            Crossfade(target = route) {
+                when (it) {
+                    Route.Profile -> ProfileScreen()
+                    Route.Employment -> EmploymentScreen()
+                }
+            }
         }
     }
 }

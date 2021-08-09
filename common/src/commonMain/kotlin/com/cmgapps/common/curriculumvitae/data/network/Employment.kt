@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+@file:UseSerializers(LocalDateSerializer::class)
 
+package com.cmgapps.common.curriculumvitae.data.network
+
+import com.cmgapps.common.curriculumvitae.data.LocalDateSerializer
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 
+@Serializable
 data class Employment(
-    val id: Int,
     val jobTitle: String,
     val employer: String,
     val startDate: LocalDate,

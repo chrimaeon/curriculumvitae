@@ -45,6 +45,7 @@ import io.ktor.request.httpMethod
 import io.ktor.request.httpVersion
 import io.ktor.response.respond
 import io.ktor.serialization.json
+import io.ktor.websocket.WebSockets
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -122,6 +123,8 @@ fun Application.installFeatures() {
         allowNonSimpleContentTypes = true
         anyHost()
     }
+
+    install(WebSockets)
 }
 
 fun Application.registerRoutes(modelLoader: ModelLoader) {

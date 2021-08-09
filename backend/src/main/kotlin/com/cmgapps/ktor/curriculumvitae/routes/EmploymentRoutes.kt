@@ -16,15 +16,15 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.ktor.curriculumvitae.Routes
-import com.cmgapps.shared.curriculumvitae.data.network.Employment
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
 
 fun Route.employmentRouting() {
     get(Routes.EMPLOYMENT.route) {

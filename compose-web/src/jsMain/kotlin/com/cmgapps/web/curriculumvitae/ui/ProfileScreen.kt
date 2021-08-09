@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.web.curriculumvitae.ui
 
-import kotlinx.datetime.LocalDate
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Text
 
-data class Employment(
-    val id: Int,
-    val jobTitle: String,
-    val employer: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate?,
-    val city: String,
-    val description: List<String>
-)
+@Composable
+fun ProfileScreen() {
+    Div(
+        attrs = {
+            style { margin(16.px) }
+        }
+    ) {
+        Text("Profile")
+    }
+}

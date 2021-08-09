@@ -17,7 +17,7 @@
 package com.cmgapps.android.curriculumvitae.data.database
 
 import androidx.room.TypeConverter
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
 
 class Converters {
     @TypeConverter

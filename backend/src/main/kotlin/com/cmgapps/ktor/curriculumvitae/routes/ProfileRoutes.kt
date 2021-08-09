@@ -16,10 +16,10 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import com.cmgapps.common.curriculumvitae.data.network.Profile
 import com.cmgapps.ktor.curriculumvitae.Language
 import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.cmgapps.ktor.curriculumvitae.Routes
-import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.features.origin

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.common.curriculumvitae.data.network
 
-import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 
-data class Employment(
-    val id: Int,
-    val jobTitle: String,
-    val employer: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate?,
-    val city: String,
-    val description: List<String>
+@Serializable
+data class Status(
+    val availableProcessors: Int,
+    val freeMemory: Long,
+    val totalMemory: Long,
+    val maxMemory: Long,
 )

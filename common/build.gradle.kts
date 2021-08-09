@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version kotlinVersion
 }
 
 kotlin {
-    jvm()
+    jvm {
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+            testLogging {
+                events("passed", "skipped", "failed")
+            }
+        }
+    }
 
     js(IR) {
         useCommonJs()
@@ -33,13 +38,23 @@ kotlin {
         named("commonMain") {
             dependencies {
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.bundles.ktor.client)
+            }
+        }
+
+        named("commonTest") {
+            dependencies {
+                implementation(kotlin("test"))
             }
         }
     }
-}
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
+            }
+        }
     }
 }

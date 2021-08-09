@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 import java.util.Properties
 
 plugins {
-    java
-    war
-    id("com.google.cloud.tools.appengine")
     kotlin("jvm")
+    id("com.google.cloud.tools.appengine")
     kotlin("plugin.serialization") version kotlinVersion
     id("org.kordamp.gradle.markdown") version "2.2.0"
     ktlint
@@ -77,12 +74,6 @@ tasks {
         }
     }
 
-    withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
-        }
-    }
-
     htmlToMarkdown {
         sourceDir = sourceSets.test.get().resources.sourceDirectories.singleFile
         configuration = mapOf("tables" to true)
@@ -108,14 +99,16 @@ tasks {
 
 @Suppress("UnstableApiUsage")
 dependencies {
-    implementation(projects.shared)
     implementation(projects.common)
     implementation(kotlin("stdlib-jdk8", libs.versions.kotlin.get()))
+
     localImplementation(libs.ktor.netty)
+
     implementation(libs.bundles.ktor.server)
     implementation(libs.kotlinCss)
     implementation(libs.bundles.logback)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.datetime)
 
     "providedCompile"(libs.appEngine)
 

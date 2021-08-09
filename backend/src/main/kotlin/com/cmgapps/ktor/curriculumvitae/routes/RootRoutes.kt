@@ -16,11 +16,11 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import com.cmgapps.common.curriculumvitae.data.network.Address
+import com.cmgapps.common.curriculumvitae.data.network.Employment
+import com.cmgapps.common.curriculumvitae.data.network.Profile
 import com.cmgapps.ktor.curriculumvitae.Routes
 import com.cmgapps.ktor.curriculumvitae.template.MaterialPage
-import com.cmgapps.shared.curriculumvitae.data.network.Address
-import com.cmgapps.shared.curriculumvitae.data.network.Employment
-import com.cmgapps.shared.curriculumvitae.data.network.Profile
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.html.respondHtmlTemplate
@@ -48,6 +48,7 @@ import kotlinx.css.px
 import kotlinx.css.textDecoration
 import kotlinx.css.whiteSpace
 import kotlinx.css.width
+import kotlinx.datetime.LocalDate
 import kotlinx.html.DIV
 import kotlinx.html.STYLE
 import kotlinx.html.a
@@ -68,7 +69,6 @@ import kotlinx.html.unsafe
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.time.LocalDate
 import java.util.Locale
 
 private fun STYLE.cssRules(rules: CssBuilder.() -> Unit) {

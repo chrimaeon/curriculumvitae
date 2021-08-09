@@ -23,10 +23,9 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import java.time.LocalDate
-import java.util.Objects
+import kotlinx.datetime.LocalDate
 import com.cmgapps.android.curriculumvitae.data.domain.Employment as DomainEmployment
-import com.cmgapps.shared.curriculumvitae.data.network.Employment as NetworkEmployment
+import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 
 @Entity(
     tableName = "employment"
@@ -87,7 +86,7 @@ fun EmploymentWithDescription.asDomainModel() = DomainEmployment(
 )
 
 fun List<NetworkEmployment>.asDatabaseModel() = map {
-    val employmentId = Objects.hash(it.employer, it.jobTitle, it.startDate.toEpochDay())
+    val employmentId = it.hashCode()
     EmploymentWithDescription(
         Employment(
             id = employmentId,

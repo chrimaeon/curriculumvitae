@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.web.curriculumvitae.ui
 
-import kotlinx.datetime.LocalDate
+import androidx.compose.runtime.Composable
+import com.cmgapps.web.curriculumvitae.component.Header
+import com.cmgapps.web.curriculumvitae.component.Route
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Main
 
-data class Employment(
-    val id: Int,
-    val jobTitle: String,
-    val employer: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate?,
-    val city: String,
-    val description: List<String>
-)
+@Composable
+fun MaterialPage(title: String, setRoute: (Route) -> Unit, body: @Composable () -> Unit) {
+    Div(attrs = {
+        classes("mdl-layout", "mdl-js-layout", "mdl-layout--fixed-header")
+    }) {
+        Header(title, setRoute)
+        Main(attrs = { classes("mdl-layout__content") }) {
+            body()
+        }
+    }
+}

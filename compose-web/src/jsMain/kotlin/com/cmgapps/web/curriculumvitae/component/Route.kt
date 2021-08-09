@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.web.curriculumvitae.component
 
-import kotlinx.datetime.LocalDate
-
-data class Employment(
-    val id: Int,
-    val jobTitle: String,
-    val employer: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate?,
-    val city: String,
-    val description: List<String>
-)
+sealed class Route(val title: String, route: String) {
+    object Profile : Route("Profile", "profile")
+    object Employment : Route("Employment", "employment")
+}

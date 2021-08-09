@@ -24,7 +24,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
 import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
-import com.cmgapps.shared.curriculumvitae.data.network.Profile as NetworkProfile
+import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 
 @Suppress("BlockingMethodInNonBlockingContext")
 @LogTag("ProfileDataStore")

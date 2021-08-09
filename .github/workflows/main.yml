@@ -36,17 +36,17 @@ jobs:
       - name: Download dependencies
         run: ./gradlew dependencies
 
-      - name: Check :shared
-        run: ./gradlew :shared:check
+      - name: Check :common
+        run: ./gradlew :common:check
 
-      - name: Archive Shared Test results
+      - name: Archive Common Test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: shared-test-results
           path: |
-            shared/build/reports/*
-            shared/build/test-results/*
+            common/build/reports/*
+            common/build/test-results/*
 
       - name: Check :app
         run: ./gradlew :app:check

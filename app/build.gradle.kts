@@ -301,7 +301,7 @@ tasks {
 
 @Suppress("UnstableApiUsage")
 dependencies {
-    implementation(projects.shared)
+    implementation(projects.common)
     implementation(libs.bundles.androidx)
 
     implementation(libs.bundles.compose)
@@ -325,6 +325,7 @@ dependencies {
     implementation(libs.retrofit2.retrofit)
     implementation(libs.retrofit2.kotlinxSerialization)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.protobuf.javalite)
     implementation(libs.cmgapps.lintLogDebug)
     implementation(libs.coil.compose)

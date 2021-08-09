@@ -35,8 +35,15 @@ kotlin {
 
                 implementation(projects.common)
 
-                // implementation(libs.ktor.client.js)
-                implementation(libs.ktor.client.serialization)
+                implementation(libs.bundles.ktor.client)
+            }
+        }
+    }
+
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
             }
         }
     }
