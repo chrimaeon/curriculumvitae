@@ -16,32 +16,32 @@
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.cmgapps.web.curriculumvitae.component.Crossfade
 import com.cmgapps.web.curriculumvitae.component.Route
+import com.cmgapps.web.curriculumvitae.di.initKoin
 import com.cmgapps.web.curriculumvitae.ui.EmploymentScreen
 import com.cmgapps.web.curriculumvitae.ui.MaterialPage
 import com.cmgapps.web.curriculumvitae.ui.ProfileScreen
+import org.jetbrains.compose.web.css.Style
+import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.renderComposable
 
-fun main() {
-    // val api = CvApi(HttpClient(Js), Url("http://localhost:8080"))
-    // val statusRepository = StatusRepository(api)
-    // val profileRepository = ProfileRepository(api)
-    // val employmentRepository = EmploymentRepository(api)
+val koin = initKoin().koin
 
+fun main() {
     renderComposable(rootElementId = "root") {
+        Style(AppStyle)
         val (route, setRoute) = remember { mutableStateOf(Route.Profile as Route) }
 
         MaterialPage(
-            title = "Curriculum Vitae - ${route.title}",
+            title = "Curriculum Vitae",
             setRoute = setRoute,
         ) {
-            Crossfade(target = route) {
-                when (it) {
-                    Route.Profile -> ProfileScreen()
-                    Route.Employment -> EmploymentScreen()
-                }
+            when (route) {
+                Route.Profile -> ProfileScreen(koin.get())
+                Route.Employment -> EmploymentScreen(koin.get())
             }
         }
     }
 }
+
+object AppStyle : StyleSheet()

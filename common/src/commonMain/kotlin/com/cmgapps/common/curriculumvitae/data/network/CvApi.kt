@@ -17,9 +17,6 @@
 package com.cmgapps.common.curriculumvitae.data.network
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.features.websocket.webSocket
 import io.ktor.client.request.get
 import io.ktor.http.HttpMethod
@@ -34,22 +31,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class CvApi(client: HttpClient, private val baseUrl: Url) {
-
-    private val _client = HttpClient(client.engine) {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer()
-        }
-        install(WebSockets)
-    }
-
-    suspend fun getProfile(): Profile = _client.get(
+class CvApi(private val client: HttpClient, private val baseUrl: Url) {
+    suspend fun getProfile(): Profile = client.get(
         URLBuilder(baseUrl).apply {
             path("profile")
         }.build()
     )
 
-    suspend fun getEmployments(): List<Employment> = _client.get(
+    suspend fun getEmployments(): List<Employment> = client.get(
         URLBuilder(baseUrl).apply {
             path("employment")
         }.build()
@@ -57,7 +46,7 @@ class CvApi(client: HttpClient, private val baseUrl: Url) {
 
     @ExperimentalCoroutinesApi
     fun getApiStatus(): Flow<Status> = flow {
-        _client.webSocket(
+        client.webSocket(
             HttpMethod.Get,
             baseUrl.host,
             baseUrl.port,

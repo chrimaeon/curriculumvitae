@@ -16,9 +16,25 @@
 
 package com.cmgapps.web.curriculumvitae.component
 
-sealed class Route(val iconName: String) {
-    object Profile : Route("person")
-    object Employment : Route("work")
-}
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.web.dom.Button
+import org.jetbrains.compose.web.dom.I
+import org.jetbrains.compose.web.dom.Text
 
-val routes = listOf(Route.Profile, Route.Employment)
+@Composable
+fun IconButton(iconName: String, vararg classes: String, onClick: () -> Unit) {
+    Button(
+        attrs = {
+            classes("mdl-button", "mdl-js-button", "mdl-button--icon", *classes)
+            onClick {
+                onClick()
+            }
+        }
+    ) {
+        I(attrs = {
+            classes("material-icons")
+        }) {
+            Text(iconName)
+        }
+    }
+}

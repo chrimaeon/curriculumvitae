@@ -42,4 +42,4 @@ class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, Strin
     }
 }
 
-fun Project.configProperties() = PropertiesEnvDelegate(projectDir.resolve("config.properties"))
+fun Project.configProperties() = PropertiesEnvDelegate(rootDir.resolve("config.properties"))

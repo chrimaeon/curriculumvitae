@@ -16,45 +16,59 @@
 
 package com.cmgapps.web.curriculumvitae.component
 
+import BaseUrlDialog
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.web.attributes.href
-import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Nav
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
+import org.w3c.dom.HTMLDialogElement
+
+private const val dialogId = "HeaderDialog"
 
 @Composable
 fun Header(title: String, setRoute: (Route) -> Unit) {
+    var dialogRef: HTMLDialogElement? = null
+
+    val isProduction = js("PRODUCTION").unsafeCast<Boolean>()
+    val onDialogRef: (HTMLDialogElement) -> Unit = {
+        dialogRef = it
+    }
 
     org.jetbrains.compose.web.dom.Header(attrs = { classes("mdl-layout__header") }) {
         Div(attrs = {
             classes("mdl-layout__header-row")
         }) {
-            Span(attrs = { classes("mdl-layout-title") }) {
+            Span(
+                attrs = {
+                    classes("mdl-layout-title")
+                    if (!isProduction) {
+                        onClick {
+                            dialogRef?.showModal()
+                        }
+                    }
+                }
+            ) {
                 Text(title)
             }
             Div(attrs = {
                 classes("mdl-layout-spacer")
             })
-            Nav(attrs = {
-                classes("mdl-navigation", "mdl-layout--large-screen-only")
-            }) {
-                A(attrs = {
-                    onClick { setRoute(Route.Profile) }
-                    classes("mdl-navigation__link")
-                    href("#")
-                }) {
-                    Text(Route.Profile.title)
-                }
-                A(attrs = {
-                    onClick { setRoute(Route.Employment) }
-                    classes("mdl-navigation__link")
-                    href("#")
-                }) {
-                    Text(Route.Employment.title)
-                }
-            }
+            Navigation(setRoute)
+        }
+    }
+    if (!isProduction) {
+        BaseUrlDialog(dialogId, onDialogRef)
+    }
+}
+
+@Composable
+fun Navigation(setRoute: (Route) -> Unit) {
+    Nav(attrs = {
+        classes("mdl-navigation")
+    }) {
+        routes.forEach { route ->
+            IconButton(route.iconName) { setRoute(route) }
         }
     }
 }

@@ -17,18 +17,33 @@
 package com.cmgapps.web.curriculumvitae.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import com.cmgapps.web.curriculumvitae.data.domain.Employment
+import com.cmgapps.web.curriculumvitae.repository.EmploymentRepository
 import org.jetbrains.compose.web.css.margin
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun EmploymentScreen() {
+fun EmploymentScreen(repo: EmploymentRepository) {
+
+    var employments: List<Employment>? by remember { mutableStateOf(null) }
+
+    LaunchedEffect(true) {
+        employments = repo.getEmployments()
+    }
     Div(
         attrs = {
             style { margin(16.px) }
         }
     ) {
-        Text("Employment")
+        employments?.forEach {
+            Text(it.toString())
+        }
     }
 }

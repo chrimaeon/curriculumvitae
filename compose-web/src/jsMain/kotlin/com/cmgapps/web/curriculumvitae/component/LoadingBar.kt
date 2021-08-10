@@ -16,9 +16,17 @@
 
 package com.cmgapps.web.curriculumvitae.component
 
-sealed class Route(val iconName: String) {
-    object Profile : Route("person")
-    object Employment : Route("work")
-}
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.width
+import org.jetbrains.compose.web.dom.Div
 
-val routes = listOf(Route.Profile, Route.Employment)
+@Composable
+fun LoadingBar() {
+    Div(attrs = {
+        style {
+            width(100.percent)
+        }
+        classes("mdl-progress", "mdl-js-progress", "mdl-progress__indeterminate")
+    })
+}
