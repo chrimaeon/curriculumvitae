@@ -56,12 +56,14 @@ import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.statusBarsPadding
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.CollapsingToolbarScope
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import java.time.LocalDate
 import androidx.compose.ui.graphics.lerp as lerpGraphics
 
 @Composable
@@ -234,7 +236,7 @@ private val previewEmployment = Employment(
     12,
     "Job Title",
     "Employer",
-    LocalDate.now(),
+    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
     null,
     "Graz",
     listOf("Line 1")

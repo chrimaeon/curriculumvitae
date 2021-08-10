@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.network
+package com.cmgapps.web.curriculumvitae.repository
 
-import com.cmgapps.common.curriculumvitae.data.network.Employment
-import com.cmgapps.common.curriculumvitae.data.network.Profile
-import retrofit2.http.GET
+import com.cmgapps.common.curriculumvitae.data.network.CvApiService
+import com.cmgapps.web.curriculumvitae.data.domain.Profile
+import com.cmgapps.web.curriculumvitae.data.domain.asDomainModel
 
-interface CvApiService {
-
-    @GET("/profile")
-    suspend fun getProfile(): Profile
-
-    @GET("/employment")
-    suspend fun getEmployment(): List<Employment>
+class ProfileRepository(private val api: CvApiService) {
+    suspend fun getProfile(): Profile = api.getProfile().asDomainModel()
 }

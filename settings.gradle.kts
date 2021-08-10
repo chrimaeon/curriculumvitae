@@ -41,5 +41,5 @@ include(
     ":common",
     ":app",
     ":backend",
-    ":compose-web",
+    ":web",
 )

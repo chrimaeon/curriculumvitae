@@ -24,7 +24,7 @@ import com.cmgapps.android.curriculumvitae.data.database.asDomainModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDomainModel
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import com.cmgapps.android.curriculumvitae.network.CvApiService
+import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.SourceOfTruth
 import com.dropbox.android.external.store4.Store
@@ -67,7 +67,7 @@ object StoreModule {
     ): Store<String, List<Employment>> =
         StoreBuilder.from(
             fetcher = Fetcher.of<String, List<EmploymentWithDescription>> {
-                api.getEmployment().asDatabaseModel()
+                api.getEmployments().asDatabaseModel()
             },
             sourceOfTruth = SourceOfTruth.of(
                 reader = {

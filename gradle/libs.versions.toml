@@ -7,7 +7,6 @@ hilt = "2.38.1"
 kotlin = "1.5.21"
 ktor = "1.6.2"
 protobuf = "3.17.3"
-retrofit = "2.9.0"
 room = "2.3.0"
 logtag = "0.3.0"
 
@@ -61,6 +60,10 @@ logtag-logTag = { module = "com.cmgapps.logtag:log-tag", version.ref = "logtag" 
 logtag-processor = { module = "com.cmgapps.logtag:processor", version.ref = "logtag" }
 
 coil-compose = "io.coil-kt:coil-compose:1.3.2"
+
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 # endregion
 
 # region
@@ -73,8 +76,6 @@ ktor-client-websocket = { module = "io.ktor:ktor-client-websockets", version.ref
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.2.1"
 okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.1"
-retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-retrofit2-kotlinxSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.42.1"
@@ -92,7 +93,6 @@ androidx-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 junit-bom = "org.junit:junit-bom:5.7.2"
 hamcrest = "org.hamcrest:hamcrest:2.2"
-retrofit2-mockServer = { module = "com.squareup.retrofit2:retrofit-mock", version.ref = "retrofit" }
 mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.11.2"
 mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:3.2.0"
 kotlinx-coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
@@ -115,8 +115,21 @@ appEngine = "com.google.appengine:appengine:1.9.90"
 # endregion
 
 [bundles]
-ktor-server = ["ktor-servlet", "ktor-html", "ktor-serialization", "ktor-websocket"]
-ktor-client = ["ktor-client-serialization", "ktor-client-websocket"]
+ktor-server = [
+  "ktor-servlet",
+  "ktor-html",
+  "ktor-serialization",
+  "ktor-websocket",
+]
+ktor-client = [
+  "ktor-client-serialization",
+  "ktor-client-websocket",
+]
+ktor-android = [
+  "ktor-client-android",
+  "ktor-client-okhttp",
+  "ktor-client-serialization",
+]
 compose = [
   "compose-ui",
   "compose-uiTooling",

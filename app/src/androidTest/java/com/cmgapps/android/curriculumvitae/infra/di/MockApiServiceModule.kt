@@ -17,19 +17,24 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import com.cmgapps.android.curriculumvitae.BuildConfig
-import com.cmgapps.android.curriculumvitae.network.CvApiService
 import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
 import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
+import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import retrofit2.Retrofit
-import retrofit2.mock.BehaviorDelegate
-import retrofit2.mock.MockRetrofit
-import retrofit2.mock.NetworkBehavior
-import retrofit2.mock.create
-import java.util.concurrent.TimeUnit
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.Url
+import io.ktor.http.headersOf
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
@@ -42,26 +47,28 @@ object MockApiServiceModule {
     @Provides
     @Singleton
     fun provideApiService(): CvApiService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .build()
-
-        val networkBehavior = NetworkBehavior.create().apply {
-            setDelay(0, TimeUnit.MILLISECONDS)
-            setErrorPercent(0)
-            setFailurePercent(0)
-            setVariancePercent(0)
+        val client = HttpClient(MockEngine) {
+            engine {
+                addHandler { request ->
+                    val responseHeaders =
+                        headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    when (request.url.encodedPath) {
+                        "/employment" -> respond(
+                            Json.encodeToString(listOf(StubNetworkEmployment())),
+                            headers = responseHeaders
+                        )
+                        "/profile" -> respond(
+                            Json.encodeToString(StubNetworkProfile()),
+                            headers = responseHeaders
+                        )
+                        else -> error("Unhandled request: ${request.url}")
+                    }
+                }
+            }
+            install(JsonFeature) {
+                serializer = KotlinxSerializer()
+            }
         }
-
-        val delegate: BehaviorDelegate<CvApiService> =
-            MockRetrofit.Builder(retrofit).networkBehavior(networkBehavior).build().create()
-        return MockCvApiService(delegate)
+        return CvApiService(client, Url(BuildConfig.BASE_URL))
     }
-}
-
-private class MockCvApiService(private val delegate: BehaviorDelegate<CvApiService>) :
-    CvApiService {
-    override suspend fun getProfile() = delegate.returningResponse(StubNetworkProfile()).getProfile()
-    override suspend fun getEmployment() =
-        delegate.returningResponse(listOf(StubNetworkEmployment())).getEmployment()
 }

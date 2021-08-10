@@ -16,17 +16,18 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
-import com.cmgapps.android.curriculumvitae.network.CvApiService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.http.Url
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -37,28 +38,33 @@ object ApiServiceModule {
     @Provides
     @Singleton
     fun provideApiService(
-        okHttpClient: OkHttpClient,
-        @Language lang: String,
+        httpClient: HttpClient,
         @BaseUrl baseUrl: String,
     ): CvApiService {
-        val interceptedClient = okHttpClient.newBuilder()
-            .addNetworkInterceptor { chain ->
-                chain.request().newBuilder().header("Accept-Language", lang).let {
-                    chain.proceed(it.build())
-                }
-            }
-            // .addInterceptor {
-            //     Thread.sleep(10000)
-            //     it.proceed(it.request())
-            // }
-            .build()
+        return CvApiService(httpClient, baseUrl = Url(baseUrl))
+    }
 
-        return Retrofit.Builder()
-            .client(interceptedClient)
-            .baseUrl(baseUrl)
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-            .build().run {
-                create(CvApiService::class.java)
-            }
+    @Provides
+    @Singleton
+    fun provideHttpClient(
+        okHttpClient: OkHttpClient,
+        @Language lang: String,
+    ): HttpClient = HttpClient(OkHttp) {
+        engine {
+            preconfigured = okHttpClient.newBuilder()
+                .addNetworkInterceptor { chain ->
+                    chain.request().newBuilder().header("Accept-Language", lang).let {
+                        chain.proceed(it.build())
+                    }
+                }
+                // .addInterceptor {
+                //     Thread.sleep(10000)
+                //     it.proceed(it.request())
+                // }
+                .build()
+        }
+        install(JsonFeature) {
+            serializer = KotlinxSerializer()
+        }
     }
 }

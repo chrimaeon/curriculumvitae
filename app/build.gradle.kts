@@ -272,7 +272,7 @@ protobuf {
 }
 
 licenses {
-    additionalProjects(":shared")
+    additionalProjects(":common")
     reports {
         html.enabled.set(true)
     }
@@ -322,8 +322,6 @@ dependencies {
     implementation(platform(libs.okHttp.bom))
     implementation("com.squareup.okhttp3:okhttp")
     debugImplementation("com.squareup.okhttp3:logging-interceptor")
-    implementation(libs.retrofit2.retrofit)
-    implementation(libs.retrofit2.kotlinxSerialization)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
     implementation(libs.protobuf.javalite)
@@ -331,6 +329,8 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.collapsingToolbar)
     implementation(libs.dropbox.store)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.bundles.ktor.android)
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)
@@ -349,7 +349,7 @@ dependencies {
     androidTestImplementation(libs.androidx.coreTesting)
     androidTestImplementation(libs.androidx.espresso)
     androidTestImplementation(libs.hamcrest)
-    androidTestImplementation(libs.retrofit2.mockServer)
+    androidTestImplementation(libs.ktor.client.mock)
     androidTestImplementation(libs.hamcrest)
     androidTestImplementation(libs.compose.uiTest)
 

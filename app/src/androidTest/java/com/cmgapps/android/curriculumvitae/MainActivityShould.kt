@@ -25,7 +25,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
+import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
 import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -56,9 +56,9 @@ class MainActivityShould {
 
     @Test
     fun showMainNavigation() = with(composeTestRule) {
-        onNodeWithText("Profile").assertIsDisplayed()
-        onNodeWithText("Employment").assertIsDisplayed()
-        onNodeWithText("Skills").assertIsDisplayed()
+        onNodeWithText(activity.resources.getString(R.string.profile_label)).assertIsDisplayed()
+        onNodeWithText(activity.resources.getString(R.string.employment_label)).assertIsDisplayed()
+        onNodeWithText(activity.resources.getString(R.string.skills_label)).assertIsDisplayed()
         return@with
     }
 
@@ -85,15 +85,18 @@ class MainActivityShould {
 
     @Test
     fun moveToWork() = with(composeTestRule) {
-        val employment = StubDomainEmployment()
-        onNodeWithText("Employment").assertIsDisplayed().performClick()
-        onNodeWithTag("employmentCard${employment.id}").assertIsDisplayed()
+        val employment = StubNetworkEmployment()
+        onNodeWithText(activity.resources.getString(R.string.employment_label)).assertIsDisplayed()
+            .performClick()
+        onNodeWithTag("employmentCard${employment.hashCode()}").assertIsDisplayed()
         return@with
     }
 
     @Test
     fun moveToSkills() = with(composeTestRule) {
-        onNodeWithText("Skills").assertIsDisplayed().performClick()
+
+        onNodeWithText(activity.resources.getString(R.string.skills_label)).assertIsDisplayed()
+            .performClick()
         onNodeWithText("Android").assertIsDisplayed()
         return@with
     }
@@ -105,8 +108,10 @@ class MainActivityShould {
         onNodeWithText("Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})").assertIsDisplayed()
         onNodeWithText("Copyright \u00A9 ${BuildConfig.BUILD_YEAR} Christian Grach").assertIsDisplayed()
         onNodeWithText("m.cmgapps.com").assertIsDisplayed().assertHasClickAction()
-        onNodeWithText("Open Source Licenses").assertIsDisplayed().assertHasClickAction()
-        onNodeWithText("Open Font Licenses").assertIsDisplayed().assertHasClickAction()
+        onNodeWithText(activity.resources.getString(R.string.info_oss_licenses)).assertIsDisplayed()
+            .assertHasClickAction()
+        onNodeWithText(activity.resources.getString(R.string.info_open_font_licenses)).assertIsDisplayed()
+            .assertHasClickAction()
         return@with
     }
 }

@@ -45,7 +45,7 @@ object OkHttpClientModule {
     @Singleton
     fun provideOkHttpClient(
         sslSocketFactory: SSLSocketFactory,
-        trustManager: X509TrustManager
+        trustManager: X509TrustManager,
     ): OkHttpClient =
         OkHttpClient.Builder()
             .sslSocketFactory(sslSocketFactory, trustManager)

@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class CvApi(private val client: HttpClient, private val baseUrl: Url) {
+class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
     suspend fun getProfile(): Profile = client.get(
         URLBuilder(baseUrl).apply {
             path("profile")

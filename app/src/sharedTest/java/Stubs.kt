@@ -22,21 +22,21 @@ import com.cmgapps.android.curriculumvitae.data.database.EmploymentWithDescripti
 import com.cmgapps.android.curriculumvitae.data.datastore.Address
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.data.domain.Employment
-import java.time.LocalDate
-import java.time.Month
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Month
 import com.cmgapps.android.curriculumvitae.data.database.Description as DatabaseDescription
 import com.cmgapps.android.curriculumvitae.data.database.Employment as DatabaseEmployment
 import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
 import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
-import com.cmgapps.shared.curriculumvitae.data.network.Address as NetworkAddress
-import com.cmgapps.shared.curriculumvitae.data.network.Employment as NetworkEmployment
-import com.cmgapps.shared.curriculumvitae.data.network.Profile as NetworkProfile
+import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
+import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
+import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 
 fun StubNetworkProfile() = NetworkProfile(
     name = "Firstname Lastname",
     address = NetworkAddress(
         city = "Graz",
-        street = "Street 1",
+        street = "Street 1234",
         postalCode = "8010",
     ),
     email = "me@home.at",
@@ -61,7 +61,7 @@ fun StubDomainProfile() = DomainProfile(
 fun StubNetworkEmployment() = NetworkEmployment(
     jobTitle = "Developer",
     employer = "My Company",
-    startDate = LocalDate.of(2021, Month.APRIL, 17),
+    startDate = LocalDate(2021, Month.APRIL, 17),
     endDate = null,
     city = "Home City",
     description = listOf(
@@ -69,14 +69,13 @@ fun StubNetworkEmployment() = NetworkEmployment(
     )
 )
 
-// Objects.hash(employer, jobTitle, startDate.toEpochDay())
-private const val employmentId = 1051736812
+private val employmentId = StubNetworkEmployment().hashCode()
 
 fun StubDatabaseEmployment() = DatabaseEmployment(
     id = employmentId,
     jobTitle = "Developer",
     employer = "My Company",
-    startDate = LocalDate.of(2021, Month.APRIL, 17),
+    startDate = LocalDate(2021, Month.APRIL, 17),
     endDate = null,
     city = "Home City",
 )
@@ -98,7 +97,7 @@ fun StubDomainEmployment() = Employment(
     id = employmentId,
     jobTitle = "Developer",
     employer = "My Company",
-    startDate = LocalDate.of(2021, Month.APRIL, 17),
+    startDate = LocalDate(2021, Month.APRIL, 17),
     endDate = null,
     city = "Home City",
     description = listOf("stub description")

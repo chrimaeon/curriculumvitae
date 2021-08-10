@@ -16,7 +16,7 @@
 
 package com.cmgapps.web.curriculumvitae.di
 
-import com.cmgapps.common.curriculumvitae.data.network.CvApi
+import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.web.curriculumvitae.baseUrl
 import com.cmgapps.web.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.web.curriculumvitae.repository.ProfileRepository
@@ -34,7 +34,7 @@ import org.w3c.dom.get
 
 private fun module() = org.koin.dsl.module {
     single { createHttpClient() }
-    single { CvApi(get(), getBaseUrl()) }
+    single { CvApiService(get(), getBaseUrl()) }
     single { ProfileRepository(get()) }
     single { EmploymentRepository(get()) }
     single { StatusRepository(get()) }

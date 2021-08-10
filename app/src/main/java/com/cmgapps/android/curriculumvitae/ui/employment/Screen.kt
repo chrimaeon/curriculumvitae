@@ -75,8 +75,13 @@ import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import java.time.LocalDate
-import java.time.Period
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.periodUntil
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 
 @LogTag
@@ -303,33 +308,32 @@ private fun Description(
         Spacer(modifier = Modifier.height(2.dp))
 
         val period: String = employment?.let {
-            Period.between(
-                employment.startDate,
-                employment.endDate ?: LocalDate.now()
-            ).plusMonths(1).run {
-                val resources = LocalContext.current.resources
-                buildString {
-                    if (years > 0) {
-                        append(
-                            resources.getQuantityString(
-                                R.plurals.years,
-                                years,
-                                years
+            val nowDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            employment.startDate.periodUntil(employment.endDate ?: nowDate)
+                .plus(DatePeriod(months = 1)).run {
+                    val resources = LocalContext.current.resources
+                    buildString {
+                        if (years > 0) {
+                            append(
+                                resources.getQuantityString(
+                                    R.plurals.years,
+                                    years,
+                                    years
+                                )
                             )
-                        )
-                        append(' ')
-                    }
-                    if (months > 0) {
-                        append(
-                            resources.getQuantityString(
-                                R.plurals.months,
-                                months,
-                                months
+                            append(' ')
+                        }
+                        if (months > 0) {
+                            append(
+                                resources.getQuantityString(
+                                    R.plurals.months,
+                                    months,
+                                    months
+                                )
                             )
-                        )
+                        }
                     }
-                }
-            }.trim()
+                }.trim()
         }.orEmpty()
 
         Text(
@@ -349,20 +353,23 @@ private fun Description(
 }
 
 // region Preview
-private val previewEmployments = listOf(
-    Employment(
-        id = 1,
-        jobTitle = "Software developer",
-        employer = "CMG Mobile Apps",
-        startDate = LocalDate.now().minusMonths(3),
-        endDate = LocalDate.now().minusMonths(1),
-        city = "Graz",
-        description = listOf(
-            "Founder",
-            "Solutions Architect"
+private val previewEmployments =
+    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.let { now ->
+        listOf(
+            Employment(
+                id = 1,
+                jobTitle = "Software developer",
+                employer = "CMG Mobile Apps",
+                startDate = now.minus(DatePeriod(months = 3)),
+                endDate = now.minus(DatePeriod(months = 1)),
+                city = "Graz",
+                description = listOf(
+                    "Founder",
+                    "Solutions Architect"
+                )
+            )
         )
-    )
-)
+    }
 
 private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
     layout { measurable, constraints ->
