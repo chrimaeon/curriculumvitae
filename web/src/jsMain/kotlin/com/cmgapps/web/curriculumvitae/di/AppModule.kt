@@ -16,6 +16,7 @@
 
 package com.cmgapps.web.curriculumvitae.di
 
+import PRODUCTION
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.web.curriculumvitae.baseUrl
 import com.cmgapps.web.curriculumvitae.repository.EmploymentRepository
@@ -40,7 +41,7 @@ private fun module() = org.koin.dsl.module {
     single { StatusRepository(get()) }
 }
 
-private fun getBaseUrl(): Url = if (js("PRODUCTION").unsafeCast<Boolean>()) {
+private fun getBaseUrl(): Url = if (PRODUCTION) {
     Url(baseUrl)
 } else {
     Url(window.localStorage["baseUrl"] ?: baseUrl)

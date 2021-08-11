@@ -16,7 +16,7 @@
 
 package com.cmgapps.web.curriculumvitae.component
 
-import BaseUrlDialog
+import PRODUCTION
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Nav
@@ -30,7 +30,6 @@ private const val dialogId = "HeaderDialog"
 fun Header(title: String, setRoute: (Route) -> Unit) {
     var dialogRef: HTMLDialogElement? = null
 
-    val isProduction = js("PRODUCTION").unsafeCast<Boolean>()
     val onDialogRef: (HTMLDialogElement) -> Unit = {
         dialogRef = it
     }
@@ -42,7 +41,7 @@ fun Header(title: String, setRoute: (Route) -> Unit) {
             Span(
                 attrs = {
                     classes("mdl-layout-title")
-                    if (!isProduction) {
+                    if (!PRODUCTION) {
                         onClick {
                             dialogRef?.showModal()
                         }
@@ -57,7 +56,7 @@ fun Header(title: String, setRoute: (Route) -> Unit) {
             Navigation(setRoute)
         }
     }
-    if (!isProduction) {
+    if (!PRODUCTION) {
         BaseUrlDialog(dialogId, onDialogRef)
     }
 }

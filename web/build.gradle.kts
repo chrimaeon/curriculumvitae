@@ -31,7 +31,11 @@ val generatedFilesDir: Provider<Directory> = project.layout.buildDirectory.dir("
 
 kotlin {
     js(IR) {
-        browser()
+        browser {
+            commonWebpackConfig {
+                outputFileName = "app.js"
+            }
+        }
         binaries.executable()
     }
 

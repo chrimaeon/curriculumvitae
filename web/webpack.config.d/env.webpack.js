@@ -1,9 +1,11 @@
-const webpack = require("webpack")
+;(function(config) {
+    const webpack = require("webpack");
 
-const definePlugin = new webpack.DefinePlugin(
-   {
-      PRODUCTION: config.mode === "production",
-   }
-)
+    const definePlugin = new webpack.DefinePlugin(
+       {
+          PRODUCTION: JSON.stringify(config.mode === "production"),
+       }
+    )
 
-config.plugins.push(definePlugin)
+    config.plugins.push(definePlugin);
+})(config);
