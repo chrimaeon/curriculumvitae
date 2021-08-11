@@ -1,5 +1,5 @@
 [versions]
-accompanist = "0.16.0"
+accompanist = "0.16.1"
 compose = "1.0.1"
 gradle = "7.1.1"
 hilt = "2.38.1"
@@ -55,7 +55,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
-timber = "com.jakewharton.timber:timber:4.7.1"
+timber = "com.jakewharton.timber:timber:5.0.0"
 logtag-logTag = { module = "com.cmgapps.logtag:log-tag", version.ref = "logtag" }
 logtag-processor = { module = "com.cmgapps.logtag:processor", version.ref = "logtag" }
 
