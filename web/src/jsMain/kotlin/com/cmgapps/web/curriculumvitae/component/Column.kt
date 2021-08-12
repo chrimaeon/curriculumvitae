@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.web.curriculumvitae.component
 
-data class Profile(
-    val name: String,
-    val phone: String,
-    val profileImageUrl: String,
-    val address: Address,
-    val email: String,
-    val intro: List<String>,
-)
+import androidx.compose.runtime.Composable
+import com.cmgapps.web.curriculumvitae.AppStyle
+import org.jetbrains.compose.web.css.StyleBuilder
+import org.jetbrains.compose.web.dom.Div
 
-data class Address(val street: String, val city: String, val postalCode: String)
+@Composable
+fun Column(style: StyleBuilder.() -> Unit = {}, content: @Composable () -> Unit) {
+    Div(
+        attrs = {
+            classes(AppStyle.column)
+            style {
+                style()
+            }
+        }
+    ) {
+        content()
+    }
+}

@@ -21,13 +21,13 @@ package com.cmgapps.android.curriculumvitae.test
 import com.cmgapps.android.curriculumvitae.data.database.EmploymentWithDescription
 import com.cmgapps.android.curriculumvitae.data.datastore.Address
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import com.cmgapps.android.curriculumvitae.data.database.Description as DatabaseDescription
 import com.cmgapps.android.curriculumvitae.data.database.Employment as DatabaseEmployment
-import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
-import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
+import com.cmgapps.common.curriculumvitae.data.domain.Address as DomainAddress
+import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile

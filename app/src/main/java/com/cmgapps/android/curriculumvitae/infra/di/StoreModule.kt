@@ -23,7 +23,7 @@ import com.cmgapps.android.curriculumvitae.data.database.asDatabaseModel
 import com.cmgapps.android.curriculumvitae.data.database.asDomainModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDomainModel
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.SourceOfTruth
@@ -38,7 +38,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.map
 import javax.inject.Singleton
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile as DataStoreProfile
-import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
+import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
 
 @Module
 @InstallIn(SingletonComponent::class)

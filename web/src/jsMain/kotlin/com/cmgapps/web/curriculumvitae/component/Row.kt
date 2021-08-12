@@ -17,18 +17,20 @@
 package com.cmgapps.web.curriculumvitae.component
 
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.web.dom.Button
+import com.cmgapps.web.curriculumvitae.AppStyle
+import org.jetbrains.compose.web.css.StyleBuilder
+import org.jetbrains.compose.web.dom.Div
 
 @Composable
-fun IconButton(iconName: String, vararg classes: String, onClick: () -> Unit) {
-    Button(
+fun Row(style: StyleBuilder.() -> Unit = {}, content: @Composable () -> Unit) {
+    Div(
         attrs = {
-            classes("mdl-button", "mdl-js-button", "mdl-button--icon", *classes)
-            onClick {
-                onClick()
+            classes(AppStyle.row)
+            style {
+                style()
             }
         }
     ) {
-        Icon(iconName)
+        content()
     }
 }

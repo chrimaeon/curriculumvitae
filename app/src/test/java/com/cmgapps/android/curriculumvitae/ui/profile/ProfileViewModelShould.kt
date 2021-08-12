@@ -16,9 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.ui.profile
 
-import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainProfile
+import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.dropbox.android.external.store4.ResponseOrigin
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreRequest

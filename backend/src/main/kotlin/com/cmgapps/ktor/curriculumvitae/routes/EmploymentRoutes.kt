@@ -25,6 +25,7 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Month
 
 fun Route.employmentRouting() {
     get(Routes.EMPLOYMENT.route) {
@@ -33,7 +34,7 @@ fun Route.employmentRouting() {
                 Employment(
                     jobTitle = "Software Developer",
                     employer = "CMG Mobile Apps",
-                    startDate = LocalDate.parse("2010-06-01"),
+                    startDate = LocalDate(2010, Month.JUNE, 1),
                     endDate = null,
                     city = "Graz",
                     description = listOf(

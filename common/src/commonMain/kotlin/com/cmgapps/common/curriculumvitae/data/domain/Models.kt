@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package com.cmgapps.web.curriculumvitae.data.domain
+package com.cmgapps.common.curriculumvitae.data.domain
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.periodUntil
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkStatus
@@ -52,16 +58,23 @@ fun NetworkProfile.asDomainModel() = Profile(
 )
 
 data class Employment(
+    val id: Int,
     val jobTitle: String,
     val employer: String,
     val startDate: LocalDate,
     val endDate: LocalDate?,
     val city: String,
     val description: List<String>
-)
+) {
+    val workPeriod: DatePeriod
+        get() = startDate.periodUntil(
+            endDate ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        ).plus(DatePeriod(months = 1))
+}
 
 fun List<NetworkEmployment>.asDomainModel() = map {
     Employment(
+        it.hashCode(),
         it.jobTitle,
         it.employer,
         it.startDate,

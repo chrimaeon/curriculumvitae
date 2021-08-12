@@ -16,29 +16,22 @@
 
 package com.cmgapps.web.curriculumvitae.ui
 
-import AppStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.web.curriculumvitae.AppStyle
+import com.cmgapps.web.curriculumvitae.component.Column
 import com.cmgapps.web.curriculumvitae.component.LoadingBar
-import com.cmgapps.web.curriculumvitae.data.domain.Profile
 import com.cmgapps.web.curriculumvitae.repository.ProfileRepository
-import org.jetbrains.compose.web.css.AlignItems
-import org.jetbrains.compose.web.css.DisplayStyle
-import org.jetbrains.compose.web.css.FlexDirection
-import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.StyleSheet
-import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.background
 import org.jetbrains.compose.web.css.borderRadius
-import org.jetbrains.compose.web.css.display
-import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.css.fontFamily
 import org.jetbrains.compose.web.css.height
-import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.maxWidth
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.textAlign
@@ -47,44 +40,41 @@ import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.H4
-import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun ProfileScreen(repo: ProfileRepository) {
-    var profile: Profile? by remember { mutableStateOf(null) }
+    val (profile, setProfile) = remember { mutableStateOf<Profile?>(null) }
 
     LaunchedEffect(true) {
-        profile = repo.getProfile()
+        try {
+            setProfile(repo.getProfile())
+        } catch (exc: Exception) {
+            console.error(exc)
+        }
     }
 
     if (profile == null) {
         LoadingBar()
     } else {
-        Content(profile!!)
+        (Content(profile))
     }
 }
 
 @Composable
 private fun Content(profile: Profile) {
-    Div(
-        attrs = {
-            style {
-                display(DisplayStyle.Flex)
-                justifyContent(JustifyContent.Center)
-                alignItems(AlignItems.Center)
-                flexDirection(FlexDirection.Column)
-                margin(16.px)
-            }
+    Column(
+        style = {
+            margin(16.px)
         }
     ) {
-        Img(src = profile.profileImageUrl, attrs = {
+        Div(attrs = {
             style {
                 borderRadius(50.percent)
                 width(200.px)
                 height(200.px)
-                property("object-fit", "cover")
+                background("""no-repeat center/cover url("${profile.profileImageUrl}")""")
             }
         })
         H1(attrs = {
@@ -129,7 +119,7 @@ object ProfileStyles : StyleSheet(AppStyle) {
     }
 
     val intro by style {
-        property("max-width", "600px")
+        maxWidth(600.px)
         textAlign("center")
     }
 }

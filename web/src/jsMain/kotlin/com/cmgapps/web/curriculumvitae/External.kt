@@ -1,3 +1,5 @@
+import org.w3c.dom.HTMLElement
+
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -15,3 +17,9 @@
  */
 
 external val PRODUCTION: Boolean
+
+external interface ComponentHandler {
+    fun upgradeElement(element: HTMLElement)
+}
+
+external val componentHandler: ComponentHandler

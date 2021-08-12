@@ -62,10 +62,10 @@ import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.AnimatedCard
 import com.cmgapps.android.curriculumvitae.components.ContentError
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -79,8 +79,6 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
-import kotlinx.datetime.periodUntil
-import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 
@@ -308,32 +306,30 @@ private fun Description(
         Spacer(modifier = Modifier.height(2.dp))
 
         val period: String = employment?.let {
-            val nowDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-            employment.startDate.periodUntil(employment.endDate ?: nowDate)
-                .plus(DatePeriod(months = 1)).run {
-                    val resources = LocalContext.current.resources
-                    buildString {
-                        if (years > 0) {
-                            append(
-                                resources.getQuantityString(
-                                    R.plurals.years,
-                                    years,
-                                    years
-                                )
+            employment.workPeriod.run {
+                val resources = LocalContext.current.resources
+                buildString {
+                    if (years > 0) {
+                        append(
+                            resources.getQuantityString(
+                                R.plurals.years,
+                                years,
+                                years
                             )
-                            append(' ')
-                        }
-                        if (months > 0) {
-                            append(
-                                resources.getQuantityString(
-                                    R.plurals.months,
-                                    months,
-                                    months
-                                )
-                            )
-                        }
+                        )
+                        append(' ')
                     }
-                }.trim()
+                    if (months > 0) {
+                        append(
+                            resources.getQuantityString(
+                                R.plurals.months,
+                                months,
+                                months
+                            )
+                        )
+                    }
+                }
+            }.trim()
         }.orEmpty()
 
         Text(

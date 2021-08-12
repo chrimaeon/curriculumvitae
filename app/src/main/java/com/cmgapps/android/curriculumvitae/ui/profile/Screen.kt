@@ -63,11 +63,11 @@ import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
-import com.cmgapps.android.curriculumvitae.data.domain.Address
-import com.cmgapps.android.curriculumvitae.data.domain.Profile
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
+import com.cmgapps.common.curriculumvitae.data.domain.Address
+import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues

@@ -16,9 +16,9 @@
 
 package com.cmgapps.web.curriculumvitae.repository
 
+import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-import com.cmgapps.web.curriculumvitae.data.domain.Profile
-import com.cmgapps.web.curriculumvitae.data.domain.asDomainModel
 
 class ProfileRepository(private val api: CvApiService) {
     suspend fun getProfile(): Profile = api.getProfile().asDomainModel()

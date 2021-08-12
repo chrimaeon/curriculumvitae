@@ -24,7 +24,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import kotlinx.datetime.LocalDate
-import com.cmgapps.android.curriculumvitae.data.domain.Employment as DomainEmployment
+import com.cmgapps.common.curriculumvitae.data.domain.Employment as DomainEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 
 @Entity(

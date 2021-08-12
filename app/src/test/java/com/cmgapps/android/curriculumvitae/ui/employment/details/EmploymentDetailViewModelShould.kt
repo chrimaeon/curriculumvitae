@@ -17,11 +17,11 @@
 package com.cmgapps.android.curriculumvitae.ui.employment.details
 
 import androidx.lifecycle.SavedStateHandle
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.test.MainDispatcherExtension
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetailViewModel
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.dropbox.android.external.store4.ResponseOrigin
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreResponse

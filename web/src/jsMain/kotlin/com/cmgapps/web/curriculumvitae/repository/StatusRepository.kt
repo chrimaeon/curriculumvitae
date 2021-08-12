@@ -16,13 +16,13 @@
 
 package com.cmgapps.web.curriculumvitae.repository
 
+import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-import com.cmgapps.web.curriculumvitae.data.domain.asDomainModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import com.cmgapps.common.curriculumvitae.data.domain.Status as DomainStatus
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkModel
-import com.cmgapps.web.curriculumvitae.data.domain.Status as DomainStatus
 
 class StatusRepository(private val api: CvApiService) {
     @OptIn(ExperimentalCoroutinesApi::class)

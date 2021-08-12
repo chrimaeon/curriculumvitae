@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.data.domain
+package com.cmgapps.web.curriculumvitae.component
 
-import kotlinx.datetime.LocalDate
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.web.dom.Div
 
-data class Employment(
-    val id: Int,
-    val jobTitle: String,
-    val employer: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate?,
-    val city: String,
-    val description: List<String>
-)
+@Composable
+fun Card(vararg classes: String, content: @Composable () -> Unit) {
+    Div(
+        attrs = {
+            classes("mdl-card", "mdl-shadow--2dp", *classes)
+        }
+    ) {
+        content()
+    }
+}

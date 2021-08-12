@@ -16,13 +16,13 @@
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.cmgapps.web.curriculumvitae.AppStyle
 import com.cmgapps.web.curriculumvitae.component.Route
 import com.cmgapps.web.curriculumvitae.di.initKoin
 import com.cmgapps.web.curriculumvitae.ui.EmploymentScreen
 import com.cmgapps.web.curriculumvitae.ui.MaterialPage
 import com.cmgapps.web.curriculumvitae.ui.ProfileScreen
 import org.jetbrains.compose.web.css.Style
-import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.renderComposable
 
 val koin = initKoin().koin
@@ -43,5 +43,3 @@ fun main() {
         }
     }
 }
-
-object AppStyle : StyleSheet()

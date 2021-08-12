@@ -16,9 +16,9 @@
 
 package com.cmgapps.web.curriculumvitae.repository
 
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-import com.cmgapps.web.curriculumvitae.data.domain.Employment
-import com.cmgapps.web.curriculumvitae.data.domain.asDomainModel
 
 class EmploymentRepository(private val api: CvApiService) {
     suspend fun getEmployments(): List<Employment> = api.getEmployments().asDomainModel()

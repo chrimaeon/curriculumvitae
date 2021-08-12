@@ -22,8 +22,8 @@ import com.google.protobuf.InvalidProtocolBufferException
 import timber.log.Timber
 import java.io.InputStream
 import java.io.OutputStream
-import com.cmgapps.android.curriculumvitae.data.domain.Address as DomainAddress
-import com.cmgapps.android.curriculumvitae.data.domain.Profile as DomainProfile
+import com.cmgapps.common.curriculumvitae.data.domain.Address as DomainAddress
+import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 
 @Suppress("BlockingMethodInNonBlockingContext")

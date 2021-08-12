@@ -49,10 +49,10 @@ import androidx.compose.ui.unit.lerp
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.ui.darker
 import com.cmgapps.android.curriculumvitae.ui.lightBlue500
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.statusBarsPadding

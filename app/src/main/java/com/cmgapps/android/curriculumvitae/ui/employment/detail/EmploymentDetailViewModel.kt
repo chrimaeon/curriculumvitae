@@ -23,9 +23,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.LogTag
-import com.cmgapps.android.curriculumvitae.data.domain.Employment
 import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.infra.UiState
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.get
 import dagger.hilt.android.lifecycle.HiltViewModel
