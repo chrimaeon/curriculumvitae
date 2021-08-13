@@ -34,6 +34,7 @@ import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.variableValue
 import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
@@ -105,5 +106,6 @@ private object ProfileStyle : StyleSheet(AppStyle) {
         backgroundPosition("center")
         borderRadius(50.percent)
         alignSelf(AlignSelf.Center)
+        property("background-color", variableValue("bs-gray-500"))
     }
 }

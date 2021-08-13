@@ -1,3 +1,7 @@
+body {
+    --bs-primary: #3596e8
+}
+
 body::before {
     background-size: cover;
     background-attachment: fixed;

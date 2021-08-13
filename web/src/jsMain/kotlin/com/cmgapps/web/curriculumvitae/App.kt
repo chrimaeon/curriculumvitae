@@ -20,12 +20,10 @@ import androidx.compose.runtime.Composable
 import com.cmgapps.web.curriculumvitae.ui.Employments
 import com.cmgapps.web.curriculumvitae.ui.PageFooter
 import com.cmgapps.web.curriculumvitae.ui.ProfileCard
-import org.jetbrains.compose.web.css.Color.white
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.bottom
-import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.left
@@ -38,8 +36,10 @@ import org.jetbrains.compose.web.css.plus
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.right
+import org.jetbrains.compose.web.css.selectors.CSSSelector
 import org.jetbrains.compose.web.css.selectors.id
 import org.jetbrains.compose.web.css.textDecoration
+import org.jetbrains.compose.web.css.variableValue
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.Div
 import org.koin.core.Koin
@@ -62,7 +62,7 @@ object AppStyle : StyleSheet() {
     val bodyPadding = 230.px
 
     val footerContainer by style {
-        property("background-color", "var(--bs-body-color)")
+        property("background-color", variableValue("bs-gray-900"))
         position(Position.Absolute)
         bottom(0.px)
         left(0.px)
@@ -78,8 +78,11 @@ object AppStyle : StyleSheet() {
             minHeight(100.vh - bodyPadding)
         }
         "footer, footer a" style {
-            color(white)
+            property("color", variableValue("bs-gray-100"))
             textDecoration("none")
+        }
+        CSSSelector.Type("a") style {
+            property("color", variableValue("bs-primary"))
         }
     }
 }
