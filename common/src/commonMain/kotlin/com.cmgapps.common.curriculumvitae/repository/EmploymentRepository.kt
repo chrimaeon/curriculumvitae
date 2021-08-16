@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package com.cmgapps.web.curriculumvitae.repository
+package com.cmgapps.common.curriculumvitae.repository
 
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import com.cmgapps.common.curriculumvitae.data.domain.Status as DomainStatus
-import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkModel
 
-class StatusRepository(private val api: CvApiService) {
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getStatus(): Flow<DomainStatus> = api.getApiStatus()
-        .map(NetworkModel::asDomainModel)
+class EmploymentRepository(private val api: CvApiService) {
+    suspend fun getEmployments(): List<Employment> = api.getEmployments().asDomainModel()
 }

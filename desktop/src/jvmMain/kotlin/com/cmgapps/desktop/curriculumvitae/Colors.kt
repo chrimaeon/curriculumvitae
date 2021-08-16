@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-import androidx.compose.desktop.DesktopTheme
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-import com.cmgapps.common.curriculumvitae.di.initKoin
-import com.cmgapps.desktop.curriculumvitae.App
+package com.cmgapps.desktop.curriculumvitae
 
-private val koin = initKoin().koin
+import androidx.compose.ui.graphics.Color
 
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Curriculum Vitae"
-    ) {
-        DesktopTheme {
-            App(koin)
-        }
-    }
+object Colors {
+    val Blue = Color(0xFF3596e8)
+    val Red = Color(0xFFdc3545)
+    val DarkGrey = Color(0xFF212121)
 }

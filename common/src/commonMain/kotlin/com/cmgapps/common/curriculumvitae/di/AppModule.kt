@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package com.cmgapps.web.curriculumvitae.di
+package com.cmgapps.common.curriculumvitae.di
 
-import PRODUCTION
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-import com.cmgapps.web.curriculumvitae.baseUrl
-import com.cmgapps.web.curriculumvitae.repository.EmploymentRepository
-import com.cmgapps.web.curriculumvitae.repository.ProfileRepository
-import com.cmgapps.web.curriculumvitae.repository.StatusRepository
+import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
+import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
+import com.cmgapps.common.curriculumvitae.repository.StatusRepository
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.js.Js
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.websocket.WebSockets
 import io.ktor.http.Url
-import kotlinx.browser.window
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
-import org.w3c.dom.get
 
 private fun module() = org.koin.dsl.module {
     single { createHttpClient() }
@@ -41,13 +36,9 @@ private fun module() = org.koin.dsl.module {
     single { StatusRepository(get()) }
 }
 
-private fun getBaseUrl(): Url = if (PRODUCTION) {
-    Url(baseUrl)
-} else {
-    Url(window.localStorage["baseUrl"] ?: baseUrl)
-}
+expect fun getBaseUrl(): Url
 
-private fun createHttpClient(): HttpClient = HttpClient(Js) {
+private fun createHttpClient(): HttpClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }

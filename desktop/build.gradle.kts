@@ -31,6 +31,9 @@ kotlin {
             dependencies {
                 implementation(projects.common)
                 implementation(compose.desktop.currentOs)
+                implementation(libs.koin)
+                implementation(libs.ktor.client.java)
+                implementation(libs.kotlinx.datetime)
             }
         }
     }

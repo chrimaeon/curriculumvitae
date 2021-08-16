@@ -329,7 +329,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.collapsingToolbar)
     implementation(libs.dropbox.store)
-    implementation(libs.kotlinx.datetime)
     implementation(libs.bundles.ktor.android)
 
     debugImplementation(libs.processPhoenix)

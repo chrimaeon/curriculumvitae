@@ -21,8 +21,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.web.curriculumvitae.AppStyle
-import com.cmgapps.web.curriculumvitae.repository.ProfileRepository
 import org.jetbrains.compose.web.css.AlignSelf
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignSelf

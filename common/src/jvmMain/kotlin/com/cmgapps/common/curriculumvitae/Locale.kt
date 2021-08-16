@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-import androidx.compose.desktop.DesktopTheme
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-import com.cmgapps.common.curriculumvitae.di.initKoin
-import com.cmgapps.desktop.curriculumvitae.App
+package com.cmgapps.common.curriculumvitae
 
-private val koin = initKoin().koin
+import java.util.Locale
 
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Curriculum Vitae"
-    ) {
-        DesktopTheme {
-            App(koin)
-        }
-    }
-}
+actual val language: String
+    get() = Locale.getDefault().language.lowercase()

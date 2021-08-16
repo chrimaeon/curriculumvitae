@@ -16,6 +16,8 @@
 
 package com.cmgapps.common.curriculumvitae.data.domain
 
+import com.cmgapps.common.curriculumvitae.resource.R
+import com.cmgapps.common.curriculumvitae.resource.plurals
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -71,6 +73,16 @@ data class Employment(
             endDate ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         ).plus(DatePeriod(months = 1))
 }
+
+fun DatePeriod.asHumanReadableString() = buildString {
+    if (years > 0) {
+        append(plurals(R.plurals.years, years))
+    }
+    append(' ')
+    if (months > 0) {
+        append(plurals(R.plurals.months, months))
+    }
+}.trim()
 
 fun List<NetworkEmployment>.asDomainModel() = map {
     Employment(

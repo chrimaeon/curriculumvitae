@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import com.cmgapps.common.curriculumvitae.di.initKoin
 import com.cmgapps.web.curriculumvitae.App
-import com.cmgapps.web.curriculumvitae.di.initKoin
 import org.jetbrains.compose.web.renderComposable
 
 val koin = initKoin().koin

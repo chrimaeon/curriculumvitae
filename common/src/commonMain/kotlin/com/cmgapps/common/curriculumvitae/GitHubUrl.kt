@@ -1,5 +1,3 @@
-import org.w3c.dom.HTMLElement
-
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -16,10 +14,6 @@ import org.w3c.dom.HTMLElement
  * limitations under the License.
  */
 
-external val PRODUCTION: Boolean
+package com.cmgapps.common.curriculumvitae
 
-external interface ComponentHandler {
-    fun upgradeElement(element: HTMLElement)
-}
-
-external val componentHandler: ComponentHandler
+const val GitHubLink = "https://github.com/chrimaeon/curriculumvitae"

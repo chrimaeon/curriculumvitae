@@ -21,8 +21,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
-import com.cmgapps.web.curriculumvitae.repository.EmploymentRepository
-import kotlinx.datetime.DatePeriod
+import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
+import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H5
 import org.jetbrains.compose.web.dom.H6
@@ -87,21 +87,3 @@ fun EmploymentCard(employment: Employment) {
         }
     }
 }
-
-private fun DatePeriod.asHumanReadableString() = buildString {
-    if (years > 0) {
-        if (years == 1) {
-            append("1 Year")
-        } else {
-            append("$years Years")
-        }
-    }
-    append(' ')
-    if (months > 0) {
-        if (months == 1) {
-            append("1 Month")
-        } else {
-            append("$months Months")
-        }
-    }
-}.trim()

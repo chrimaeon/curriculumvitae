@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-import androidx.compose.desktop.DesktopTheme
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-import com.cmgapps.common.curriculumvitae.di.initKoin
-import com.cmgapps.desktop.curriculumvitae.App
+package com.cmgapps.common.curriculumvitae.repository
 
-private val koin = initKoin().koin
+import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
+import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Curriculum Vitae"
-    ) {
-        DesktopTheme {
-            App(koin)
-        }
-    }
+class ProfileRepository(private val api: CvApiService) {
+    suspend fun getProfile(): Profile = api.getProfile().asDomainModel()
 }

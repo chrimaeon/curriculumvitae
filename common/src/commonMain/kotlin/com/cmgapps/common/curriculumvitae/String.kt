@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.cmgapps.web.curriculumvitae.repository
+package com.cmgapps.common.curriculumvitae
 
-import com.cmgapps.common.curriculumvitae.data.domain.Profile
-import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
-import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-
-class ProfileRepository(private val api: CvApiService) {
-    suspend fun getProfile(): Profile = api.getProfile().asDomainModel()
+fun String.format(vararg values: Any): String {
+    var string = this
+    values.forEach { value ->
+        string = string.replace("%s", value.toString())
+    }
+    return string
 }

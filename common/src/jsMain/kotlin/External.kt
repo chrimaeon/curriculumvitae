@@ -14,12 +14,4 @@
  * limitations under the License.
  */
 
-package com.cmgapps.web.curriculumvitae.repository
-
-import com.cmgapps.common.curriculumvitae.data.domain.Employment
-import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
-import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-
-class EmploymentRepository(private val api: CvApiService) {
-    suspend fun getEmployments(): List<Employment> = api.getEmployments().asDomainModel()
-}
+external val PRODUCTION: Boolean

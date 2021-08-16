@@ -18,8 +18,9 @@ package com.cmgapps.web.curriculumvitae.ui
 
 import PRODUCTION
 import androidx.compose.runtime.Composable
+import com.cmgapps.common.curriculumvitae.GitHubLink
+import com.cmgapps.common.curriculumvitae.debugBaseUrls
 import com.cmgapps.web.curriculumvitae.AppStyle
-import com.cmgapps.web.curriculumvitae.debugBaseUrls
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.jetbrains.compose.web.attributes.ButtonType
@@ -81,7 +82,7 @@ fun PageFooter() {
                 Div({
                     classes("col-sm", "text-center", "text-sm-end")
                 }) {
-                    A(href = "https://github.com/chrimaeon/curriculumvitae") {
+                    A(href = GitHubLink) {
                         Icon("github") {
                             style {
                                 fontSize(32.px)
