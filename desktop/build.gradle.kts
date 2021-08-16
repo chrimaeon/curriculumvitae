@@ -19,6 +19,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version "1.0.0-alpha3"
+    ktlint
 }
 
 kotlin {
@@ -52,6 +53,11 @@ compose.desktop {
                 menuGroup = "Curriculum Vitae"
                 // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
                 upgradeUuid = "f4090642-a6c1-4b76-8e5a-957dd09ca6ee"
+            }
+
+            macOS {
+                bundleID = "com.cmgapps.mac.curriculumvitae"
+                // iconFile.set(rootDir.resolve("art/ic_launcher-playstore.webp"))
             }
         }
     }

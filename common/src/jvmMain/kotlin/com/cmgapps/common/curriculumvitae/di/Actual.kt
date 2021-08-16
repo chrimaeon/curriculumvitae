@@ -18,5 +18,11 @@ package com.cmgapps.common.curriculumvitae.di
 
 import com.cmgapps.common.curriculumvitae.baseUrl
 import io.ktor.http.Url
+import java.util.prefs.Preferences
 
-actual fun getBaseUrl() = Url(baseUrl)
+const val DebugBaseUrlKey = "debugBaseUrl"
+
+actual fun getBaseUrl(): Url {
+    val prefs = Preferences.userRoot()
+    return Url(prefs.get(DebugBaseUrlKey, baseUrl))
+}

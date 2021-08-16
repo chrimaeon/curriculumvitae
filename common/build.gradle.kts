@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.asClassName
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version kotlinVersion
+    ktlint
 }
 
 val generatedFilesDir: Provider<Directory> = project.layout.buildDirectory.dir("generated")

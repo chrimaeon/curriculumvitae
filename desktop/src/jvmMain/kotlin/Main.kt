@@ -15,10 +15,20 @@
  */
 
 import androidx.compose.desktop.DesktopTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.cmgapps.common.curriculumvitae.baseUrl
+import com.cmgapps.common.curriculumvitae.debugBaseUrls
+import com.cmgapps.common.curriculumvitae.di.DebugBaseUrlKey
 import com.cmgapps.common.curriculumvitae.di.initKoin
 import com.cmgapps.desktop.curriculumvitae.App
+import java.util.prefs.Preferences
 
 private val koin = initKoin().koin
 
@@ -27,6 +37,42 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "Curriculum Vitae"
     ) {
+        MenuBar {
+            Menu("Debug", 'd') {
+                Menu("Change Base URL") {
+                    val prefs = Preferences.userRoot()
+                    var currentUrl by remember {
+                        mutableStateOf(
+                            prefs.get(
+                                DebugBaseUrlKey,
+                                baseUrl
+                            )
+                        )
+                    }
+                    prefs.addPreferenceChangeListener {
+                        if (it.key == DebugBaseUrlKey) {
+                            currentUrl = it.newValue
+                        }
+                    }
+
+                    debugBaseUrls.forEach { debugUrl ->
+                        Item(
+                            debugUrl,
+                            icon = if (currentUrl == debugUrl) {
+                                painterResource("icons/check-square.svg")
+                            } else {
+                                painterResource("icons/square.svg")
+                            }
+                        ) {
+                            prefs.apply {
+                                put(DebugBaseUrlKey, debugUrl)
+                                flush()
+                            }
+                        }
+                    }
+                }
+            }
+        }
         DesktopTheme {
             App(koin)
         }

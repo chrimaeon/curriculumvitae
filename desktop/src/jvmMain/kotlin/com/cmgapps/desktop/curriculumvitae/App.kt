@@ -66,6 +66,7 @@ import kotlinx.coroutines.sync.withLock
 import org.koin.core.Koin
 import java.awt.Desktop
 import java.awt.image.BufferedImage
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
@@ -82,25 +83,33 @@ fun App(koin: Koin) {
     val profileRepo: ProfileRepository = koin.get()
     val employmentRepo: EmploymentRepository = koin.get()
 
-    LaunchedEffect(true) {
-        val profile = profileRepo.getProfile()
-        items = buildList {
-            listMutex.withLock {
-                add(profile)
-                addAll(items)
+    LaunchedEffect(profileRepo) {
+        try {
+            val profile = profileRepo.getProfile()
+            items = buildList {
+                listMutex.withLock {
+                    add(profile)
+                    addAll(items)
+                }
             }
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
-    LaunchedEffect(true) {
-        val employments = employmentRepo.getEmployments()
-        items = buildList {
-            listMutex.withLock {
-                if (items.isNotEmpty()) {
-                    add(0, items[0])
+    LaunchedEffect(employmentRepo) {
+        try {
+            val employments = employmentRepo.getEmployments()
+            items = buildList {
+                listMutex.withLock {
+                    if (items.isNotEmpty()) {
+                        add(0, items[0])
+                    }
+                    addAll(employments)
                 }
-                addAll(employments)
             }
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
@@ -123,13 +132,7 @@ fun App(koin: Koin) {
             ) {
                 items(
                     items = items,
-                    key = {
-                        when (it) {
-                            is Profile -> it.hashCode()
-                            is Employment -> it.id
-                            else -> error("type not supported: ${it::class.java.simpleName}")
-                        }
-                    }
+                    key = ::key
                 ) { item ->
                     when (item) {
                         is Profile -> ProfileCard(item)
@@ -147,9 +150,15 @@ fun App(koin: Koin) {
     }
 }
 
+private fun key(value: Any): Int = when (value) {
+    is Profile -> value.hashCode()
+    is Employment -> value.id
+    else -> error("type not supported: ${value::class.java.simpleName}")
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ProfileCard(profile: Profile) {
+private fun ProfileCard(profile: Profile) {
     var bitmap: BufferedImage? by remember { mutableStateOf(null) }
 
     LaunchedEffect(profile.profileImageUrl) {
