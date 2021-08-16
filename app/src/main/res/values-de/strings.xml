@@ -34,6 +34,7 @@
     <string name="info_cmgapps_href">https://m.cmgapps.com/?utm_source=curriculum_vitae_android&amp;utm_medium=info_dialog&amp;utm_campaign=cv_app</string>
     <string name="info_oss_licenses">Open Source Lizenzen</string>
     <string name="info_open_font_licenses">Open Font Lizenzen</string>
+    <string name="project_on_github">Projekt auf GitHub</string>
     <plurals name="years">
         <item quantity="one">%d Jahr</item>
         <item quantity="other">%d Jahre</item>

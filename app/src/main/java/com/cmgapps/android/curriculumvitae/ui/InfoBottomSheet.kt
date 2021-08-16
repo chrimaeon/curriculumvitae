@@ -97,6 +97,14 @@ fun InfoBottomSheet(
             text = stringResource(id = R.string.info_open_font_licenses),
             onClick = { oflDialogOpen = true }
         )
+        InfoTextButton(
+            text = stringResource(id = R.string.project_on_github),
+            onClick = {
+                onOpenWebsite(
+                    Uri.parse("https://github.com/chrimaeon/curriculumvitae")
+                )
+            }
+        )
     }
 
     if (ossDialogOpen) {
