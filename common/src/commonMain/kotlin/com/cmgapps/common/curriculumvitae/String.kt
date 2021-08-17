@@ -16,10 +16,10 @@
 
 package com.cmgapps.common.curriculumvitae
 
+private val formatRegEx = """\{(\d+)}""".toRegex()
+
 fun String.format(vararg values: Any): String {
-    var string = this
-    values.forEach { value ->
-        string = string.replace("%s", value.toString())
+    return formatRegEx.replace(this) {
+        values[it.groupValues[1].toInt()].toString()
     }
-    return string
 }

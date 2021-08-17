@@ -36,12 +36,13 @@ object R {
             override val other: String
 
             init {
+                println(language)
                 if (language == "de") {
-                    one = "%s Monat"
-                    other = "%s Monate"
+                    one = "{0} Monat"
+                    other = "{0} Monate"
                 } else {
-                    one = "%s Month"
-                    other = "%s Months"
+                    one = "{0} Month"
+                    other = "{0} Months"
                 }
             }
         }
@@ -52,11 +53,11 @@ object R {
 
             init {
                 if (language == "de") {
-                    one = "%s Jahr"
-                    other = "%s Jahre"
+                    one = "{0} Jahr"
+                    other = "{0} Jahre"
                 } else {
-                    one = "%s Year"
-                    other = "%s Years"
+                    one = "{0} Year"
+                    other = "{0} Years"
                 }
             }
         }
