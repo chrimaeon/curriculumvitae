@@ -4,15 +4,34 @@
 
 ![Curriculum Vitae](art/banner.png)
 
+This is a [Kotlin Multiplatform] project.
+
 ## Android App
 
 An Android App showcasing Jetpack Compose
+
+## Desktop
+
+A Java Desktop App showcasing [Compose for Desktop].
+
+Run `./gradlew :desktop:run` to start the app.
+
+## Web
+
+A JavaScript Web application showcasing [Compose for Web].
+
+You can start the dev server running `./gradlew :web:jsBrowserDevelopmentRun`
 
 ## Back end
 
 Ktor Back end for the app
 
 see [backend/README.md]
+
+## Common
+
+The `common` project includes all the shared code across the different platforms. To learn more
+check out [Kotlin Multiplatform].
 
 ## MAD Scorecard
 
@@ -37,3 +56,9 @@ limitations under the License.
 ```
 
 [backend/README.md]: /backend/README.md
+
+[Kotlin Multiplatform]: https://kotlinlang.org/docs/mpp-intro.html
+
+[Compose for Desktop]: https://www.jetbrains.com/de-de/lp/compose/
+
+[Compose for Web]: https://compose-web.ui.pages.jetbrains.team/
