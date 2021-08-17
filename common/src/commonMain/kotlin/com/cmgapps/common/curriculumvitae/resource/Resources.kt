@@ -36,7 +36,6 @@ object R {
             override val other: String
 
             init {
-                println(language)
                 if (language == "de") {
                     one = "{0} Monat"
                     other = "{0} Monate"

@@ -89,7 +89,8 @@ tasks {
                 "org.jetbrains.compose",
             ).any { this.contains(it) }
 
-            fun String.filterModule(): Boolean = listOf("compose").any { this.contains(it) }
+            fun String.filterModule(): Boolean =
+                listOf("compose", "core-splashscreen").any { this.contains(it) }
 
             fun ModuleComponentIdentifier.rejectedVersion(): Boolean =
                 listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->

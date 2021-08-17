@@ -16,7 +16,8 @@
 
 package com.cmgapps.common.curriculumvitae
 
-private val formatRegEx = """\{(\d+)}""".toRegex()
+@Suppress("RegExpRedundantEscape")
+private val formatRegEx = """\{(\d+)\}""".toRegex()
 
 fun String.format(vararg values: Any): String {
     return formatRegEx.replace(this) {
