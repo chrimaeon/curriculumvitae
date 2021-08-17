@@ -16,16 +16,14 @@
 
 package com.cmgapps.android.curriculumvitae.ui.info
 
-import android.webkit.WebView
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -37,18 +35,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.Dialog
 import androidx.core.content.pm.PackageInfoCompat
 import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
+import com.cmgapps.android.curriculumvitae.components.WebViewDialog
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 
 @Composable
 fun InfoSheet(
     modifier: Modifier = Modifier,
-    onInfoWebsiteLinkClick: () -> Unit
+    onOpenWebsite: (Uri) -> Unit
 ) {
     var ossDialogOpen by remember { mutableStateOf(false) }
     var oflDialogOpen by remember { mutableStateOf(false) }
@@ -88,17 +85,26 @@ fun InfoSheet(
             ),
             modifier = Modifier.padding(start = 24.dp),
         )
-        InfoTextWithLink(
+        val uri = Uri.parse(stringResource(id = R.string.info_cmgapps_href))
+        InfoTextButton(
             text = stringResource(id = R.string.info_cmgapps_link),
-            onClick = { onInfoWebsiteLinkClick() },
+            onClick = { onOpenWebsite(uri) },
         )
-        InfoTextWithLink(
+        InfoTextButton(
             text = stringResource(id = R.string.info_oss_licenses),
             onClick = { ossDialogOpen = true }
         )
-        InfoTextWithLink(
+        InfoTextButton(
             text = stringResource(id = R.string.info_open_font_licenses),
             onClick = { oflDialogOpen = true }
+        )
+        InfoTextButton(
+            text = stringResource(id = R.string.project_on_github),
+            onClick = {
+                onOpenWebsite(
+                    Uri.parse("https://github.com/chrimaeon/curriculumvitae")
+                )
+            }
         )
     }
 
@@ -119,7 +125,7 @@ fun InfoSheet(
 private fun String.asAssetFileUrl() = "file:///android_asset/$this"
 
 @Composable
-private fun InfoTextWithLink(
+private fun InfoTextButton(
     text: String,
     onClick: () -> Unit,
 ) {
@@ -129,21 +135,5 @@ private fun InfoTextWithLink(
         onClick = onClick,
     ) {
         Text(text)
-    }
-}
-
-@Composable
-private fun WebViewDialog(
-    url: String,
-    onDismissRequest: () -> Unit
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-    ) {
-        Surface(Modifier.fillMaxSize()) {
-            AndroidView(factory = ::WebView) { webView ->
-                webView.loadUrl(url)
-            }
-        }
     }
 }

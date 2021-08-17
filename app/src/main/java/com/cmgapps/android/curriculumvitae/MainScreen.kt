@@ -58,14 +58,12 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.navigation
 import androidx.navigation.plusAssign
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
 import com.cmgapps.android.curriculumvitae.infra.SubScreen
 import com.cmgapps.android.curriculumvitae.infra.screens
-import com.cmgapps.android.curriculumvitae.ui.InfoBottomSheet
 import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentScreen
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetails
 import com.cmgapps.android.curriculumvitae.ui.info.InfoSheet
@@ -75,14 +73,18 @@ import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import kotlinx.coroutines.launch
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialNavigationApi::class,  ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterialApi::class,
+    ExperimentalMaterialNavigationApi::class,
+    ExperimentalAnimationApi::class
+)
 @Composable
 fun MainScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
@@ -113,18 +115,20 @@ fun MainScreen(
                 navController = navController,
                 scaffoldState = scaffoldState,
                 onFabClick = onFabClick,
+                onOpenWebsite = onOpenWebsite,
             )
         }
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
 fun MainScreenNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     scaffoldState: ScaffoldState,
     onFabClick: () -> Unit,
+    onOpenWebsite: (Uri) -> Unit
 ) {
     AnimatedNavHost(navController, startDestination = Screen.Profile.route) {
         composable(
@@ -181,9 +185,9 @@ fun MainScreenNavHost(
             enterTransition = defaultEnterTransition,
             exitTransition = defaultExitTransition,
         ) { SkillsScreen() }
-        
+
         bottomSheet(Screen.Info.route) {
-            InfoSheet(onInfoWebsiteLinkClick = onInfoWebsiteLinkClick)
+            InfoSheet(onOpenWebsite = onOpenWebsite)
         }
     }
 }
