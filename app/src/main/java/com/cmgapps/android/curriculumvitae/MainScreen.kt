@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -94,6 +95,7 @@ fun MainScreen(
 
     val navController = rememberAnimatedNavController()
     val bottomSheetNavigator = rememberBottomSheetNavigator()
+    @SuppressLint("RestrictedApi")
     navController.navigatorProvider += bottomSheetNavigator
 
     var isOnMainScreen by remember { mutableStateOf(true) }
