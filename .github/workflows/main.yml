@@ -71,3 +71,9 @@ jobs:
           path: |
             backend/build/reports/*
             backend/build/test-results/*
+
+      - name: Assemble :desktop
+        run: ./gradlew :desktop:assemble
+
+      - name: Assemble :web
+        run: ./gradlew :web:assemble
