@@ -18,12 +18,18 @@ package com.cmgapps.common.curriculumvitae.di
 
 import PRODUCTION
 import com.cmgapps.common.curriculumvitae.baseUrl
+import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.drivers.sqljs.initSqlDriver
 import io.ktor.http.Url
 import kotlinx.browser.window
+import kotlinx.coroutines.await
 import org.w3c.dom.get
 
-actual fun getBaseUrl(): Url = if (PRODUCTION) {
+actual fun provideBaseUrl(): Url = if (PRODUCTION) {
     Url(baseUrl)
 } else {
     Url(window.localStorage["baseUrl"] ?: baseUrl)
 }
+
+actual suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver =
+    initSqlDriver(schema).await()

@@ -17,9 +17,8 @@
 package com.cmgapps.web.curriculumvitae.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
@@ -30,38 +29,33 @@ import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun Employments(repository: EmploymentRepository) {
-    val (employments, setEmployments) = remember { mutableStateOf<List<Employment>?>(null) }
 
-    LaunchedEffect(true) {
-        setEmployments(repository.getEmployments())
-    }
+    val employments by repository.getEmployments().collectAsState(emptyList())
 
-    if (employments != null) {
-        for (index in employments.indices step 2) {
-            Div({
-                classes("row")
-            }) {
-                employments[index].let { employment ->
-                    Div({
-                        classes("col")
-                    }) {
-                        EmploymentCard(employment)
-                    }
+    for (index in employments.indices step 2) {
+        Div({
+            classes("row")
+        }) {
+            employments[index].let { employment ->
+                Div({
+                    classes("col")
+                }) {
+                    EmploymentCard(employment)
                 }
+            }
 
-                val employment = employments.getOrNull(index + 1)
+            val employment = employments.getOrNull(index + 1)
 
-                if (employment != null) {
-                    Div({
-                        classes("col-sm")
-                    }) {
-                        EmploymentCard(employment)
-                    }
-                } else {
-                    Div({
-                        classes("col-sm")
-                    })
+            if (employment != null) {
+                Div({
+                    classes("col-sm")
+                }) {
+                    EmploymentCard(employment)
                 }
+            } else {
+                Div({
+                    classes("col-sm")
+                })
             }
         }
     }

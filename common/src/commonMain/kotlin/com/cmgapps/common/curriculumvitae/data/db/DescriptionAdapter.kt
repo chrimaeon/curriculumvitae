@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package com.cmgapps.common.curriculumvitae.repository
+package com.cmgapps.common.curriculumvitae.data.db
 
-import com.cmgapps.common.curriculumvitae.data.domain.Employment
-import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
-import com.cmgapps.common.curriculumvitae.data.network.CvApiService
+import com.squareup.sqldelight.ColumnAdapter
 
-class EmploymentRepository(private val api: CvApiService) {
-    suspend fun getEmployments(): List<Employment> = api.getEmployments().asDomainModel()
+object DescriptionAdapter : ColumnAdapter<List<String>, String> {
+    override fun decode(databaseValue: String): List<String> {
+        return if (databaseValue.isBlank()) emptyList() else databaseValue.split("||")
+    }
+
+    override fun encode(value: List<String>): String {
+        return if (value.isNullOrEmpty()) "" else value.joinToString(separator = "||")
+    }
 }

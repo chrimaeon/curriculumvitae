@@ -1,0 +1,3 @@
+config.node = {
+    fs: 'empty'
+};

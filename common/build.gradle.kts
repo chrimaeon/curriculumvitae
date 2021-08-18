@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.asClassName
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version kotlinVersion
+    id("com.squareup.sqldelight")
     ktlint
 }
 
@@ -83,12 +84,25 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.koin)
+                implementation(libs.sqldelight.coroutines)
             }
         }
 
         named("commonTest") {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+
+        named("jvmMain") {
+            dependencies {
+                implementation(libs.sqldelight.driver.jvm)
+            }
+        }
+
+        named("jsMain") {
+            dependencies {
+                implementation(libs.sqldelight.driver.js)
             }
         }
     }
@@ -103,5 +117,11 @@ kotlin {
                 dependsOn(generateBuildConfig)
             }
         }
+    }
+}
+
+sqldelight {
+    database("CvDatabase") {
+        packageName = "com.cmgapps.common.curriculumvitae.data.db"
     }
 }

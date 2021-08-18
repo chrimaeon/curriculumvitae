@@ -19,4 +19,5 @@ package com.cmgapps.common.curriculumvitae
 import java.util.Locale
 
 actual val language: String
+    @ExperimentalStdlibApi
     get() = Locale.getDefault().language.lowercase()

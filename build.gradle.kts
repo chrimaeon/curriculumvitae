@@ -32,6 +32,7 @@ buildscript {
         classpath(libs.findDependency("plugin-kotlin").orElseThrow())
         classpath(libs.findDependency("plugin-hiltAndroid").orElseThrow())
         classpath(libs.findDependency("plugin-appEngine").orElseThrow())
+        classpath(libs.findDependency("plugin-sqldelight").orElseThrow())
     }
 }
 

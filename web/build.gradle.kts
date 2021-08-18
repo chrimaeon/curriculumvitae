@@ -40,6 +40,8 @@ kotlin {
                 implementation(projects.common)
 
                 implementation(libs.koin)
+
+                implementation(devNpm("copy-webpack-plugin", "6.4.1"))
             }
         }
     }

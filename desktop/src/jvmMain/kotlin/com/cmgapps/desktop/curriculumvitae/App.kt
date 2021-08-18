@@ -42,6 +42,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,104 +62,72 @@ import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.desktop.curriculumvitae.ui.Footer
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import org.koin.core.Koin
 import java.awt.Desktop
 import java.awt.image.BufferedImage
-import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
 import javax.imageio.ImageIO
 
-private val listMutex = Mutex()
-
 @OptIn(ExperimentalFoundationApi::class, ExperimentalStdlibApi::class)
 @Composable
 fun App(koin: Koin) {
 
-    var items by remember { mutableStateOf(emptyList<Any>()) }
-
     val profileRepo: ProfileRepository = koin.get()
     val employmentRepo: EmploymentRepository = koin.get()
 
+    var profile: Profile? by remember { mutableStateOf(null) }
+
     LaunchedEffect(profileRepo) {
-        try {
-            val profile = profileRepo.getProfile()
-            items = buildList {
-                listMutex.withLock {
-                    add(profile)
-                    addAll(items)
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        profile = profileRepo.getProfile()
     }
 
-    LaunchedEffect(employmentRepo) {
-        try {
-            val employments = employmentRepo.getEmployments()
-            items = buildList {
-                listMutex.withLock {
-                    if (items.isNotEmpty()) {
-                        add(0, items[0])
-                    }
-                    addAll(employments)
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
+    val employments by employmentRepo.getEmployments().collectAsState(emptyList())
 
     Scaffold(
         bottomBar = {
             Footer()
         }
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
-            val state = rememberLazyListState()
+            ProfileCard(profile)
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                state = state,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(20.dp)
-            ) {
-                items(
-                    items = items,
-                    key = ::key
-                ) { item ->
-                    when (item) {
-                        is Profile -> ProfileCard(item)
-                        is Employment -> EmploymentCard(item)
-                    }
+            Box {
+                val state = rememberLazyListState()
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    state = state,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(20.dp)
+                ) {
+                    items(
+                        items = employments,
+                        key = { it.id },
+                    ) { EmploymentCard(it) }
                 }
-            }
-            VerticalScrollbar(
-                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-                adapter = rememberScrollbarAdapter(
-                    scrollState = state
+                VerticalScrollbar(
+                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                    adapter = rememberScrollbarAdapter(
+                        scrollState = state
+                    )
                 )
-            )
+            }
         }
     }
 }
 
-private fun key(value: Any): Int = when (value) {
-    is Profile -> value.hashCode()
-    is Employment -> value.id
-    else -> error("type not supported: ${value::class.java.simpleName}")
-}
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ProfileCard(profile: Profile) {
+private fun ProfileCard(profile: Profile?) {
+    if (profile == null) {
+        return
+    }
+
     var bitmap: BufferedImage? by remember { mutableStateOf(null) }
 
     LaunchedEffect(profile.profileImageUrl) {

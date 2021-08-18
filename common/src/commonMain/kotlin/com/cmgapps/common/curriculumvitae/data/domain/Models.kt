@@ -25,7 +25,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.periodUntil
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
-import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
+import com.cmgapps.common.curriculumvitae.data.db.Employment as DbEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkStatus
 
@@ -74,6 +74,35 @@ data class Employment(
         ).plus(DatePeriod(months = 1))
 }
 
+fun employmentMapper(
+    id: Int,
+    jobTitle: String,
+    employer: String,
+    startDate: String,
+    endDate: String?,
+    city: String,
+    description: List<String>
+) = Employment(
+    id,
+    jobTitle,
+    employer,
+    LocalDate.parse(startDate),
+    endDate?.let { LocalDate.parse(it) },
+    city,
+    description
+)
+
+fun DbEmployment.asDomainModel(description: List<String>) =
+    Employment(
+        this.id,
+        this.job_title,
+        this.employer,
+        LocalDate.parse(this.start_date),
+        this.end_date?.let { LocalDate.parse(it) },
+        this.city,
+        description
+    )
+
 fun DatePeriod.asHumanReadableString() = buildString {
     if (years > 0) {
         append(plurals(R.plurals.years, years))
@@ -83,15 +112,3 @@ fun DatePeriod.asHumanReadableString() = buildString {
         append(plurals(R.plurals.months, months))
     }
 }.trim()
-
-fun List<NetworkEmployment>.asDomainModel() = map {
-    Employment(
-        it.hashCode(),
-        it.jobTitle,
-        it.employer,
-        it.startDate,
-        it.endDate,
-        it.city,
-        it.description
-    )
-}

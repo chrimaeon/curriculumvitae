@@ -1,0 +1,19 @@
+import kotlin.collections.List;
+
+CREATE TABLE IF NOT EXISTS `employment` (
+    `id` INTEGER AS Int NOT NULL,
+    `job_title` TEXT NOT NULL,
+    `employer` TEXT NOT NULL,
+    `start_date` TEXT NOT NULL,
+    `end_date` TEXT,
+    `city` TEXT NOT NULL,
+    `description` TEXT AS List<String> NOT NULL,
+    PRIMARY KEY(`id`)
+);
+
+selectAll:
+SELECT * FROM employment;
+
+insertEmployment:
+INSERT OR REPLACE INTO employment (`id`, `job_title`, `employer`, `start_date`, `end_date`, `city`, `description`)
+  VALUES (?, ?, ?, ?, ?, ?, ?);

@@ -17,12 +17,22 @@
 package com.cmgapps.common.curriculumvitae.di
 
 import com.cmgapps.common.curriculumvitae.baseUrl
+import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import io.ktor.http.Url
+import java.io.File
 import java.util.prefs.Preferences
 
 const val DebugBaseUrlKey = "debugBaseUrl"
 
-actual fun getBaseUrl(): Url {
+actual fun provideBaseUrl(): Url {
     val prefs = Preferences.userRoot()
     return Url(prefs.get(DebugBaseUrlKey, baseUrl))
+}
+
+actual suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver {
+    val databasePath = File(System.getProperty("java.io.tmpdir"), "CvDb.db")
+    return JdbcSqliteDriver(url = "jdbc:sqlite:${databasePath.absolutePath}").also { driver ->
+        schema.create(driver)
+    }
 }
