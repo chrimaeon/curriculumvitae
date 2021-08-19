@@ -23,8 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.cmgapps.common.curriculumvitae.baseUrl
-import com.cmgapps.common.curriculumvitae.debugBaseUrls
+import com.cmgapps.common.curriculumvitae.BaseUrl
+import com.cmgapps.common.curriculumvitae.DebugBaseUrls
 import com.cmgapps.common.curriculumvitae.di.DebugBaseUrlKey
 import com.cmgapps.common.curriculumvitae.di.initKoin
 import com.cmgapps.desktop.curriculumvitae.App
@@ -45,7 +45,7 @@ fun main() = application {
                         mutableStateOf(
                             prefs.get(
                                 DebugBaseUrlKey,
-                                baseUrl
+                                BaseUrl
                             )
                         )
                     }
@@ -55,7 +55,7 @@ fun main() = application {
                         }
                     }
 
-                    debugBaseUrls.forEach { debugUrl ->
+                    DebugBaseUrls.forEach { debugUrl ->
                         Item(
                             debugUrl,
                             icon = if (currentUrl == debugUrl) {

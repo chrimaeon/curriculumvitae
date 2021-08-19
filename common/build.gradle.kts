@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.MemberName
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.asClassName
+import com.cmgapps.gradle.GenerateBuildConfig
+import java.time.LocalDate
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
 
@@ -32,35 +28,15 @@ plugins {
 
 val generatedFilesDir: Provider<Directory> = project.layout.buildDirectory.dir("generated")
 
-val generateBuildConfig by tasks.registering {
-    val outputDir = generatedFilesDir
+val generateBuildConfig by tasks.registering(GenerateBuildConfig::class) {
+    outputDir.set(generatedFilesDir)
 
     val baseUrl by configProperties()
     val debugBaseUrls by configProperties()
-    inputs.property("baseUrl", baseUrl)
-    outputs.dir(outputDir)
 
-    doLast {
-        FileSpec.builder("com.cmgapps.common.curriculumvitae", "BuildConfig")
-            .addProperty(
-                PropertySpec.builder(
-                    "baseUrl",
-                    String::class,
-                    KModifier.CONST
-                ).initializer("%S", baseUrl).build()
-            ).addProperty(
-                PropertySpec.builder(
-                    "debugBaseUrls",
-                    List::class.asClassName().parameterizedBy(String::class.asClassName()),
-                ).initializer(
-                    "%N(%L)",
-                    MemberName("kotlin.collections", "listOf"),
-                    debugBaseUrls.split(",").joinToString { """"$it"""" }
-                ).build()
-            )
-            .build()
-            .writeTo(outputDir.get().asFile)
-    }
+    this.baseUrl.set(baseUrl)
+    this.debugBaseUrls.set(debugBaseUrls)
+    this.buildYear.set(LocalDate.now().year.toString())
 }
 
 kotlin {

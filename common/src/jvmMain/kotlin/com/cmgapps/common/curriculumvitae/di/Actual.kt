@@ -16,7 +16,7 @@
 
 package com.cmgapps.common.curriculumvitae.di
 
-import com.cmgapps.common.curriculumvitae.baseUrl
+import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import io.ktor.http.Url
@@ -27,7 +27,7 @@ const val DebugBaseUrlKey = "debugBaseUrl"
 
 actual fun provideBaseUrl(): Url {
     val prefs = Preferences.userRoot()
-    return Url(prefs.get(DebugBaseUrlKey, baseUrl))
+    return Url(prefs.get(DebugBaseUrlKey, BaseUrl))
 }
 
 actual suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver {

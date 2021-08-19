@@ -24,6 +24,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomAppBar
@@ -55,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -240,40 +242,10 @@ private fun BottomBar(navController: NavController) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             screens.forEach { screen ->
-                val selected =
-                    currentDestination?.hierarchy?.any { it.route == screen.route } == true
-                val iconState = if (selected) IconState.Selected else IconState.Default
-
-                BottomNavigationItem(
-                    icon = {
-                        Icon(
-                            imageVector = screen.icon[iconState],
-                            contentDescription = DecorativeImage
-                        )
-                    },
-                    label = {
-                        Text(
-                            fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
-                            text = stringResource(id = screen.labelRes),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    },
-                    selected = selected,
-                    onClick = onClick@{
-                        if (selected) {
-                            return@onClick
-                        }
-
-                        navController.navigate(screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                                inclusive = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
+                NavigationItem(
+                    screen = screen,
+                    navController,
+                    currentDestination
                 )
             }
         }
@@ -291,4 +263,48 @@ private fun Fab(onClick: () -> Unit = {}) {
             contentDescription = stringResource(id = R.string.send_action)
         )
     }
+}
+
+@Composable
+private fun RowScope.NavigationItem(
+    screen: Screen,
+    navController: NavController,
+    currentDestination: NavDestination?,
+) {
+    val selected =
+        currentDestination?.hierarchy?.any { it.route == screen.route } == true
+    val iconState = if (selected) IconState.Selected else IconState.Default
+    BottomNavigationItem(
+        icon = {
+            Icon(
+                imageVector = screen.icon[iconState],
+                contentDescription = DecorativeImage
+            )
+        },
+        label = {
+            Text(
+                fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
+                text = stringResource(id = screen.labelRes),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
+        selected = selected,
+        onClick = onClick@{
+            if (selected) {
+                return@onClick
+            }
+
+            navController.navigate(screen.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                    if (currentDestination?.route != Screen.Info.route) {
+                        inclusive = true
+                    }
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+    )
 }

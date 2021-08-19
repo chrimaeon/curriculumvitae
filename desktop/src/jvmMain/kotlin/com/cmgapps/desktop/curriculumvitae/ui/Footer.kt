@@ -18,6 +18,7 @@ package com.cmgapps.desktop.curriculumvitae.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -40,6 +41,7 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerIcon
 import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.unit.dp
+import com.cmgapps.common.curriculumvitae.CopyRightText
 import com.cmgapps.common.curriculumvitae.GitHubLink
 import com.cmgapps.desktop.curriculumvitae.Colors
 import com.cmgapps.desktop.curriculumvitae.components.Icon
@@ -67,37 +69,40 @@ fun Footer() {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Left() {
-    Row(
-        verticalAlignment = Alignment.Bottom
-    ) {
-        var hover by remember { mutableStateOf(false) }
+    Column {
+        Text(CopyRightText)
+        Row(
+            verticalAlignment = Alignment.Bottom
+        ) {
+            var hover by remember { mutableStateOf(false) }
 
-        Icon("code-slash", contentDescription = "Coded", color = Colors.Blue)
-        Text(" with ")
-        Icon("heart-fill", contentDescription = "Love", color = Colors.Red)
-        Text(" and ")
-        Text(
-            "Compose for Desktop",
-            modifier = Modifier
-                .clickable {
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop()
-                            .browse(URI.create("https://github.com/jetbrains/compose-jb"))
+            Icon("code-slash", contentDescription = "Coded", color = Colors.Blue)
+            Text(" with ")
+            Icon("heart-fill", contentDescription = "Love", color = Colors.Red)
+            Text(" and ")
+            Text(
+                "Compose for Desktop",
+                modifier = Modifier
+                    .clickable {
+                        if (Desktop.isDesktopSupported()) {
+                            Desktop.getDesktop()
+                                .browse(URI.create("https://github.com/jetbrains/compose-jb"))
+                        }
                     }
-                }
-                .pointerIcon(PointerIcon.Hand)
-                .pointerMoveFilter(
-                    onEnter = {
-                        hover = true
-                        false
-                    },
-                    onExit = {
-                        hover = false
-                        false
-                    }
-                )
-                .alpha(if (hover) 0.8f else 1.0f),
-        )
+                    .pointerIcon(PointerIcon.Hand)
+                    .pointerMoveFilter(
+                        onEnter = {
+                            hover = true
+                            false
+                        },
+                        onExit = {
+                            hover = false
+                            false
+                        }
+                    )
+                    .alpha(if (hover) 0.8f else 1.0f),
+            )
+        }
     }
 }
 

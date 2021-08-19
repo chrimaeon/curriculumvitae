@@ -36,9 +36,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.pm.PackageInfoCompat
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.WebViewDialog
+import com.cmgapps.common.curriculumvitae.CopyRightText
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 
@@ -79,10 +79,7 @@ fun InfoSheet(
         }
         Spacer(Modifier.height(24.dp))
         Text(
-            text = stringResource(
-                id = R.string.info_copyright,
-                BuildConfig.BUILD_YEAR
-            ),
+            text = CopyRightText,
             modifier = Modifier.padding(start = 24.dp),
         )
         val uri = Uri.parse(stringResource(id = R.string.info_cmgapps_href))

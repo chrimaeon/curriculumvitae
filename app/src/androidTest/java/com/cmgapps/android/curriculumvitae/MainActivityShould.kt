@@ -27,6 +27,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
 import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
+import com.cmgapps.common.curriculumvitae.BuildYear
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -106,7 +107,7 @@ class MainActivityShould {
         onNodeWithText("Info").assertIsDisplayed().performClick()
         onNodeWithText("Curriculum Vitae").assertIsDisplayed()
         onNodeWithText("Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})").assertIsDisplayed()
-        onNodeWithText("Copyright \u00A9 ${BuildConfig.BUILD_YEAR} Christian Grach").assertIsDisplayed()
+        onNodeWithText("Copyright \u00A9 $BuildYear Christian Grach").assertIsDisplayed()
         onNodeWithText("m.cmgapps.com").assertIsDisplayed().assertHasClickAction()
         onNodeWithText(activity.resources.getString(R.string.info_oss_licenses)).assertIsDisplayed()
             .assertHasClickAction()

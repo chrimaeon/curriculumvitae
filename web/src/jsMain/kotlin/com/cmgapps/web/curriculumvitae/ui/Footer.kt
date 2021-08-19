@@ -18,8 +18,9 @@ package com.cmgapps.web.curriculumvitae.ui
 
 import PRODUCTION
 import androidx.compose.runtime.Composable
+import com.cmgapps.common.curriculumvitae.CopyRightText
+import com.cmgapps.common.curriculumvitae.DebugBaseUrls
 import com.cmgapps.common.curriculumvitae.GitHubLink
-import com.cmgapps.common.curriculumvitae.debugBaseUrls
 import com.cmgapps.web.curriculumvitae.AppStyle
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
@@ -57,26 +58,35 @@ fun PageFooter() {
                 classes("row", "h-100", "align-items-center")
             }) {
                 Div({
-                    classes("col-sm", "text-center", "text-sm-start")
+                    classes("col-sm")
                 }) {
-                    Icon("code-slash") {
-                        style {
-                            property("color", variableValue("bs-primary"))
-                        }
-                        if (!PRODUCTION) {
-                            attr("data-bs-toggle", "modal")
-                            attr("data-bs-target", "#BaseUrlModal")
-                        }
+                    Div({
+                        classes("text-center", "text-sm-start")
+                    }) {
+                        Text(CopyRightText)
                     }
-                    Text(" with ")
-                    Icon("heart-fill") {
-                        style {
-                            property("color", variableValue("bs-red"))
+                    Div({
+                        classes("text-center", "text-sm-start")
+                    }) {
+                        Icon("code-slash") {
+                            style {
+                                property("color", variableValue("bs-primary"))
+                            }
+                            if (!PRODUCTION) {
+                                attr("data-bs-toggle", "modal")
+                                attr("data-bs-target", "#BaseUrlModal")
+                            }
                         }
-                    }
-                    Text(" and ")
-                    A(href = "https://github.com/jetbrains/compose-jb") {
-                        Text("Compose for Web")
+                        Text(" with ")
+                        Icon("heart-fill") {
+                            style {
+                                property("color", variableValue("bs-red"))
+                            }
+                        }
+                        Text(" and ")
+                        A(href = "https://github.com/jetbrains/compose-jb") {
+                            Text("Compose for Web")
+                        }
                     }
                 }
                 Div({
@@ -135,7 +145,7 @@ fun BaseUrlModal() {
                 Div({
                     classes("modal-body")
                 }) {
-                    debugBaseUrls.mapIndexed { index, url -> "baseUrl.option.$index" to url }
+                    DebugBaseUrls.mapIndexed { index, url -> "baseUrl.option.$index" to url }
                         .forEach { (key, url) ->
                             RadioButton(key, url)
                         }

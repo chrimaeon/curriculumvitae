@@ -22,7 +22,6 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.time.LocalDate
 import java.util.Properties
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
@@ -94,8 +93,6 @@ android {
                 viewBinding = true
             }
 
-            buildConfigField("String", "BUILD_YEAR", """"DEBUG"""")
-
             val debugBaseUrls by configProperties()
             buildConfigField(
                 "String[]",
@@ -112,7 +109,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BUILD_YEAR", "\"${LocalDate.now().year}\"")
             buildConfigField("String[]", "DEBUG_BASE_URLS", """{}""")
         }
     }

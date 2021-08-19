@@ -29,7 +29,6 @@
     <string name="refresh_error">D\'oh, cannot refresh</string>
     <string name="info">Info</string>
     <string name="version">Version %1$s (%2$s)</string>
-    <string name="info_copyright">Copyright \u00A9 %1$s Christian Grach</string>
     <string name="info_cmgapps_link">m.cmgapps.com</string>
     <string name="info_cmgapps_href">https://m.cmgapps.com/?utm_source=curriculum_vitae_android&amp;utm_medium=info_dialog&amp;utm_campaign=cv_app</string>
     <string name="info_oss_licenses">Open Source Licenses</string>
