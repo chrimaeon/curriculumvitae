@@ -18,14 +18,12 @@
 
 package com.cmgapps.android.curriculumvitae.test
 
-import com.cmgapps.android.curriculumvitae.data.database.EmploymentWithDescription
 import com.cmgapps.android.curriculumvitae.data.datastore.Address
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
-import com.cmgapps.android.curriculumvitae.data.database.Description as DatabaseDescription
-import com.cmgapps.android.curriculumvitae.data.database.Employment as DatabaseEmployment
+import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
 import com.cmgapps.common.curriculumvitae.data.domain.Address as DomainAddress
 import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
@@ -73,24 +71,12 @@ private val employmentId = StubNetworkEmployment().hashCode()
 
 fun StubDatabaseEmployment() = DatabaseEmployment(
     id = employmentId,
-    jobTitle = "Developer",
+    job_title = "Developer",
     employer = "My Company",
-    startDate = LocalDate(2021, Month.APRIL, 17),
-    endDate = null,
+    start_date = LocalDate(2021, Month.APRIL, 17).toString(),
+    end_date = null,
     city = "Home City",
-)
-
-fun StubDatabaseDescription() = DatabaseDescription(
-    id = 602055562,
-    employmentId = employmentId,
-    description = "stub description"
-)
-
-fun StubEmploymentWithDescription() = EmploymentWithDescription(
-    employment = StubDatabaseEmployment(),
-    description = listOf(
-        StubDatabaseDescription()
-    )
+    description = listOf("stub description")
 )
 
 fun StubDomainEmployment() = Employment(

@@ -334,6 +334,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutinesTest)
     testImplementation(libs.hamcrest)
     testImplementation(libs.turbine)
+    testImplementation(libs.sqldelight.driver.jvm)
 
     androidTestImplementation(libs.androidx.extJunit)
     androidTestImplementation(libs.androidx.coreTesting)
@@ -342,6 +343,7 @@ dependencies {
     androidTestImplementation(libs.ktor.client.mock)
     androidTestImplementation(libs.hamcrest)
     androidTestImplementation(libs.compose.uiTest)
+    androidTestImplementation(libs.sqldelight.driver.android)
 
     androidTestImplementation(libs.hilt.testing)
     kaptAndroidTest(libs.hilt.compiler)

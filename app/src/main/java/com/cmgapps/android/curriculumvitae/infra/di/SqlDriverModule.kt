@@ -17,29 +17,22 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import android.content.Context
-import androidx.room.Room
-import com.cmgapps.android.curriculumvitae.data.database.CvDatabase
-import com.cmgapps.android.curriculumvitae.data.database.EmploymentDao
+import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [DatabaseModule::class]
-)
-object FakeDatabaseModule {
+object SqlDriverModule {
 
     @Provides
     @Singleton
-    fun provideEmploymentDao(database: CvDatabase): EmploymentDao = database.employmentDao
-
-    @Provides
-    @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): CvDatabase =
-        Room.inMemoryDatabaseBuilder(context, CvDatabase::class.java).build()
+    fun provideSqlDelightDriver(@ApplicationContext context: Context): SqlDriver =
+        AndroidSqliteDriver(CvDatabase.Schema, context, "CvDb.db")
 }

@@ -78,6 +78,7 @@ sqldelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extension
 sqldelight-driver-jvm = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 sqldelight-driver-js = { module = "com.squareup.sqldelight:sqljs-driver", version.ref = "sqldelight" }
 sqldelight-driver-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
+sqlite-jdbc = "org.xerial:sqlite-jdbc:3.32.2"
 # endregion
 
 # region Misc
