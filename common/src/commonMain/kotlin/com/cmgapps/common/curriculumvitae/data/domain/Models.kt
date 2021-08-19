@@ -25,7 +25,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.periodUntil
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
-import com.cmgapps.common.curriculumvitae.data.db.Employment as DbEmployment
+import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkStatus
 
@@ -92,7 +92,7 @@ fun employmentMapper(
     description
 )
 
-fun DbEmployment.asDomainModel(description: List<String>) =
+fun DatabaseEmployment.asDomainModel(description: List<String>) =
     Employment(
         this.id,
         this.job_title,

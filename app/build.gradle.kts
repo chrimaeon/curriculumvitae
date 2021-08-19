@@ -194,14 +194,6 @@ android {
     }
 }
 
-kapt {
-    correctErrorTypes = true
-    arguments {
-        arg("room.schemaLocation", projectDir.resolve("schemas").absolutePath)
-        arg("room.incremental", "true")
-    }
-}
-
 // class HtmlLicenseAsset(private val fileName: String) :
 //     com.android.build.api.artifact.Artifact.Single<RegularFile>(
 //         com.android.build.api.artifact.ArtifactKind.FILE,
@@ -316,9 +308,6 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
-
     implementation(platform(libs.okHttp.bom))
     implementation("com.squareup.okhttp3:okhttp")
     debugImplementation("com.squareup.okhttp3:logging-interceptor")
@@ -330,6 +319,8 @@ dependencies {
     implementation(libs.collapsingToolbar)
     implementation(libs.dropbox.store)
     implementation(libs.bundles.ktor.android)
+    implementation(libs.sqldelight.driver.android)
+    implementation(libs.sqldelight.coroutines)
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)

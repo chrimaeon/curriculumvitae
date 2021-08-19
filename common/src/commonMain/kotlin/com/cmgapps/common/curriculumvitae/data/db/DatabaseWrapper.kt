@@ -40,7 +40,8 @@ class DatabaseWrapper(
     }
 
     private fun SqlDriver.createDatabase() = CvDatabase(
-        this, employmentAdapter = Employment.Adapter(
+        this,
+        employmentAdapter = Employment.Adapter(
             descriptionAdapter = DescriptionAdapter
         )
     )

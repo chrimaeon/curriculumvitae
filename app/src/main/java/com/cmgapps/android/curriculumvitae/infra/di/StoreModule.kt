@@ -17,18 +17,19 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import androidx.datastore.core.DataStore
-import com.cmgapps.android.curriculumvitae.data.database.CvDatabase
-import com.cmgapps.android.curriculumvitae.data.database.EmploymentWithDescription
-import com.cmgapps.android.curriculumvitae.data.database.asDatabaseModel
-import com.cmgapps.android.curriculumvitae.data.database.asDomainModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
 import com.cmgapps.android.curriculumvitae.data.datastore.asDomainModel
-import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.db.EmploymentQueries
+import com.cmgapps.common.curriculumvitae.data.domain.employmentMapper
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
+import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.SourceOfTruth
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
+import com.squareup.sqldelight.runtime.coroutines.mapToOne
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,6 +39,8 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.map
 import javax.inject.Singleton
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile as DataStoreProfile
+import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
+import com.cmgapps.common.curriculumvitae.data.domain.Employment as DomainEmployment
 import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
 
 @Module
@@ -62,19 +65,24 @@ object StoreModule {
     @Provides
     @Singleton
     fun provideEmploymentListStore(
-        db: CvDatabase,
+        employmentQueries: EmploymentQueries,
         api: CvApiService
-    ): Store<String, List<Employment>> =
+    ): Store<String, List<DomainEmployment>> =
         StoreBuilder.from(
-            fetcher = Fetcher.of<String, List<EmploymentWithDescription>> {
+            fetcher = Fetcher.of<String, List<DatabaseEmployment>> {
                 api.getEmployments().asDatabaseModel()
             },
             sourceOfTruth = SourceOfTruth.of(
                 reader = {
-                    db.employmentDao.getEmployments()
-                        .map(List<EmploymentWithDescription>::asDomainModel)
+                    employmentQueries.selectAll(::employmentMapper).asFlow().mapToList()
                 },
-                writer = { _, data -> db.employmentDao.insertAll(data) }
+                writer = { _, employments ->
+                    employmentQueries.transaction {
+                        employments.forEach {
+                            employmentQueries.insertEmployment(it)
+                        }
+                    }
+                }
             )
         ).build()
 
@@ -82,11 +90,11 @@ object StoreModule {
     @Provides
     @Singleton
     fun provideEmploymentStore(
-        db: CvDatabase,
-    ): Store<Int, Employment> =
+        employmentQueries: EmploymentQueries,
+    ): Store<Int, DomainEmployment> =
         StoreBuilder.from(
             fetcher = Fetcher.ofFlow { id: Int ->
-                db.employmentDao.getEmployment(id).map { it.asDomainModel() }
+                employmentQueries.getEmployment(id, ::employmentMapper).asFlow().mapToOne()
             }
         ).build()
 }

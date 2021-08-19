@@ -20,6 +20,7 @@ import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.employmentMapper
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
+import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
@@ -49,17 +50,7 @@ class EmploymentRepository(
                 databaseWrapper {
                     it.employmentQueries.let { employmentDao ->
                         employmentDao.transaction {
-                            employments.forEach { employment ->
-                                employmentDao.insertEmployment(
-                                    id = employment.hashCode(),
-                                    job_title = employment.jobTitle,
-                                    employer = employment.employer,
-                                    start_date = employment.startDate.toString(),
-                                    end_date = employment.endDate?.toString(),
-                                    city = employment.city,
-                                    description = employment.description
-                                )
-                            }
+                            employments.forEach { employmentDao.insertEmployment(it.asDatabaseModel()) }
                         }
                     }
                 }

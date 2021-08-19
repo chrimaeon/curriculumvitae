@@ -18,6 +18,7 @@ package com.cmgapps.common.curriculumvitae.data.network
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+import com.cmgapps.common.curriculumvitae.data.db.Employment as DbEmployment
 
 @Serializable
 data class Employment(
@@ -27,4 +28,16 @@ data class Employment(
     val endDate: LocalDate?,
     val city: String,
     val description: List<String>
+)
+
+fun List<Employment>.asDatabaseModel() = map { it.asDatabaseModel() }
+
+fun Employment.asDatabaseModel() = DbEmployment(
+    this.hashCode(),
+    this.jobTitle,
+    this.employer,
+    this.startDate.toString(),
+    this.endDate?.toString(),
+    this.city,
+    this.description
 )
