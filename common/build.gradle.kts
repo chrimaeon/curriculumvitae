@@ -20,6 +20,8 @@ import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.asClassName
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.div
 
 plugins {
     kotlin("multiplatform")
@@ -120,8 +122,12 @@ kotlin {
     }
 }
 
+@OptIn(ExperimentalPathApi::class)
 sqldelight {
     database("CvDatabase") {
         packageName = "com.cmgapps.common.curriculumvitae.data.db"
+        schemaOutputDirectory =
+            file(projectDir.toPath() / "src" / "commonMain" / "sqldelight" / "databases")
+        verifyMigrations = true
     }
 }
