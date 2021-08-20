@@ -18,6 +18,9 @@ package com.cmgapps.android.curriculumvitae
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -162,11 +165,7 @@ fun MainScreenNavHost(
                     if (target.destination.route == SubScreen.EmploymentDetail.route) {
                         slideOutHorizontally({ -it })
                     } else {
-                        fadeOut(
-                            animationSpec = tween(
-                                durationMillis = DefaultTransitionDuration
-                            )
-                        )
+                        exitTransition()
                     }
                 }
             ) {
@@ -197,15 +196,18 @@ fun MainScreenNavHost(
 }
 
 private val FabTopKnobPadding = 40.dp
+
+@OptIn(ExperimentalAnimationApi::class)
+typealias EnterTransitionFunction = AnimatedContentScope<String>.(NavBackStackEntry, NavBackStackEntry) -> EnterTransition
+
+@OptIn(ExperimentalAnimationApi::class)
+typealias ExitTransitionFunction = AnimatedContentScope<String>.(NavBackStackEntry, NavBackStackEntry) -> ExitTransition
+
+private val defaultEnterTransition: EnterTransitionFunction = { _, _ -> enterTransition() }
+
+private val defaultExitTransition: ExitTransitionFunction = { _, _ -> exitTransition() }
+
 private const val DefaultTransitionDuration = 150
-
-private val defaultEnterTransition = { _: NavBackStackEntry, _: NavBackStackEntry ->
-    enterTransition()
-}
-
-private val defaultExitTransition = { _: NavBackStackEntry, _: NavBackStackEntry ->
-    exitTransition()
-}
 
 @OptIn(ExperimentalAnimationApi::class)
 private fun enterTransition() = fadeIn(
@@ -296,14 +298,14 @@ private fun RowScope.NavigationItem(
             }
 
             navController.navigate(screen.route) {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                    if (currentDestination?.route != Screen.Info.route) {
-                        inclusive = true
+                if (screen.route != Screen.Info.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
                     }
+
+                    launchSingleTop = true
+                    restoreState = true
                 }
-                launchSingleTop = true
-                restoreState = true
             }
         }
     )
