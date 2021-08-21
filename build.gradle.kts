@@ -26,6 +26,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
         val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
 
         classpath(libs.findDependency("plugin-android").orElseThrow())

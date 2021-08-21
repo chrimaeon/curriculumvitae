@@ -25,8 +25,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.cmgapps.common.curriculumvitae.DebugBaseUrls
-import com.cmgapps.common.curriculumvitae.di.DebugBaseUrlKey
-import com.cmgapps.common.curriculumvitae.di.initKoin
+import com.cmgapps.common.curriculumvitae.infra.di.DebugBaseUrlKey
+import com.cmgapps.common.curriculumvitae.infra.di.initKoin
 import com.cmgapps.desktop.curriculumvitae.App
 import java.util.prefs.Preferences
 

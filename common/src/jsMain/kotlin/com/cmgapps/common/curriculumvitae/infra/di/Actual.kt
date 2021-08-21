@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package com.cmgapps.common.curriculumvitae.di
+package com.cmgapps.common.curriculumvitae.infra.di
 
+import PRODUCTION
 import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import com.squareup.sqldelight.drivers.sqljs.initSqlDriver
 import io.ktor.http.Url
-import java.io.File
-import java.util.prefs.Preferences
+import kotlinx.browser.window
+import kotlinx.coroutines.await
+import org.w3c.dom.get
 
-const val DebugBaseUrlKey = "debugBaseUrl"
-
-actual fun provideBaseUrl(): Url {
-    val prefs = Preferences.userRoot()
-    return Url(prefs.get(DebugBaseUrlKey, BaseUrl))
+actual fun provideBaseUrl(): Url = if (PRODUCTION) {
+    Url(BaseUrl)
+} else {
+    Url(window.localStorage["baseUrl"] ?: BaseUrl)
 }
 
-actual suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver {
-    val databasePath = File(System.getProperty("java.io.tmpdir"), "CvDb.db")
-    return JdbcSqliteDriver(url = "jdbc:sqlite:${databasePath.absolutePath}").also { driver ->
-        schema.create(driver)
-    }
-}
+actual suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver =
+    initSqlDriver(schema).await()

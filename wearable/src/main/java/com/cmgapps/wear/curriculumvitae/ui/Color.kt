@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-import com.cmgapps.common.curriculumvitae.infra.di.initKoin
-import com.cmgapps.web.curriculumvitae.App
-import org.jetbrains.compose.web.renderComposable
+package com.cmgapps.wear.curriculumvitae.ui
 
-val koin = initKoin().koin
+import androidx.compose.ui.graphics.Color
 
-fun main() {
-    renderComposable(rootElementId = "root") {
-        App(koin)
-    }
-}
+val lightBlue200 = Color(0xFF81d4fa)
+val lightBlue500 = Color(0xFF03a9f4)
+val lightBlue700 = Color(0xFF0288d1)
+val amber200 = Color(0xFFffe082)
+val amber500 = Color(0xFFffca28)
+val amber700 = Color(0xFFffa000)
+val darkSystemBars = Color(0x40000000)
+val lightSystemBars = Color(0xB3FFFFFF)

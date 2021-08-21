@@ -63,9 +63,9 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.AnimatedCard
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
-import com.cmgapps.android.curriculumvitae.infra.UiState
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -150,8 +150,8 @@ private fun Content(
                 additionalBottom = bottomContentPadding
             )
         ) {
-            if (uiState.data != null) {
-                val employments: List<Employment> = uiState.data
+            val employments = uiState.data
+            if (employments != null) {
                 if (employments.isNotEmpty()) {
                     itemsIndexed(
                         employments,

@@ -61,7 +61,7 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.bundles.ktor.common)
-                implementation(libs.koin)
+                implementation(libs.koin.core)
                 implementation(libs.sqldelight.coroutines)
             }
         }

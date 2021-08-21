@@ -14,43 +14,33 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.ui.employment.detail
+package com.cmgapps.wear.curriculumvitae.ui.profile
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cmgapps.LogTag
-import com.cmgapps.android.curriculumvitae.infra.NavArguments
-import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.infra.UiState
-import com.dropbox.android.external.store4.Store
-import com.dropbox.android.external.store4.get
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.inject.Inject
+import java.io.IOException
 
-@LogTag("EmploymentDetailVM")
-@HiltViewModel
-class EmploymentDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    store: Store<Int, Employment>
+class ProfileViewModel(
+    repository: ProfileRepository
 ) : ViewModel() {
 
-    var uiState: UiState<Employment> by mutableStateOf(UiState(loading = true))
+    var uiState: UiState<Profile> by mutableStateOf(UiState(loading = true))
+        private set
 
     init {
         viewModelScope.launch {
             uiState = try {
-                val id: Int = savedStateHandle[NavArguments.EMPLOYMENT_ID.argumentName]
-                    ?: throw IllegalArgumentException("ID not set on navigation")
-                UiState(data = store.get(id))
-            } catch (exc: Exception) {
-                Timber.tag(LOG_TAG).e(exc)
-                UiState(exception = exc)
+                val profile = repository.getProfile()
+                UiState(data = profile)
+            } catch (exc: IOException) {
+                uiState.copy(networkError = true, exception = exc)
             }
         }
     }

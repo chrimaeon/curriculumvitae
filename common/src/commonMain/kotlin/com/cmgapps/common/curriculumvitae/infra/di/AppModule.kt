@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapps.common.curriculumvitae.di
+package com.cmgapps.common.curriculumvitae.infra.di
 
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
@@ -29,8 +29,9 @@ import io.ktor.client.features.websocket.WebSockets
 import io.ktor.http.Url
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import org.koin.dsl.KoinAppDeclaration
 
-private fun module() = org.koin.dsl.module {
+private val module = org.koin.dsl.module {
     single { createHttpClient() }
     single { CvApiService(get(), provideBaseUrl()) }
     single { ProfileRepository(get()) }
@@ -50,6 +51,7 @@ private fun createHttpClient(): HttpClient = HttpClient {
 
 expect suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver
 
-fun initKoin(): KoinApplication = startKoin {
-    modules(module())
+fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication = startKoin {
+    appDeclaration()
+    modules(module)
 }

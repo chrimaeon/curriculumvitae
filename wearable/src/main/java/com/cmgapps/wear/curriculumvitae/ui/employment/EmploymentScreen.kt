@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-import com.cmgapps.common.curriculumvitae.infra.di.initKoin
-import com.cmgapps.web.curriculumvitae.App
-import org.jetbrains.compose.web.renderComposable
+package com.cmgapps.wear.curriculumvitae.ui.employment
 
-val koin = initKoin().koin
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.wear.compose.material.Text
 
-fun main() {
-    renderComposable(rootElementId = "root") {
-        App(koin)
+@Composable
+fun EmploymentScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            "Employments",
+        )
     }
 }

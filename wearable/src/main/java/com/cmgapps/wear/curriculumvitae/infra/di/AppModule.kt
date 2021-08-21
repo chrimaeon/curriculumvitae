@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.infra
+package com.cmgapps.wear.curriculumvitae
 
-data class UiState<T : Any?>(
-    val loading: Boolean = false,
-    val exception: Throwable? = null,
-    val networkError: Boolean = false,
-    val data: T? = null
-)
+import com.cmgapps.wear.curriculumvitae.ui.profile.ProfileViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
+
+val appModule = module {
+    viewModel { ProfileViewModel(get()) }
+}

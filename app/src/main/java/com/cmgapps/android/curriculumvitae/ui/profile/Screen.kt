@@ -105,10 +105,10 @@ fun ProfileScreen(
         ContentError()
     }
 
-    if (uiState.data != null) {
+    uiState.data?.let {
         Content(
             modifier = modifier,
-            profile = uiState.data,
+            profile = it,
             onEmailClick = onEmailClick,
             bottomContentPadding = bottomContentPadding,
         )

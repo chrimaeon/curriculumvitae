@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-package com.cmgapps.common.curriculumvitae.di
+package com.cmgapps.common.curriculumvitae.infra
 
-import PRODUCTION
-import com.cmgapps.common.curriculumvitae.BaseUrl
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.drivers.sqljs.initSqlDriver
-import io.ktor.http.Url
-import kotlinx.browser.window
-import kotlinx.coroutines.await
-import org.w3c.dom.get
-
-actual fun provideBaseUrl(): Url = if (PRODUCTION) {
-    Url(BaseUrl)
-} else {
-    Url(window.localStorage["baseUrl"] ?: BaseUrl)
-}
-
-actual suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver =
-    initSqlDriver(schema).await()
+data class UiState<T : Any?>(
+    val loading: Boolean = false,
+    val exception: Throwable? = null,
+    val networkError: Boolean = false,
+    val data: T? = null
+)

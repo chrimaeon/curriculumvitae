@@ -40,6 +40,7 @@ rootProject.name = "CurriculumVitae"
 include(
     ":common",
     ":app",
+    ":wearable",
     ":backend",
     ":web",
     ":desktop",

@@ -292,7 +292,7 @@ dependencies {
     implementation(projects.common)
     implementation(libs.bundles.androidx)
 
-    implementation(libs.bundles.compose)
+    implementation(libs.bundles.compose.app)
 
     implementation(libs.bundles.accompanist)
 

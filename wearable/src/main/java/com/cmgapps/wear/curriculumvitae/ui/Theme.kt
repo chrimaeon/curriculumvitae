@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
-import com.cmgapps.common.curriculumvitae.infra.di.initKoin
-import com.cmgapps.web.curriculumvitae.App
-import org.jetbrains.compose.web.renderComposable
+package com.cmgapps.wear.curriculumvitae.ui
 
-val koin = initKoin().koin
+import androidx.compose.runtime.Composable
+import androidx.wear.compose.material.Colors
+import androidx.wear.compose.material.MaterialTheme
 
-fun main() {
-    renderComposable(rootElementId = "root") {
-        App(koin)
-    }
+private val LightColorPalette = Colors(
+    primary = lightBlue500,
+    primaryVariant = lightBlue700,
+    secondary = amber200,
+    secondaryVariant = amber700,
+)
+
+@Composable
+fun Theme(
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colors = LightColorPalette,
+        content = content
+    )
 }

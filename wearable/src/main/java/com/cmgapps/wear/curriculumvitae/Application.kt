@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
+package com.cmgapps.wear.curriculumvitae
+
+import android.app.Application
 import com.cmgapps.common.curriculumvitae.infra.di.initKoin
-import com.cmgapps.web.curriculumvitae.App
-import org.jetbrains.compose.web.renderComposable
+import org.koin.android.ext.koin.androidContext
 
-val koin = initKoin().koin
-
-fun main() {
-    renderComposable(rootElementId = "root") {
-        App(koin)
+class Application : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        initKoin {
+            androidContext(this@Application)
+            modules(appModule)
+        }
     }
 }
