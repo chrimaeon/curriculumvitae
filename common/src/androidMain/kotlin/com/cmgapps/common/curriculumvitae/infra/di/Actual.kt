@@ -18,27 +18,16 @@ package com.cmgapps.common.curriculumvitae.infra.di
 
 import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import com.squareup.sqldelight.android.AndroidSqliteDriver
 import io.ktor.http.Url
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import java.io.File
-import java.util.prefs.Preferences
 
-const val DebugBaseUrlKey = "debugBaseUrl"
-
-actual fun provideBaseUrl(): Url {
-    val prefs = Preferences.userRoot()
-    return Url(prefs.get(DebugBaseUrlKey, BaseUrl))
-}
-
+actual fun provideBaseUrl() = Url(BaseUrl)
 actual fun platformModule() = module {
-    single { DatabaseWrapper(::provideDbDriver) }
-}
-
-private fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver {
-    val databasePath = File(System.getProperty("java.io.tmpdir"), "CvDb.db")
-    return JdbcSqliteDriver(url = "jdbc:sqlite:${databasePath.absolutePath}").also { driver ->
-        schema.create(driver)
+    single {
+        DatabaseWrapper {
+            AndroidSqliteDriver(it, androidContext(), "CvDb.db")
+        }
     }
 }

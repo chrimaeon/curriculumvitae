@@ -143,10 +143,6 @@ android {
         }
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
-    }
-
     testOptions {
         unitTests.all { test ->
             test.useJUnitPlatform()

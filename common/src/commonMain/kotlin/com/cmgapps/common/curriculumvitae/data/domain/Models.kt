@@ -16,7 +16,7 @@
 
 package com.cmgapps.common.curriculumvitae.data.domain
 
-import com.cmgapps.common.curriculumvitae.resource.R
+import com.cmgapps.common.curriculumvitae.resource.Res
 import com.cmgapps.common.curriculumvitae.resource.plurals
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
@@ -92,7 +92,7 @@ fun employmentMapper(
     description
 )
 
-fun DatabaseEmployment.asDomainModel(description: List<String>) =
+fun DatabaseEmployment.asDomainModel() =
     Employment(
         this.id,
         this.job_title,
@@ -105,10 +105,14 @@ fun DatabaseEmployment.asDomainModel(description: List<String>) =
 
 fun DatePeriod.asHumanReadableString() = buildString {
     if (years > 0) {
-        append(plurals(R.plurals.years, years))
+        try {
+            append(plurals(Res.plurals.years, years))
+        } catch (exc: Throwable) {
+            exc.printStackTrace()
+        }
     }
     append(' ')
     if (months > 0) {
-        append(plurals(R.plurals.months, months))
+        append(plurals(Res.plurals.months, months))
     }
 }.trim()

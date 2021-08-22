@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-package com.cmgapps.wear.curriculumvitae.infra.di
+package com.cmgapps.common.curriculumvitae
 
-import com.cmgapps.wear.curriculumvitae.ui.employment.EmploymentViewModel
-import com.cmgapps.wear.curriculumvitae.ui.profile.ProfileViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import java.util.Locale
 
-val appModule = module {
-    viewModel { ProfileViewModel(get()) }
-    viewModel { EmploymentViewModel(get()) }
-}
+actual val language: String
+    get() = Locale.getDefault().language

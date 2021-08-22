@@ -17,6 +17,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    ktlint
 }
 
 android {
@@ -50,10 +51,6 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -70,4 +67,5 @@ dependencies {
     implementation(libs.accompanist.placeholder)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pagerIndicators)
+    implementation(libs.kotlinx.datetime)
 }

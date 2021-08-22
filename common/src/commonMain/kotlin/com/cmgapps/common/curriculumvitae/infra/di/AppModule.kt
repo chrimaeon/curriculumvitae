@@ -16,19 +16,22 @@
 
 package com.cmgapps.common.curriculumvitae.infra.di
 
-import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
+import com.cmgapps.common.curriculumvitae.language
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.common.curriculumvitae.repository.StatusRepository
-import com.squareup.sqldelight.db.SqlDriver
 import io.ktor.client.HttpClient
+import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.websocket.WebSockets
+import io.ktor.client.request.headers
+import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 
 private val module = org.koin.dsl.module {
@@ -37,21 +40,25 @@ private val module = org.koin.dsl.module {
     single { ProfileRepository(get()) }
     single { EmploymentRepository(get(), get()) }
     single { StatusRepository(get()) }
-    single { DatabaseWrapper(::provideDbDriver) }
 }
-
-expect fun provideBaseUrl(): Url
 
 private fun createHttpClient(): HttpClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }
     install(WebSockets)
+
+    defaultRequest {
+        headers {
+            append(HttpHeaders.AcceptLanguage, language)
+        }
+    }
 }
 
-expect suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver
+expect fun provideBaseUrl(): Url
+expect fun platformModule(): Module
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication = startKoin {
     appDeclaration()
-    modules(module)
+    modules(module, platformModule())
 }

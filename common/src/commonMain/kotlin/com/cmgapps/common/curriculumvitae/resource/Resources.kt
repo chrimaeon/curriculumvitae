@@ -29,7 +29,7 @@ interface Plural {
     val other: String
 }
 
-object R {
+object Res {
     object plurals {
         object months : Plural {
             override val one: String

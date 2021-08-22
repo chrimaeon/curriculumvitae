@@ -73,12 +73,13 @@ fun EmploymentDetails(
     navigateUp: () -> Unit,
 ) {
     val uiState = viewModel.uiState
+    val employment = uiState.data
 
     Box(modifier = modifier.fillMaxSize()) {
         when {
             uiState.loading -> ContentLoading()
-            uiState.data != null -> EmploymentDetails(
-                employment = uiState.data,
+            employment != null -> EmploymentDetails(
+                employment = employment,
                 navigateUp = navigateUp,
             )
             uiState.exception != null -> ContentError()

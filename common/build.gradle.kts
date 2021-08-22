@@ -21,6 +21,7 @@ import kotlin.io.path.div
 
 plugins {
     kotlin("multiplatform")
+    id("com.android.library")
     kotlin("plugin.serialization") version kotlinVersion
     id("com.squareup.sqldelight")
     ktlint
@@ -48,6 +49,8 @@ kotlin {
             }
         }
     }
+
+    android()
 
     js(IR) {
         useCommonJs()
@@ -83,6 +86,13 @@ kotlin {
                 implementation(libs.sqldelight.driver.js)
             }
         }
+
+        named("androidMain") {
+            dependencies {
+                implementation(libs.sqldelight.driver.android)
+                implementation(libs.koin.android)
+            }
+        }
     }
 
     targets.all {
@@ -94,6 +104,27 @@ kotlin {
             compileKotlinTaskProvider {
                 dependsOn(generateBuildConfig)
             }
+        }
+    }
+}
+
+android {
+    compileSdk = 31
+    buildToolsVersion = "31.0.0"
+
+    defaultConfig {
+        minSdk = 26
+        targetSdk = 31
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        named("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
         }
     }
 }

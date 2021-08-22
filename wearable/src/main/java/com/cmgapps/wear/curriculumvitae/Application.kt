@@ -18,6 +18,7 @@ package com.cmgapps.wear.curriculumvitae
 
 import android.app.Application
 import com.cmgapps.common.curriculumvitae.infra.di.initKoin
+import com.cmgapps.wear.curriculumvitae.infra.di.appModule
 import org.koin.android.ext.koin.androidContext
 
 class Application : Application() {
