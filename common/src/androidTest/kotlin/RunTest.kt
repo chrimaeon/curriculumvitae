@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package com.cmgapps.common.curriculumvitae.data.db
+package com.cmgapps.common.curriculumvitae
 
-import com.squareup.sqldelight.ColumnAdapter
+import kotlinx.coroutines.runBlocking
 
-const val separator = "\u001f"
-
-object DescriptionAdapter : ColumnAdapter<List<String>, String> {
-    override fun decode(databaseValue: String): List<String> {
-        return if (databaseValue.isBlank()) emptyList() else databaseValue.split(separator)
-    }
-
-    override fun encode(value: List<String>): String {
-        return if (value.isNullOrEmpty()) "" else value.joinToString(separator = separator)
-    }
+actual fun <T> runTest(block: suspend () -> T) {
+    runBlocking { block() }
 }

@@ -21,14 +21,16 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = androidCompileSdkVersion
 
     defaultConfig {
         applicationId = "com.cmgapps.wear.curriculumvitae"
-        minSdk = 28
-        targetSdk = 31
+        minSdk = androidWearMinSdkVersion
+        targetSdk = androidTargetSdkVersion
         versionCode = 1
         versionName = "1.0.0"
+
+        resourceConfigurations.addAll(listOf("en", "de"))
     }
 
     buildTypes {

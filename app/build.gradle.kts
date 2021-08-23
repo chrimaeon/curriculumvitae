@@ -42,13 +42,13 @@ plugins {
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    compileSdk = 31
+    compileSdk = androidCompileSdkVersion
     buildToolsVersion = "31.0.0"
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
-        minSdk = 26
-        targetSdk = 31
+        minSdk = androidMinSdkVersion
+        targetSdk = androidTargetSdkVersion
         versionCode = 1
         versionName = "1.0.0"
 

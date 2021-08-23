@@ -29,6 +29,7 @@ import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.headers
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
+import kotlinx.coroutines.MainScope
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -38,7 +39,7 @@ private val module = org.koin.dsl.module {
     single { createHttpClient() }
     single { CvApiService(get(), provideBaseUrl()) }
     single { ProfileRepository(get()) }
-    single { EmploymentRepository(get(), get()) }
+    single { EmploymentRepository(get(), get(), MainScope()) }
     single { StatusRepository(get()) }
 }
 

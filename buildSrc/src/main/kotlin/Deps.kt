@@ -45,3 +45,8 @@ val PluginDependenciesSpec.benManesVersions: PluginDependencySpec
 
 val PluginDependenciesSpec.ktlint: PluginDependencySpec
     get() = id("com.cmgapps.gradle.ktlint")
+
+const val androidMinSdkVersion = 26
+const val androidWearMinSdkVersion = 28
+const val androidCompileSdkVersion = 31
+const val androidTargetSdkVersion = androidCompileSdkVersion

@@ -72,6 +72,8 @@ kotlin {
         named("commonTest") {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.ktor.client.mock)
+                implementation(libs.turbine)
             }
         }
 
@@ -109,12 +111,12 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = androidCompileSdkVersion
     buildToolsVersion = "31.0.0"
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 31
+        minSdk = androidMinSdkVersion
+        targetSdk = androidTargetSdkVersion
     }
 
     compileOptions {

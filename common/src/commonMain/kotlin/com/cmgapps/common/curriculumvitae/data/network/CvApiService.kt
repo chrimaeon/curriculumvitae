@@ -44,7 +44,7 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
         }.build()
     )
 
-    @ExperimentalCoroutinesApi
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getApiStatus(): Flow<Status> = flow {
         client.webSocket(
             HttpMethod.Get,

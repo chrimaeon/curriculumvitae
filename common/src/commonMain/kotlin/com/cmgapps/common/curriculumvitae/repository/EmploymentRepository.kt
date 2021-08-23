@@ -24,7 +24,6 @@ import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -33,7 +32,8 @@ import kotlinx.coroutines.launch
 class EmploymentRepository(
     private val api: CvApiService,
     private val databaseWrapper: DatabaseWrapper,
-) : CoroutineScope by MainScope() {
+    scope: CoroutineScope,
+) : CoroutineScope by scope {
 
     fun getEmployments(): Flow<List<Employment>> = flow {
         databaseWrapper { db ->
@@ -47,8 +47,8 @@ class EmploymentRepository(
         try {
             launch {
                 val employments = api.getEmployments()
-                databaseWrapper {
-                    it.employmentQueries.let { employmentDao ->
+                databaseWrapper { db ->
+                    db.employmentQueries.let { employmentDao ->
                         employmentDao.transaction {
                             employments.forEach { employmentDao.insertEmployment(it.asDatabaseModel()) }
                         }
