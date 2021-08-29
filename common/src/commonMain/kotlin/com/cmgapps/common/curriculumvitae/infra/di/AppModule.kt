@@ -26,7 +26,7 @@ import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.websocket.WebSockets
-import io.ktor.client.request.headers
+import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
 import kotlinx.coroutines.MainScope
@@ -50,9 +50,7 @@ private fun createHttpClient(): HttpClient = HttpClient {
     install(WebSockets)
 
     defaultRequest {
-        headers {
-            append(HttpHeaders.AcceptLanguage, language)
-        }
+        header(HttpHeaders.AcceptLanguage, language)
     }
 }
 

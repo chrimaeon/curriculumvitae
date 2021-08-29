@@ -25,20 +25,18 @@ buildscript {
         google()
         mavenCentral()
     }
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
-        val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-        classpath(libs.findDependency("plugin-android").orElseThrow())
-        classpath(libs.findDependency("plugin-kotlin").orElseThrow())
-        classpath(libs.findDependency("plugin-hiltAndroid").orElseThrow())
-        classpath(libs.findDependency("plugin-appEngine").orElseThrow())
-        classpath(libs.findDependency("plugin-sqldelight").orElseThrow())
+    dependencies {
+        classpath(libs.androidPluginDep)
+        classpath(libs.kotlinPluginDep)
+        classpath(libs.hiltAndroidPluginDep)
+        classpath(libs.appEnginePluginDep)
+        classpath(libs.sqldelightPluginDep)
     }
 }
 
 plugins {
-    benManesVersions
+    alias(libs.plugins.benManesVersionsGradle)
 }
 
 allprojects {

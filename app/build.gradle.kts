@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.api.artifact.SingleArtifact
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
@@ -30,12 +32,12 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    kotlin("plugin.serialization") version kotlinVersion
+    alias(libs.plugins.kotlinx.serialization)
     ktlint
     id("dagger.hilt.android.plugin")
-    id("com.google.protobuf") version protobufPluginVersion
-    id("com.cmgapps.licenses") version licensesVersion
-    id("com.google.devtools.ksp") version "1.5.21-1.0.0-beta07"
+    alias(libs.plugins.protobuf)
+    alias(libs.plugins.licenses)
+    alias(libs.plugins.ksp)
 }
 
 @OptIn(ExperimentalPathApi::class)
@@ -256,7 +258,7 @@ protobuf {
 }
 
 licenses {
-    additionalProjects(":common")
+    additionalProjects(":common", ":wearable")
     reports {
         html.enabled.set(true)
     }

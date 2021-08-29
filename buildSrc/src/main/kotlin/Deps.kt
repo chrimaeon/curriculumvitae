@@ -16,32 +16,8 @@
 
 @file:Suppress("SpellCheckingInspection")
 
-import org.gradle.kotlin.dsl.version
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
-import org.tomlj.Toml
-import org.tomlj.TomlParseResult
-import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.Path
-import kotlin.io.path.div
-
-@OptIn(ExperimentalPathApi::class)
-private val toml: TomlParseResult =
-    with(Path(System.getProperty("user.dir")) / "gradle" / "libs.versions.toml") {
-        Toml.parse(toFile().inputStream()).apply {
-            if (hasErrors()) {
-                errors().forEach { error -> System.err.println(error.toString()) }
-                throw RuntimeException()
-            }
-        }
-    }
-
-val protobufPluginVersion = toml.getString("versions.plugin-protobuf")
-val kotlinVersion = toml.getString("versions.kotlin")
-val licensesVersion = toml.getString("versions.plugin-licenses")
-
-val PluginDependenciesSpec.benManesVersions: PluginDependencySpec
-    get() = id("com.github.ben-manes.versions") version toml.getString("versions.plugin-benManesVersions")
 
 val PluginDependenciesSpec.ktlint: PluginDependencySpec
     get() = id("com.cmgapps.gradle.ktlint")

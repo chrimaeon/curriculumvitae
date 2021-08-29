@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnstableApiUsage")
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "1.0.0-alpha4-build315"
+    alias(libs.plugins.jetbrainsCompose)
     ktlint
 }
 

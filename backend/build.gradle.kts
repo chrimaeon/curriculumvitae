@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnstableApiUsage")
+
 import org.jetbrains.kotlin.utils.addToStdlib.cast
 import java.util.Properties
 
 plugins {
     kotlin("jvm")
     id("com.google.cloud.tools.appengine")
-    kotlin("plugin.serialization") version kotlinVersion
-    id("org.kordamp.gradle.markdown") version "2.2.0"
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.markdown)
     ktlint
 }
 

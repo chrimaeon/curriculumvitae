@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnstableApiUsage")
+
 import com.cmgapps.gradle.GenerateBuildConfig
 import java.time.LocalDate
 import kotlin.io.path.ExperimentalPathApi
@@ -22,7 +24,7 @@ import kotlin.io.path.div
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version kotlinVersion
+    alias(libs.plugins.kotlinx.serialization)
     id("com.squareup.sqldelight")
     ktlint
 }
@@ -95,13 +97,14 @@ kotlin {
                 implementation(libs.koin.android)
             }
         }
+
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
     }
 
     targets.all {
         compilations.all {
-            kotlinOptions {
-                freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
-            }
 
             compileKotlinTaskProvider {
                 dependsOn(generateBuildConfig)
