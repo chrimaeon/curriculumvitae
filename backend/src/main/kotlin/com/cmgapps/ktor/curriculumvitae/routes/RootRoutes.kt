@@ -25,6 +25,7 @@ import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.html.respondHtmlTemplate
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.routing.Route
 import io.ktor.routing.get
@@ -136,7 +137,7 @@ private fun DIV.page() {
     }
 
     val langParam = Param(
-        "Accept-Language",
+        HttpHeaders.AcceptLanguage,
         String::class.java,
         Where.HEADER,
         "A HTTP language header; see https://datatracker.ietf.org/doc/html/rfc7231#section-5.3.5"
@@ -272,6 +273,7 @@ private fun DIV.paramsTable(params: List<Param>) {
     }
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 private inline fun <reified T> DIV.response(t: T) {
     div(classes = "api-response") {
         h6(classes = "mdl-typography-subhead") {

@@ -32,10 +32,14 @@ import io.ktor.routing.get
 import io.ktor.routing.route
 import io.ktor.routing.routing
 import kotlinx.serialization.serializer
+import org.koin.ktor.ext.inject
 
-private fun Route.profileRouting(profiles: Map<Language, Profile>) {
+private fun Route.profileRouting() {
+    val modelLoader: ModelLoader by inject()
+
     route(Routes.PROFILE.route) {
         get {
+
             val lang: Language =
                 if (call.request.acceptLanguageItems().any { it.value.startsWith("de") }) {
                     Language.DE
@@ -47,7 +51,7 @@ private fun Route.profileRouting(profiles: Map<Language, Profile>) {
                 "${origin.scheme}://${host()}:${port()}"
             }
 
-            val profile = profiles[lang]?.let {
+            val profile = modelLoader.loadModels(serializer<Profile>(), "profile.json")[lang]?.let {
                 it.copy(profileImageUrl = it.profileImageUrl.replace("{{host}}", host))
             } ?: error("No profile found for $lang")
             call.respond(profile)
@@ -55,10 +59,8 @@ private fun Route.profileRouting(profiles: Map<Language, Profile>) {
     }
 }
 
-fun Application.registerProfileRoutes(modelLoader: ModelLoader) {
-    modelLoader.loadModels(serializer<Profile>(), "profile.json").let {
-        routing {
-            profileRouting(it)
-        }
+fun Application.registerProfileRoutes() {
+    routing {
+        profileRouting()
     }
 }

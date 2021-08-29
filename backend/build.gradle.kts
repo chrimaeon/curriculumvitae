@@ -109,6 +109,8 @@ dependencies {
     implementation(libs.bundles.logback)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.bundles.koin.server)
+    implementation(libs.sqldelight.driver.jvm)
 
     "providedCompile"(libs.appEngine)
 
@@ -117,4 +119,5 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation(libs.hamcrest)
     testImplementation(libs.mockito.jupiter)
+    testImplementation(libs.mockito.kotlin)
 }

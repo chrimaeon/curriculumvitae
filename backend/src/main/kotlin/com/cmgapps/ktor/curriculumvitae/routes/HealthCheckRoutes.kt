@@ -29,11 +29,9 @@ import io.ktor.routing.routing
 import io.ktor.websocket.webSocket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.lang.Long.signum
-import java.text.StringCharacterIterator
-import kotlin.math.abs
 
 fun Route.healthCheck() {
     get(Routes.HEALTHZ.route) {
@@ -41,7 +39,7 @@ fun Route.healthCheck() {
     }
 
     val runtime = Runtime.getRuntime()
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class, ExperimentalSerializationApi::class)
     webSocket(Routes.STATUS.route) {
         while (!incoming.isClosedForReceive) {
             outgoing.send(
@@ -59,23 +57,6 @@ fun Route.healthCheck() {
             delay(2000L)
         }
     }
-}
-
-fun Long.humanReadableSize(): String {
-    val absB = if (this == Long.MIN_VALUE) Long.MAX_VALUE else abs(this)
-    if (absB < 1024) {
-        return "$this B"
-    }
-    var value = absB
-    val ci = StringCharacterIterator("KMGTPE")
-    var i = 40
-    while (i >= 0 && absB > 0xfffccccccccccccL shr i) {
-        value = value shr 10
-        ci.next()
-        i -= 10
-    }
-    value *= signum(this).toLong()
-    return String.format("%.1f %ciB", value / 1024.0, ci.current())
 }
 
 fun Application.registerHealthCheckRoutes() {

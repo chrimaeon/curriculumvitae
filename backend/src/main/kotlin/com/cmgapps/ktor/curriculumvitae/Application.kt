@@ -16,6 +16,9 @@
 
 package com.cmgapps.ktor.curriculumvitae
 
+import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
+import com.cmgapps.common.curriculumvitae.data.db.Employment
+import com.cmgapps.ktor.curriculumvitae.infra.di.appModule
 import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
@@ -46,9 +49,14 @@ import io.ktor.request.httpVersion
 import io.ktor.response.respond
 import io.ktor.serialization.json
 import io.ktor.websocket.WebSockets
+import kotlinx.datetime.LocalDate
+import org.koin.ktor.ext.Koin
+import org.koin.ktor.ext.inject
+import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.time.Month
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
@@ -61,9 +69,10 @@ enum class Routes(val route: String) {
     EMPLOYMENT("/employment")
 }
 
-fun Application.module(modelLoader: ModelLoader = ClassLoaderModelLoader()) {
+fun Application.module() {
     installFeatures()
-    registerRoutes(modelLoader)
+    initDb()
+    registerRoutes()
 }
 
 @OptIn(ExperimentalTime::class)
@@ -125,12 +134,32 @@ fun Application.installFeatures() {
     }
 
     install(WebSockets)
+
+    install(Koin) {
+        slf4jLogger()
+        modules(appModule)
+    }
 }
 
-fun Application.registerRoutes(modelLoader: ModelLoader) {
+fun Application.registerRoutes() {
     registerRootRouting()
     registerHealthCheckRoutes()
     registerStaticRoutes()
-    registerProfileRoutes(modelLoader)
+    registerProfileRoutes()
     registerEmploymentRoutes()
+}
+
+fun Application.initDb() {
+    val database: CvDatabase by inject()
+    database.employmentQueries.insertEmployment(
+        Employment(
+            id = 1,
+            job_title = "Founder and Software Engineer",
+            employer = "CMG Mobile Apps",
+            start_date = LocalDate(2010, Month.JUNE, 1).toString(),
+            end_date = null,
+            city = "Graz",
+            description = listOf("Line 1", "Line 2")
+        )
+    )
 }

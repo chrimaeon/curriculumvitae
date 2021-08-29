@@ -99,9 +99,15 @@ processPhoenix = "com.jakewharton:process-phoenix:2.1.2"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 collapsingToolbar = "me.onebone:toolbar-compose:2.1.2"
 dropbox-store = "com.dropbox.mobile.store:store4:4.0.2-KT15"
+# endregion
+
+# region Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+
 # endregion
 
 # region Testing
@@ -147,6 +153,11 @@ ktor-android = [
   "ktor-client-android",
   "ktor-client-okhttp",
   "ktor-client-serialization",
+]
+koin-server = [
+  "koin-core",
+  "koin-ktor",
+  "koin-logger-slf4j"
 ]
 compose-app = [
   "compose-ui",

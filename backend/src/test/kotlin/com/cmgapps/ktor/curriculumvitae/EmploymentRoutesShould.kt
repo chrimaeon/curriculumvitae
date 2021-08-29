@@ -16,17 +16,38 @@
 
 package com.cmgapps.ktor.curriculumvitae
 
+import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
+import com.cmgapps.common.curriculumvitae.data.db.EmploymentQueries
+import com.cmgapps.common.curriculumvitae.data.network.Employment
+import com.squareup.sqldelight.Query
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.withCharset
 import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.withTestApplication
+import kotlinx.datetime.LocalDate
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.koin.dsl.module
+import org.koin.ktor.ext.modules
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
+@ExtendWith(MockitoExtension::class)
 class EmploymentRoutesShould {
+
+    @Mock
+    private lateinit var databaseMock: CvDatabase
+
+    @Mock
+    private lateinit var employmentQueriesMock: EmploymentQueries
 
     @Test
     fun `return Content-Type application json`() =
@@ -40,9 +61,33 @@ class EmploymentRoutesShould {
         }
 
     @Test
-    fun `return employment`() =
-        withTestApplication(moduleFunction = { module() }) {
+    fun `return employment`() {
+        val queryMock = mock<Query<Employment>> {
+            on { executeAsList() } doReturn listOf(
+                Employment(
+                    "Software Developer",
+                    "CMG Mobile Apps",
+                    LocalDate.parse("2010-06-01"),
+                    null,
+                    "Graz",
+                    listOf("Founder", "Software development")
+                )
+            )
+        }
+        whenever(employmentQueriesMock.selectAll<Employment>(any())) doReturn queryMock
+        whenever(databaseMock.employmentQueries) doReturn employmentQueriesMock
+
+        withTestApplication(moduleFunction = {
+            module()
+        }) {
+            application.modules(
+                module {
+                    single { databaseMock }
+                }
+            )
+
             with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
+
                 assertThat(
                     response.content,
                     `is`(
@@ -64,4 +109,5 @@ class EmploymentRoutesShould {
                 )
             }
         }
+    }
 }

@@ -16,6 +16,7 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
 import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
@@ -25,27 +26,32 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.Month
+import org.koin.ktor.ext.inject
 
 fun Route.employmentRouting() {
+    val database: CvDatabase by inject()
     get(Routes.EMPLOYMENT.route) {
-        call.respond(
-            listOf(
-                Employment(
-                    jobTitle = "Software Developer",
-                    employer = "CMG Mobile Apps",
-                    startDate = LocalDate(2010, Month.JUNE, 1),
-                    endDate = null,
-                    city = "Graz",
-                    description = listOf(
-                        "Founder",
-                        "Software development"
-                    )
-                )
-            )
-        )
+        call.respond(database.employmentQueries.selectAll(::mapper).executeAsList())
     }
 }
+
+@SuppressWarnings("kotlin:S1172")
+private fun mapper(
+    @Suppress("UNUSED_PARAMETER") id: Int,
+    jobTitle: String,
+    employer: String,
+    startDate: String,
+    endDate: String?,
+    city: String,
+    description: List<String>
+) = Employment(
+    jobTitle,
+    employer,
+    LocalDate.parse(startDate),
+    endDate?.let { LocalDate.parse(it) },
+    city,
+    description,
+)
 
 fun Application.registerEmploymentRoutes() {
     routing {
