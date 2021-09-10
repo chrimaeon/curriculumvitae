@@ -97,7 +97,6 @@ fun MainScreen(
     onFabClick: () -> Unit = {},
     onOpenWebsite: (Uri) -> Unit = {}
 ) {
-
     val navController = rememberAnimatedNavController()
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     @SuppressLint("RestrictedApi")
@@ -203,8 +202,10 @@ typealias EnterTransitionFunction = AnimatedContentScope<String>.(NavBackStackEn
 @OptIn(ExperimentalAnimationApi::class)
 typealias ExitTransitionFunction = AnimatedContentScope<String>.(NavBackStackEntry, NavBackStackEntry) -> ExitTransition
 
+@OptIn(ExperimentalAnimationApi::class)
 private val defaultEnterTransition: EnterTransitionFunction = { _, _ -> enterTransition() }
 
+@OptIn(ExperimentalAnimationApi::class)
 private val defaultExitTransition: ExitTransitionFunction = { _, _ -> exitTransition() }
 
 private const val DefaultTransitionDuration = 150

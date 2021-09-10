@@ -32,12 +32,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.pm.PackageInfoCompat
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.WebViewDialog
+import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.cmgapps.common.curriculumvitae.CopyRightText
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -49,9 +54,22 @@ fun InfoSheet(
 ) {
     var ossDialogOpen by remember { mutableStateOf(false) }
     var oflDialogOpen by remember { mutableStateOf(false) }
+    val strokeColor = MaterialTheme.colors.onSurface
     Column(
         modifier
             .fillMaxWidth()
+            .drawBehind {
+                val length = 16.dp.toPx()
+                val paddingTop = 14.dp.toPx()
+                drawLine(
+                    strokeColor,
+                    Offset(size.width / 2 - length, paddingTop),
+                    Offset(size.width / 2 + length, paddingTop),
+                    strokeWidth = 4.dp.toPx(),
+                    cap = StrokeCap.Round,
+                    alpha = 0.2f
+                )
+            }
             .padding(
                 rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.navigationBars,
@@ -132,5 +150,13 @@ private fun InfoTextButton(
         onClick = onClick,
     ) {
         Text(text)
+    }
+}
+
+@Preview()
+@Composable()
+fun PreviewInfoSheet() {
+    ThemedPreview {
+        InfoSheet(onOpenWebsite = {})
     }
 }
