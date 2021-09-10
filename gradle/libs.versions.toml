@@ -1,6 +1,6 @@
 [versions]
-accompanist = "0.17.0"
-compose = "1.0.1"
+accompanist = "0.18.0"
+compose = "1.0.2"
 gradle = "7.2"
 hilt = "2.38.1"
 koin = "3.1.2"
@@ -23,7 +23,7 @@ jetbrainsCompose = "org.jetbrains.compose:1.0.0-alpha4-build315"
 [libraries]
 
 # region buildScript dependencies
-androidPluginDep = "com.android.tools.build:gradle:7.0.1"
+androidPluginDep = "com.android.tools.build:gradle:7.0.2"
 kotlinPluginDep = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 hiltAndroidPluginDep = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 appEnginePluginDep = "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
@@ -98,7 +98,7 @@ cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.42.1"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.2"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
-collapsingToolbar = "me.onebone:toolbar-compose:2.1.2"
+collapsingToolbar = "me.onebone:toolbar-compose:2.2.0"
 dropbox-store = "com.dropbox.mobile.store:store4:4.0.2-KT15"
 # endregion
 
@@ -119,7 +119,7 @@ junit-bom = "org.junit:junit-bom:5.7.2"
 hamcrest = "org.hamcrest:hamcrest:2.2"
 mockito-jupiter = "org.mockito:mockito-junit-jupiter:3.12.4"
 mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:3.2.0"
-kotlinx-coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
+kotlinx-coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 turbine = "app.cash.turbine:turbine:0.6.0"
 # endregion
@@ -133,7 +133,7 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 ktor-websocket = { module = "io.ktor:ktor-websockets", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.5"
-logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.121.10-alpha"
+logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.121.12-alpha"
 kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.231-kotlin-1.5.21"
 appEngine = "com.google.appengine:appengine:1.9.91"
 # endregion

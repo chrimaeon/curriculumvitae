@@ -348,6 +348,15 @@ private fun Description(
     }
 }
 
+private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
+    layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+        onHeightMeasured(placeable.height)
+        layout(placeable.width, placeable.height) {
+            placeable.placeRelative(0, 0)
+        }
+    }
+
 // region Preview
 private val previewEmployments =
     Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.let { now ->
@@ -365,15 +374,6 @@ private val previewEmployments =
                 )
             )
         )
-    }
-
-private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
-    layout { measurable, constraints ->
-        val placeable = measurable.measure(constraints)
-        onHeightMeasured(placeable.height)
-        layout(placeable.width, placeable.height) {
-            placeable.placeRelative(0, 0)
-        }
     }
 
 @Preview(name = "Content", widthDp = 320, heightDp = 680)
