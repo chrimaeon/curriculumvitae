@@ -120,6 +120,8 @@ android {
     defaultConfig {
         minSdk = androidMinSdkVersion
         targetSdk = androidTargetSdkVersion
+
+        consumerProguardFile(projectDir.resolve("proguard-rules.pro"))
     }
 
     compileOptions {
