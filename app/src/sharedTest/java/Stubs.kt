@@ -89,15 +89,15 @@ fun StubDomainEmployment() = Employment(
     description = listOf("stub description")
 )
 
-fun StubDataStoreProfile(): Profile = Profile.newBuilder().apply {
-    name = "Firstname Lastname"
-    address = Address.newBuilder().apply {
-        city = "Graz"
-        street = "Street 1"
-        postalCode = "8010"
-    }.build()
-    email = "me@home.at"
-    addAllIntro(listOf("Line 1", "Line 2"))
-    phone = "+12345678"
-    profileImageUrl = "http://image.undefined.com/image.jpeg"
-}.build()
+fun StubDataStoreProfile(): Profile = Profile(
+    name = "Firstname Lastname",
+    address = Address(
+        city = "Graz",
+        street = "Street 1",
+        postal_code = "8010",
+    ),
+    email = "me@home.at",
+    intro = listOf("Line 1", "Line 2"),
+    phone = "+12345678",
+    profile_image_url = "http://image.undefined.com/image.jpeg",
+)

@@ -18,8 +18,8 @@ package com.cmgapps.android.curriculumvitae.data.datastore
 
 import androidx.datastore.core.Serializer
 import com.cmgapps.LogTag
-import com.google.protobuf.InvalidProtocolBufferException
 import timber.log.Timber
+import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import com.cmgapps.common.curriculumvitae.data.domain.Address as DomainAddress
@@ -33,40 +33,45 @@ object ProfileDataStoreSerializer : Serializer<Profile?> {
 
     override suspend fun readFrom(input: InputStream): Profile? =
         try {
-            Profile.parseFrom(input)
-        } catch (exc: InvalidProtocolBufferException) {
+            Profile.ADAPTER.decode(input)
+        } catch (exc: IOException) {
             Timber.tag(LOG_TAG).e(exc)
             null
         }
 
     override suspend fun writeTo(t: Profile?, output: OutputStream) {
-        t?.writeTo(output)
+        t?.let { Profile.ADAPTER.encode(output, it) }
     }
 }
 
-fun Profile.asDomainModel() = DomainProfile(
-    name = name,
-    phone = phone,
-    profileImageUrl = profileImageUrl,
-    address = DomainAddress(
-        street = address.street,
-        city = address.city,
-        postalCode = address.postalCode
-    ),
-    email = email,
-    intro = introList
-)
+fun Profile.asDomainModel(): DomainProfile {
+    if (address == null) {
+        throw NullPointerException("address == null")
+    }
 
-fun NetworkProfile.asDataStoreModel(): Profile =
-    Profile.newBuilder().apply {
-        name = this@asDataStoreModel.name
-        phone = this@asDataStoreModel.phone
-        profileImageUrl = this@asDataStoreModel.profileImageUrl
-        address = Address.newBuilder().apply {
-            street = this@asDataStoreModel.address.street
-            city = this@asDataStoreModel.address.city
-            postalCode = this@asDataStoreModel.address.postalCode
-        }.build()
-        email = this@asDataStoreModel.email
-        addAllIntro(this@asDataStoreModel.intro)
-    }.build()
+    return DomainProfile(
+        name = name,
+        phone = phone,
+        profileImageUrl = profile_image_url,
+        address = DomainAddress(
+            street = address.street,
+            city = address.city,
+            postalCode = address.postal_code
+        ),
+        email = email,
+        intro = intro
+    )
+}
+
+fun NetworkProfile.asDataStoreModel(): Profile = Profile(
+    name = this@asDataStoreModel.name,
+    phone = this@asDataStoreModel.phone,
+    profile_image_url = this@asDataStoreModel.profileImageUrl,
+    address = Address(
+        street = this@asDataStoreModel.address.street,
+        city = this@asDataStoreModel.address.city,
+        postal_code = this@asDataStoreModel.address.postalCode,
+    ),
+    email = this@asDataStoreModel.email,
+    intro = this@asDataStoreModel.intro
+)

@@ -19,10 +19,6 @@
 import com.android.build.api.artifact.SingleArtifact
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 import kotlin.io.path.ExperimentalPathApi
@@ -35,7 +31,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     ktlint
     id("dagger.hilt.android.plugin")
-    alias(libs.plugins.protobuf)
+    id("com.squareup.wire")
     alias(libs.plugins.licenses)
     alias(libs.plugins.ksp)
 }
@@ -241,20 +237,8 @@ androidComponents {
     }
 }
 
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:" + libs.versions.protobuf.get()
-    }
-
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
+wire {
+    kotlin { }
 }
 
 licenses {
@@ -307,7 +291,6 @@ dependencies {
     debugImplementation("com.squareup.okhttp3:logging-interceptor")
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
-    implementation(libs.protobuf.javalite)
     implementation(libs.cmgapps.lintLogDebug)
     implementation(libs.coil.compose)
     implementation(libs.collapsingToolbar)

@@ -32,6 +32,7 @@ buildscript {
         classpath(libs.hiltAndroidPluginDep)
         classpath(libs.appEnginePluginDep)
         classpath(libs.sqldelightPluginDep)
+        classpath(libs.wirePluginDep)
     }
 }
 

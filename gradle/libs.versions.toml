@@ -7,7 +7,6 @@ hilt = "2.38.1"
 koin = "3.1.2"
 kotlin = "1.5.21"
 ktor = "1.6.3"
-protobuf = "3.17.3"
 sqldelight = "1.5.1"
 logtag = "0.3.0"
 
@@ -15,7 +14,6 @@ logtag = "0.3.0"
 
 ksp = "com.google.devtools.ksp:1.5.21-1.0.0-beta07"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-protobuf = "com.google.protobuf:0.8.17"
 licenses = "com.cmgapps.licenses:3.2.0"
 benManesVersionsGradle = "com.github.ben-manes.versions:0.39.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
@@ -29,6 +27,7 @@ kotlinPluginDep = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", versio
 hiltAndroidPluginDep = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 appEnginePluginDep = "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
 sqldelightPluginDep = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
+wirePluginDep = "com.squareup.wire:wire-gradle-plugin:4.0.0-alpha.11"
 # endregion
 
 # region App
@@ -94,7 +93,6 @@ sqlite-jdbc = "org.xerial:sqlite-jdbc:3.32.2"
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.2.1"
 okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.1"
-protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.42.1"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.2"
