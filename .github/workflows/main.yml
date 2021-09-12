@@ -14,6 +14,7 @@ jobs:
       CV_DEBUG_BASE_URLS: https://www.host.undefined
 
     steps:
+      # region Setup
       - uses: actions/checkout@v2
 
       - name: Set up JDK 11
@@ -41,22 +42,22 @@ jobs:
 
       - name: Download dependencies
         run: ./gradlew dependencies
-
+      # endregion
+      # region Common
       - name: Check :common
         run: ./gradlew :common:check
-
       - name: Archive Common Test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
-          name: shared-test-results
+          name: common-test-results
           path: |
             common/build/reports/*
             common/build/test-results/*
-
+      # endregion
+      # region App
       - name: Check :app
         run: ./gradlew :app:check
-
       - name: Archive App Test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -65,10 +66,22 @@ jobs:
           path: |
             app/build/reports/*
             app/build/test-results/*
-
+      # endregion
+      # region Wearable
+      - name: Check :wearable
+        run: ./gradlew :wearable:check
+      - name: Archive Wearable Test results
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: wearable-test-results
+          path: |
+            wearable/build/reports/*
+            wearable/build/test-results/*
+      # endregion
+      # region Backend
       - name: Check :backend
         run: ./gradlew :backend:check
-
       - name: Archive Backend Test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -77,9 +90,28 @@ jobs:
           path: |
             backend/build/reports/*
             backend/build/test-results/*
-
-      - name: Assemble :desktop
-        run: ./gradlew :desktop:assemble
-
-      - name: Assemble :web
-        run: ./gradlew :web:assemble
+      # endregion
+      # region Desktop
+      - name: Check :desktop
+        run: ./gradlew :desktop:check
+      - name: Archive Desktop Test results
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: desktop-test-results
+          path: |
+            desktop/build/reports/*
+            desktop/build/test-results/*
+      # endregion
+      # region Web
+      - name: Check :web
+        run: ./gradlew :web:check
+      - name: Archive Web Test results
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: web-test-results
+          path: |
+            web/build/reports/*
+            web/build/test-results/*
+      # endregion
