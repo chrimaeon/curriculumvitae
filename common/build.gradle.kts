@@ -17,6 +17,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.cmgapps.gradle.GenerateBuildConfig
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.time.LocalDate
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
@@ -59,6 +60,19 @@ kotlin {
         browser()
     }
 
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
+        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
+        else -> ::iosX64
+    }
+
+    iosTarget("ios") {
+        binaries {
+            framework {
+                baseName = "common"
+            }
+        }
+    }
+
     sourceSets {
         named("commonMain") {
             this.kotlin.srcDir(generatedFilesDir)
@@ -95,6 +109,12 @@ kotlin {
             dependencies {
                 implementation(libs.sqldelight.driver.android)
                 implementation(libs.koin.android)
+            }
+        }
+
+        named("iosMain") {
+            dependencies {
+                implementation(libs.sqldelight.driver.native)
             }
         }
 

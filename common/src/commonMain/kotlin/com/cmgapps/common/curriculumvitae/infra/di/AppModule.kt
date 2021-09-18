@@ -30,6 +30,7 @@ import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
 import kotlinx.coroutines.MainScope
+import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -50,7 +51,10 @@ private fun createHttpClient(): HttpClient = HttpClient {
     install(WebSockets)
 
     defaultRequest {
-        header(HttpHeaders.AcceptLanguage, language)
+        header(
+            HttpHeaders.AcceptLanguage,
+            language
+        )
     }
 }
 
@@ -61,3 +65,10 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication = startKo
     appDeclaration()
     modules(module, platformModule())
 }
+
+/**
+ * used by native to easily create [KoinApplication]
+ */
+fun initKoin() = initKoin { }
+
+fun Koin.getProfileRepository() = get<ProfileRepository>()
