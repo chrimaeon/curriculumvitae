@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AA518F3D26F7373600A13DC3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */; };
-		AAA9774726F61A0F009B60D7 /* CurriculimVitaeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9774626F61A0F009B60D7 /* CurriculimVitaeApp.swift */; };
+		AA5E5C8E26F7AC6100F9F2B2 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */; };
+		AA6D01D026F7912100C6DC64 /* CurriculimVitaeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D01CF26F7912100C6DC64 /* CurriculimVitaeApp.swift */; };
 		AAA9774926F61A0F009B60D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9774826F61A0F009B60D7 /* ContentView.swift */; };
 		AAA9774B26F61A18009B60D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAA9774A26F61A18009B60D7 /* Assets.xcassets */; };
 		AAA9774E26F61A18009B60D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAA9774D26F61A18009B60D7 /* Preview Assets.xcassets */; };
@@ -40,8 +41,9 @@
 
 /* Begin PBXFileReference section */
 		AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
+		AA6D01CF26F7912100C6DC64 /* CurriculimVitaeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurriculimVitaeApp.swift; sourceTree = "<group>"; };
 		AAA9774326F61A0F009B60D7 /* CurriculumVitae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurriculumVitae.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAA9774626F61A0F009B60D7 /* CurriculimVitaeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurriculimVitaeApp.swift; sourceTree = "<group>"; };
 		AAA9774826F61A0F009B60D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AAA9774A26F61A18009B60D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAA9774D26F61A18009B60D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -84,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA5E5C8C26F7AC4800F9F2B2 /* Infra */ = {
+			isa = PBXGroup;
+			children = (
+				AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */,
+			);
+			path = Infra;
+			sourceTree = "<group>";
+		};
 		AAA9773A26F61A0F009B60D7 = {
 			isa = PBXGroup;
 			children = (
@@ -108,15 +118,16 @@
 		AAA9774526F61A0F009B60D7 /* CurriculimVitae */ = {
 			isa = PBXGroup;
 			children = (
-				AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */,
-				AAA977FF26F641F6009B60D7 /* Skils */,
-				AAA977F626F6415E009B60D7 /* Employment */,
-				AAA977F526F64116009B60D7 /* Profile */,
-				AAA9774626F61A0F009B60D7 /* CurriculimVitaeApp.swift */,
+				AA5E5C8C26F7AC4800F9F2B2 /* Infra */,
+				AA6D01CF26F7912100C6DC64 /* CurriculimVitaeApp.swift */,
 				AAA9774826F61A0F009B60D7 /* ContentView.swift */,
 				AAA9780826F64880009B60D7 /* InfoPage.swift */,
+				AAA977F526F64116009B60D7 /* Profile */,
+				AAA977FF26F641F6009B60D7 /* Skils */,
+				AAA977F626F6415E009B60D7 /* Employment */,
 				AAA9774A26F61A18009B60D7 /* Assets.xcassets */,
 				AAA9774F26F61A18009B60D7 /* Info.plist */,
+				AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */,
 				AAA9774C26F61A18009B60D7 /* Preview Content */,
 			);
 			path = CurriculimVitae;
@@ -325,12 +336,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAA977E326F62F43009B60D7 /* ProfileViewModel.swift in Sources */,
+				AA6D01D026F7912100C6DC64 /* CurriculimVitaeApp.swift in Sources */,
 				AAA9774926F61A0F009B60D7 /* ContentView.swift in Sources */,
 				AAA977F826F64178009B60D7 /* EmploymentPage.swift in Sources */,
+				AA5E5C8E26F7AC6100F9F2B2 /* AsyncImage.swift in Sources */,
 				AAA9780926F64880009B60D7 /* InfoPage.swift in Sources */,
 				AAA9780126F64203009B60D7 /* SkilsPage.swift in Sources */,
 				AAA977F126F640EC009B60D7 /* ProfilePage.swift in Sources */,
-				AAA9774726F61A0F009B60D7 /* CurriculimVitaeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

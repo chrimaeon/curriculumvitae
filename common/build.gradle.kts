@@ -82,6 +82,11 @@ kotlin {
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.koin.core)
                 implementation(libs.sqldelight.coroutines)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt") {
+                    version {
+                        strictly("1.5.2-native-mt")
+                    }
+                }
             }
         }
 
@@ -115,6 +120,7 @@ kotlin {
         named("iosMain") {
             dependencies {
                 implementation(libs.sqldelight.driver.native)
+                implementation(libs.ktor.client.ios)
             }
         }
 

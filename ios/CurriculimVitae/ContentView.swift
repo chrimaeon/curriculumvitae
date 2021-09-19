@@ -25,11 +25,12 @@ private enum SelectedTab {
 }
 
 struct ContentView: View {
+    var koin: Koin_coreKoin
     @State private var selection: SelectedTab = .Profile
     
     var body: some View {
         TabView(selection: $selection) {
-            ProfilePage()
+            ProfilePage(viewModel: ProfileViewModel(repository: koin.getProfileRepository()))
                 .tabItem {
                     Label("Profile", systemImage:  selectableImage(imageName: "person.circle", selected: selection == .Profile))
                 }

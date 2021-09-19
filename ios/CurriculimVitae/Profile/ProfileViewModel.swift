@@ -20,8 +20,8 @@ class ProfileViewModel: ObservableObject {
     
     private var repository: ProfileRepository
     
-    init() {
-        self.repository = AppModuleKt.doInitKoin().koin.getProfileRepository()
+    init(repository: ProfileRepository) {
+        self.repository = repository
     }
     
     func startObserving() {

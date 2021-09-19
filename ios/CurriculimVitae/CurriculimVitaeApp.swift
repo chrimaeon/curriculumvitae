@@ -21,7 +21,7 @@ import common
 struct CurriculimVitaeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(koin: AppModuleKt.doInitKoin().koin)
         }
     }
 }
