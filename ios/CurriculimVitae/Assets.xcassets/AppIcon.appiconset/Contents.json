@@ -1,91 +1,55 @@
 {
   "images": [
     {
+      "filename": "ic_notification@2.png",
       "idiom": "iphone",
       "scale": "2x",
       "size": "20x20"
     },
     {
+      "filename": "ic_notification@3.png",
       "idiom": "iphone",
       "scale": "3x",
       "size": "20x20"
     },
     {
+      "filename": "ic_settings@2.png",
       "idiom": "iphone",
       "scale": "2x",
       "size": "29x29"
     },
     {
+      "filename": "ic_setting@3.png",
       "idiom": "iphone",
       "scale": "3x",
       "size": "29x29"
     },
     {
+      "filename": "ic_spotlight@2-1.png",
       "idiom": "iphone",
       "scale": "2x",
       "size": "40x40"
     },
     {
+      "filename": "ic_spotlight@2.png",
       "idiom": "iphone",
       "scale": "3x",
       "size": "40x40"
     },
     {
+      "filename": "ic_app@2.png",
       "idiom": "iphone",
       "scale": "2x",
       "size": "60x60"
     },
     {
+      "filename": "ic_app@3.png",
       "idiom": "iphone",
       "scale": "3x",
       "size": "60x60"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "20x20"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "20x20"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "29x29"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "29x29"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "40x40"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "40x40"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "76x76"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "76x76"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "83.5x83.5"
-    },
-    {
+      "filename": "ic_appstore.png",
       "idiom": "ios-marketing",
       "scale": "1x",
       "size": "1024x1024"
