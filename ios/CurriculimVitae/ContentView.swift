@@ -35,12 +35,12 @@ struct ContentView: View {
                     Label("Profile", systemImage:  selectableImage(imageName: "person.circle", selected: selection == .Profile))
                 }
                 .tag(SelectedTab.Profile)
-            EmploymentPage()
+            EmploymentPage(viewModel: EmployemntViewModel(repository: koin.getEmploymentRepository()))
                 .tabItem {
                     Label("Employment", systemImage: selectableImage(imageName: "bag", selected: selection == .Employment))
                 }
                 .tag(SelectedTab.Employment)
-            SkilsPage()
+            SkillsPage()
                 .tabItem {
                     Label("Skills", systemImage: selectableImage(imageName: "wrench.and.screwdriver", selected: selection == .Skills))
                     

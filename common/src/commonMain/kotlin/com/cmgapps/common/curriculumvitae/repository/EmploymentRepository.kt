@@ -24,6 +24,7 @@ import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -35,6 +36,8 @@ class EmploymentRepository(
     scope: CoroutineScope,
 ) : CoroutineScope by scope {
 
+    private var employmentsJob: Job? = null
+
     fun getEmployments(): Flow<List<Employment>> = flow {
         databaseWrapper { db ->
             db.employmentQueries.selectAll(::employmentMapper).asFlow().mapToList().collect {
@@ -43,7 +46,34 @@ class EmploymentRepository(
         }
     }
 
+    fun getEmployments(success: (List<Employment>) -> Unit) {
+        employmentsJob = launch {
+            getEmployments().collect { success(it) }
+        }
+    }
+
+    fun cancelEmploymentsUpdate() {
+        employmentsJob?.cancel()
+    }
+
     init {
+        try {
+            launch {
+                val employments = api.getEmployments()
+                databaseWrapper { db ->
+                    db.employmentQueries.let { employmentDao ->
+                        employmentDao.transaction {
+                            employments.forEach { employmentDao.insertEmployment(it.asDatabaseModel()) }
+                        }
+                    }
+                }
+            }
+        } catch (exc: Exception) {
+            exc.printStackTrace()
+        }
+    }
+
+    fun refresh() {
         try {
             launch {
                 val employments = api.getEmployments()

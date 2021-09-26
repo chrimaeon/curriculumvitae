@@ -31,13 +31,8 @@ struct ProfilePage: View {
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .onAppear(perform: {
-            NSLog("onAppear")
-            viewModel.startObserving()
-        }).onDisappear(perform: {
-            NSLog("onDisappear")
-            viewModel.stopObserving()
+            viewModel.loadProfile()
         })
-        
     }
 }
 
@@ -74,7 +69,7 @@ private struct ProfileView: View {
             ForEach(profile.intro, id: \.self) {
                 Text($0).frame(maxWidth: .infinity, alignment: .topLeading)
             }.padding(EdgeInsets(top: 0, leading: 10, bottom: 4, trailing: 10))
-        }
+        }.padding()
     }
 }
 

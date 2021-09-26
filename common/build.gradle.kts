@@ -30,10 +30,11 @@ plugins {
     ktlint
 }
 
-val generatedFilesDir: Provider<Directory> = project.layout.buildDirectory.dir("generated")
+val buildConfigFilesDir: Provider<Directory> =
+    project.layout.buildDirectory.dir("generated/buildConfig")
 
 val generateBuildConfig by tasks.registering(GenerateBuildConfig::class) {
-    outputDir.set(generatedFilesDir)
+    outputDir.set(buildConfigFilesDir)
 
     val baseUrl by configProperties()
     val debugBaseUrls by configProperties()
@@ -75,18 +76,16 @@ kotlin {
 
     sourceSets {
         named("commonMain") {
-            this.kotlin.srcDir(generatedFilesDir)
+            this.kotlin.srcDir(buildConfigFilesDir)
             dependencies {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.koin.core)
                 implementation(libs.sqldelight.coroutines)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt") {
-                    version {
-                        strictly("1.5.2-native-mt")
-                    }
-                }
+                implementation(libs.kotlinx.coroutines.core.nativeMt)
+                implementation(libs.logback.classic)
+                implementation(libs.ktor.client.logging)
             }
         }
 

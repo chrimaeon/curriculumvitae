@@ -25,6 +25,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.logging.Logging
 import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
@@ -36,19 +37,23 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 
-private val module = org.koin.dsl.module {
-    single { createHttpClient() }
+private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
+    single { createHttpClient(enableNetworkLogging) }
     single { CvApiService(get(), provideBaseUrl()) }
     single { ProfileRepository(get()) }
     single { EmploymentRepository(get(), get(), MainScope()) }
     single { StatusRepository(get()) }
 }
 
-private fun createHttpClient(): HttpClient = HttpClient {
+private fun createHttpClient(enableNetworkLogging: Boolean): HttpClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }
     install(WebSockets)
+
+    if (enableNetworkLogging) {
+        install(Logging)
+    }
 
     defaultRequest {
         header(
@@ -61,14 +66,21 @@ private fun createHttpClient(): HttpClient = HttpClient {
 expect fun provideBaseUrl(): Url
 expect fun platformModule(): Module
 
-fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication = startKoin {
+fun initKoin(
+    enableNetworkLogging: Boolean = false,
+    appDeclaration: KoinAppDeclaration = {}
+): KoinApplication = startKoin {
     appDeclaration()
-    modules(module, platformModule())
+    modules(module(enableNetworkLogging), platformModule())
 }
 
 /**
  * used by native to easily create [KoinApplication]
  */
-fun initKoin() = initKoin { }
+fun initKoin() = initKoin(enableNetworkLogging = true) { }
 
+@Suppress("unused") // used by Kotlin/Native
 fun Koin.getProfileRepository() = get<ProfileRepository>()
+
+@Suppress("unused") // used by Kotlin/Native
+fun Koin.getEmploymentRepository() = get<EmploymentRepository>()

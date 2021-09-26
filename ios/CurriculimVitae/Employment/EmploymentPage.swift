@@ -13,15 +13,55 @@
 // limitations under the License.
 
 import SwiftUI
+import common
 
 struct EmploymentPage: View {
+
+    @StateObject var viewModel: EmployemntViewModel
+
     var body: some View {
-        Text("Employment")
+        VStack {
+            if (viewModel.employments.isEmpty) {
+                Spacer()
+                ProgressView()
+                Spacer()
+            } else {
+                EmployemntList(employments: viewModel.employments)
+            }
+        }.onAppear(perform: {
+            viewModel.startObservingEmployemnts()
+        }).onDisappear(perform: {
+            viewModel.cancelObservinceEmployemnts()
+        })
+        
     }
 }
 
-struct EmploymentPage_Previews: PreviewProvider {
-    static var previews: some View {
-        EmploymentPage()
+private struct EmployemntList: View {
+    @State var employments: [Employment]
+    
+    var body: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 10) {
+                ForEach(employments, id: \.id) { employemnt in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 4)
+                        HStack(spacing: 10) {
+                            Image(systemName:"building.2.fill")
+                                .resizable()
+                                .frame(width: 35, height: 35)
+                                .foregroundColor(Color.white)
+                                .padding()
+                                .background(Circle().fill(Color.accentColor))
+                            VStack(alignment: .leading) {
+                                Text(employemnt.employer).font(.title2).fontWeight(.bold)
+                                Text(employemnt.workPeriod.asHumanReadableString())
+                                Text(employemnt.jobTitle).font(.title3).padding(.top, 1.0)
+                            }
+                        }.padding()
+                    }.padding()
+                }
+            }
+        }
     }
 }

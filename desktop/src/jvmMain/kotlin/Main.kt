@@ -30,7 +30,7 @@ import com.cmgapps.common.curriculumvitae.infra.di.initKoin
 import com.cmgapps.desktop.curriculumvitae.App
 import java.util.prefs.Preferences
 
-private val koin = initKoin().koin
+private val koin = initKoin(enableNetworkLogging = true).koin
 
 fun main() = application {
     Window(

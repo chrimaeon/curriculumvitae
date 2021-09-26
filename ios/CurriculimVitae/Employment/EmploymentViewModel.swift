@@ -15,21 +15,26 @@
 import Foundation
 import common
 
-class ProfileViewModel: ObservableObject {
-    @Published var profile: Profile? = nil
+class EmployemntViewModel: ObservableObject {
+    @Published var employments = [Employment]()
     
-    private var repository: ProfileRepository
+    private var repository: EmploymentRepository
     
-    init(repository: ProfileRepository) {
+    init(repository: EmploymentRepository) {
         self.repository = repository
     }
     
-    func loadProfile() {
-        repository.getProfile { (profile, optionalError) in
-            self.profile = profile
-            if let error = optionalError {
-                NSLog(error.localizedDescription)
-            }
-        }
+    func startObservingEmployemnts() {
+        repository.getEmployments(success: { employments in
+            self.employments = employments
+        })
+    }
+    
+    func cancelObservinceEmployemnts() {
+        repository.cancelEmploymentsUpdate()
+    }
+    
+    func refresh() {
+        repository.refresh()
     }
 }

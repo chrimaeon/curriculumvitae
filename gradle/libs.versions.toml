@@ -80,6 +80,7 @@ ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-client-websocket = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 # endregion
 
 # region SqlDelight
@@ -94,6 +95,7 @@ sqlite-jdbc = "org.xerial:sqlite-jdbc:3.32.2"
 # region Misc
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.2.1"
+kotlinx-coroutines-core-nativeMt = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt"
 okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.1"
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.42.1"

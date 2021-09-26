@@ -14,14 +14,14 @@
 
 import SwiftUI
 
-struct SkilsPage: View {
+struct SkillsPage: View {
     var body: some View {
         Text("Skills")
     }
 }
 
-struct SkilsPage_Previews: PreviewProvider {
+struct SkillsPage_Previews: PreviewProvider {
     static var previews: some View {
-        SkilsPage()
+        SkillsPage()
     }
 }
