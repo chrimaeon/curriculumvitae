@@ -26,9 +26,9 @@ import androidx.compose.material.icons.outlined.BuildCircle
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
-import androidx.navigation.compose.NamedNavArgument
-import androidx.navigation.compose.navArgument
+import androidx.navigation.navArgument
 import com.cmgapps.android.curriculumvitae.R
 
 sealed class IconState {

@@ -65,6 +65,7 @@ import com.cmgapps.desktop.curriculumvitae.ui.Footer
 import org.koin.core.Koin
 import java.awt.Desktop
 import java.awt.image.BufferedImage
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
@@ -80,7 +81,11 @@ fun App(koin: Koin) {
     var profile: Profile? by remember { mutableStateOf(null) }
 
     LaunchedEffect(profileRepo) {
-        profile = profileRepo.getProfile()
+        profile = try {
+            profileRepo.getProfile()
+        } catch (exc: IOException) {
+            null
+        }
     }
 
     val employments by employmentRepo.getEmployments().collectAsState(emptyList())

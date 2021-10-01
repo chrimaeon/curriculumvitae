@@ -26,7 +26,6 @@ import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.jetbrains.compose.web.attributes.ButtonType
 import org.jetbrains.compose.web.attributes.InputType
-import org.jetbrains.compose.web.attributes.checked
 import org.jetbrains.compose.web.attributes.name
 import org.jetbrains.compose.web.attributes.type
 import org.jetbrains.compose.web.css.fontSize
@@ -188,7 +187,7 @@ private fun RadioButton(key: String, value: String) {
             id(key)
             onChange { event -> if (event.value) localStorage["baseUrl"] = value }
             if (localStorage["baseUrl"] == value) {
-                checked()
+                checked(true)
             }
         })
         Label(key, attrs = {

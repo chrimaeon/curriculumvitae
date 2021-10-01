@@ -38,14 +38,14 @@ import com.google.accompanist.pager.rememberPagerState
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainScreen() {
-    val pagerState = rememberPagerState(pageCount = 2)
+    val pagerState = rememberPagerState()
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onSurface) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.surface)
         ) {
-            HorizontalPager(state = pagerState) { page ->
+            HorizontalPager(state = pagerState, count = 2) { page ->
                 when (page) {
                     0 -> ProfileScreen()
                     1 -> EmploymentScreen()

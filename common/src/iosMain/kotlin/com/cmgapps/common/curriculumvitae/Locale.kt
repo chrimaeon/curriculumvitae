@@ -18,7 +18,10 @@ package com.cmgapps.common.curriculumvitae
 
 import platform.Foundation.NSLocale
 import platform.Foundation.NSLocaleLanguageCode
-import platform.Foundation.currentLocale
+import platform.Foundation.componentsFromLocaleIdentifier
+import platform.Foundation.preferredLanguages
 
 actual val language: String
-    get() = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String ?: "en"
+    get() = NSLocale.componentsFromLocaleIdentifier(
+        NSLocale.preferredLanguages.first() as String
+    )[NSLocaleLanguageCode] as? String ?: "en"

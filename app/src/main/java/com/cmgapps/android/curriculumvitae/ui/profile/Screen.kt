@@ -198,6 +198,7 @@ private fun Header(
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
     val coilPainter = rememberImagePainter(

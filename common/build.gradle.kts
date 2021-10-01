@@ -123,8 +123,14 @@ kotlin {
             }
         }
 
+        named("iosTest") {
+            dependencies {
+                implementation(libs.ktor.client.mock)
+            }
+        }
+
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+            languageSettings.optIn("kotlin.RequiresOptIn")
         }
     }
 
