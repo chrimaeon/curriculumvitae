@@ -3,19 +3,20 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		AA3321502700C42F004EC344 /* EmploymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA33214F2700C42F004EC344 /* EmploymentViewModel.swift */; };
 		AA518F3D26F7373600A13DC3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */; };
+		AA57A8A5270750340005A3B6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA57A8A7270750340005A3B6 /* Localizable.strings */; };
 		AA5E5C8E26F7AC6100F9F2B2 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */; };
-		AA6D01D026F7912100C6DC64 /* CurriculimVitaeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D01CF26F7912100C6DC64 /* CurriculimVitaeApp.swift */; };
+		AA6D01D026F7912100C6DC64 /* CurriculumVitaeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */; };
 		AAA9774926F61A0F009B60D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9774826F61A0F009B60D7 /* ContentView.swift */; };
 		AAA9774B26F61A18009B60D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAA9774A26F61A18009B60D7 /* Assets.xcassets */; };
 		AAA9774E26F61A18009B60D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAA9774D26F61A18009B60D7 /* Preview Assets.xcassets */; };
-		AAA9775926F61A18009B60D7 /* CurriculimVitaeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9775826F61A18009B60D7 /* CurriculimVitaeTests.swift */; };
-		AAA9776426F61A18009B60D7 /* CurriculimVitaeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9776326F61A18009B60D7 /* CurriculimVitaeUITests.swift */; };
+		AAA9775926F61A18009B60D7 /* CurriculumVitaeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9775826F61A18009B60D7 /* CurriculumVitaeTests.swift */; };
+		AAA9776426F61A18009B60D7 /* CurriculumVitaeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9776326F61A18009B60D7 /* CurriculumVitaeUITests.swift */; };
 		AAA977E326F62F43009B60D7 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA977E226F62F43009B60D7 /* ProfileViewModel.swift */; };
 		AAA977F126F640EC009B60D7 /* ProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA977F026F640EC009B60D7 /* ProfilePage.swift */; };
 		AAA977F826F64178009B60D7 /* EmploymentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA977F726F64178009B60D7 /* EmploymentPage.swift */; };
@@ -43,18 +44,20 @@
 /* Begin PBXFileReference section */
 		AA33214F2700C42F004EC344 /* EmploymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmploymentViewModel.swift; sourceTree = "<group>"; };
 		AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		AA57A8A6270750340005A3B6 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AA57A8AA270752D60005A3B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
-		AA6D01CF26F7912100C6DC64 /* CurriculimVitaeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurriculimVitaeApp.swift; sourceTree = "<group>"; };
+		AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurriculumVitaeApp.swift; sourceTree = "<group>"; };
 		AAA9774326F61A0F009B60D7 /* CurriculumVitae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurriculumVitae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAA9774826F61A0F009B60D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AAA9774A26F61A18009B60D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAA9774D26F61A18009B60D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AAA9774F26F61A18009B60D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAA9775426F61A18009B60D7 /* CurriculumVitaeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurriculumVitaeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAA9775826F61A18009B60D7 /* CurriculimVitaeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurriculimVitaeTests.swift; sourceTree = "<group>"; };
+		AAA9775826F61A18009B60D7 /* CurriculumVitaeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurriculumVitaeTests.swift; sourceTree = "<group>"; };
 		AAA9775A26F61A18009B60D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAA9775F26F61A18009B60D7 /* CurriculumVitaeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurriculumVitaeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAA9776326F61A18009B60D7 /* CurriculimVitaeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurriculimVitaeUITests.swift; sourceTree = "<group>"; };
+		AAA9776326F61A18009B60D7 /* CurriculumVitaeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurriculumVitaeUITests.swift; sourceTree = "<group>"; };
 		AAA9776526F61A18009B60D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAA977E226F62F43009B60D7 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		AAA977F026F640EC009B60D7 /* ProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePage.swift; sourceTree = "<group>"; };
@@ -99,9 +102,9 @@
 		AAA9773A26F61A0F009B60D7 = {
 			isa = PBXGroup;
 			children = (
-				AAA9774526F61A0F009B60D7 /* CurriculimVitae */,
-				AAA9775726F61A18009B60D7 /* CurriculimVitaeTests */,
-				AAA9776226F61A18009B60D7 /* CurriculimVitaeUITests */,
+				AAA9774526F61A0F009B60D7 /* CurriculumVitae */,
+				AAA9775726F61A18009B60D7 /* CurriculumVitaeTests */,
+				AAA9776226F61A18009B60D7 /* CurriculumVitaeUITests */,
 				AAA9774426F61A0F009B60D7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,11 +120,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AAA9774526F61A0F009B60D7 /* CurriculimVitae */ = {
+		AAA9774526F61A0F009B60D7 /* CurriculumVitae */ = {
 			isa = PBXGroup;
 			children = (
 				AA5E5C8C26F7AC4800F9F2B2 /* Infra */,
-				AA6D01CF26F7912100C6DC64 /* CurriculimVitaeApp.swift */,
+				AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */,
 				AAA9774826F61A0F009B60D7 /* ContentView.swift */,
 				AAA9780826F64880009B60D7 /* InfoPage.swift */,
 				AAA977F526F64116009B60D7 /* Profile */,
@@ -131,8 +134,9 @@
 				AAA9774F26F61A18009B60D7 /* Info.plist */,
 				AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */,
 				AAA9774C26F61A18009B60D7 /* Preview Content */,
+				AA57A8A7270750340005A3B6 /* Localizable.strings */,
 			);
-			path = CurriculimVitae;
+			path = CurriculumVitae;
 			sourceTree = "<group>";
 		};
 		AAA9774C26F61A18009B60D7 /* Preview Content */ = {
@@ -143,22 +147,22 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		AAA9775726F61A18009B60D7 /* CurriculimVitaeTests */ = {
+		AAA9775726F61A18009B60D7 /* CurriculumVitaeTests */ = {
 			isa = PBXGroup;
 			children = (
-				AAA9775826F61A18009B60D7 /* CurriculimVitaeTests.swift */,
+				AAA9775826F61A18009B60D7 /* CurriculumVitaeTests.swift */,
 				AAA9775A26F61A18009B60D7 /* Info.plist */,
 			);
-			path = CurriculimVitaeTests;
+			path = CurriculumVitaeTests;
 			sourceTree = "<group>";
 		};
-		AAA9776226F61A18009B60D7 /* CurriculimVitaeUITests */ = {
+		AAA9776226F61A18009B60D7 /* CurriculumVitaeUITests */ = {
 			isa = PBXGroup;
 			children = (
-				AAA9776326F61A18009B60D7 /* CurriculimVitaeUITests.swift */,
+				AAA9776326F61A18009B60D7 /* CurriculumVitaeUITests.swift */,
 				AAA9776526F61A18009B60D7 /* Info.plist */,
 			);
-			path = CurriculimVitaeUITests;
+			path = CurriculumVitaeUITests;
 			sourceTree = "<group>";
 		};
 		AAA977F526F64116009B60D7 /* Profile */ = {
@@ -267,11 +271,12 @@
 				};
 			};
 			buildConfigurationList = AAA9773E26F61A0F009B60D7 /* Build configuration list for PBXProject "CurriculumVitae" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
 				Base,
 			);
 			mainGroup = AAA9773A26F61A0F009B60D7;
@@ -292,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA518F3D26F7373600A13DC3 /* Launch Screen.storyboard in Resources */,
+				AA57A8A5270750340005A3B6 /* Localizable.strings in Resources */,
 				AAA9774E26F61A18009B60D7 /* Preview Assets.xcassets in Resources */,
 				AAA9774B26F61A18009B60D7 /* Assets.xcassets in Resources */,
 			);
@@ -339,7 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAA977E326F62F43009B60D7 /* ProfileViewModel.swift in Sources */,
-				AA6D01D026F7912100C6DC64 /* CurriculimVitaeApp.swift in Sources */,
+				AA6D01D026F7912100C6DC64 /* CurriculumVitaeApp.swift in Sources */,
 				AAA9774926F61A0F009B60D7 /* ContentView.swift in Sources */,
 				AAA977F826F64178009B60D7 /* EmploymentPage.swift in Sources */,
 				AA5E5C8E26F7AC6100F9F2B2 /* AsyncImage.swift in Sources */,
@@ -354,7 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAA9775926F61A18009B60D7 /* CurriculimVitaeTests.swift in Sources */,
+				AAA9775926F61A18009B60D7 /* CurriculumVitaeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAA9776426F61A18009B60D7 /* CurriculimVitaeUITests.swift in Sources */,
+				AAA9776426F61A18009B60D7 /* CurriculumVitaeUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +386,18 @@
 			targetProxy = AAA9776026F61A18009B60D7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AA57A8A7270750340005A3B6 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA57A8A6270750340005A3B6 /* de */,
+				AA57A8AA270752D60005A3B6 /* Base */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		AAA9776626F61A18009B60D7 /* Debug */ = {
@@ -505,11 +523,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CurriculimVitae/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CurriculumVitae/Preview Content\"";
 				DEVELOPMENT_TEAM = WSQ8Z2WVZQ;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../common/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
-				INFOPLIST_FILE = CurriculimVitae/Info.plist;
+				INFOPLIST_FILE = CurriculumVitae/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -521,7 +539,7 @@
 					"-framework",
 					common,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculimVitae;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculumVitae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -535,11 +553,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CurriculimVitae/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CurriculumVitae/Preview Content\"";
 				DEVELOPMENT_TEAM = WSQ8Z2WVZQ;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../common/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
-				INFOPLIST_FILE = CurriculimVitae/Info.plist;
+				INFOPLIST_FILE = CurriculumVitae/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -551,7 +569,7 @@
 					"-framework",
 					common,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculimVitae;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculumVitae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

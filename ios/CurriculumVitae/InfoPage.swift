@@ -35,7 +35,7 @@ struct InfoPage: View {
                 }
             }).padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
             Button("Open Source Licenses", action: {}).padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
-            Button("Project in Github", action: {
+            Button("Project on Github", action: {
                 if let url = URL(string: "https://github.com/chrimaeon/curriculumvitae") {
                     UIApplication.shared.open(url)
                 }

@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-import SwiftUI
-import common
-
-@main
-struct CurriculimVitaeApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView(koin: AppModuleKt.doInitKoin().koin)
-        }
-    }
-}
+"Profile" = "Profil";
+"Employment" = "Arbeit";
+"Skills" = "Kompetenzen";
+"Info" = "Info";
+"Open Source Licenses" = "Open Source Lizenzen";
+"Project on Github" = "Projekt auf Github";
+"You are hired!" = "Sie sind eingestellt!";

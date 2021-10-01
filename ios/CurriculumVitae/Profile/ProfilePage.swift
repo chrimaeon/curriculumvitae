@@ -14,6 +14,7 @@
 
 import SwiftUI
 import common
+import MessageUI
 
 struct ProfilePage: View {
     
@@ -54,7 +55,9 @@ private struct ProfileView: View {
             Text("\(profile.address.postalCode) \(profile.address.city)")
                 .font(.title3)
             Button(profile.email){
-                if let url =  URL(string: "mailto:\(profile.email)") {
+                let subject = NSLocalizedString("You are hired!", comment: "Email subject")
+                let mailTo = "mailto:\(profile.email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
+                if let url =  URL(string: mailTo) {
                     UIApplication.shared.open(url)
                 }
             }
@@ -87,3 +90,4 @@ struct ProfileView_Previews: PreviewProvider {
                         intro: ["Line1", "Line 2"]))
     }
 }
+
