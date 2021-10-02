@@ -51,7 +51,9 @@ appengine {
                     load(it)
                 }
             }
-            setCloudSdkHome(localProperties["gcloud.sdk.dir"])
+            if (localProperties.containsKey("gcloud.sdk.dir")) {
+                setCloudSdkHome(localProperties["gcloud.sdk.dir"])
+            }
         }
     }
 

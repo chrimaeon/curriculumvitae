@@ -6,9 +6,13 @@
 
 This is a [Kotlin Multiplatform] project.
 
-## Android App
+## Android
 
 An Android App showcasing Jetpack Compose
+
+## iOS
+
+A iOS App showcasing integration of Kotlin to Swift and SwiftUI
 
 ## Desktop
 

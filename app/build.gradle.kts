@@ -69,11 +69,13 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
-    val releaseSigningConfig = if (!isCi()) {
+    val keystoreDir = projectDir.resolve("keystore")
+    val keystorePropsFile = keystoreDir.resolve("curriculumvitae.keystore.properties")
+
+    val releaseSigningConfig = if (keystorePropsFile.exists()) {
         signingConfigs.register("release") {
-            val keystoreDir = projectDir.resolve("keystore")
             val keyProps = Properties().apply {
-                keystoreDir.resolve("curriculumvitae.keystore.properties").inputStream().use {
+                keystorePropsFile.inputStream().use {
                     load(it)
                 }
             }
@@ -83,6 +85,11 @@ android {
             keyPassword = keyProps.getProperty("pass")
         }
     } else null
+
+    @OptIn(ExperimentalPathApi::class)
+    val debugSigningConfig = signingConfigs.named("debug") {
+        storeFile(projectDir.resolve("keystore").resolve("debug.keystore"))
+    }
 
     buildTypes {
         debug {
@@ -101,7 +108,7 @@ android {
         }
 
         release {
-            signingConfig = releaseSigningConfig?.get()
+            signingConfig = releaseSigningConfig?.get() ?: debugSigningConfig.get()
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
