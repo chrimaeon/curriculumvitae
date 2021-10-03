@@ -17,12 +17,12 @@ import Combine
 
 struct AsyncImage: View {
     @ObservedObject var imageLoader: ImageLoader
-    @State var image:UIImage = UIImage()
-    
+    @State var image: UIImage = UIImage()
+
     init(withURL url: String) {
         imageLoader = ImageLoader(urlString: url)
     }
-    
+
     var body: some View {
         Image(uiImage: image)
             .resizable()
@@ -40,10 +40,10 @@ class ImageLoader: ObservableObject {
             didChange.send(data)
         }
     }
-    
-    init(urlString:String) {
+
+    init(urlString: String) {
         guard let url = URL(string: urlString) else { return }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
             guard let data = data else { return }
             DispatchQueue.main.async {
                 self.data = data

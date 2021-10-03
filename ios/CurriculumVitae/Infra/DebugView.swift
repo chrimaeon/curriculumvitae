@@ -20,9 +20,9 @@ struct DebugView: View {
 
     init() {
         if let selectedBaseUrl = UserDefaults.standard.object(forKey: "BaseUrl") {
+            // swiftlint:disable:next force_cast
             selectedUrl = selectedBaseUrl as! String
         } else {
-
             selectedUrl = BuildConfigKt.BaseUrl
         }
     }
@@ -34,12 +34,12 @@ struct DebugView: View {
                     Button(action: {
                         UserDefaults.standard.set(url, forKey: "BaseUrl")
                         selectedUrl = url
-                    }) {
-                        HStack{
+                    }, label: {
+                        HStack {
                             Image(systemName: selectedUrl == url ? "checkmark.circle" : "circle")
                             Text(url)
                         }
-                    }
+                    })
                 }
             }
         }

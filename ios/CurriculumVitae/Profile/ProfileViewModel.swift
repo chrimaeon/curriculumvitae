@@ -16,14 +16,14 @@ import Foundation
 import common
 
 class ProfileViewModel: ObservableObject {
-    @Published var profile: Profile? = nil
-    
+    @Published var profile: Profile?
+
     private var repository: ProfileRepository
-    
+
     init(repository: ProfileRepository) {
         self.repository = repository
     }
-    
+
     func loadProfile() {
         repository.getProfile { (profile, optionalError) in
             self.profile = profile

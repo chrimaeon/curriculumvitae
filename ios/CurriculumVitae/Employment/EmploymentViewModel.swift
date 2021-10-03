@@ -15,16 +15,16 @@
 import Foundation
 import common
 
-class EmployemntViewModel: ObservableObject {
+class EmploymentViewModel: ObservableObject {
     @Published var employments = [Employment]()
-    
+
     private var repository: EmploymentRepository
-    
+
     init(repository: EmploymentRepository) {
         self.repository = repository
     }
-    
-    func startObservingEmployemnts() {
+
+    func startObservingEmployments() {
         do {
             try repository.getEmployments(success: { employments in
                 self.employments = employments
@@ -33,11 +33,11 @@ class EmployemntViewModel: ObservableObject {
             NSLog(error.localizedDescription)
         }
     }
-    
-    func cancelObservinceEmployemnts() {
+
+    func cancelObservinceEmployments() {
         repository.cancelEmploymentsUpdate()
     }
-    
+
     func refresh() {
         repository.refresh()
     }

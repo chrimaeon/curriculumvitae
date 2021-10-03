@@ -18,19 +18,24 @@ import UIKit
 
 struct InfoPage: View {
     var version: String = "Version "
+        // swiftlint:disable:next force_cast
         + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)
         + " ("
+        // swiftlint:disable:next force_cast
         + (Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String)
         + ")"
-     
+
     var body: some View {
         VStack(alignment: .leading, spacing: nil) {
             Text("Curriculum Vitae").font(.title)
             Text(version).font(.subheadline)
-        
+
             Text(CopyrightKt.CopyRightText).padding(EdgeInsets(top: 20, leading: 0, bottom: 8, trailing: 0))
             Button("m.cmgapps.com", action: {
-                if let url = URL(string: "https://m.cmgapps.com/?utm_source=curriculum_vitae_ios&amp;utm_medium=info_dialog&amp;utm_campaign=cv_app") {
+                if let url = URL(
+                    string: "https://m.cmgapps.com/" +
+                    "?utm_source=curriculum_vitae_ios&amp;utm_medium=info_dialog&amp;utm_campaign=cv_app"
+                ) {
                     UIApplication.shared.open(url)
                 }
             }).padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))

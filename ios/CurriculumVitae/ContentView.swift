@@ -18,37 +18,42 @@ import SwiftUI
 import common
 
 private enum SelectedTab {
-    case Profile
-    case Employment
-    case Skills
-    case Info
+    case profile
+    case employment
+    case skills
+    case info
 }
 
 struct ContentView: View {
-    @State private var selection: SelectedTab = .Profile
-    
+    @State private var selection: SelectedTab = .profile
+
     var body: some View {
         TabView(selection: $selection) {
-            ProfilePage(viewModel: ProfileViewModel(repository: CurriculumVitaeApp.koin.getProfileRepository()))
-                .tabItem {
-                    Label("Profile", systemImage:  selectableImage(imageName: "person.circle", selected: selection == .Profile))
-                }
-                .tag(SelectedTab.Profile)
-            EmploymentPage(viewModel: EmployemntViewModel(repository: CurriculumVitaeApp.koin.getEmploymentRepository()))
-                .tabItem {
-                    Label("Employment", systemImage: selectableImage(imageName: "briefcase.circle", selected: selection == .Employment))
-                }
-                .tag(SelectedTab.Employment)
+            ProfilePage(
+                viewModel: ProfileViewModel(repository: CurriculumVitaeApp.koin.getProfileRepository())
+            ).tabItem {
+                Label("Profile",
+                      systemImage: selectableImage(imageName: "person.circle", selected: selection == .profile))
+            }
+            .tag(SelectedTab.profile)
+            EmploymentPage(
+                viewModel: EmploymentViewModel(repository: CurriculumVitaeApp.koin.getEmploymentRepository())
+            ).tabItem {
+                Label("Employment",
+                      systemImage: selectableImage(imageName: "briefcase.circle", selected: selection == .employment))
+            }
+            .tag(SelectedTab.employment)
             SkillsPage()
                 .tabItem {
-                    Label("Skills", systemImage: selectableImage(imageName: "hammer.circle", selected: selection == .Skills))
+                    Label("Skills",
+                          systemImage: selectableImage(imageName: "hammer.circle", selected: selection == .skills))
                 }
-                .tag(SelectedTab.Skills)
+                .tag(SelectedTab.skills)
             InfoPage()
                 .tabItem {
-                    Label("Info", systemImage: selectableImage(imageName: "info.circle", selected: selection == .Info))
+                    Label("Info", systemImage: selectableImage(imageName: "info.circle", selected: selection == .info))
                 }
-                .tag(SelectedTab.Info)
+                .tag(SelectedTab.info)
         }
     }
 }

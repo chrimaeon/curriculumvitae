@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 FILES=$(git diff --cached --name-only | grep -i -E "\.kts?" || true)
 
@@ -7,4 +8,13 @@ then
     ktlint $FILES
 else
     echo "No file for ktlint"
+fi
+
+FILES=$(git diff --cached --name-only | grep -i -E "\.swift" || true)
+
+if [ -n "$FILES" ]
+then
+    swiftlint lint --strict $FILES
+else
+    echo "No file for swiftlint"
 fi

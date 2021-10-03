@@ -205,6 +205,7 @@
 			buildConfigurationList = AAA9776826F61A18009B60D7 /* Build configuration list for PBXNativeTarget "CurriculumVitae" */;
 			buildPhases = (
 				AAA9777726F61A6A009B60D7 /* Run Gradle Script */,
+				AA57A8B22709E9E10005A3B6 /* Run swiftlint */,
 				AAA9773F26F61A0F009B60D7 /* Sources */,
 				AAA9774026F61A0F009B60D7 /* Frameworks */,
 				AAA9774126F61A0F009B60D7 /* Resources */,
@@ -326,6 +327,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		AA57A8B22709E9E10005A3B6 /* Run swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		AAA9777726F61A6A009B60D7 /* Run Gradle Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

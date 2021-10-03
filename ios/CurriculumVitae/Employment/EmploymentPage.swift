@@ -17,46 +17,46 @@ import common
 
 struct EmploymentPage: View {
 
-    @StateObject var viewModel: EmployemntViewModel
+    @StateObject var viewModel: EmploymentViewModel
 
     var body: some View {
         VStack {
-            if (viewModel.employments.isEmpty) {
+            if viewModel.employments.isEmpty {
                 Spacer()
                 ProgressView()
                 Spacer()
             } else {
-                EmployemntList(employments: viewModel.employments)
+                EmploymentList(employments: viewModel.employments)
             }
         }.onAppear(perform: {
-            viewModel.startObservingEmployemnts()
+            viewModel.startObservingEmployments()
         }).onDisappear(perform: {
-            viewModel.cancelObservinceEmployemnts()
+            viewModel.cancelObservinceEmployments()
         })
-        
+
     }
 }
 
-private struct EmployemntList: View {
+private struct EmploymentList: View {
     @State var employments: [Employment]
-    
+
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 10) {
-                ForEach(employments, id: \.id) { employemnt in
+                ForEach(employments, id: \.id) { employment in
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 4)
                         HStack(spacing: 10) {
-                            Image(systemName:"building.2.fill")
+                            Image(systemName: "building.2.fill")
                                 .resizable()
                                 .frame(width: 35, height: 35)
                                 .foregroundColor(Color.white)
                                 .padding()
                                 .background(Circle().fill(Color.accentColor))
                             VStack(alignment: .leading) {
-                                Text(employemnt.employer).font(.title2).fontWeight(.bold)
-                                Text(employemnt.workPeriod.asHumanReadableString())
-                                Text(employemnt.jobTitle).font(.title3).padding(.top, 1.0)
+                                Text(employment.employer).font(.title2).fontWeight(.bold)
+                                Text(employment.workPeriod.asHumanReadableString())
+                                Text(employment.jobTitle).font(.title3).padding(.top, 1.0)
                             }
                         }.padding()
                     }.padding()

@@ -17,9 +17,9 @@ import common
 import MessageUI
 
 struct ProfilePage: View {
-    
+
     @StateObject var viewModel: ProfileViewModel
-    
+
     var body: some View {
         VStack {
             if let profile = viewModel.profile {
@@ -38,9 +38,9 @@ struct ProfilePage: View {
 }
 
 private struct ProfileView: View {
-    
+
     let profile: Profile
-    
+
     var body: some View {
         VStack {
             AsyncImage(withURL: profile.profileImageUrl)
@@ -54,15 +54,16 @@ private struct ProfileView: View {
                 .font(.title3)
             Text("\(profile.address.postalCode) \(profile.address.city)")
                 .font(.title3)
-            Button(profile.email){
+            Button(profile.email) {
                 let subject = NSLocalizedString("You are hired!", comment: "Email subject")
-                let mailTo = "mailto:\(profile.email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
+                let mailTo = "mailto:\(profile.email)?subject=" +
+                    subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
                 if let url =  URL(string: mailTo) {
                     UIApplication.shared.open(url)
                 }
             }
             .font(.title3)
-            Button(profile.phone){
+            Button(profile.phone) {
                 if let url =  URL(string: "tel:\(profile.phone)") {
                     UIApplication.shared.open(url)
                 }
@@ -90,4 +91,3 @@ struct ProfileView_Previews: PreviewProvider {
                         intro: ["Line1", "Line 2"]))
     }
 }
-
