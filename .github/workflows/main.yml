@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
+  checkAndroid:
     runs-on: ubuntu-latest
 
     env:
@@ -16,11 +16,6 @@ jobs:
     steps:
       # region Setup
       - uses: actions/checkout@v2
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11.0.10
 
       - name: Generate cache key
         run: ./scripts/checksum.sh checksum.txt
@@ -115,3 +110,25 @@ jobs:
             web/build/reports/*
             web/build/test-results/*
       # endregion
+
+  checkiOS:
+    runs-on: macos-11
+
+    env:
+      CV_BASE_URL: https://www.host.undefined
+      CV_EMAIL: me@home.at
+      CV_DEBUG_BASE_URLS: https://www.host.undefined
+
+    steps:
+      # region Setup
+      - uses: actions/checkout@v2
+      - name: Run swiftlint
+        run: |
+          cd ios
+          swiftlint lint
+#      not working without provisioning profile -> get Apple developer account first
+#      - name: Build iOS Project
+#        run: |
+#          xcodebuild -project ios/CurriculumVitae.xcodeproj \
+#          -scheme CurriculumVitae \
+#          -configuration Debug
