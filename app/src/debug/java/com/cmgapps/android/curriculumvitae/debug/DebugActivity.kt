@@ -25,9 +25,10 @@ import androidx.core.app.NavUtils
 import androidx.core.app.TaskStackBuilder
 import androidx.preference.DropDownPreference
 import androidx.preference.PreferenceFragmentCompat
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.databinding.ActivityDebugBinding
+import com.cmgapps.common.curriculumvitae.BaseUrl
+import com.cmgapps.common.curriculumvitae.DebugBaseUrls
 import com.jakewharton.processphoenix.ProcessPhoenix
 
 class DebugActivity : AppCompatActivity() {
@@ -74,9 +75,9 @@ class DebugSettingFragment : PreferenceFragmentCompat() {
 
         preferenceManager.findPreference<DropDownPreference>(DebugActivity.BASE_URL_KEY)
             ?.apply {
-                setDefaultValue(BuildConfig.BASE_URL)
-                entries = BuildConfig.DEBUG_BASE_URLS
-                entryValues = BuildConfig.DEBUG_BASE_URLS
+                setDefaultValue(BaseUrl)
+                entries = DebugBaseUrls.toTypedArray()
+                entryValues = DebugBaseUrls.toTypedArray()
             }
     }
 }

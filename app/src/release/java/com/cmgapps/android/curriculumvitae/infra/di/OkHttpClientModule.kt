@@ -16,7 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
-import com.cmgapps.android.curriculumvitae.BuildConfig
+import com.cmgapps.common.curriculumvitae.BaseUrl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,5 +35,5 @@ object OkHttpClientModule {
     @Provides
     @BaseUrl
     @Singleton
-    fun provideBaseUrl() = BuildConfig.BASE_URL
+    fun provideBaseUrl() = BaseUrl
 }

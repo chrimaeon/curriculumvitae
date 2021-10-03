@@ -33,6 +33,6 @@ tasks {
 }
 
 dependencies {
-    implementation("com.squareup:kotlinpoet:1.9.0")
+    implementation("com.squareup:kotlinpoet:1.10.1")
     testImplementation("junit:junit:4.13.2")
 }

@@ -162,7 +162,8 @@ android {
 
     sourceSets {
         named("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            @OptIn(ExperimentalPathApi::class)
+            manifest.srcFile(projectDir.toPath() / "src" / "androidMain" / "AndroidManifest.xml")
         }
     }
 }

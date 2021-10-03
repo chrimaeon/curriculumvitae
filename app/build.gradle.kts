@@ -51,12 +51,7 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
-
-        val baseUrl by configProperties()
-
         resourceConfigurations.addAll(listOf("en", "de"))
-
-        buildConfigField("String", "BASE_URL", """"$baseUrl"""")
     }
 
     buildFeatures {
@@ -88,7 +83,7 @@ android {
 
     @OptIn(ExperimentalPathApi::class)
     val debugSigningConfig = signingConfigs.named("debug") {
-        storeFile(projectDir.resolve("keystore").resolve("debug.keystore"))
+        storeFile = keystoreDir.resolve("debug.keystore")
     }
 
     buildTypes {

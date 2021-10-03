@@ -19,8 +19,8 @@ package com.cmgapps.android.curriculumvitae.infra.di
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.preference.PreferenceManager
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.debug.DebugActivity.Companion.BASE_URL_KEY
+import com.cmgapps.common.curriculumvitae.BaseUrl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -88,6 +88,6 @@ object OkHttpClientModule {
     @Singleton
     fun provideBaseUrl(@ApplicationContext context: Context): String {
         return PreferenceManager.getDefaultSharedPreferences(context)
-            .getString(BASE_URL_KEY, BuildConfig.BASE_URL)!!
+            .getString(BASE_URL_KEY, BaseUrl)!!
     }
 }

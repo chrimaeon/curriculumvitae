@@ -101,7 +101,6 @@ tasks {
     }
 }
 
-@Suppress("UnstableApiUsage")
 dependencies {
     implementation(projects.common)
     implementation(kotlin("stdlib-jdk8", libs.versions.kotlin.get()))
