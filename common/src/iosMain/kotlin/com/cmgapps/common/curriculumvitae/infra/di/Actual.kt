@@ -21,8 +21,13 @@ import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import io.ktor.http.Url
 import org.koin.dsl.module
+import platform.Foundation.NSUserDefaults
 
-actual fun provideBaseUrl() = Url(BaseUrl)
+actual fun provideBaseUrl(): Url {
+    val url = NSUserDefaults.standardUserDefaults.objectForKey("BaseUrl") as? String ?: BaseUrl
+    return Url(url)
+}
+
 actual fun platformModule() = module {
     single {
         DatabaseWrapper {

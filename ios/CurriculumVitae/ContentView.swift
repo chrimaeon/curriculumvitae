@@ -25,25 +25,23 @@ private enum SelectedTab {
 }
 
 struct ContentView: View {
-    var koin: Koin_coreKoin
     @State private var selection: SelectedTab = .Profile
     
     var body: some View {
         TabView(selection: $selection) {
-            ProfilePage(viewModel: ProfileViewModel(repository: koin.getProfileRepository()))
+            ProfilePage(viewModel: ProfileViewModel(repository: CurriculumVitaeApp.koin.getProfileRepository()))
                 .tabItem {
                     Label("Profile", systemImage:  selectableImage(imageName: "person.circle", selected: selection == .Profile))
                 }
                 .tag(SelectedTab.Profile)
-            EmploymentPage(viewModel: EmployemntViewModel(repository: koin.getEmploymentRepository()))
+            EmploymentPage(viewModel: EmployemntViewModel(repository: CurriculumVitaeApp.koin.getEmploymentRepository()))
                 .tabItem {
-                    Label("Employment", systemImage: selectableImage(imageName: "bag", selected: selection == .Employment))
+                    Label("Employment", systemImage: selectableImage(imageName: "briefcase.circle", selected: selection == .Employment))
                 }
                 .tag(SelectedTab.Employment)
             SkillsPage()
                 .tabItem {
-                    Label("Skills", systemImage: selectableImage(imageName: "wrench.and.screwdriver", selected: selection == .Skills))
-                    
+                    Label("Skills", systemImage: selectableImage(imageName: "hammer.circle", selected: selection == .Skills))
                 }
                 .tag(SelectedTab.Skills)
             InfoPage()

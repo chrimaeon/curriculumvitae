@@ -25,9 +25,13 @@ class EmployemntViewModel: ObservableObject {
     }
     
     func startObservingEmployemnts() {
-        repository.getEmployments(success: { employments in
-            self.employments = employments
-        })
+        do {
+            try repository.getEmployments(success: { employments in
+                self.employments = employments
+            })
+        } catch {
+            NSLog(error.localizedDescription)
+        }
     }
     
     func cancelObservinceEmployemnts() {

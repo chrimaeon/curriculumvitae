@@ -19,7 +19,10 @@ package com.cmgapps.common.curriculumvitae.repository
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
+import io.ktor.utils.io.errors.IOException
+import kotlin.coroutines.cancellation.CancellationException
 
 class ProfileRepository(private val api: CvApiService) {
+    @Throws(IOException::class, CancellationException::class)
     suspend fun getProfile(): Profile = api.getProfile().asDomainModel()
 }

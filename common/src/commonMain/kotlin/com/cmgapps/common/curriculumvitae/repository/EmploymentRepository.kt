@@ -23,6 +23,7 @@ import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -46,36 +47,30 @@ class EmploymentRepository(
         }
     }
 
+    @Throws(IOException::class)
+    @Suppress("unused") // Used by native
     fun getEmployments(success: (List<Employment>) -> Unit) {
         employmentsJob = launch {
             getEmployments().collect { success(it) }
         }
     }
 
+    @Suppress("unused") // Used by native
     fun cancelEmploymentsUpdate() {
         employmentsJob?.cancel()
     }
 
     init {
-        try {
-            launch {
-                val employments = api.getEmployments()
-                databaseWrapper { db ->
-                    db.employmentQueries.let { employmentDao ->
-                        employmentDao.transaction {
-                            employments.forEach { employmentDao.insertEmployment(it.asDatabaseModel()) }
-                        }
-                    }
-                }
-            }
-        } catch (exc: Exception) {
-            exc.printStackTrace()
-        }
+        loadEmployments()
     }
 
     fun refresh() {
-        try {
-            launch {
+        loadEmployments()
+    }
+
+    private fun loadEmployments() {
+        launch {
+            try {
                 val employments = api.getEmployments()
                 databaseWrapper { db ->
                     db.employmentQueries.let { employmentDao ->
@@ -84,9 +79,9 @@ class EmploymentRepository(
                         }
                     }
                 }
+            } catch (exc: Exception) {
+                exc.printStackTrace()
             }
-        } catch (exc: Exception) {
-            exc.printStackTrace()
         }
     }
 }

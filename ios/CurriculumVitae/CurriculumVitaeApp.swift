@@ -19,15 +19,66 @@ import common
 
 @main
 struct CurriculumVitaeApp: App {
-    private var koin: Koin_coreKoinApplication
+#if DEBUG
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) private var scenePhase: ScenePhase
+    @StateObject private var quickAction = QuickAction()
+#endif
 
-    init() {
-        koin = AppModuleKt.doInitKoin()
-    }
+    static let koin: Koin_coreKoin = AppModuleKt.doInitKoin().koin
 
     var body: some Scene {
         WindowGroup {
-            ContentView(koin: koin.koin)
+#if DEBUG
+            if let action = quickAction.action {
+                switch action {
+                case .debug:
+                    DebugView()
+                }
+            } else {
+                ContentView()
+            }
+#else
+            ContentView()
+#endif
         }
+#if DEBUG
+        .onChange(of: scenePhase) { scenePhase in
+            switch scenePhase {
+            case .background:
+                quickAction.action = nil
+                UIApplication.shared.shortcutItems = [
+                    UIApplicationShortcutItem(
+                        type: QuickActionType.debug.rawValue,
+                        localizedTitle: "Debug",
+                        localizedSubtitle: nil,
+                        icon: UIApplicationShortcutIcon(systemImageName: "ladybug"),
+                        userInfo: nil
+                    )
+                ]
+            case .active:
+                if let shortcutItem = appDelegate.shortcutItem {
+                    quickAction.action = QuickActionType(rawValue: shortcutItem.type)
+                } else {
+                    quickAction.action = nil
+                }
+            default: return
+            }
+        }
+#endif
     }
 }
+
+#if DEBUG
+enum QuickActionType: String {
+    case debug
+}
+
+final class QuickAction: ObservableObject {
+    @Published var action: QuickActionType?
+
+    init(initialValue: QuickActionType? = nil) {
+        action = initialValue
+    }
+}
+#endif

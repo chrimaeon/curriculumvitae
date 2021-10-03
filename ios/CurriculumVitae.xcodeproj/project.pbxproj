@@ -10,6 +10,8 @@
 		AA3321502700C42F004EC344 /* EmploymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA33214F2700C42F004EC344 /* EmploymentViewModel.swift */; };
 		AA518F3D26F7373600A13DC3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */; };
 		AA57A8A5270750340005A3B6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA57A8A7270750340005A3B6 /* Localizable.strings */; };
+		AA57A8AF270888140005A3B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57A8AE270888140005A3B6 /* AppDelegate.swift */; };
+		AA57A8B1270892C90005A3B6 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57A8B0270892C90005A3B6 /* DebugView.swift */; };
 		AA5E5C8E26F7AC6100F9F2B2 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */; };
 		AA6D01D026F7912100C6DC64 /* CurriculumVitaeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */; };
 		AAA9774926F61A0F009B60D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9774826F61A0F009B60D7 /* ContentView.swift */; };
@@ -46,6 +48,8 @@
 		AA518F3C26F7373600A13DC3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		AA57A8A6270750340005A3B6 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AA57A8AA270752D60005A3B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AA57A8AE270888140005A3B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AA57A8B0270892C90005A3B6 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurriculumVitaeApp.swift; sourceTree = "<group>"; };
 		AAA9774326F61A0F009B60D7 /* CurriculumVitae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurriculumVitae.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */,
+				AA57A8B0270892C90005A3B6 /* DebugView.swift */,
 			);
 			path = Infra;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				AA5E5C8C26F7AC4800F9F2B2 /* Infra */,
+				AA57A8AE270888140005A3B6 /* AppDelegate.swift */,
 				AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */,
 				AAA9774826F61A0F009B60D7 /* ContentView.swift */,
 				AAA9780826F64880009B60D7 /* InfoPage.swift */,
@@ -198,7 +204,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAA9776826F61A18009B60D7 /* Build configuration list for PBXNativeTarget "CurriculumVitae" */;
 			buildPhases = (
-				AAA9777726F61A6A009B60D7 /* ShellScript */,
+				AAA9777726F61A6A009B60D7 /* Run Gradle Script */,
 				AAA9773F26F61A0F009B60D7 /* Sources */,
 				AAA9774026F61A0F009B60D7 /* Frameworks */,
 				AAA9774126F61A0F009B60D7 /* Resources */,
@@ -320,7 +326,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		AAA9777726F61A6A009B60D7 /* ShellScript */ = {
+		AAA9777726F61A6A009B60D7 /* Run Gradle Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -329,6 +335,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Gradle Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -352,7 +359,9 @@
 				AAA9780926F64880009B60D7 /* InfoPage.swift in Sources */,
 				AAA9780126F64203009B60D7 /* SkillsPage.swift in Sources */,
 				AA3321502700C42F004EC344 /* EmploymentViewModel.swift in Sources */,
+				AA57A8AF270888140005A3B6 /* AppDelegate.swift in Sources */,
 				AAA977F126F640EC009B60D7 /* ProfilePage.swift in Sources */,
+				AA57A8B1270892C90005A3B6 /* DebugView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
