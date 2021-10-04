@@ -14,6 +14,8 @@
 		AA57A8B1270892C90005A3B6 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA57A8B0270892C90005A3B6 /* DebugView.swift */; };
 		AA5E5C8E26F7AC6100F9F2B2 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */; };
 		AA6D01D026F7912100C6DC64 /* CurriculumVitaeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */; };
+		AAA74081270B191700EE5B1D /* EmploymentDetailsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA74080270B191700EE5B1D /* EmploymentDetailsPage.swift */; };
+		AAA74083270B273800EE5B1D /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA74082270B273800EE5B1D /* ErrorView.swift */; };
 		AAA9774926F61A0F009B60D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA9774826F61A0F009B60D7 /* ContentView.swift */; };
 		AAA9774B26F61A18009B60D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAA9774A26F61A18009B60D7 /* Assets.xcassets */; };
 		AAA9774E26F61A18009B60D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAA9774D26F61A18009B60D7 /* Preview Assets.xcassets */; };
@@ -32,14 +34,14 @@
 			containerPortal = AAA9773B26F61A0F009B60D7 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = AAA9774226F61A0F009B60D7;
-			remoteInfo = CurriculimVitae;
+			remoteInfo = CurriculumVitae;
 		};
 		AAA9776026F61A18009B60D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAA9773B26F61A0F009B60D7 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = AAA9774226F61A0F009B60D7;
-			remoteInfo = CurriculimVitae;
+			remoteInfo = CurriculumVitae;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -52,6 +54,8 @@
 		AA57A8B0270892C90005A3B6 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		AA6D01CF26F7912100C6DC64 /* CurriculumVitaeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurriculumVitaeApp.swift; sourceTree = "<group>"; };
+		AAA74080270B191700EE5B1D /* EmploymentDetailsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmploymentDetailsPage.swift; sourceTree = "<group>"; };
+		AAA74082270B273800EE5B1D /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		AAA9774326F61A0F009B60D7 /* CurriculumVitae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurriculumVitae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAA9774826F61A0F009B60D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AAA9774A26F61A18009B60D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,8 +104,17 @@
 			children = (
 				AA5E5C8D26F7AC6100F9F2B2 /* AsyncImage.swift */,
 				AA57A8B0270892C90005A3B6 /* DebugView.swift */,
+				AAA74082270B273800EE5B1D /* ErrorView.swift */,
 			);
 			path = Infra;
+			sourceTree = "<group>";
+		};
+		AAA7407F270B18F300EE5B1D /* EmploymentDetails */ = {
+			isa = PBXGroup;
+			children = (
+				AAA74080270B191700EE5B1D /* EmploymentDetailsPage.swift */,
+			);
+			path = EmploymentDetails;
 			sourceTree = "<group>";
 		};
 		AAA9773A26F61A0F009B60D7 = {
@@ -183,6 +196,7 @@
 		AAA977F626F6415E009B60D7 /* Employment */ = {
 			isa = PBXGroup;
 			children = (
+				AAA7407F270B18F300EE5B1D /* EmploymentDetails */,
 				AAA977F726F64178009B60D7 /* EmploymentPage.swift */,
 				AA33214F2700C42F004EC344 /* EmploymentViewModel.swift */,
 			);
@@ -215,7 +229,7 @@
 			dependencies = (
 			);
 			name = CurriculumVitae;
-			productName = CurriculimVitae;
+			productName = CurriculumVitae;
 			productReference = AAA9774326F61A0F009B60D7 /* CurriculumVitae.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -233,7 +247,7 @@
 				AAA9775626F61A18009B60D7 /* PBXTargetDependency */,
 			);
 			name = CurriculumVitaeTests;
-			productName = CurriculimVitaeTests;
+			productName = CurriculumVitaeTests;
 			productReference = AAA9775426F61A18009B60D7 /* CurriculumVitaeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -251,7 +265,7 @@
 				AAA9776126F61A18009B60D7 /* PBXTargetDependency */,
 			);
 			name = CurriculumVitaeUITests;
-			productName = CurriculimVitaeUITests;
+			productName = CurriculumVitaeUITests;
 			productReference = AAA9775F26F61A18009B60D7 /* CurriculumVitaeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -373,6 +387,7 @@
 				AAA977E326F62F43009B60D7 /* ProfileViewModel.swift in Sources */,
 				AA6D01D026F7912100C6DC64 /* CurriculumVitaeApp.swift in Sources */,
 				AAA9774926F61A0F009B60D7 /* ContentView.swift in Sources */,
+				AAA74081270B191700EE5B1D /* EmploymentDetailsPage.swift in Sources */,
 				AAA977F826F64178009B60D7 /* EmploymentPage.swift in Sources */,
 				AA5E5C8E26F7AC6100F9F2B2 /* AsyncImage.swift in Sources */,
 				AAA9780926F64880009B60D7 /* InfoPage.swift in Sources */,
@@ -380,6 +395,7 @@
 				AA3321502700C42F004EC344 /* EmploymentViewModel.swift in Sources */,
 				AA57A8AF270888140005A3B6 /* AppDelegate.swift in Sources */,
 				AAA977F126F640EC009B60D7 /* ProfilePage.swift in Sources */,
+				AAA74083270B273800EE5B1D /* ErrorView.swift in Sources */,
 				AA57A8B1270892C90005A3B6 /* DebugView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,14 +627,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WSQ8Z2WVZQ;
-				INFOPLIST_FILE = CurriculimVitaeTests/Info.plist;
+				INFOPLIST_FILE = CurriculumVitaeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculimVitaeTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculumVitaeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -633,14 +649,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WSQ8Z2WVZQ;
-				INFOPLIST_FILE = CurriculimVitaeTests/Info.plist;
+				INFOPLIST_FILE = CurriculumVitaeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculimVitaeTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculumVitaeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -654,17 +670,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WSQ8Z2WVZQ;
-				INFOPLIST_FILE = CurriculimVitaeUITests/Info.plist;
+				INFOPLIST_FILE = CurriculumVitaeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculimVitaeUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculumVitaeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CurriculimVitae;
+				TEST_TARGET_NAME = CurriculumVitae;
 			};
 			name = Debug;
 		};
@@ -674,17 +690,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WSQ8Z2WVZQ;
-				INFOPLIST_FILE = CurriculimVitaeUITests/Info.plist;
+				INFOPLIST_FILE = CurriculumVitaeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculimVitaeUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmgapps.ios.CurriculumVitaeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CurriculimVitae;
+				TEST_TARGET_NAME = CurriculumVitae;
 			};
 			name = Release;
 		};
