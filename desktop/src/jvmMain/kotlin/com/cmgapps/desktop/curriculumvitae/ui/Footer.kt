@@ -37,8 +37,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerIcon
+import androidx.compose.ui.input.pointer.PointerIconDefaults
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.CopyRightText
@@ -89,7 +89,7 @@ private fun Left() {
                                 .browse(URI.create("https://github.com/jetbrains/compose-jb"))
                         }
                     }
-                    .pointerIcon(PointerIcon.Hand)
+                    .pointerHoverIcon(PointerIconDefaults.Hand)
                     .pointerMoveFilter(
                         onEnter = {
                             hover = true
@@ -120,7 +120,7 @@ private fun Right() {
                     Desktop.getDesktop().browse(URI.create(GitHubLink))
                 }
             }
-            .pointerIcon(PointerIcon.Hand)
+            .pointerHoverIcon(PointerIconDefaults.Hand)
             .pointerMoveFilter(
                 onEnter = {
                     hover = true

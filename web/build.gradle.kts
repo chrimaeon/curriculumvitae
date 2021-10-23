@@ -48,11 +48,12 @@ kotlin {
         }
     }
 
-    targets.all {
-        compilations.all {
-            kotlinOptions {
-                freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
-            }
-        }
+    sourceSets.all {
+        languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
     }
+}
+
+// Workaround for https://youtrack.jetbrains.com/issue/KT-49124
+rootProject.extensions.configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+    versions.webpackCli.version = "4.9.0"
 }

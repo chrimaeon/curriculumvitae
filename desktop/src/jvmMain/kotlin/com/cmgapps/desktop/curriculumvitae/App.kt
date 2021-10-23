@@ -51,9 +51,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asPainter
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerIcon
+import androidx.compose.ui.graphics.toPainter
+import androidx.compose.ui.input.pointer.PointerIconDefaults
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
@@ -149,7 +149,7 @@ private fun ProfileCard(profile: Profile?) {
 
             bitmap?.let {
                 Image(
-                    painter = it.asPainter(),
+                    painter = it.toPainter(),
                     modifier = Modifier.size(200.dp).clip(CircleShape),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
@@ -174,7 +174,7 @@ private fun ProfileCard(profile: Profile?) {
                     if (Desktop.isDesktopSupported()) {
                         Desktop.getDesktop().mail(URI.create("mailto:${profile.email}"))
                     }
-                }.pointerIcon(PointerIcon.Hand),
+                }.pointerHoverIcon(PointerIconDefaults.Hand),
                 color = Colors.Blue
             )
             Text(
@@ -184,7 +184,7 @@ private fun ProfileCard(profile: Profile?) {
                     if (Desktop.isDesktopSupported()) {
                         Desktop.getDesktop().browse(URI.create("tel:${profile.phone}"))
                     }
-                }.pointerIcon(PointerIcon.Hand),
+                }.pointerHoverIcon(PointerIconDefaults.Hand),
                 color = Colors.Blue
             )
         }
