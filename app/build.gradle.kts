@@ -246,7 +246,7 @@ wire {
 licenses {
     additionalProjects(":common", ":wearable")
     reports {
-        html.enabled.set(true)
+        html.enabled = true
     }
 }
 

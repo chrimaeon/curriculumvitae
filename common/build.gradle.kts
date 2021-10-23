@@ -28,6 +28,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     id("com.squareup.sqldelight")
     ktlint
+    alias(libs.plugins.licenses)
 }
 
 val buildConfigFilesDir: Provider<Directory> =
@@ -175,5 +176,12 @@ sqldelight {
         schemaOutputDirectory =
             file(projectDir.toPath() / "src" / "commonMain" / "sqldelight" / "databases")
         verifyMigrations = true
+    }
+}
+
+licenses {
+    reports {
+        html.enabled = false
+        text.enabled = true
     }
 }
