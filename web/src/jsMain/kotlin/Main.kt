@@ -16,11 +16,30 @@
 
 import com.cmgapps.common.curriculumvitae.infra.di.initKoin
 import com.cmgapps.web.curriculumvitae.App
+import kotlinx.browser.window
 import org.jetbrains.compose.web.renderComposable
+import org.w3c.workers.RegistrationOptions
 
 val koin = initKoin().koin
 
 fun main() {
+    if (jsTypeOf(window.navigator.serviceWorker) != "undefined") {
+        window.navigator.serviceWorker.register("/sw.js", RegistrationOptions(scope = "/")).then(
+            onFulfilled = { reg ->
+                when {
+                    reg.installing != null -> console.log("Service worker installing")
+                    reg.waiting != null -> console.log("Service worker installed")
+                    reg.active != null -> console.log("Service worker active")
+                }
+            },
+            onRejected = {
+                console.log("Registration failed with $it")
+            }
+        )
+    } else {
+        console.warn("Service worker API not available")
+    }
+
     renderComposable(rootElementId = "root") {
         App(koin)
     }

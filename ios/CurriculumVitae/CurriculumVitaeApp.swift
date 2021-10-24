@@ -25,7 +25,7 @@ struct CurriculumVitaeApp: App {
     @StateObject private var quickAction = QuickAction()
 #endif
 
-    static let koin: Koin_coreKoin = AppModuleKt.doInitKoin().koin
+    static let koin: Koin_coreKoin = AppModuleKt.doInitKoinNative().koin
 
     var body: some Scene {
         WindowGroup {

@@ -77,7 +77,7 @@ fun initKoin(
 /**
  * used by native to easily create [KoinApplication]
  */
-fun initKoin() = initKoin(enableNetworkLogging = true) { }
+fun initKoinNative() = initKoin(enableNetworkLogging = true) { }
 
 @Suppress("unused") // used by Kotlin/Native
 fun Koin.getProfileRepository() = get<ProfileRepository>()
