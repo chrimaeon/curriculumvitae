@@ -105,6 +105,7 @@ processPhoenix = "com.jakewharton:process-phoenix:2.1.2"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 collapsingToolbar = "me.onebone:toolbar-compose:2.2.0"
 dropbox-store = "com.dropbox.mobile.store:store4:4.0.2-KT15"
+kermit = "co.touchlab:kermit:1.0.0-rc4"
 # endregion
 
 # region Koin

@@ -16,6 +16,7 @@
 
 package com.cmgapps.common.curriculumvitae.repository
 
+import co.touchlab.kermit.Logger
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.employmentMapper
@@ -38,13 +39,12 @@ class EmploymentRepository(
 ) : CoroutineScope by scope {
 
     private var employmentsJob: Job? = null
+    private val logger = Logger.withTag("EmploymentRepository")
 
     fun getEmployments(): Flow<List<Employment>> = flow {
         databaseWrapper { db ->
-            db.employmentQueries.selectAll(::employmentMapper).asFlow().mapToList().collect {
-                emit(it)
-            }
-        }
+            db.employmentQueries.selectAll(::employmentMapper).asFlow().mapToList()
+        }.collect { emit(it) }
     }
 
     @Throws(IOException::class)
@@ -80,7 +80,7 @@ class EmploymentRepository(
                     }
                 }
             } catch (exc: Exception) {
-                exc.printStackTrace()
+                logger.e("Error loading employments", exc)
             }
         }
     }

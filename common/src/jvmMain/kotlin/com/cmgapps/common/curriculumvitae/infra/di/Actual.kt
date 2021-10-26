@@ -16,6 +16,7 @@
 
 package com.cmgapps.common.curriculumvitae.infra.di
 
+import co.touchlab.kermit.Logger
 import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.squareup.sqldelight.db.SqlDriver
@@ -38,6 +39,7 @@ actual fun platformModule() = module {
 
 private fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver {
     val databasePath = File(System.getProperty("java.io.tmpdir"), "CvDb.db")
+    Logger.withTag("JdbcSqliteDriver").i { "Database path: $databasePath" }
     return JdbcSqliteDriver(url = "jdbc:sqlite:${databasePath.absolutePath}").also { driver ->
         schema.create(driver)
     }

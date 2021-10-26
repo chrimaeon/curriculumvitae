@@ -85,7 +85,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.sqldelight.coroutines)
                 implementation(libs.kotlinx.coroutines.core.nativeMt)
-                implementation(libs.logback.classic)
+                api(libs.kermit)
                 implementation(libs.ktor.client.logging)
             }
         }
@@ -127,6 +127,11 @@ kotlin {
         named("iosTest") {
             dependencies {
                 implementation(libs.ktor.client.mock)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core") {
+                    version {
+                        strictly("1.5.2-native-mt")
+                    }
+                }
             }
         }
 

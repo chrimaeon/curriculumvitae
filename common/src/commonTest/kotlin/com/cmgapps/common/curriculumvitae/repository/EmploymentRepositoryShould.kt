@@ -52,7 +52,7 @@ class EmploymentRepositoryShould {
     }
 
     @Test
-    fun get_profile() = runTest {
+    fun get_employment() = runTest {
         repository.getEmployments().test {
             assertEquals(listOf(StubDomainEmployment()), awaitItem())
             cancelAndIgnoreRemainingEvents()
