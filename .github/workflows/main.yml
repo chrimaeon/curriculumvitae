@@ -12,6 +12,7 @@ jobs:
       CV_BASE_URL: https://www.host.undefined
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
+      KOTLIN_VERSION: 1.5.31
 
     steps:
       # region Setup
@@ -34,6 +35,18 @@ jobs:
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Get Kotlin version
+        id: get-kotlin-version
+        run: |
+          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' gradle/libs.versions.toml)"
+
+      - name: Konan Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.konan
+          key: konan-${{ steps.get-kotlin-version.outputs.version }}
 
       - name: Download dependencies
         run: ./gradlew dependencies
