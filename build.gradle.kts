@@ -83,15 +83,20 @@ tasks {
         rejectVersionIf {
 
             fun String.filterGroup(): Boolean = listOf(
-                "androidx.datastore",
-                "com.google.cloud",
-                "com.google.devtools.ksp",
-                "androidx.lifecycle",
                 "org.jetbrains.compose",
+                "com.squareup.wire",
+                "org.jetbrains.kotlin-wrappers",
+                "androidx.wear.compose",
+                "co.touchlab",
             ).any { this.contains(it) }
 
-            fun String.filterModule(): Boolean =
-                listOf("compose", "core-splashscreen").any { this.contains(it) }
+            fun String.filterModule(): Boolean = listOf(
+                "core-splashscreen",
+                "hilt-navigation-compose",
+                "lifecycle-viewmodel-compose",
+                "google-cloud-logging-logback",
+                "navigation-compose",
+            ).any { this == it }
 
             fun ModuleComponentIdentifier.rejectedVersion(): Boolean =
                 listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->

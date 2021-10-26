@@ -221,7 +221,7 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
                 when (it) {
                     is ImagePainter.State.Success -> true
                     is ImagePainter.State.Error -> {
-                        Timber.tag(ComposableProfileScreen.LOG_TAG).e(it.throwable)
+                        Timber.tag(ComposableProfileScreen.LOG_TAG).e(it.result.throwable)
                         true
                     }
                     else -> false
