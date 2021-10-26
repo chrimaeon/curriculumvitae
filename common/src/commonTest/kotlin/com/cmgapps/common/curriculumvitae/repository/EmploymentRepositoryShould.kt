@@ -52,6 +52,7 @@ class EmploymentRepositoryShould {
     }
 
     @Test
+    // Fails on native https://github.com/cashapp/sqldelight/issues/2561
     fun get_employment() = runTest {
         repository.getEmployments().test {
             assertEquals(listOf(StubDomainEmployment()), awaitItem())
