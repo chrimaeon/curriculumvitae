@@ -41,7 +41,7 @@ class DebugActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.debug_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }

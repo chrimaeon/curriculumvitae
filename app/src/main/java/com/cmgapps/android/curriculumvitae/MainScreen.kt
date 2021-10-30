@@ -34,7 +34,6 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -87,7 +86,6 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
 @OptIn(
-    ExperimentalMaterialApi::class,
     ExperimentalMaterialNavigationApi::class,
     ExperimentalAnimationApi::class
 )
@@ -155,14 +153,14 @@ fun MainScreenNavHost(
                 Screen.Employment.route,
                 enterTransition = { initial, _ ->
                     if (initial.destination.route == SubScreen.EmploymentDetail.route) {
-                        slideInHorizontally({ -it })
+                        slideInHorizontally(initialOffsetX = { -it })
                     } else {
                         enterTransition()
                     }
                 },
                 exitTransition = { _, target ->
                     if (target.destination.route == SubScreen.EmploymentDetail.route) {
-                        slideOutHorizontally({ -it })
+                        slideOutHorizontally(targetOffsetX = { -it })
                     } else {
                         exitTransition()
                     }
@@ -178,8 +176,8 @@ fun MainScreenNavHost(
             composable(
                 route = SubScreen.EmploymentDetail.route,
                 arguments = SubScreen.EmploymentDetail.arguments,
-                enterTransition = { _, _ -> slideInHorizontally({ it }) },
-                exitTransition = { _, _ -> slideOutHorizontally({ it }) },
+                enterTransition = { _, _ -> slideInHorizontally(initialOffsetX = { it }) },
+                exitTransition = { _, _ -> slideOutHorizontally(targetOffsetX = { it }) },
             ) { EmploymentDetails(viewModel = hiltViewModel()) { navController.popBackStack() } }
         }
         composable(
@@ -224,7 +222,6 @@ private fun exitTransition() = fadeOut(
     )
 )
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun BottomBar(navController: NavController) {
     BottomAppBar(
