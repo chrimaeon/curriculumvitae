@@ -16,9 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
-import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
 import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
+import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import dagger.Module
 import dagger.Provides
@@ -69,6 +69,6 @@ object MockApiServiceModule {
                 serializer = KotlinxSerializer()
             }
         }
-        return CvApiService(client, Url(BuildConfig.BASE_URL))
+        return CvApiService(client, Url(BaseUrl))
     }
 }

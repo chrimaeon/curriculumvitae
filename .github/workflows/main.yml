@@ -1,11 +1,11 @@
-name: CI
+name: Build & test
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  checkAndroid:
+  checkAndUnitTest:
     runs-on: ubuntu-latest
 
     env:
@@ -16,6 +16,11 @@ jobs:
     steps:
       # region Setup
       - uses: actions/checkout@v2
+
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
       - name: Generate cache key
         run: ./scripts/checksum.sh checksum.txt
@@ -138,9 +143,60 @@ jobs:
         run: |
           cd ios
           swiftlint lint
-#      not working without provisioning profile -> get Apple developer account first
-#      - name: Build iOS Project
-#        run: |
-#          xcodebuild -project ios/CurriculumVitae.xcodeproj \
-#          -scheme CurriculumVitae \
-#          -configuration Debug
+  #      not working without provisioning profile -> get Apple developer account first
+  #      - name: Build iOS Project
+  #        run: |
+  #          xcodebuild -project ios/CurriculumVitae.xcodeproj \
+  #          -scheme CurriculumVitae \
+  #          -configuration Debug
+  connectedAndroidTest:
+    runs-on: macos-11
+
+    env:
+      CV_BASE_URL: https://www.host.undefined
+      CV_EMAIL: me@home.at
+      CV_DEBUG_BASE_URLS: https://www.host.undefined
+
+    strategy:
+      matrix:
+        api-level: [ 26, 29, 31 ]
+        target: [ default, google_apis ]
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Generate cache key
+        run: ./scripts/checksum.sh checksum.txt
+
+      - name: Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('checksum.txt') }}
+
+      - name: Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Download dependencies
+        run: ./gradlew dependencies
+
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
+          script: ./gradlew :app:connectedCheck
