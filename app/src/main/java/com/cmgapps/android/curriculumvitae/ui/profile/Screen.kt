@@ -18,6 +18,7 @@ package com.cmgapps.android.curriculumvitae.ui.profile
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalIndication
@@ -64,8 +65,8 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
+import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.android.curriculumvitae.ui.themedRipple
-import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.google.accompanist.insets.LocalWindowInsets
@@ -302,46 +303,40 @@ private fun Context.onTelClick(phoneNumber: String) {
     }
 }
 
-// region Previews
-private val profile = Profile(
-    "Firstname Lastname",
-    "+43123456789",
-    "http://",
-    Address("Street 1", "Graz", "8010"),
-    email = "me@home.at",
-    listOf("Line1", "Line2"),
+// region Preview
+@Preview(
+    name = "Content",
+    widthDp = 320,
+    heightDp = 680,
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
 )
-
-@Preview(name = "Content", widthDp = 320, heightDp = 680)
+@Preview(
+    name = "Content Dark",
+    widthDp = 320,
+    heightDp = 680,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    backgroundColor = 0xFF000000
+)
+@Preview(
+    name = "Content Land",
+    widthDp = 680,
+    heightDp = 320,
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
 @Composable
 fun PreviewContent() {
-    ThemedPreview {
-        ProvideWindowInsets {
-            Content(
-                profile = profile,
-                onEmailClick = {}
-            )
-        }
-    }
-}
-
-@Preview(name = "Content Land", widthDp = 680, heightDp = 320)
-@Composable
-fun PreviewLandscapeContent() {
-    ThemedPreview {
-        ProvideWindowInsets {
-            Content(
-                profile = profile,
-                onEmailClick = {}
-            )
-        }
-    }
-}
-
-@Preview(name = "Content Dark", widthDp = 320, heightDp = 680)
-@Composable
-fun PreviewDarkContent() {
-    ThemedPreview(darkTheme = true) {
+    val profile = Profile(
+        "Firstname Lastname",
+        "+43123456789",
+        "http://",
+        Address("Street 1", "Graz", "8010"),
+        email = "me@home.at",
+        listOf("Line1", "Line2"),
+    )
+    Theme {
         ProvideWindowInsets {
             Content(
                 profile = profile,

@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -63,7 +64,7 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.AnimatedCard
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
-import com.cmgapps.android.curriculumvitae.util.ThemedPreview
+import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.google.accompanist.insets.LocalWindowInsets
@@ -358,41 +359,43 @@ private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
     }
 
 // region Preview
-private val previewEmployments =
-    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.let { now ->
-        listOf(
-            Employment(
-                id = 1,
-                jobTitle = "Software developer",
-                employer = "CMG Mobile Apps",
-                startDate = now.minus(DatePeriod(months = 3)),
-                endDate = now.minus(DatePeriod(months = 1)),
-                city = "Graz",
-                description = listOf(
-                    "Founder",
-                    "Solutions Architect"
-                )
-            )
-        )
-    }
-
-@Preview(name = "Content", widthDp = 320, heightDp = 680)
+@Preview(
+    name = "Content",
+    widthDp = 320,
+    heightDp = 680,
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
+@Preview(
+    name = "Content Dark",
+    widthDp = 320,
+    heightDp = 680,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    backgroundColor = 0xFF000000
+)
 @Composable
 fun PreviewContent() {
-    ThemedPreview {
+    val previewEmployments =
+        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.let { now ->
+            (1..3).map {
+                Employment(
+                    id = it,
+                    jobTitle = "Software developer",
+                    employer = "CMG Mobile Apps",
+                    startDate = now.minus(DatePeriod(months = 3 + it)),
+                    endDate = now.minus(DatePeriod(months = 1 - it)),
+                    city = "Graz",
+                    description = listOf(
+                        "Founder",
+                        "Solutions Architect"
+                    )
+                )
+            }
+        }
+    Theme {
         ProvideWindowInsets {
             Content(UiState(data = previewEmployments), 0.dp, {})
         }
     }
 }
-
-@Preview(name = "Content Dark", widthDp = 320, heightDp = 680)
-@Composable
-fun PreviewContentDark() {
-    ThemedPreview(darkTheme = true) {
-        ProvideWindowInsets {
-            Content(UiState(data = previewEmployments), 0.dp, {})
-        }
-    }
-}
-// endregion

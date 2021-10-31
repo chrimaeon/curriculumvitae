@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.ui.employment.detail
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -49,11 +50,12 @@ import androidx.compose.ui.unit.lerp
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
+import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.android.curriculumvitae.ui.darker
 import com.cmgapps.android.curriculumvitae.ui.lightBlue500
-import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.datetime.Clock
@@ -233,37 +235,31 @@ private fun CollapsingToolbarScope.TopBar(
 }
 
 // region Preview
-private val previewEmployment = Employment(
-    12,
-    "Job Title",
-    "Employer",
-    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
-    null,
-    "Graz",
-    listOf("Line 1")
-)
-
 @Preview(name = "Content", widthDp = 320, heightDp = 680)
-@Composable
-fun PreviewEmploymentDetails() {
-    ThemedPreview {
-        EmploymentDetails(previewEmployment) {}
-    }
-}
-
-@Preview(name = "Content Dark", widthDp = 320, heightDp = 680)
-@Composable
-fun PreviewEmploymentDetailsDark() {
-    ThemedPreview(darkTheme = true) {
-        EmploymentDetails(previewEmployment) {}
-    }
-}
-
+@Preview(
+    name = "Content Dark",
+    widthDp = 320,
+    heightDp = 680,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    backgroundColor = 0xFF000000
+)
 @Preview(name = "Content Land", widthDp = 680, heightDp = 320)
 @Composable
-fun PreviewEmploymentDetailsLandscape() {
-    ThemedPreview(darkTheme = true) {
-        EmploymentDetails(previewEmployment) {}
+fun PreviewEmploymentDetails() {
+    val previewEmployment = Employment(
+        12,
+        "Job Title",
+        "Employer",
+        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
+        null,
+        "Graz",
+        listOf("Line 1")
+    )
+    Theme {
+        ProvideWindowInsets {
+            EmploymentDetails(previewEmployment) {}
+        }
     }
 }
 // endregion
