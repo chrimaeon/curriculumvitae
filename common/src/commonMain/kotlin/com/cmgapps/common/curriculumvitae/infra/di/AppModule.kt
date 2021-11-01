@@ -16,6 +16,8 @@
 
 package com.cmgapps.common.curriculumvitae.infra.di
 
+import co.touchlab.kermit.StaticConfig
+import co.touchlab.kermit.platformLogWriter
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.common.curriculumvitae.language
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
@@ -26,7 +28,6 @@ import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.header
@@ -37,17 +38,42 @@ import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.KoinAppDeclaration
+import co.touchlab.kermit.Logger as KermitLogger
+import io.ktor.client.features.logging.Logger as KtorLogger
 
 private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
-    single { createHttpClient(enableNetworkLogging) }
+    single {
+        createHttpClient(
+            enableNetworkLogging,
+            inject { parametersOf("HttpClient") },
+        )
+    }
     single { CvApiService(get(), provideBaseUrl()) }
     single { ProfileRepository(get()) }
-    single { EmploymentRepository(get(), get(), MainScope()) }
+    single {
+        EmploymentRepository(
+            get(),
+            get(),
+            inject { parametersOf("EmploymentRepository") },
+            MainScope(),
+        )
+    }
     single { StatusRepository(get()) }
+    val baseLogger =
+        co.touchlab.kermit.Logger(
+            config = StaticConfig(logWriterList = listOf(platformLogWriter())),
+            tag = "CurriculumVitae",
+        )
+
+    factory { (tag: String?) -> tag?.let { baseLogger.withTag(tag) } ?: baseLogger }
 }
 
-private fun createHttpClient(enableNetworkLogging: Boolean): HttpClient = HttpClient {
+private fun createHttpClient(
+    enableNetworkLogging: Boolean,
+    kermitLogger: Lazy<KermitLogger>,
+): HttpClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }
@@ -55,11 +81,11 @@ private fun createHttpClient(enableNetworkLogging: Boolean): HttpClient = HttpCl
 
     if (enableNetworkLogging) {
         install(Logging) {
-            val kermitLogger = co.touchlab.kermit.Logger.withTag("HttpClient")
             level = LogLevel.ALL
-            logger = object : Logger {
+            logger = object : KtorLogger {
+                private val logger: KermitLogger by kermitLogger
                 override fun log(message: String) {
-                    kermitLogger.i(message)
+                    logger.i(message)
                 }
             }
         }
@@ -89,8 +115,14 @@ fun initKoin(
  */
 fun initKoinNative() = initKoin(enableNetworkLogging = true) { }
 
-@Suppress("unused") // used by Kotlin/Native
+/**
+ * Easy getter for [ProfileRepository] from [Koin]
+ */
+@Suppress("unused")
 fun Koin.getProfileRepository() = get<ProfileRepository>()
 
-@Suppress("unused") // used by Kotlin/Native
+/**
+ * Easy getter for [EmploymentRepository] from [Koin]
+ */
+@Suppress("unused")
 fun Koin.getEmploymentRepository() = get<EmploymentRepository>()

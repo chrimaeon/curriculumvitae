@@ -22,6 +22,7 @@ import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import io.ktor.http.Url
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import java.io.File
 import java.util.prefs.Preferences
@@ -34,12 +35,12 @@ actual fun provideBaseUrl(): Url {
 }
 
 actual fun platformModule() = module {
-    single { DatabaseWrapper(::provideDbDriver) }
+    single { DatabaseWrapper { provideDbDriver(it, get { parametersOf("DatabaseWrapper") }) } }
 }
 
-private fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver {
+private fun provideDbDriver(schema: SqlDriver.Schema, logger: Logger): SqlDriver {
     val databasePath = File(System.getProperty("java.io.tmpdir"), "CvDb.db")
-    Logger.withTag("JdbcSqliteDriver").i { "Database path: $databasePath" }
+    logger.i { "Database path: $databasePath" }
     return JdbcSqliteDriver(url = "jdbc:sqlite:${databasePath.absolutePath}").also { driver ->
         schema.create(driver)
     }

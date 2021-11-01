@@ -20,6 +20,7 @@ import StubDatabaseEmployment
 import StubDomainEmployment
 import app.cash.turbine.test
 import asMockCursor
+import co.touchlab.kermit.Logger
 import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
@@ -38,6 +39,11 @@ import kotlin.time.ExperimentalTime
 class EmploymentRepositoryShould {
 
     private lateinit var repository: EmploymentRepository
+    private val logger: Lazy<Logger> = object : Lazy<Logger> {
+        override val value: Logger = Logger
+
+        override fun isInitialized() = true
+    }
 
     @BeforeTest
     fun setup() {
@@ -47,6 +53,7 @@ class EmploymentRepositoryShould {
         repository = EmploymentRepository(
             CvApiService(mockClient, Url(BaseUrl)),
             databaseWrapper,
+            logger,
             CoroutineScope(Dispatchers.Default)
         )
     }

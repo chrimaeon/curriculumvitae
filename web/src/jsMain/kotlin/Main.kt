@@ -14,36 +14,18 @@
  * limitations under the License.
  */
 
-import co.touchlab.kermit.LogWriter
 import co.touchlab.kermit.Logger
-import co.touchlab.kermit.Severity
 import com.cmgapps.common.curriculumvitae.infra.di.initKoin
 import com.cmgapps.web.curriculumvitae.App
-import io.ktor.utils.io.errors.IOException
 import kotlinx.browser.window
 import org.jetbrains.compose.web.renderComposable
+import org.koin.core.parameter.parametersOf
 import org.w3c.workers.RegistrationOptions
 
-val koin = initKoin().koin
-
-class ConsoleWriter : LogWriter() {
-    override fun log(severity: Severity, message: String, tag: String, throwable: Throwable?) {
-        var output = "[$tag] $message"
-        throwable?.let {
-            output += " ${it.stackTraceToString()}"
-        }
-        when (severity) {
-            Severity.Assert, Severity.Error -> console.error(output)
-            Severity.Warn -> console.warn(output)
-            Severity.Info -> console.info(output)
-            Severity.Debug, Severity.Verbose -> console.log(output)
-        }
-    }
-}
-
 fun main() {
-    Logger.setLogWriters(ConsoleWriter())
-    val logger = Logger.withTag("main")
+    val koin = initKoin().koin
+
+    val logger: Logger = koin.get { parametersOf("main") }
     if (jsTypeOf(window.navigator.serviceWorker) != "undefined") {
         window.navigator.serviceWorker.register("/sw.js", RegistrationOptions(scope = "/")).then(
             onFulfilled = { reg ->
@@ -60,8 +42,6 @@ fun main() {
     } else {
         logger.w("Service worker API not available")
     }
-
-    logger.e(IOException("forced")) { "error in class" }
 
     renderComposable(rootElementId = "root") {
         App(koin)
