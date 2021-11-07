@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 class EmploymentRepository(
     private val api: CvApiService,
     private val databaseWrapper: DatabaseWrapper,
-    private val logger: Lazy<Logger>,
+    private val logger: Logger,
     scope: CoroutineScope,
 ) : CoroutineScope by scope {
 
@@ -80,7 +80,7 @@ class EmploymentRepository(
                     }
                 }
             } catch (exc: Exception) {
-                logger.value.e("Error loading employments", exc)
+                logger.e("Error loading employments", exc)
             }
         }
     }

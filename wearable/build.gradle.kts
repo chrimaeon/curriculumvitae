@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import buildToolsVersion as depsBuildToolsVersion
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -22,6 +24,7 @@ plugins {
 
 android {
     compileSdk = androidCompileSdkVersion
+    buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
         applicationId = "com.cmgapps.wear.curriculumvitae"

@@ -23,6 +23,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
+import buildToolsVersion as depsBuildToolsVersion
 
 plugins {
     id("com.android.application")
@@ -41,7 +42,7 @@ val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
     compileSdk = androidCompileSdkVersion
-    buildToolsVersion = "31.0.0"
+    buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
@@ -51,7 +52,7 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
-        resourceConfigurations.addAll(listOf("en", "de"))
+        resourceConfigurations += listOf("en", "de")
     }
 
     buildFeatures {

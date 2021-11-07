@@ -218,7 +218,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAA9776826F61A18009B60D7 /* Build configuration list for PBXNativeTarget "CurriculumVitae" */;
 			buildPhases = (
-				AAA9777726F61A6A009B60D7 /* Run Gradle Script */,
+				AAA9777726F61A6A009B60D7 /* Compile Common Kotlin Code */,
 				AA57A8B22709E9E10005A3B6 /* Run swiftlint */,
 				AAA9773F26F61A0F009B60D7 /* Sources */,
 				AAA9774026F61A0F009B60D7 /* Frameworks */,
@@ -276,7 +276,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					AAA9774226F61A0F009B60D7 = {
 						CreatedOnToolsVersion = 12.4;
@@ -357,9 +357,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "command -v swiftlint >/dev/null 2>&1 || { echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"; exit; }\n\nswiftlint\n";
 		};
-		AAA9777726F61A6A009B60D7 /* Run Gradle Script */ = {
+		AAA9777726F61A6A009B60D7 /* Compile Common Kotlin Code */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -368,7 +368,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Gradle Script";
+			name = "Compile Common Kotlin Code";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -448,6 +448,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -509,6 +510,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -47,7 +47,7 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
     single {
         createHttpClient(
             enableNetworkLogging,
-            inject { parametersOf("HttpClient") },
+            get { parametersOf("HttpClient") },
         )
     }
     single { CvApiService(get(), provideBaseUrl()) }
@@ -56,7 +56,7 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
         EmploymentRepository(
             get(),
             get(),
-            inject { parametersOf("EmploymentRepository") },
+            get { parametersOf("EmploymentRepository") },
             MainScope(),
         )
     }
@@ -72,20 +72,20 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
 
 private fun createHttpClient(
     enableNetworkLogging: Boolean,
-    kermitLogger: Lazy<KermitLogger>,
+    kermitLogger: KermitLogger,
 ): HttpClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }
+
     install(WebSockets)
 
     if (enableNetworkLogging) {
         install(Logging) {
             level = LogLevel.ALL
             logger = object : KtorLogger {
-                private val logger: KermitLogger by kermitLogger
                 override fun log(message: String) {
-                    logger.i(message)
+                    kermitLogger.i(message)
                 }
             }
         }
