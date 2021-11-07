@@ -124,12 +124,7 @@ fun Application.installFeatures() {
     }
 
     install(CORS) {
-        header(HttpHeaders.Authorization)
-        header(HttpHeaders.ContentType)
         header(HttpHeaders.AccessControlAllowOrigin)
-        // header("any header") if you want to add any header
-        allowCredentials = true
-        allowNonSimpleContentTypes = true
         anyHost()
     }
 
