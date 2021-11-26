@@ -2,17 +2,17 @@
 
 accompanist = "0.21.0-beta"
 compose = "1.0.5"
-composeJetbrains = "1.0.0-beta5"
+composeJetbrains = "1.0.0-rc4"
 composeWear = "1.0.0-alpha10"
 gradle = "7.2"
 hilt = "2.40"
-koin = "3.1.3"
+koin = "3.1.4"
 # update GitHub Workflow env
 kotlin = "1.5.31"
 ktor = "1.6.5"
 logtag = "0.3.0"
 mockito = "4.0.0"
-sqldelight = "1.5.2"
+sqldelight = "1.5.3"
 
 [plugins]
 
@@ -31,7 +31,7 @@ kotlinPluginDep = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", versio
 hiltAndroidPluginDep = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 appEnginePluginDep = "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
 sqldelightPluginDep = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
-wirePluginDep = "com.squareup.wire:wire-gradle-plugin:4.0.0-alpha.15"
+wirePluginDep = "com.squareup.wire:wire-gradle-plugin:4.0.0-alpha.20"
 # endregion
 
 # region App
@@ -97,7 +97,7 @@ sqlite-jdbc = "org.xerial:sqlite-jdbc:3.32.2"
 # endregion
 
 # region Misc
-kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
+kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.3.1"
 kotlinx-coroutines-core-nativeMt = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt"
 okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.2"
@@ -105,7 +105,7 @@ cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.7.0-agp7.0"
 ktlint = "com.pinterest:ktlint:0.43.0"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.2"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
-collapsingToolbar = "me.onebone:toolbar-compose:2.2.0"
+collapsingToolbar = "me.onebone:toolbar-compose:2.3.0"
 dropbox-store = "com.dropbox.mobile.store:store4:4.0.2-KT15"
 kermit = "co.touchlab:kermit:1.0.0-rc4"
 # endregion
@@ -142,7 +142,7 @@ ktor-websocket = { module = "io.ktor:ktor-websockets", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.6"
 logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.122.3-alpha"
-kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.264-kotlin-1.5.31"
+kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.265-kotlin-1.5.31"
 appEngine = "com.google.appengine:appengine:1.9.92"
 # endregion
 
