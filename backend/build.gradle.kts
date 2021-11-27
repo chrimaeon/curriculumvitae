@@ -43,24 +43,27 @@ group = "com.cmgapps.ktor"
 version = "alpha1"
 
 appengine {
+    val localPropsFile = rootDir.resolve("local.properties")
+    val localProperties = if (localPropsFile.exists()) {
+        Properties().apply {
+            localPropsFile.inputStream().use {
+                load(it)
+            }
+        }
+    } else null
+
     tools {
-        val localPropsFile = rootDir.resolve("local.properties")
-        if (localPropsFile.exists()) {
-            val localProperties = Properties().apply {
-                localPropsFile.inputStream().use {
-                    load(it)
-                }
-            }
-            if (localProperties.containsKey("gcloud.sdk.dir")) {
-                setCloudSdkHome(localProperties["gcloud.sdk.dir"])
-            }
+        if (localProperties?.containsKey("gcloud.sdk.dir") == true) {
+            setCloudSdkHome(localProperties["gcloud.sdk.dir"])
         }
     }
 
     val project: Project = project
 
     deploy {
-        projectId = "GCLOUD_CONFIG"
+        if (localProperties?.containsKey("gcloud.project.id") == true) {
+            projectId = localProperties.getProperty("gcloud.project.id")
+        }
         version = project.version.cast()
     }
 }

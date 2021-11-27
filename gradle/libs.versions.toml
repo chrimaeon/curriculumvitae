@@ -9,7 +9,7 @@ hilt = "2.40"
 koin = "3.1.4"
 # update GitHub Workflow env
 kotlin = "1.5.31"
-ktor = "1.6.5"
+ktor = "1.6.4"
 logtag = "0.3.0"
 mockito = "4.0.0"
 sqldelight = "1.5.3"

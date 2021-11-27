@@ -57,10 +57,7 @@ import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.nio.file.Files
 import java.util.Comparator
-import kotlin.io.path.name
-import kotlin.io.path.toPath
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
@@ -154,20 +151,29 @@ fun Application.initDb() {
     val database: CvDatabase by inject()
     val modelLoader: ModelLoader by inject()
 
-    val employmentsFolder =
-        this.javaClass.classLoader.getResource(EMPLOYMENTS_RESOURCE_PATH)?.toURI()
-            ?.toPath()
-
-    val employments = Files.find(employmentsFolder, 1, { filePath, fileAttr ->
-        fileAttr.isRegularFile && filePath.name.endsWith(".json", ignoreCase = true)
-    }).map {
-        modelLoader.loadModel(serializer<Employment>(), "$EMPLOYMENTS_RESOURCE_PATH/${it.fileName}")
-            ?: error("Cannot employment model for path $it")
-    }.sorted(Comparator.comparing(Employment::id))
-
+    val classLoader = this.javaClass.classLoader
     database.transaction {
-        employments.forEach {
-            database.employmentQueries.insertEmployment(it.asDatabaseModel())
-        }
+        sequence<String> {
+            classLoader.getResourceAsStream(EMPLOYMENTS_RESOURCE_PATH).also {
+                if (it == null) log.error("Employment resource folder not found")
+            }?.bufferedReader()
+                ?.use {
+                    for (line in it.lines()) {
+                        if (line.endsWith(".json", ignoreCase = true)) {
+                            log.info("Json file found for employment: $line")
+                            yield(line)
+                        }
+                    }
+                }
+        }.map {
+            modelLoader.loadModel(serializer<Employment>(), "$EMPLOYMENTS_RESOURCE_PATH/$it")
+                .also { employment ->
+                    if (employment == null) log.error("Cannot load model $it")
+                }
+        }.filterNotNull()
+            .sortedWith(Comparator.comparing(Employment::id))
+            .forEach {
+                database.employmentQueries.insertEmployment(it.asDatabaseModel())
+            }
     }
 }
