@@ -17,7 +17,8 @@
 package com.cmgapps.ktor.curriculumvitae
 
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
-import com.cmgapps.common.curriculumvitae.data.db.Employment
+import com.cmgapps.common.curriculumvitae.data.network.Employment
+import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.cmgapps.ktor.curriculumvitae.infra.di.appModule
 import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
@@ -49,14 +50,17 @@ import io.ktor.request.httpVersion
 import io.ktor.response.respond
 import io.ktor.serialization.json
 import io.ktor.websocket.WebSockets
-import kotlinx.datetime.LocalDate
+import kotlinx.serialization.serializer
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.inject
 import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.time.Month
+import java.nio.file.Files
+import java.util.Comparator
+import kotlin.io.path.name
+import kotlin.io.path.toPath
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
@@ -144,17 +148,26 @@ fun Application.registerRoutes() {
     registerEmploymentRoutes()
 }
 
+private const val EMPLOYMENTS_RESOURCE_PATH = "employments"
+
 fun Application.initDb() {
     val database: CvDatabase by inject()
-    database.employmentQueries.insertEmployment(
-        Employment(
-            id = 1,
-            job_title = "Founder and Software Engineer",
-            employer = "CMG Mobile Apps",
-            start_date = LocalDate(2010, Month.JUNE, 1).toString(),
-            end_date = null,
-            city = "Graz",
-            description = listOf("Line 1", "Line 2")
-        )
-    )
+    val modelLoader: ModelLoader by inject()
+
+    val employmentsFolder =
+        this.javaClass.classLoader.getResource(EMPLOYMENTS_RESOURCE_PATH)?.toURI()
+            ?.toPath()
+
+    val employments = Files.find(employmentsFolder, 1, { filePath, fileAttr ->
+        fileAttr.isRegularFile && filePath.name.endsWith(".json", ignoreCase = true)
+    }).map {
+        modelLoader.loadModel(serializer<Employment>(), "$EMPLOYMENTS_RESOURCE_PATH/${it.fileName}")
+            ?: error("Cannot employment model for path $it")
+    }.sorted(Comparator.comparing(Employment::id))
+
+    database.transaction {
+        employments.forEach {
+            database.employmentQueries.insertEmployment(it.asDatabaseModel())
+        }
+    }
 }

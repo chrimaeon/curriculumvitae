@@ -1,0 +1,12 @@
+{
+  "id": 1, // unique id
+  "jobTitle": "My Job Title",
+  "employer": "The lovely Employer",
+  "startDate": "2000-01-01", // date as a string in format "YYYY-MM-DD"
+  "endDate": null,
+  "city": "City",
+  "description": [
+    "Line 1",
+    "Line 2"
+  ]
+}

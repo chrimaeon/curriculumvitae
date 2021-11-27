@@ -22,6 +22,7 @@ import com.cmgapps.common.curriculumvitae.data.db.Employment as DbEmployment
 
 @Serializable
 data class Employment(
+    val id: Int,
     val jobTitle: String,
     val employer: String,
     val startDate: LocalDate,
@@ -33,7 +34,7 @@ data class Employment(
 fun List<Employment>.asDatabaseModel() = map { it.asDatabaseModel() }
 
 fun Employment.asDatabaseModel() = DbEmployment(
-    this.hashCode(),
+    this.id,
     this.jobTitle,
     this.employer,
     this.startDate.toString(),

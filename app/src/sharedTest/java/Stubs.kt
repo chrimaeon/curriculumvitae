@@ -57,6 +57,7 @@ fun StubDomainProfile() = DomainProfile(
 )
 
 fun StubNetworkEmployment() = NetworkEmployment(
+    id = 1,
     jobTitle = "Developer",
     employer = "My Company",
     startDate = LocalDate(2021, Month.APRIL, 17),

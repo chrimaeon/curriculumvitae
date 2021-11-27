@@ -28,7 +28,6 @@ import io.ktor.http.cio.websocket.readText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -45,7 +44,7 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
         }.build()
     )
 
-    @OptIn(ExperimentalCoroutinesApi::class, ExperimentalSerializationApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getApiStatus(): Flow<Status> = flow {
         client.webSocket(
             HttpMethod.Get,

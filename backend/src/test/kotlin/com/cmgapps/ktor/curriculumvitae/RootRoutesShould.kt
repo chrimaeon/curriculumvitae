@@ -35,7 +35,6 @@ class RootRoutesShould {
 
     @Test
     fun `return html on GET`() = withTestApplication(moduleFunction = { module() }) {
-
         val expected = javaClass.classLoader.getResourceAsStream("root.html")?.use {
             String(it.readAllBytes())
         } ?: error("resource not found")

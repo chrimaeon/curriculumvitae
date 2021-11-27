@@ -23,6 +23,7 @@ import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.features.origin
+import io.ktor.http.HttpStatusCode
 import io.ktor.request.acceptLanguageItems
 import io.ktor.request.host
 import io.ktor.request.port
@@ -51,10 +52,17 @@ private fun Route.profileRouting() {
                 "${origin.scheme}://${host()}:${port()}"
             }
 
-            val profile = modelLoader.loadModels(serializer<Profile>(), "profile.json")[lang]?.let {
+            val profile = modelLoader.loadModel(
+                serializer<Profile>(),
+                "${lang.name.lowercase()}/profile.json"
+            )?.let {
                 it.copy(profileImageUrl = it.profileImageUrl.replace("{{host}}", host))
-            } ?: error("No profile found for $lang")
-            call.respond(profile)
+            }
+
+            if (profile != null) call.respond(profile) else call.respond(
+                HttpStatusCode.InternalServerError,
+                "Internal Server Error"
+            )
         }
     }
 }

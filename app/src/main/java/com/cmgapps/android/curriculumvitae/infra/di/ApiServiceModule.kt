@@ -26,7 +26,6 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.http.Url
-import kotlinx.serialization.ExperimentalSerializationApi
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -34,7 +33,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiServiceModule {
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
     fun provideApiService(

@@ -25,25 +25,21 @@ enum class Language {
 }
 
 interface ModelLoader {
-    fun <T> loadModels(
+    fun <T> loadModel(
         serializer: KSerializer<T>,
-        fileName: String
-    ): Map<Language, T>
+        filePath: String,
+    ): T?
 }
 
 @OptIn(ExperimentalStdlibApi::class)
 class ClassLoaderModelLoader : ModelLoader {
     private val classLoader = this.javaClass.classLoader
 
-    override fun <T> loadModels(serializer: KSerializer<T>, fileName: String): Map<Language, T> =
-        buildMap {
-            enumValues<Language>().forEach {
-                this[it] = classLoader
-                    .getResourceAsStream("${it.name.lowercase()}/$fileName")
-                    ?.use { inputStream ->
-                        inputStream.bufferedReader()
-                            .use { reader -> Json.decodeFromString(serializer, reader.readText()) }
-                    } ?: error("cannot load $fileName in $it")
+    override fun <T> loadModel(serializer: KSerializer<T>, filePath: String): T? =
+        classLoader
+            .getResourceAsStream(filePath)
+            ?.use { inputStream ->
+                inputStream.bufferedReader()
+                    .use { reader -> Json.decodeFromString(serializer, reader.readText()) }
             }
-        }
 }

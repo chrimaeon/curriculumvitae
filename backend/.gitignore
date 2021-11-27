@@ -1,2 +1,3 @@
 /build
-/src/main/resources/*/*.json
+/src/main/resources/**/*.json
+/src/main/resources/assets/profile.jpg

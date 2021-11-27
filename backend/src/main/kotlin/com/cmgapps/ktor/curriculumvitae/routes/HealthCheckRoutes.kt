@@ -29,7 +29,6 @@ import io.ktor.routing.routing
 import io.ktor.websocket.webSocket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -39,7 +38,8 @@ fun Route.healthCheck() {
     }
 
     val runtime = Runtime.getRuntime()
-    @OptIn(ExperimentalCoroutinesApi::class, ExperimentalSerializationApi::class)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     webSocket(Routes.STATUS.route) {
         while (!incoming.isClosedForReceive) {
             outgoing.send(

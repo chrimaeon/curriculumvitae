@@ -17,10 +17,14 @@ see [Sharing dependency versions between projects
 
 ### Backend
 
-1. Add you profile `JSON` files to the respective resource folders
+1. Add your profile `JSON` files to the respective resource folders
    i.e. `backend/src/main/resourses/en/`
    see [`backend/src/main/resources/profile.json.sample`](backend/src/main/resources/profile.json.sample)
    for the structure.
+2. Add your employments to [`backend/src/main/resources/employments`](backend/src/main/resources/employments)
+   see [`backend/src/main/resources/employment.json.sample`](backend/src/main/resources/employment.json.sample)
+3. Add a profile image to [backend/src/main/resources/assets](backend/src/main/resources/assets) and adjust the
+   reference in your profile JSON's file
 
 [ktlint]: https://github.com/pinterest/ktlint
 

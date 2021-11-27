@@ -35,9 +35,8 @@ fun Route.employmentRouting() {
     }
 }
 
-@SuppressWarnings("kotlin:S1172")
 private fun mapper(
-    @Suppress("UNUSED_PARAMETER") id: Int,
+    id: Int,
     jobTitle: String,
     employer: String,
     startDate: String,
@@ -45,6 +44,7 @@ private fun mapper(
     city: String,
     description: List<String>
 ) = Employment(
+    id,
     jobTitle,
     employer,
     LocalDate.parse(startDate),

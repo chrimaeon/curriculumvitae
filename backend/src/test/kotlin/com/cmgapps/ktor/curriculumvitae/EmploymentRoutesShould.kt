@@ -65,6 +65,7 @@ class EmploymentRoutesShould {
         val queryMock = mock<Query<Employment>> {
             on { executeAsList() } doReturn listOf(
                 Employment(
+                    1,
                     "Software Developer",
                     "CMG Mobile Apps",
                     LocalDate.parse("2010-06-01"),
@@ -87,12 +88,12 @@ class EmploymentRoutesShould {
             )
 
             with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
-
                 assertThat(
                     response.content,
                     `is`(
                         "[" +
                             "{" +
+                            "\"id\":1," +
                             "\"jobTitle\":\"Software Developer\"," +
                             "\"employer\":\"CMG Mobile Apps\"," +
                             "\"startDate\":\"2010-06-01\"," +

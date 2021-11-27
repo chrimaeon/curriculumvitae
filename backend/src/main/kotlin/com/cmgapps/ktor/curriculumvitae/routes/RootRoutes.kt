@@ -170,6 +170,7 @@ private fun DIV.page() {
             "/employment",
             listOf(langParam),
             Employment(
+                id = 1,
                 jobTitle = "Software Developer",
                 employer = "CMG Mobile Apps",
                 startDate = LocalDate.parse("2010-06-01"),
@@ -199,7 +200,6 @@ private val json = Json {
     prettyPrintIndent = "  "
 }
 
-@OptIn(ExperimentalSerializationApi::class)
 private inline fun <reified T> DIV.apiCard(
     method: HttpMethod,
     route: String,
@@ -273,7 +273,6 @@ private fun DIV.paramsTable(params: List<Param>) {
     }
 }
 
-@OptIn(ExperimentalSerializationApi::class)
 private inline fun <reified T> DIV.response(t: T) {
     div(classes = "api-response") {
         h6(classes = "mdl-typography-subhead") {
