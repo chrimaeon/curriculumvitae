@@ -54,6 +54,7 @@ import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.android.curriculumvitae.ui.darker
 import com.cmgapps.android.curriculumvitae.ui.lightBlue500
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -119,7 +120,7 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
                         color = MaterialTheme.colors.surface,
                         shape = RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius)
                     )
-                    .fillMaxWidth(),
+                    .fillMaxSize(),
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.navigationBars,
                     additionalStart = 16.dp,
@@ -129,15 +130,12 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
             ) {
                 item {
                     Text(
-                        text = employment.jobTitle
+                        text = employment.employer
                     )
                 }
-                items(10) { index ->
-                    Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(100.dp)
-                            .background(colors[index % colors.size])
+                item {
+                    Text(
+                        text = employment.workPeriod.asHumanReadableString()
                     )
                 }
                 item {
@@ -149,8 +147,6 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
         }
     }
 }
-
-private val colors = listOf(Color.Blue, Color.Cyan, Color.Magenta, Color.Red)
 
 @Composable
 private fun CollapsingToolbarScope.TopBar(

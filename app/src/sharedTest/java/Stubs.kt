@@ -18,14 +18,12 @@
 
 package com.cmgapps.android.curriculumvitae.test
 
-import com.cmgapps.android.curriculumvitae.data.datastore.Address
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
-import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
+import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
+import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
-import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
-import com.cmgapps.common.curriculumvitae.data.domain.Address as DomainAddress
-import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
@@ -43,18 +41,9 @@ fun StubNetworkProfile() = NetworkProfile(
     profileImageUrl = "http://image.undefined.com/image.jpeg",
 )
 
-fun StubDomainProfile() = DomainProfile(
-    name = "Firstname Lastname",
-    email = "me@home.at",
-    intro = listOf("Line 1", "Line 2"),
-    phone = "+12345678",
-    profileImageUrl = "http://image.undefined.com/image.jpeg",
-    address = DomainAddress(
-        city = "Graz",
-        street = "Street 1",
-        postalCode = "8010",
-    ),
-)
+fun StubDomainProfile() = StubNetworkProfile().asDomainModel()
+
+fun StubDataStoreProfile(): Profile = StubNetworkProfile().asDataStoreModel()
 
 fun StubNetworkEmployment() = NetworkEmployment(
     id = 1,
@@ -68,37 +57,6 @@ fun StubNetworkEmployment() = NetworkEmployment(
     )
 )
 
-private val employmentId = StubNetworkEmployment().hashCode()
+fun StubDatabaseEmployment() = StubNetworkEmployment().asDatabaseModel()
 
-fun StubDatabaseEmployment() = DatabaseEmployment(
-    id = employmentId,
-    job_title = "Developer",
-    employer = "My Company",
-    start_date = LocalDate(2021, Month.APRIL, 17).toString(),
-    end_date = null,
-    city = "Home City",
-    description = listOf("stub description")
-)
-
-fun StubDomainEmployment() = Employment(
-    id = employmentId,
-    jobTitle = "Developer",
-    employer = "My Company",
-    startDate = LocalDate(2021, Month.APRIL, 17),
-    endDate = null,
-    city = "Home City",
-    description = listOf("stub description")
-)
-
-fun StubDataStoreProfile(): Profile = Profile(
-    name = "Firstname Lastname",
-    address = Address(
-        city = "Graz",
-        street = "Street 1",
-        postal_code = "8010",
-    ),
-    email = "me@home.at",
-    intro = listOf("Line 1", "Line 2"),
-    phone = "+12345678",
-    profile_image_url = "http://image.undefined.com/image.jpeg",
-)
+fun StubDomainEmployment() = StubDatabaseEmployment().asDomainModel()
