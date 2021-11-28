@@ -74,7 +74,7 @@ object StoreModule {
             },
             sourceOfTruth = SourceOfTruth.of(
                 reader = {
-                    employmentQueries.selectAll(::employmentMapper).asFlow().mapToList()
+                    employmentQueries.selectAllOrderedByStartDate(::employmentMapper).asFlow().mapToList()
                 },
                 writer = { _, employments ->
                     employmentQueries.transaction {

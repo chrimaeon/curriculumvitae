@@ -210,7 +210,7 @@ private fun EmploymentCard(
                     top = if (isFirst) 0.dp else 8.dp,
                     bottom = if (isLast) 0.dp else 8.dp
                 )
-                .testTag("employmentCard${employment?.id ?: 1}"),
+                .testTag("employmentCard${employment?.id ?: -1}"),
             onClick = {
                 employment?.let {
                     navigateToEmploymentDetails(it.id)

@@ -14,6 +14,9 @@ CREATE TABLE IF NOT EXISTS `employment` (
 selectAll:
 SELECT * FROM employment;
 
+selectAllOrderedByStartDate:
+SELECT * FROM employment ORDER BY start_date DESC;
+
 insertEmployment:
 INSERT OR REPLACE INTO employment
 VALUES ?;

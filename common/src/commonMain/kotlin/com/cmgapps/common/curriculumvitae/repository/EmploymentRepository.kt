@@ -43,7 +43,7 @@ class EmploymentRepository(
 
     fun getEmployments(): Flow<List<Employment>> = flow {
         databaseWrapper { db ->
-            db.employmentQueries.selectAll(::employmentMapper).asFlow().mapToList()
+            db.employmentQueries.selectAllOrderedByStartDate(::employmentMapper).asFlow().mapToList()
         }.collect { emit(it) }
     }
 
