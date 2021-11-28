@@ -60,6 +60,7 @@ class MainActivityShould {
         onNodeWithText(activity.resources.getString(R.string.profile_label)).assertIsDisplayed()
         onNodeWithText(activity.resources.getString(R.string.employment_label)).assertIsDisplayed()
         onNodeWithText(activity.resources.getString(R.string.skills_label)).assertIsDisplayed()
+        onNodeWithText(activity.resources.getString(R.string.info)).assertIsDisplayed()
         return@with
     }
 
