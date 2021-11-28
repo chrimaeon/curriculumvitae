@@ -40,6 +40,7 @@ GET
 ###### Response ######
 
     {
+      "id": 1,
       "jobTitle": "Software Developer",
       "employer": "CMG Mobile Apps",
       "startDate": "2010-06-01",
