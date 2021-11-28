@@ -89,7 +89,7 @@ class MainActivityShould {
         val employment = StubNetworkEmployment()
         onNodeWithText(activity.resources.getString(R.string.employment_label)).assertIsDisplayed()
             .performClick()
-        onNodeWithTag("employmentCard${employment.hashCode()}").assertIsDisplayed()
+        onNodeWithTag("employmentCard${employment.id}").assertIsDisplayed()
         return@with
     }
 
