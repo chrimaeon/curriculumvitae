@@ -34,7 +34,10 @@ You can start the dev server running `./gradlew :web:jsBrowserDevelopmentRun`
 
 Ktor Back end for the app
 
-see [backend/README.md]
+Run locally with `./gradlew :backend:run` or deploy to [Google Cloud App Engine] with `./gradlew :backend:appengineDeploy`
+
+
+For API Documentation see [backend/README.md]
 
 ## Common
 
@@ -70,3 +73,5 @@ limitations under the License.
 [Compose for Desktop]: https://www.jetbrains.com/de-de/lp/compose/
 
 [Compose for Web]: https://compose-web.ui.pages.jetbrains.team/
+
+[Google Cloud App Engine]: https://cloud.google.com/appengine/
