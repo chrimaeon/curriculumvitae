@@ -24,7 +24,7 @@ import org.koin.android.ext.koin.androidContext
 class Application : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin {
+        initKoin(enableNetworkLogging = true) {
             androidContext(this@Application)
             modules(appModule)
         }

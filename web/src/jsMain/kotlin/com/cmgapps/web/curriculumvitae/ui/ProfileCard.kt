@@ -24,6 +24,7 @@ import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.web.curriculumvitae.AppStyle
 import org.jetbrains.compose.web.css.AlignSelf
+import org.jetbrains.compose.web.css.CSSVariableValue
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignSelf
 import org.jetbrains.compose.web.css.backgroundImage
@@ -34,7 +35,6 @@ import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.variableValue
 import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
@@ -106,6 +106,6 @@ private object ProfileStyle : StyleSheet(AppStyle) {
         backgroundPosition("center")
         borderRadius(50.percent)
         alignSelf(AlignSelf.Center)
-        property("background-color", variableValue("bs-gray-500"))
+        property("background-color", CSSVariableValue<String>("bs-gray-500"))
     }
 }

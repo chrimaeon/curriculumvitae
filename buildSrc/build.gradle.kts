@@ -30,9 +30,14 @@ tasks {
             freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
         }
     }
+
+    withType<JavaCompile> {
+        sourceCompatibility = JavaVersion.VERSION_1_8.toString()
+        targetCompatibility = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
-    implementation("com.squareup:kotlinpoet:1.10.1")
+    implementation("com.squareup:kotlinpoet:1.10.2")
     testImplementation("junit:junit:4.13.2")
 }

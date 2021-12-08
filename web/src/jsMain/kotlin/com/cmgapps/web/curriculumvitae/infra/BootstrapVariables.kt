@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-import com.cmgapps.ktor.curriculumvitae.module
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
+package com.cmgapps.web.curriculumvitae.infra
 
-fun main() {
-    embeddedServer(Netty, port = 5555) {
-        module()
-    }.start(wait = true)
+import org.jetbrains.compose.web.css.CSSStyleVariable
+import org.jetbrains.compose.web.css.StylePropertyString
+
+object BootstrapVariables {
+    val bsGray900 = CSSStyleVariable<StylePropertyString>("bs-gray-900")
+    val bsGray100 = CSSStyleVariable<StylePropertyString>("bs-gray-100")
+    val bsPrimary = CSSStyleVariable<StylePropertyString>("bs-primary")
+    val bsRed = CSSStyleVariable<StylePropertyString>("bs-red")
 }

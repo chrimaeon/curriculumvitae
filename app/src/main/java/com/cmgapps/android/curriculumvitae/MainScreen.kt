@@ -151,15 +151,15 @@ fun MainScreenNavHost(
         navigation(startDestination = Screen.Employment.route, route = "employments") {
             composable(
                 Screen.Employment.route,
-                enterTransition = { initial, _ ->
-                    if (initial.destination.route == SubScreen.EmploymentDetail.route) {
+                enterTransition = {
+                    if (initialState.destination.route == SubScreen.EmploymentDetail.route) {
                         slideInHorizontally(initialOffsetX = { -it })
                     } else {
                         enterTransition()
                     }
                 },
-                exitTransition = { _, target ->
-                    if (target.destination.route == SubScreen.EmploymentDetail.route) {
+                exitTransition = {
+                    if (targetState.destination.route == SubScreen.EmploymentDetail.route) {
                         slideOutHorizontally(targetOffsetX = { -it })
                     } else {
                         exitTransition()
@@ -176,8 +176,8 @@ fun MainScreenNavHost(
             composable(
                 route = SubScreen.EmploymentDetail.route,
                 arguments = SubScreen.EmploymentDetail.arguments,
-                enterTransition = { _, _ -> slideInHorizontally(initialOffsetX = { it }) },
-                exitTransition = { _, _ -> slideOutHorizontally(targetOffsetX = { it }) },
+                enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+                exitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
             ) { EmploymentDetails(viewModel = hiltViewModel()) { navController.popBackStack() } }
         }
         composable(
@@ -195,16 +195,16 @@ fun MainScreenNavHost(
 private val FabTopKnobPadding = 40.dp
 
 @OptIn(ExperimentalAnimationApi::class)
-typealias EnterTransitionFunction = AnimatedContentScope<String>.(NavBackStackEntry, NavBackStackEntry) -> EnterTransition
+typealias EnterTransitionFunction = AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition
 
 @OptIn(ExperimentalAnimationApi::class)
-typealias ExitTransitionFunction = AnimatedContentScope<String>.(NavBackStackEntry, NavBackStackEntry) -> ExitTransition
+typealias ExitTransitionFunction = AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition
 
 @OptIn(ExperimentalAnimationApi::class)
-private val defaultEnterTransition: EnterTransitionFunction = { _, _ -> enterTransition() }
+private val defaultEnterTransition: EnterTransitionFunction = { enterTransition() }
 
 @OptIn(ExperimentalAnimationApi::class)
-private val defaultExitTransition: ExitTransitionFunction = { _, _ -> exitTransition() }
+private val defaultExitTransition: ExitTransitionFunction = { exitTransition() }
 
 private const val DefaultTransitionDuration = 150
 

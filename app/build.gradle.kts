@@ -59,6 +59,7 @@ android {
         compose = true
         aidl = false
         renderScript = false
+        shaders = false
     }
 
     composeOptions {

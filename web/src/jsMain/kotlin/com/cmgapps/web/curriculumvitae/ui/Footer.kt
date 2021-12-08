@@ -22,6 +22,7 @@ import com.cmgapps.common.curriculumvitae.CopyRightText
 import com.cmgapps.common.curriculumvitae.DebugBaseUrls
 import com.cmgapps.common.curriculumvitae.GitHubLink
 import com.cmgapps.web.curriculumvitae.AppStyle
+import com.cmgapps.web.curriculumvitae.infra.BootstrapVariables
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.jetbrains.compose.web.attributes.ButtonType
@@ -30,7 +31,7 @@ import org.jetbrains.compose.web.attributes.name
 import org.jetbrains.compose.web.attributes.type
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.variableValue
+import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.AttrBuilderContext
 import org.jetbrains.compose.web.dom.Button
@@ -69,7 +70,7 @@ fun PageFooter() {
                     }) {
                         Icon("code-slash") {
                             style {
-                                property("color", variableValue("bs-primary"))
+                                property("color", BootstrapVariables.bsPrimary.value())
                             }
                             if (!PRODUCTION) {
                                 attr("data-bs-toggle", "modal")
@@ -79,7 +80,7 @@ fun PageFooter() {
                         Text(" with ")
                         Icon("heart-fill") {
                             style {
-                                property("color", variableValue("bs-red"))
+                                property("color", BootstrapVariables.bsRed.value())
                             }
                         }
                         Text(" and ")
