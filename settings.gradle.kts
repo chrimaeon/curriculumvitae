@@ -39,6 +39,7 @@ dependencyResolutionManagement {
 rootProject.name = "CurriculumVitae"
 include(
     ":common",
+    ":common-compose",
     ":app",
     ":wearable",
     ":backend",

@@ -98,7 +98,6 @@ fun App(koin: Koin) {
         Column(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
-            ProfileCard(profile)
 
             Box {
                 val state = rememberLazyListState()
@@ -110,6 +109,9 @@ fun App(koin: Koin) {
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     contentPadding = PaddingValues(20.dp)
                 ) {
+                    item {
+                        ProfileCard(profile)
+                    }
                     items(
                         items = employments,
                         key = { it.id },

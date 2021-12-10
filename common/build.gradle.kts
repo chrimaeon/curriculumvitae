@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.time.LocalDate
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
+import buildToolsVersion as depsBuildToolsVersion
 
 plugins {
     kotlin("multiplatform")
@@ -152,7 +153,7 @@ kotlin {
 
 android {
     compileSdk = androidCompileSdkVersion
-    buildToolsVersion = "31.0.0"
+    buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
         minSdk = androidMinSdkVersion

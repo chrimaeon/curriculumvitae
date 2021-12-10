@@ -276,6 +276,8 @@ tasks {
 @Suppress("UnstableApiUsage")
 dependencies {
     implementation(projects.common)
+    implementation(projects.commonCompose)
+
     implementation(libs.bundles.androidx)
 
     implementation(libs.bundles.compose.app)
