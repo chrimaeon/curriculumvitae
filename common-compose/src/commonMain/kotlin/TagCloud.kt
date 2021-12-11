@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.max
@@ -69,7 +70,7 @@ fun TagCloud(
         }
 
         for (measurable in measurables) {
-            val placeable = measurable.measure(constraints)
+            val placeable = measurable.measure(Constraints(maxWidth = constraints.maxWidth))
 
             if (!canAddToCurrentSequence(placeable)) startNewSequence()
 

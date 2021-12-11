@@ -14,30 +14,27 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.ui.skills
+package com.cmgapps.desktop.curriculumvitae.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.components.TagCloud
 
 @Composable
-fun SkillsScreen() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
+fun SkillsCard() {
+    Card(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        TagCloud {
+        TagCloud(
+            modifier = Modifier.padding(10.dp)
+        ) {
             Text(
                 "Mobile Development",
                 style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
@@ -67,18 +64,5 @@ fun SkillsScreen() {
                 style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold)
             )
         }
-    }
-}
-
-@Preview(
-    widthDp = 320,
-    heightDp = 680,
-    showBackground = true,
-    backgroundColor = 0xFFFFFFFF
-)
-@Composable
-fun PreviewSkills() {
-    MaterialTheme {
-        SkillsScreen()
     }
 }

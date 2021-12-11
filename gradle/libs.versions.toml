@@ -1,6 +1,6 @@
 [versions]
 
-accompanist = "0.21.4-beta"
+accompanist = "0.20.3"
 compose = "1.0.5"
 composeJetbrains = "1.0.0"
 composeWear = "1.0.0-alpha12"

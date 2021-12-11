@@ -35,7 +35,6 @@ kotlin {
     sourceSets {
         named("jsMain") {
             dependencies {
-                implementation(compose.web.widgets)
                 implementation(compose.web.core)
                 implementation(compose.runtime)
 

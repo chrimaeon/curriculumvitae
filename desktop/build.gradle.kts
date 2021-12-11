@@ -33,6 +33,7 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(projects.common)
+                implementation(projects.commonCompose)
                 implementation(compose.desktop.currentOs)
                 implementation(libs.koin.core)
                 implementation(libs.ktor.client.java)

@@ -17,29 +17,18 @@
 package com.cmgapps.desktop.curriculumvitae
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.VerticalScrollbar
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -48,28 +37,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.toPainter
-import androidx.compose.ui.input.pointer.PointerIconDefaults
-import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
-import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
+import com.cmgapps.desktop.curriculumvitae.components.EmploymentCard
+import com.cmgapps.desktop.curriculumvitae.components.ProfileCard
+import com.cmgapps.desktop.curriculumvitae.components.SkillsCard
 import com.cmgapps.desktop.curriculumvitae.ui.Footer
 import org.koin.core.Koin
-import java.awt.Desktop
-import java.awt.image.BufferedImage
 import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URI
-import java.net.URL
-import javax.imageio.ImageIO
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalStdlibApi::class)
 @Composable
@@ -109,13 +87,16 @@ fun App(koin: Koin) {
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     contentPadding = PaddingValues(20.dp)
                 ) {
-                    item {
-                        ProfileCard(profile)
-                    }
                     items(
-                        items = employments,
-                        key = { it.id },
-                    ) { EmploymentCard(it) }
+                        count = employments.size + 2,
+                    ) { index ->
+                        when {
+                            index == 0 -> ProfileCard(profile)
+                            (employments.isEmpty() && index == 1) ||
+                                (employments.isNotEmpty() && index == employments.size + 1) -> SkillsCard()
+                            else -> EmploymentCard(employments[index - 1])
+                        }
+                    }
                 }
                 VerticalScrollbar(
                     modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
@@ -126,113 +107,4 @@ fun App(koin: Koin) {
             }
         }
     }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-private fun ProfileCard(profile: Profile?) {
-    if (profile == null) {
-        return
-    }
-
-    var bitmap: BufferedImage? by remember { mutableStateOf(null) }
-
-    LaunchedEffect(profile.profileImageUrl) {
-        bitmap = loadImage(profile.profileImageUrl)
-    }
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Column(
-            modifier = Modifier.padding(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            bitmap?.let {
-                Image(
-                    painter = it.toPainter(),
-                    modifier = Modifier.size(200.dp).clip(CircleShape),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Text(
-                profile.name,
-                style = MaterialTheme.typography.h3
-            )
-            Text(
-                profile.address.street,
-                style = MaterialTheme.typography.h5
-            )
-            Text(
-                "${profile.address.postalCode} ${profile.address.city}",
-                style = MaterialTheme.typography.h5
-            )
-            Text(
-                profile.email,
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.clickable {
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().mail(URI.create("mailto:${profile.email}"))
-                    }
-                }.pointerHoverIcon(PointerIconDefaults.Hand),
-                color = Colors.Blue
-            )
-            Text(
-                profile.phone,
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.clickable {
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().browse(URI.create("tel:${profile.phone}"))
-                    }
-                }.pointerHoverIcon(PointerIconDefaults.Hand),
-                color = Colors.Blue
-            )
-        }
-    }
-}
-
-@Composable
-private fun EmploymentCard(employemnt: Employment) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Column(
-            modifier = Modifier.padding(10.dp)
-        ) {
-            Text(
-                text = employemnt.employer,
-                style = MaterialTheme.typography.h5
-
-            )
-            Spacer(Modifier.height(5.dp))
-            Text(
-                text = employemnt.workPeriod.asHumanReadableString(),
-                style = MaterialTheme.typography.h6
-            )
-            Spacer(Modifier.height(5.dp))
-            Text(
-                text = employemnt.jobTitle,
-                style = MaterialTheme.typography.h6
-            )
-        }
-    }
-}
-
-private fun loadImage(source: String): BufferedImage? {
-    try {
-        val url = URL(source)
-        val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-        connection.connectTimeout = 5000
-        connection.connect()
-
-        return connection.inputStream.use {
-            ImageIO.read(it)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-
-    return null
 }
