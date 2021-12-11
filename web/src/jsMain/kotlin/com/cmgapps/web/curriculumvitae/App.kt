@@ -21,6 +21,7 @@ import com.cmgapps.web.curriculumvitae.infra.BootstrapVariables
 import com.cmgapps.web.curriculumvitae.ui.Employments
 import com.cmgapps.web.curriculumvitae.ui.PageFooter
 import com.cmgapps.web.curriculumvitae.ui.ProfileCard
+import com.cmgapps.web.curriculumvitae.ui.SkillsCard
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
@@ -52,6 +53,7 @@ fun App(koin: Koin) {
     }) {
         ProfileCard(koin.get())
         Employments(koin.get())
+        SkillsCard(koin.get())
     }
     PageFooter()
 }
