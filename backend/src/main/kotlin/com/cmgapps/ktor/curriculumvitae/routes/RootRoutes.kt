@@ -19,6 +19,7 @@ package com.cmgapps.ktor.curriculumvitae.routes
 import com.cmgapps.common.curriculumvitae.data.network.Address
 import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.common.curriculumvitae.data.network.Profile
+import com.cmgapps.common.curriculumvitae.data.network.Skill
 import com.cmgapps.ktor.curriculumvitae.Routes
 import com.cmgapps.ktor.curriculumvitae.template.MaterialPage
 import io.ktor.application.Application
@@ -146,7 +147,7 @@ private fun DIV.page() {
     div(classes = "mdl-grid") {
         apiCard(
             HttpMethod.Get,
-            "/profile",
+            Routes.PROFILE.route,
             listOf(langParam),
             Profile(
                 name = "My Name",
@@ -167,9 +168,8 @@ private fun DIV.page() {
         )
         apiCard(
             HttpMethod.Get,
-            "/employment",
-            listOf(langParam),
-            Employment(
+            Routes.EMPLOYMENT.route,
+            response = Employment(
                 id = 1,
                 jobTitle = "Software Developer",
                 employer = "CMG Mobile Apps",
@@ -181,6 +181,12 @@ private fun DIV.page() {
                     "Software development"
                 )
             )
+        )
+
+        apiCard(
+            HttpMethod.Get,
+            Routes.SKILLS.route,
+            response = listOf(Skill("Mobile Developent", 5), Skill("Android", 5))
         )
     }
 }
