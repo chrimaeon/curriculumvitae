@@ -24,6 +24,7 @@ import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
+import com.cmgapps.ktor.curriculumvitae.routes.registerSkillRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -67,7 +68,8 @@ enum class Routes(val route: String) {
     HEALTHZ("/healthz"),
     STATUS("/status"),
     PROFILE("/profile"),
-    EMPLOYMENT("/employment")
+    EMPLOYMENT("/employment"),
+    SKILLS("/skills"),
 }
 
 fun Application.module() {
@@ -143,6 +145,7 @@ fun Application.registerRoutes() {
     registerStaticRoutes()
     registerProfileRoutes()
     registerEmploymentRoutes()
+    registerSkillRoutes()
 }
 
 private const val EMPLOYMENTS_RESOURCE_PATH = "employments"

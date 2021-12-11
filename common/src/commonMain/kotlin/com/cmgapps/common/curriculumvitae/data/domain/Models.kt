@@ -27,6 +27,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
+import com.cmgapps.common.curriculumvitae.data.network.Skill as NetworkSkill
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkStatus
 
 data class Status(
@@ -116,3 +117,7 @@ fun DatePeriod.asHumanReadableString() = buildString {
         append(plurals(Res.plurals.months, months))
     }
 }.trim()
+
+data class Skill(val name: String, val level: Int)
+
+fun NetworkSkill.asDomainModel() = Skill(name, level)
