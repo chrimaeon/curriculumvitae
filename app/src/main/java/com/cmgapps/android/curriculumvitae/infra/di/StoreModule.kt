@@ -39,9 +39,11 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.map
 import javax.inject.Singleton
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile as DataStoreProfile
+import com.cmgapps.android.curriculumvitae.data.datastore.Skills as DataStoreSkills
 import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
 import com.cmgapps.common.curriculumvitae.data.domain.Employment as DomainEmployment
 import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
+import com.cmgapps.common.curriculumvitae.data.domain.Skill as DomainSkill
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -74,7 +76,8 @@ object StoreModule {
             },
             sourceOfTruth = SourceOfTruth.of(
                 reader = {
-                    employmentQueries.selectAllOrderedByStartDate(::employmentMapper).asFlow().mapToList()
+                    employmentQueries.selectAllOrderedByStartDate(::employmentMapper).asFlow()
+                        .mapToList()
                 },
                 writer = { _, employments ->
                     employmentQueries.transaction {
@@ -97,4 +100,18 @@ object StoreModule {
                 employmentQueries.getEmployment(id, ::employmentMapper).asFlow().mapToOne()
             }
         ).build()
+
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    @Provides
+    @Singleton
+    fun provideSkillsStore(
+        dataStore: DataStore<DataStoreSkills?>,
+        api: CvApiService
+    ): Store<String, List<DomainSkill>> = StoreBuilder.from(
+        fetcher = Fetcher.of<String, DataStoreSkills> { api.getSkills().asDataStoreModel() },
+        sourceOfTruth = SourceOfTruth.of(
+            reader = { dataStore.data.map { it?.asDomainModel() } },
+            writer = { _, data -> dataStore.updateData { data } },
+        )
+    ).build()
 }

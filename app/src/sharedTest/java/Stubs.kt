@@ -27,6 +27,7 @@ import kotlinx.datetime.Month
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
+import com.cmgapps.common.curriculumvitae.data.network.Skill as NetworkSkill
 
 fun StubNetworkProfile() = NetworkProfile(
     name = "Firstname Lastname",
@@ -42,7 +43,6 @@ fun StubNetworkProfile() = NetworkProfile(
 )
 
 fun StubDomainProfile() = StubNetworkProfile().asDomainModel()
-
 fun StubDataStoreProfile(): Profile = StubNetworkProfile().asDataStoreModel()
 
 fun StubNetworkEmployment() = NetworkEmployment(
@@ -58,5 +58,14 @@ fun StubNetworkEmployment() = NetworkEmployment(
 )
 
 fun StubDatabaseEmployment() = StubNetworkEmployment().asDatabaseModel()
-
 fun StubDomainEmployment() = StubDatabaseEmployment().asDomainModel()
+
+fun StubNetworkSkills() = listOf(
+    NetworkSkill(
+        name = "Skill level 1",
+        level = 1
+    )
+)
+
+fun StubDomainSkills() = StubNetworkSkills().asDomainModel()
+fun StubDataStoreSkills() = StubNetworkSkills().asDataStoreModel()

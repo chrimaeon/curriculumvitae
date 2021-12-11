@@ -99,7 +99,7 @@ class MainActivityShould {
 
         onNodeWithText(activity.resources.getString(R.string.skills_label)).assertIsDisplayed()
             .performClick()
-        onNodeWithText("Android").assertIsDisplayed()
+        onNodeWithText("Skill level 1").assertIsDisplayed()
         return@with
     }
 

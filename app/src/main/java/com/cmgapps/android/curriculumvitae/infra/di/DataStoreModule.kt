@@ -22,6 +22,8 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.data.datastore.ProfileDataStoreSerializer
+import com.cmgapps.android.curriculumvitae.data.datastore.Skills
+import com.cmgapps.android.curriculumvitae.data.datastore.SkillsDataStoreSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,5 +41,14 @@ object DataStoreModule {
             ProfileDataStoreSerializer
         ) {
             context.dataStoreFile("profile.pb")
+        }
+
+    @Singleton
+    @Provides
+    fun provideSkillsDataStore(@ApplicationContext context: Context): DataStore<Skills?> =
+        DataStoreFactory.create(
+            SkillsDataStoreSerializer
+        ) {
+            context.dataStoreFile("skills.pb")
         }
 }

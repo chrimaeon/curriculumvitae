@@ -20,17 +20,52 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cmgapps.android.curriculumvitae.R
+import com.cmgapps.android.curriculumvitae.components.ContentError
+import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.common.curriculumvitae.components.TagCloud
+import com.cmgapps.common.curriculumvitae.data.domain.Skill
 
 @Composable
-fun SkillsScreen() {
+fun SkillsScreen(
+    viewModel: SkillsViewModel,
+    snackbarHostState: SnackbarHostState
+) {
+    val uiState = viewModel.uiState
+
+    if (uiState.loading && uiState.data == null) {
+        ContentLoading()
+    }
+
+    if (uiState.networkError) {
+        val errorMessage = stringResource(id = R.string.refresh_error)
+        LaunchedEffect(snackbarHostState) {
+            snackbarHostState.showSnackbar(errorMessage)
+        }
+    }
+
+    if (uiState.exception != null && !uiState.networkError && uiState.data == null) {
+        ContentError()
+    }
+
+    uiState.data?.let {
+        Content(skills = it)
+    }
+}
+
+@Composable
+private fun Content(skills: List<Skill>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -38,37 +73,25 @@ fun SkillsScreen() {
         contentAlignment = Alignment.Center
     ) {
         TagCloud {
-            Text(
-                "Mobile Development",
-                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Scrum",
-                style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Git",
-                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Android",
-                style = MaterialTheme.typography.h2.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Kotlin",
-                style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "SQL",
-                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Java",
-                style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold)
-            )
+            skills.forEach { skill ->
+                Text(
+                    skill.name,
+                    style = skill.levelAsTextStyle()
+                )
+            }
         }
     }
 }
+
+@Composable
+private fun Skill.levelAsTextStyle(): TextStyle = when (level) {
+    1 -> MaterialTheme.typography.h6
+    2 -> MaterialTheme.typography.h5
+    3 -> MaterialTheme.typography.h4
+    4 -> MaterialTheme.typography.h3
+    5 -> MaterialTheme.typography.h2
+    else -> error("level not specified")
+}.copy(fontWeight = FontWeight.Bold)
 
 @Preview(
     widthDp = 320,
@@ -78,7 +101,41 @@ fun SkillsScreen() {
 )
 @Composable
 fun PreviewSkills() {
+    val skills = listOf(
+        Skill(
+            "Foobar",
+            1
+        ),
+        Skill(
+            "Foobar",
+            2
+        ),
+        Skill(
+            "Foobar",
+            3
+        ),
+        Skill(
+            "Foobar",
+            4
+        ),
+        Skill(
+            "Foobar",
+            5
+        ),
+        Skill(
+            "Foobar",
+            1
+        ),
+        Skill(
+            "Foobar",
+            3
+        ),
+        Skill(
+            "Foobar",
+            2
+        )
+    )
     MaterialTheme {
-        SkillsScreen()
+        Content(skills)
     }
 }

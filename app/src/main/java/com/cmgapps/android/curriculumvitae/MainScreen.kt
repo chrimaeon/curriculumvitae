@@ -178,13 +178,20 @@ fun MainScreenNavHost(
                 arguments = SubScreen.EmploymentDetail.arguments,
                 enterTransition = { _, _ -> slideInHorizontally(initialOffsetX = { it }) },
                 exitTransition = { _, _ -> slideOutHorizontally(targetOffsetX = { it }) },
-            ) { EmploymentDetails(viewModel = hiltViewModel()) { navController.popBackStack() } }
+            ) {
+                EmploymentDetails(viewModel = hiltViewModel()) { navController.popBackStack() }
+            }
         }
         composable(
             route = Screen.Skills.route,
             enterTransition = defaultEnterTransition,
             exitTransition = defaultExitTransition,
-        ) { SkillsScreen() }
+        ) {
+            SkillsScreen(
+                viewModel = hiltViewModel(),
+                snackbarHostState = scaffoldState.snackbarHostState
+            )
+        }
 
         bottomSheet(Screen.Info.route) {
             InfoSheet(onOpenWebsite = onOpenWebsite)

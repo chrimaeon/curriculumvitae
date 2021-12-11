@@ -18,7 +18,9 @@ package com.cmgapps.android.curriculumvitae.infra.di
 
 import androidx.datastore.core.DataStore
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
+import com.cmgapps.android.curriculumvitae.data.datastore.Skills
 import com.cmgapps.android.curriculumvitae.test.StubDataStoreProfile
+import com.cmgapps.android.curriculumvitae.test.StubDataStoreSkills
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -47,6 +49,23 @@ class FakeDataStoreModule {
                 transform(profile).also {
                     profile = it
                     profileFlow.value = it
+                }
+        }
+
+    @Provides
+    fun provideSkillsDataStore(): DataStore<Skills?> =
+        object : DataStore<Skills?> {
+
+            private var skills: Skills? = StubDataStoreSkills()
+
+            private val skillsFlow = MutableStateFlow(skills)
+
+            override val data: Flow<Skills?> = skillsFlow
+
+            override suspend fun updateData(transform: suspend (t: Skills?) -> Skills?) =
+                transform(skills).also {
+                    skills = it
+                    skillsFlow.value = it
                 }
         }
 }
