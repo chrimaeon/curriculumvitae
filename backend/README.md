@@ -33,10 +33,6 @@ GET
 
 ### /employment ###
 
-| Name            | Type   | In     | Description                                                                              |
-| --------------- | ------ | ------ | ---------------------------------------------------------------------------------------- |
-| Accept-Language | String | Header | A HTTP language header; see https://datatracker.ietf.org/doc/html/rfc7231\#section-5.3.5 |
-
 ###### Response ######
 
     {
@@ -51,3 +47,20 @@ GET
         "Software development"
       ]
     }
+
+GET
+
+### /skills ###
+
+###### Response ######
+
+    [
+      {
+        "name": "Mobile Developent",
+        "level": 5
+      },
+      {
+        "name": "Android",
+        "level": 5
+      }
+    ]
