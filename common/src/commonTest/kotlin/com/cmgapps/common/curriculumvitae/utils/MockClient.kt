@@ -18,6 +18,7 @@ package com.cmgapps.common.curriculumvitae.utils
 
 import StubNetworkEmployment
 import StubNetworkProfile
+import StubNetworkSkill
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -41,6 +42,10 @@ val mockClient = HttpClient(MockEngine) {
                 )
                 "/profile" -> respond(
                     Json.encodeToString(StubNetworkProfile()),
+                    headers = responseHeaders
+                )
+                "/skills" -> respond(
+                    Json.encodeToString(listOf(StubNetworkSkill())),
                     headers = responseHeaders
                 )
                 // websockets not yet supported in MockEngine

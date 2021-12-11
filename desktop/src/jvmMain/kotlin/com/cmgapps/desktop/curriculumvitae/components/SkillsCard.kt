@@ -23,46 +23,40 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.components.TagCloud
+import com.cmgapps.common.curriculumvitae.data.domain.Skill
 
 @Composable
-fun SkillsCard() {
+fun SkillsCard(skills: List<Skill>?) {
+    if (skills == null || skills.isEmpty()) {
+        return
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
         TagCloud(
             modifier = Modifier.padding(10.dp)
         ) {
-            Text(
-                "Mobile Development",
-                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Scrum",
-                style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Git",
-                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Android",
-                style = MaterialTheme.typography.h2.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Kotlin",
-                style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "SQL",
-                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                "Java",
-                style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold)
-            )
+            skills.forEach { skill ->
+                Text(
+                    skill.name,
+                    style = skill.levelAsTextStyle()
+                )
+            }
         }
     }
 }
+
+@Composable
+private fun Skill.levelAsTextStyle(): TextStyle = when (level) {
+    1 -> MaterialTheme.typography.h6
+    2 -> MaterialTheme.typography.h5
+    3 -> MaterialTheme.typography.h4
+    4 -> MaterialTheme.typography.h3
+    5 -> MaterialTheme.typography.h2
+    else -> error("level not specified")
+}.copy(fontWeight = FontWeight.Bold)

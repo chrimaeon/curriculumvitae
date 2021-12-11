@@ -1,6 +1,8 @@
-# Curriculum Vitae BFF
+Curriculum Vitae BFF
 
-## Available API's #####
+Curriculum Vitae BFF
+
+##### Available API's #####
 
 GET
 
@@ -56,7 +58,7 @@ GET
 
     [
       {
-        "name": "Mobile Developent",
+        "name": "Mobile Development",
         "level": 5
       },
       {

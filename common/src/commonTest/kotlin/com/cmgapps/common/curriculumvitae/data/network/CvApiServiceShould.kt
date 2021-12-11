@@ -18,6 +18,7 @@ package com.cmgapps.common.curriculumvitae.data.network
 
 import StubNetworkEmployment
 import StubNetworkProfile
+import StubNetworkSkill
 import StubNetworkStatus
 import app.cash.turbine.test
 import com.cmgapps.common.curriculumvitae.BaseUrl
@@ -46,9 +47,15 @@ class CvApiServiceShould {
     }
 
     @Test
-    fun get_employemnts() = runTest {
+    fun get_employments() = runTest {
         val result = apiService.getEmployments()
         assertEquals(listOf(StubNetworkEmployment()), result)
+    }
+
+    @Test
+    fun get_skills() = runTest {
+        val result = apiService.getSkills()
+        assertEquals(listOf(StubNetworkSkill()), result)
     }
 
     @ExperimentalTime

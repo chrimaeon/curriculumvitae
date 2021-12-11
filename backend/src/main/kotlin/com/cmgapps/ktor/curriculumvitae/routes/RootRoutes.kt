@@ -186,7 +186,7 @@ private fun DIV.page() {
         apiCard(
             HttpMethod.Get,
             Routes.SKILLS.route,
-            response = listOf(Skill("Mobile Developent", 5), Skill("Android", 5))
+            response = listOf(Skill("Mobile Development", 5), Skill("Android", 5))
         )
     }
 }

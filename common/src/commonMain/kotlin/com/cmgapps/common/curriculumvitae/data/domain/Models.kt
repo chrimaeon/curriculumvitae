@@ -120,4 +120,4 @@ fun DatePeriod.asHumanReadableString() = buildString {
 
 data class Skill(val name: String, val level: Int)
 
-fun NetworkSkill.asDomainModel() = Skill(name, level)
+fun List<NetworkSkill>.asDomainModel() = map { Skill(it.name, it.level) }

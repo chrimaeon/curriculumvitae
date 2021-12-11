@@ -22,6 +22,7 @@ import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.common.curriculumvitae.language
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
+import com.cmgapps.common.curriculumvitae.repository.SkillsRepository
 import com.cmgapps.common.curriculumvitae.repository.StatusRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.features.defaultRequest
@@ -59,6 +60,9 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
             get { parametersOf("EmploymentRepository") },
             MainScope(),
         )
+    }
+    single {
+        SkillsRepository(get())
     }
     single { StatusRepository(get()) }
     val baseLogger =

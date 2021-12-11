@@ -40,8 +40,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.common.curriculumvitae.data.domain.Skill
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
+import com.cmgapps.common.curriculumvitae.repository.SkillsRepository
 import com.cmgapps.desktop.curriculumvitae.components.EmploymentCard
 import com.cmgapps.desktop.curriculumvitae.components.ProfileCard
 import com.cmgapps.desktop.curriculumvitae.components.SkillsCard
@@ -55,12 +57,22 @@ fun App(koin: Koin) {
 
     val profileRepo: ProfileRepository = koin.get()
     val employmentRepo: EmploymentRepository = koin.get()
+    val skillsRepo: SkillsRepository = koin.get()
 
     var profile: Profile? by remember { mutableStateOf(null) }
+    var skills: List<Skill>? by remember { mutableStateOf(null) }
 
     LaunchedEffect(profileRepo) {
         profile = try {
             profileRepo.getProfile()
+        } catch (exc: IOException) {
+            null
+        }
+    }
+
+    LaunchedEffect(skillsRepo) {
+        skills = try {
+            skillsRepo.getSkills()
         } catch (exc: IOException) {
             null
         }
@@ -93,7 +105,7 @@ fun App(koin: Koin) {
                         when {
                             index == 0 -> ProfileCard(profile)
                             (employments.isEmpty() && index == 1) ||
-                                (employments.isNotEmpty() && index == employments.size + 1) -> SkillsCard()
+                                (employments.isNotEmpty() && index == employments.size + 1) -> SkillsCard(skills)
                             else -> EmploymentCard(employments[index - 1])
                         }
                     }

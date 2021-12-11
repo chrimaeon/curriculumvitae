@@ -25,10 +25,12 @@ import kotlinx.datetime.Month
 import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
 import com.cmgapps.common.curriculumvitae.data.domain.Employment as DomainEmployment
 import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
+import com.cmgapps.common.curriculumvitae.data.domain.Skill as DomainSkill
 import com.cmgapps.common.curriculumvitae.data.domain.Status as DomainStatus
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
+import com.cmgapps.common.curriculumvitae.data.network.Skill as NetworkSkill
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkStatus
 
 fun StubNetworkProfile(): NetworkProfile = NetworkProfile(
@@ -76,3 +78,6 @@ fun StubDomainEmployment(): DomainEmployment = StubDatabaseEmployment().asDomain
 
 fun StubNetworkStatus(): NetworkStatus = NetworkStatus(1, 2, 3, 4)
 fun StubDomainStatus(): DomainStatus = StubNetworkStatus().asDomainModel()
+
+fun StubNetworkSkill(): NetworkSkill = NetworkSkill("Skill level 1", 1)
+fun StubDomainSkill(): DomainSkill = with(StubNetworkSkill()) { DomainSkill(name, level) }

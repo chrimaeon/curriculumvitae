@@ -44,6 +44,12 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
         }.build()
     )
 
+    suspend fun getSkills(): List<Skill> = client.get(
+        URLBuilder(baseUrl).apply {
+            path("skills")
+        }.build()
+    )
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getApiStatus(): Flow<Status> = flow {
         client.webSocket(
