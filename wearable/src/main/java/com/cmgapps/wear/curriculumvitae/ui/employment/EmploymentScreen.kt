@@ -18,51 +18,38 @@ package com.cmgapps.wear.curriculumvitae.ui.employment
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.ScalingLazyColumn
-import androidx.wear.compose.material.ScalingLazyColumnDefaults
 import androidx.wear.compose.material.Text
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
+import com.cmgapps.wear.curriculumvitae.components.CenterStartLazyColumn
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import org.koin.androidx.compose.getViewModel
 
-private val itemHeight = 80.dp
+private val ITEM_HEIGHT = 80.dp
 
 @Composable
 fun EmploymentScreen(viewModel: EmploymentViewModel = getViewModel()) {
 
     val uiState = viewModel.uiState
 
-    BoxWithConstraints {
-        val verticalPadding = (maxHeight / 2) - (itemHeight / 2)
-
-        ScalingLazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            contentPadding = PaddingValues(vertical = verticalPadding, horizontal = 16.dp),
-            scalingParams = ScalingLazyColumnDefaults.scalingParams(
-                edgeScale = 0.2f,
-                minTransitionArea = 0.5f
-            )
-        ) {
+    CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onPrimary) {
+        CenterStartLazyColumn(itemHeight = ITEM_HEIGHT) {
 
             val isLoading = uiState.loading
             val itemCount = uiState.data?.size ?: 5
@@ -71,14 +58,14 @@ fun EmploymentScreen(viewModel: EmploymentViewModel = getViewModel()) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(itemHeight)
+                        .height(ITEM_HEIGHT)
                         .clip(RoundedCornerShape(percent = 50))
-                        .background(MaterialTheme.colors.secondary)
+                        .background(MaterialTheme.colors.primary)
                         .placeholder(
                             visible = isLoading,
                             highlight = PlaceholderHighlight.shimmer(),
                         )
-                        .padding(start = itemHeight / 4, end = itemHeight / 4),
+                        .padding(start = ITEM_HEIGHT / 4, end = ITEM_HEIGHT / 4),
                     verticalArrangement = Arrangement.Center
                 ) {
                     val employments = uiState.data

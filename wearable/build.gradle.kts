@@ -64,6 +64,7 @@ android {
 
 dependencies {
     implementation(projects.common)
+    implementation(projects.commonCompose)
     implementation(libs.playservices.wearable)
     implementation(libs.bundles.compose.wear)
     implementation(libs.koin.compose)

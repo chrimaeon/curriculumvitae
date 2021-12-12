@@ -17,6 +17,7 @@
 package com.cmgapps.wear.curriculumvitae.ui.profile
 
 import android.graphics.drawable.ColorDrawable
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,9 +27,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.BasicCurvedText
 import androidx.wear.compose.foundation.CurvedRow
@@ -37,11 +40,15 @@ import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.wear.curriculumvitae.ui.Theme
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import org.koin.androidx.compose.getViewModel
+
+private val BLACK = Color.Black.copy(alpha = 0.6f)
 
 @Composable
 fun ProfileScreen(
@@ -86,10 +93,18 @@ private fun Profile(profile: Profile) {
             contentScale = ContentScale.Crop,
             colorFilter = ColorFilter.tint(Color(0x20000000), BlendMode.Multiply)
         )
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val brush = Brush.radialGradient(
+                0f to Color.Transparent,
+                0.40f to Color.Transparent,
+                1f to BLACK,
+            )
+            drawRect(brush)
+        }
         CurvedRow(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp)
+                .padding(4.dp)
         ) {
             BasicCurvedText(
                 profile.name,
@@ -104,7 +119,7 @@ private fun Profile(profile: Profile) {
         CurvedRow(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
+                .padding(4.dp),
             anchor = 90f,
         ) {
             BasicCurvedText(
@@ -113,5 +128,24 @@ private fun Profile(profile: Profile) {
                 clockwise = false
             )
         }
+    }
+}
+
+@Preview(
+    widthDp = 195,
+    heightDp = 195
+)
+@Composable
+fun ProfilePreview() {
+    val profile = Profile(
+        name = "Christian Grach",
+        phone = "+123456789",
+        profileImageUrl = "",
+        address = Address("Street 1", "Graz", "8010"),
+        email = "me@home.at",
+        intro = listOf("Line 1")
+    )
+    Theme {
+        Profile(profile)
     }
 }

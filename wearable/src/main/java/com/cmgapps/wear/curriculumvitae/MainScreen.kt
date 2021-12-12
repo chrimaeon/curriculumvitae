@@ -30,6 +30,7 @@ import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
 import com.cmgapps.wear.curriculumvitae.ui.employment.EmploymentScreen
 import com.cmgapps.wear.curriculumvitae.ui.profile.ProfileScreen
+import com.cmgapps.wear.curriculumvitae.ui.skills.SkillsScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -45,10 +46,11 @@ fun MainScreen() {
                 .fillMaxSize()
                 .background(MaterialTheme.colors.surface)
         ) {
-            HorizontalPager(state = pagerState, count = 2) { page ->
+            HorizontalPager(state = pagerState, count = 3) { page ->
                 when (page) {
                     0 -> ProfileScreen()
                     1 -> EmploymentScreen()
+                    2 -> SkillsScreen()
                 }
             }
 

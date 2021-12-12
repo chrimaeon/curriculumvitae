@@ -18,10 +18,12 @@ package com.cmgapps.wear.curriculumvitae.infra.di
 
 import com.cmgapps.wear.curriculumvitae.ui.employment.EmploymentViewModel
 import com.cmgapps.wear.curriculumvitae.ui.profile.ProfileViewModel
+import com.cmgapps.wear.curriculumvitae.ui.skills.SkillsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { EmploymentViewModel(get()) }
+    viewModel { SkillsViewModel(get()) }
 }

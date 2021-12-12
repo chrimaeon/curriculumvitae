@@ -16,23 +16,26 @@
 
 package com.cmgapps.wear.curriculumvitae.ui
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.toArgb
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
 
-private val LightColorPalette = Colors(
-    primary = lightBlue500,
+private val DarkColorPalette = Colors(
+    primary = lightBlue200,
     primaryVariant = lightBlue700,
     secondary = amber200,
-    secondaryVariant = amber700,
+    secondaryVariant = amber200,
 )
 
 @Composable
 fun Theme(
     content: @Composable () -> Unit
 ) {
+    Log.d("Theme", DarkColorPalette.secondary.toArgb().toUInt().toString(16))
     MaterialTheme(
-        colors = LightColorPalette,
+        colors = DarkColorPalette,
         content = content
     )
 }
