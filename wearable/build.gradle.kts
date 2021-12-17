@@ -34,6 +34,8 @@ android {
         versionName = "1.0.0"
 
         resourceConfigurations.addAll(listOf("en", "de"))
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -60,6 +62,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
+    }
 }
 
 dependencies {
@@ -74,4 +80,12 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pagerIndicators)
     implementation(libs.kotlinx.datetime)
+
+    androidTestImplementation(libs.androidx.extJunit)
+    androidTestImplementation(libs.androidx.coreTesting)
+    androidTestImplementation(libs.compose.uiTest)
+    androidTestImplementation(libs.koin.test)
+    androidTestImplementation(libs.ktor.client.mock)
+    androidTestImplementation(libs.ktor.client.serialization)
+    androidTestImplementation(libs.sqldelight.driver.android)
 }

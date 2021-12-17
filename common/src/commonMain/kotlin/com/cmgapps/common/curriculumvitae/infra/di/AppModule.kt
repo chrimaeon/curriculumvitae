@@ -51,20 +51,35 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
             get { parametersOf("HttpClient") },
         )
     }
-    single { CvApiService(get(), provideBaseUrl()) }
-    single { ProfileRepository(get()) }
     single {
-        EmploymentRepository(
-            get(),
-            get(),
-            get { parametersOf("EmploymentRepository") },
-            MainScope(),
+        CvApiService(
+            client = get(),
+            baseUrl = provideBaseUrl()
         )
     }
-    single {
-        SkillsRepository(get())
+    factory {
+        ProfileRepository(
+            api = get()
+        )
     }
-    single { StatusRepository(get()) }
+    factory {
+        EmploymentRepository(
+            api = get(),
+            databaseWrapper = get(),
+            logger = get { parametersOf("EmploymentRepository") },
+            scope = MainScope(),
+        )
+    }
+    factory {
+        SkillsRepository(
+            api = get()
+        )
+    }
+    factory {
+        StatusRepository(
+            api = get()
+        )
+    }
     val baseLogger =
         co.touchlab.kermit.Logger(
             config = StaticConfig(logWriterList = listOf(platformLogWriter())),

@@ -117,7 +117,8 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
-# endregion
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+#endregion
 
 # region Testing
 androidx-coreTesting = "androidx.arch.core:core-testing:2.1.0"
