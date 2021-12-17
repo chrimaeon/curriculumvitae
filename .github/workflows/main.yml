@@ -252,6 +252,7 @@ jobs:
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
+
   connectedWearableTest:
     runs-on: macos-11
 
@@ -268,7 +269,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actiond/setup-java@v1
+        uses: actions/setup-java@v1
         with:
           java-version: 11
 
@@ -308,18 +309,50 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: wear-avd-${{ matrix.api-level }}
+          key: android-wear-avd-${{ matrix.api-level }}
 
       - name: Create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          target: default
+          target: android-wear
           arch: x86
-          profile: Android Wear Round
+          profile: wear_round
           force-avd-creation: false
-          avd-name: wear_round-${{matrix.api-level}}
+          avd-name: wear_round-${{ matrix.api-level }}
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
+
+      - name: Download dependencies
+        run: ./gradlew dependencies
+
+      - name: Run connected Wearable tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: android-wear
+          arch: x86
+          profile: wear_round
+          force-avd-creation: false
+          avd-name: wear_round-${{matrix.api-level}}
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: adb logcat >logcat.txt & ./gradlew :wearable:connectedDebugAndroidTest
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs-${{ matrix.api-level }}
+          path: logcat.txt
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results-${{ matrix.api-level }}
+          path: |
+            **/build/reports/*
+            **/build/outputs/*/connected/*
