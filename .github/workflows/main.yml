@@ -148,7 +148,7 @@ jobs:
   #          xcodebuild -project ios/CurriculumVitae.xcodeproj \
   #          -scheme CurriculumVitae \
   #          -configuration Debug
-  connectedAndroidTest:
+  connectedAndroidAppTest:
     runs-on: macos-11
 
     env:
@@ -205,7 +205,7 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-${{ matrix.api-level }}-${{ matrix.target }}
+          key: app-avd-${{ matrix.api-level }}-${{ matrix.target }}
 
       - name: Create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
@@ -252,3 +252,74 @@ jobs:
           path: |
             **/build/reports/*
             **/build/outputs/*/connected/*
+  connectedWearableTest:
+    runs-on: macos-11
+
+    env:
+      CV_BASE_URL: https://www.host.undefined
+      CV_EMAIL: me@home.at
+      CV_DEBUG_BASE_URLS: https://www.host.undefined
+
+    strategy:
+      matrix:
+        api-level: [ 28 ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actiond/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Generate cache key
+        run: ./scripts/checksum.sh checksum.txt
+
+      - name: Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('checksum.txt') }}
+
+      - name: Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Get Kotlin version
+        id: get-kotlin-version
+        run: |
+          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' gradle/libs.versions.toml)"
+
+      - name: Konan Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ steps.get-kotlin-version.outputs.version }}
+
+      - name: AVD cache
+        uses: actions/cache@v2
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: wear-avd-${{ matrix.api-level }}
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: default
+          arch: x86
+          profile: Android Wear Round
+          force-avd-creation: false
+          avd-name: wear_round-${{matrix.api-level}}
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
