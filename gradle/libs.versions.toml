@@ -120,6 +120,7 @@ koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = 
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-testJunit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 #endregion
 
 # region Testing
@@ -128,6 +129,7 @@ androidx-extJunit = "androidx.test.ext:junit:1.1.3"
 androidx-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 junit-bom = "org.junit:junit-bom:5.8.2"
+junit-junit = "junit:junit:4.13.2"
 hamcrest = "org.hamcrest:hamcrest:2.2"
 mockito-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }

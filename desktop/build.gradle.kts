@@ -27,6 +27,11 @@ plugins {
 kotlin {
     jvm {
         withJava()
+        testRuns["test"].executionTask.configure {
+            testLogging {
+                events("passed", "skipped", "failed")
+            }
+        }
     }
 
     sourceSets {
@@ -38,6 +43,18 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.ktor.client.java)
                 implementation(libs.kotlinx.datetime)
+            }
+        }
+
+        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+        named("jvmTest") {
+            dependencies {
+                implementation(libs.junit.junit)
+                implementation(compose.uiTestJUnit4)
+                implementation(libs.koin.test)
+                implementation(libs.koin.testJunit)
+                implementation(libs.mockito.kotlin)
+                implementation(libs.sqldelight.driver.jvm)
             }
         }
     }
@@ -60,7 +77,7 @@ compose.desktop {
 
             macOS {
                 bundleID = "com.cmgapps.mac.curriculumvitae"
-                // iconFile.set(rootDir.resolve("art/ic_launcher-playstore.webp"))
+                // iconFile.set("icns")
             }
         }
     }
