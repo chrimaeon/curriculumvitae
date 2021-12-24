@@ -24,8 +24,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.contentColorFor
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -36,7 +39,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIconDefaults
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerMoveFilter
@@ -51,14 +53,20 @@ import java.net.URI
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Footer() {
-    Surface(color = Colors.DarkGrey) {
+    Surface(
+        color = MaterialTheme.colors.primarySurface
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CompositionLocalProvider(LocalContentColor provides Color.White) {
+            CompositionLocalProvider(
+                LocalContentColor provides MaterialTheme.colors.contentColorFor(
+                    MaterialTheme.colors.primarySurface
+                )
+            ) {
                 Left()
                 Right()
             }
@@ -76,7 +84,11 @@ private fun Left() {
         ) {
             var hover by remember { mutableStateOf(false) }
 
-            Icon("code-slash", contentDescription = "Coded", color = Colors.Blue)
+            Icon(
+                "code-slash",
+                contentDescription = "Coded",
+                color = MaterialTheme.colors.secondaryVariant
+            )
             Text(" with ")
             Icon("heart-fill", contentDescription = "Love", color = Colors.Red)
             Text(" and ")

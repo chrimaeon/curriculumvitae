@@ -42,7 +42,6 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
-import com.cmgapps.desktop.curriculumvitae.Colors
 import java.awt.Desktop
 import java.awt.image.BufferedImage
 import java.net.HttpURLConnection
@@ -99,7 +98,7 @@ fun ProfileCard(profile: Profile?) {
                         Desktop.getDesktop().mail(URI.create("mailto:${profile.email}"))
                     }
                 }.pointerHoverIcon(PointerIconDefaults.Hand),
-                color = Colors.Blue
+                color = MaterialTheme.colors.primary
             )
             Text(
                 profile.phone,
@@ -109,7 +108,7 @@ fun ProfileCard(profile: Profile?) {
                         Desktop.getDesktop().browse(URI.create("tel:${profile.phone}"))
                     }
                 }.pointerHoverIcon(PointerIconDefaults.Hand),
-                color = Colors.Blue
+                color = MaterialTheme.colors.primary
             )
         }
     }

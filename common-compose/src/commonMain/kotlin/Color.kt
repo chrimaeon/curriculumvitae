@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cmgapps.wear.curriculumvitae.ui
+package com.cmgapps.common.curriculumvitae.components
 
 import androidx.compose.ui.graphics.Color
 
@@ -24,3 +24,14 @@ val lightBlue700 = Color(0xFF0288d1)
 val amber200 = Color(0xFFffe082)
 val amber500 = Color(0xFFffca28)
 val amber700 = Color(0xFFffa000)
+val darkSystemBars = Color(0x40000000)
+val lightSystemBars = Color(0xB3FFFFFF)
+
+fun Color.darker(factor: Float): Color {
+    return Color(
+        alpha = this.alpha,
+        red = (this.red * factor).coerceIn(0F, 1F),
+        green = (this.green * factor).coerceIn(0F, 1F),
+        blue = (this.blue * factor).coerceIn(0F, 1F)
+    )
+}

@@ -19,7 +19,5 @@ package com.cmgapps.desktop.curriculumvitae
 import androidx.compose.ui.graphics.Color
 
 object Colors {
-    val Blue = Color(0xFF3596e8)
     val Red = Color(0xFFdc3545)
-    val DarkGrey = Color(0xFF212121)
 }
