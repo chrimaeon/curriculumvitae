@@ -16,8 +16,15 @@
 
 package com.cmgapps.desktop.curriculumvitae
 
+import androidx.compose.material.Colors
 import androidx.compose.ui.graphics.Color
+import com.cmgapps.common.curriculumvitae.components.blue400
+import com.cmgapps.common.curriculumvitae.components.blue900
+import com.cmgapps.common.curriculumvitae.components.red600
+import com.cmgapps.common.curriculumvitae.components.red800
 
-object Colors {
-    val Red = Color(0xFFdc3545)
-}
+val Colors.heartRed: Color
+    get() = if (isLight) red800 else red600
+
+val Colors.codeBlue: Color
+    get() = if (isLight) blue900 else blue400

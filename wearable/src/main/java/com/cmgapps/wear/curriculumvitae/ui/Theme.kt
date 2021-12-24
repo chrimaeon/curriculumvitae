@@ -17,6 +17,7 @@
 package com.cmgapps.wear.curriculumvitae.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
 import com.cmgapps.common.curriculumvitae.components.amber200
@@ -25,8 +26,10 @@ import com.cmgapps.common.curriculumvitae.components.lightBlue700
 
 private val DarkColorPalette = Colors(
     primary = lightBlue200,
+    onPrimary = Color.Black,
     primaryVariant = lightBlue700,
     secondary = amber200,
+    onSecondary = Color.Black,
     secondaryVariant = amber200,
 )
 

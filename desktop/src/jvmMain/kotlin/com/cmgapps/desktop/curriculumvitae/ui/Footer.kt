@@ -45,12 +45,12 @@ import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.CopyRightText
 import com.cmgapps.common.curriculumvitae.GitHubLink
-import com.cmgapps.desktop.curriculumvitae.Colors
+import com.cmgapps.desktop.curriculumvitae.codeBlue
 import com.cmgapps.desktop.curriculumvitae.components.Icon
+import com.cmgapps.desktop.curriculumvitae.heartRed
 import java.awt.Desktop
 import java.net.URI
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Footer() {
     Surface(
@@ -87,10 +87,10 @@ private fun Left() {
             Icon(
                 "code-slash",
                 contentDescription = "Coded",
-                color = MaterialTheme.colors.secondaryVariant
+                color = MaterialTheme.colors.codeBlue
             )
             Text(" with ")
-            Icon("heart-fill", contentDescription = "Love", color = Colors.Red)
+            Icon("heart-fill", contentDescription = "Love", color = MaterialTheme.colors.heartRed)
             Text(" and ")
             Text(
                 "Compose for Desktop",
