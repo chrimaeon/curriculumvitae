@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -17,6 +19,7 @@
 import http from 'k6/http'
 import { sleep } from 'k6'
 import { Options } from 'k6/options'
+import { REQUESTS } from './requests'
 
 export const options: Partial<Options> = {
     stages: [
@@ -32,12 +35,7 @@ export const options: Partial<Options> = {
     ],
 }
 
-const BASE_URL = __ENV.BASE_URL
-
 export default (): void => {
-    http.batch([
-        ['GET', `${BASE_URL}/profile`],
-        ['GET', `${BASE_URL}/employment`],
-    ])
+    http.batch(REQUESTS)
     sleep(1)
 }

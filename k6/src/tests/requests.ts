@@ -1,5 +1,3 @@
-// noinspection JSUnusedGlobalSymbols
-
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -16,21 +14,12 @@
  * limitations under the License.
  */
 
-import http from 'k6/http'
-import { sleep } from 'k6'
-import { Options } from 'k6/options'
-import { REQUESTS } from './requests'
+import { BatchRequest } from 'k6/http'
 
-export const options: Partial<Options> = {
-    vus: 1,
-    duration: '1m',
+const BASE_URL = __ENV.BASE_URL
 
-    thresholds: {
-        http_req_duration: ['p(95)<1000'],
-    },
-}
-
-export default (): void => {
-    http.batch(REQUESTS)
-    sleep(1)
-}
+export const REQUESTS: BatchRequest[] = [
+    { method: 'GET', url: `${BASE_URL}/profile` },
+    { method: 'GET', url: `${BASE_URL}/employment` },
+    { method: 'GET', url: `${BASE_URL}/skills` },
+]
