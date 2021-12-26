@@ -16,7 +16,12 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import org.gradle.jvm.tasks.Jar
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import proguard.gradle.ProGuardTask
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.div
 
 plugins {
     kotlin("multiplatform")
@@ -46,7 +51,7 @@ kotlin {
             }
         }
 
-        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+        @OptIn(ExperimentalComposeLibrary::class)
         named("jvmTest") {
             dependencies {
                 implementation(libs.junit.junit)
@@ -60,24 +65,97 @@ kotlin {
     }
 }
 
+@OptIn(ExperimentalPathApi::class)
+val proguard by tasks.registering(ProGuardTask::class) {
+
+    description = "Create a minified version of the uber jar"
+
+    val packageTask =
+        tasks.named("packageUberJarForCurrentOS", Jar::class).get()
+
+    injars(packageTask.archiveFile)
+    libraryjars(
+        fileTree(
+            System.getProperty("java.home") + "/jmods"
+        ) {
+            exclude("**.jar", "module-info.class")
+        }
+    )
+
+    configuration(projectDir.toPath() / "proguard-rules.pro")
+
+    val proguardOutputDir = buildDir.toPath() / "proguard"
+    printmapping(proguardOutputDir / "mapping.txt")
+    printseeds(proguardOutputDir / "seeds.txt")
+    printusage(proguardOutputDir / "usage.txt")
+
+    val fileName = buildString {
+        // [baseName]-[appendix]-[version]-[classifier].[extension]
+
+        append(packageTask.archiveBaseName.get())
+
+        val appendix = packageTask.archiveAppendix.orNull
+        if (!appendix.isNullOrBlank()) {
+            append('-')
+            append(appendix)
+        }
+
+        val classifier = packageTask.archiveClassifier.orNull
+        if (!classifier.isNullOrBlank()) {
+            append('-')
+            append(classifier)
+        }
+        append("-proguard")
+        val version = packageTask.archiveVersion.orNull
+        if (!version.isNullOrBlank()) {
+            append('-')
+            append(version)
+        }
+
+        val extension = packageTask.archiveExtension.getOrElse("jar")
+        append('.')
+        append(extension)
+    }
+
+    outjars(proguardOutputDir / fileName)
+
+    dependsOn(packageTask)
+}
+
+afterEvaluate {
+    tasks.named("createDistributable") {
+        dependsOn(proguard)
+    }
+}
+
 compose.desktop {
     application {
+
         mainClass = "MainKt"
+
+        mainJar.set(
+            objects.fileProperty().apply {
+                set { proguard.get().outJarFileCollection.singleFile }
+            }
+        )
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Curriculum Vitae"
             packageVersion = "1.0.0"
+            vendor = "CMG Mobile Apps"
+
+            macOS {
+                bundleID = "com.cmgapps.mac.curriculumvitae"
+                // use scripts/create_icns.sh to create a icons file
+                @OptIn(ExperimentalPathApi::class)
+                iconFile.set((projectDir.toPath() / "icons" / "CV.icns").toFile())
+            }
 
             windows {
                 menuGroup = "Curriculum Vitae"
                 // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
                 upgradeUuid = "f4090642-a6c1-4b76-8e5a-957dd09ca6ee"
-            }
-
-            macOS {
-                bundleID = "com.cmgapps.mac.curriculumvitae"
-                iconFile.set(projectDir.resolve("icons").resolve("CV.icns"))
             }
         }
     }

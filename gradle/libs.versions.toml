@@ -35,6 +35,7 @@ hiltAndroidPluginDep = { module = "com.google.dagger:hilt-android-gradle-plugin"
 appEnginePluginDep = "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
 sqldelightPluginDep = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
 wirePluginDep = "com.squareup.wire:wire-gradle-plugin:4.0.1"
+proguardPluginDep = "com.guardsquare:proguard-gradle:7.1.1"
 # endregion
 
 # region App
