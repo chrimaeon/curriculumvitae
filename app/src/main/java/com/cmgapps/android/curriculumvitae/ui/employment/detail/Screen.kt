@@ -51,8 +51,8 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import com.cmgapps.android.curriculumvitae.ui.darker
-import com.cmgapps.android.curriculumvitae.ui.lightBlue500
+import com.cmgapps.common.curriculumvitae.components.darker
+import com.cmgapps.common.curriculumvitae.components.lightBlue500
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.google.accompanist.insets.LocalWindowInsets
