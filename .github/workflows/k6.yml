@@ -29,6 +29,11 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build
+      - name: API Test
+        run: >
+          k6 run
+          --summary-trend-stats "min,avg,med,max,p(90),p(95),p(99)"
+          dist/api-test.js
       - name: Smoke Test
         run: >
           k6 run

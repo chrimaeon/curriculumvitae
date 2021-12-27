@@ -10,9 +10,11 @@
     "monitors": "docker compose up -d influxdb grafana",
     "test:load": "yarn build && docker compose run k6 run /tests/load-test.js",
     "test:smoke": "yarn build && docker compose run k6 run /tests/smoke-test.js",
-    "test:stress": "yarn build && docker compose run k6 run /tests/stress-test.js"
+    "test:stress": "yarn build && docker compose run k6 run /tests/stress-test.js",
+    "test:api": "yarn build && docker compose run k6 run /tests/api-test.js"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.0",
     "@types/k6": "^0.35.2",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
@@ -24,5 +26,8 @@
     "typescript": "^4.3.5",
     "webpack": "^5.47.1",
     "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "chai": "^4.3.4"
   }
 }

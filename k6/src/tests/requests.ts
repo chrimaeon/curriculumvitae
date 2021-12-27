@@ -16,7 +16,7 @@
 
 import { BatchRequest } from 'k6/http'
 
-const BASE_URL = __ENV.BASE_URL
+export const BASE_URL = __ENV.BASE_URL
 
 export const REQUESTS: BatchRequest[] = [
     { method: 'GET', url: `${BASE_URL}/profile` },

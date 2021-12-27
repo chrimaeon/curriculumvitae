@@ -25,6 +25,7 @@ module.exports = {
         'load-test': './src/tests/load-test.ts',
         'smoke-test': './src/tests/smoke-test.ts',
         'stress-test': './src/tests/stress-test.ts',
+        'api-test': './src/tests/api-test.ts',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
