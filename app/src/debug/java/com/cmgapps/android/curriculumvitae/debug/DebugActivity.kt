@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.core.app.TaskStackBuilder
 import androidx.preference.DropDownPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.databinding.ActivityDebugBinding
@@ -75,6 +76,9 @@ class DebugSettingFragment : PreferenceFragmentCompat() {
 
         preferenceManager.findPreference<DropDownPreference>(DebugActivity.BASE_URL_KEY)
             ?.apply {
+                summaryProvider = Preference.SummaryProvider<DropDownPreference> {
+                    it.entry ?: BaseUrl
+                }
                 setDefaultValue(BaseUrl)
                 entries = DebugBaseUrls.toTypedArray()
                 entryValues = DebugBaseUrls.toTypedArray()
