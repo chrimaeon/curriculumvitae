@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package com.cmgapps.android.curriculumvitae.components
+package com.cmgapps.common.curriculumvitae.components
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Indication
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.material.Card
@@ -28,14 +30,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import kotlinx.coroutines.flow.collect
 
 @Composable
 fun AnimatedCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    content: @Composable () -> Unit
+    indication: Indication = LocalIndication.current,
+    content: @Composable () -> Unit,
 ) {
     val pressed = remember { mutableStateOf(false) }
     val elevation by animateDpAsState(if (pressed.value) 12.dp else 4.dp)
@@ -55,7 +57,7 @@ fun AnimatedCard(
         modifier = modifier,
         elevation = elevation,
         onClick = onClick,
-        indication = themedRipple(),
+        indication = indication,
         interactionSource = interactionSource,
         content = content,
     )

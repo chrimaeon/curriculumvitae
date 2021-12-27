@@ -18,4 +18,5 @@ package com.cmgapps.common.curriculumvitae
 
 import kotlinx.browser.window
 
-actual val language: String = window.navigator.language.lowercase()
+actual val language: String
+    get() = window.navigator.language.lowercase()

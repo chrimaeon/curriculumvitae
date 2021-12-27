@@ -47,8 +47,11 @@ kotlin {
     sourceSets {
         named("commonMain") {
             dependencies {
+                implementation(projects.common)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(libs.kotlinx.datetime)
             }
         }
 

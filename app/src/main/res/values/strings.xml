@@ -34,6 +34,7 @@
     <string name="info_oss_licenses">Open Source Licenses</string>
     <string name="info_open_font_licenses">Open Font Licenses</string>
     <string name="project_on_github">Project on GitHub</string>
+    <string name="present">Present</string>
     <plurals name="years">
         <item quantity="one">%d Year</item>
         <item quantity="other">%d Years</item>

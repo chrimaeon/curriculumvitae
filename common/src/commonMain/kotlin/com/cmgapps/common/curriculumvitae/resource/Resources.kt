@@ -33,32 +33,21 @@ object Res {
     object plurals {
         object months : Plural {
             override val one: String
+                get() = if (language == "de") "{0} Monat" else "{0} Month"
             override val other: String
-
-            init {
-                if (language == "de") {
-                    one = "{0} Monat"
-                    other = "{0} Monate"
-                } else {
-                    one = "{0} Month"
-                    other = "{0} Months"
-                }
-            }
+                get() = if (language == "de") "{0} Monate" else "{0} Months"
         }
 
         object years : Plural {
             override val one: String
+                get() = if (language == "de") "{0} Jahr" else "{0} Year"
             override val other: String
-
-            init {
-                if (language == "de") {
-                    one = "{0} Jahr"
-                    other = "{0} Jahre"
-                } else {
-                    one = "{0} Year"
-                    other = "{0} Years"
-                }
-            }
+                get() = if (language == "de") "{0} Jahre" else "{0} Years"
         }
+    }
+
+    object string {
+        val present: String
+            get() = if (language == "de") "Heute" else "Present"
     }
 }

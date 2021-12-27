@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Surface
@@ -39,6 +40,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,8 +52,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -61,11 +63,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.R
-import com.cmgapps.android.curriculumvitae.components.AnimatedCard
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.Theme
+import com.cmgapps.android.curriculumvitae.ui.themedRipple
+import com.cmgapps.common.curriculumvitae.components.AnimatedCard
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -81,6 +85,8 @@ import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
+import java.time.format.TextStyle
+import java.util.Locale
 import kotlin.time.ExperimentalTime
 
 @LogTag
@@ -216,6 +222,7 @@ private fun EmploymentCard(
                     navigateToEmploymentDetails(it.id)
                 }
             },
+            indication = themedRipple()
         ) {
             Row(
                 modifier = Modifier.padding(8.dp),
@@ -306,38 +313,41 @@ private fun Description(
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        val period: String = employment?.let {
-            employment.workPeriod.run {
-                val resources = LocalContext.current.resources
-                buildString {
-                    if (years > 0) {
-                        append(
-                            resources.getQuantityString(
-                                R.plurals.years,
-                                years,
-                                years
-                            )
-                        )
-                        append(' ')
-                    }
-                    if (months > 0) {
-                        append(
-                            resources.getQuantityString(
-                                R.plurals.months,
-                                months,
-                                months
-                            )
-                        )
-                    }
-                }
-            }.trim()
-        }.orEmpty()
-
-        Text(
+        Row(
             modifier = sharedModifier,
-            text = period,
-            style = MaterialTheme.typography.body1
-        )
+        ) {
+            CompositionLocalProvider(
+                LocalTextStyle provides MaterialTheme.typography.caption
+            ) {
+                Text(
+                    modifier = Modifier.alignBy(LastBaseline),
+                    text = employment?.workPeriod?.asHumanReadableString().orEmpty(),
+                )
+                Text(
+                    modifier = Modifier.padding(horizontal = 2.dp).alignBy(LastBaseline),
+                    text = "\u00B7",
+                )
+                val startEnd = employment?.let {
+                    buildString {
+                        append(it.startDate.month.getDisplayName(TextStyle.SHORT, Locale.getDefault()))
+                        append("\u00A0")
+                        append(it.startDate.year)
+
+                        append(" - ")
+
+                        it.endDate?.let { date ->
+                            append(date.month.getDisplayName(TextStyle.SHORT, Locale.getDefault()))
+                            append("\u00A0")
+                            append(date.year)
+                        } ?: append(stringResource(R.string.present))
+                    }
+                }.orEmpty()
+                Text(
+                    modifier = Modifier.alignBy(LastBaseline),
+                    text = startEnd,
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(4.dp))
 
