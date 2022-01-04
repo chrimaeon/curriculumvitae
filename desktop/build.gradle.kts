@@ -77,7 +77,7 @@ compose.desktop {
 
             macOS {
                 bundleID = "com.cmgapps.mac.curriculumvitae"
-                iconFile.set(projectDir.resolve("icons").resolve("CV.icns"))
+                iconFile.set(projectDir.resolve("icons").resolve("MacOS.icns"))
             }
         }
     }
