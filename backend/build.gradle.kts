@@ -69,6 +69,7 @@ appengine {
 }
 
 java {
+    // TODO update appengine to JAVA 11
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
