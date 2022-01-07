@@ -6,6 +6,7 @@ on:
 
 jobs:
   checkAndUnitTest:
+    name: Check and Run Unit Tests (JVM/Android)
     runs-on: ubuntu-latest
 
     env:
@@ -18,12 +19,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: 11
-
-      - name: Generate cache key
-        run: ./scripts/checksum.sh checksum.txt
 
       - name: Gradle Cache
         uses: actions/cache@v2
@@ -32,7 +31,7 @@ jobs:
             ~/.gradle/caches/modules-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('checksum.txt') }}
+          key: gradle-${{ hashFiles('**/build.gradle*', '**/*.versions.toml') }}
 
       - name: Gradle Wrapper Cache
         uses: actions/cache@v2
@@ -43,7 +42,7 @@ jobs:
       - name: Get Kotlin version
         id: get-kotlin-version
         run: |
-          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' gradle/libs.versions.toml)"
+          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' ./gradle/libs.versions.toml)"
 
       - name: Konan Cache
         uses: actions/cache@v2
@@ -128,6 +127,7 @@ jobs:
       # endregion
 
   checkiOS:
+    name: Check iOS
     runs-on: macos-11
 
     env:
@@ -149,6 +149,8 @@ jobs:
   #          -scheme CurriculumVitae \
   #          -configuration Debug
   connectedAndroidAppTest:
+    name: Run Android Intrumentation Tests
+    needs: checkAndUnitTest
     runs-on: macos-11
 
     env:
@@ -165,12 +167,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: 11
-
-      - name: Generate cache key
-        run: ./scripts/checksum.sh checksum.txt
 
       - name: Gradle Cache
         uses: actions/cache@v2
@@ -179,7 +179,7 @@ jobs:
             ~/.gradle/caches/modules-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('checksum.txt') }}
+          key: gradle-${{ hashFiles('**/build.gradle*', '**/*.versions.toml') }}
 
       - name: Gradle Wrapper Cache
         uses: actions/cache@v2
@@ -254,6 +254,8 @@ jobs:
             **/build/outputs/*/connected/*
 
   connectedWearableTest:
+    name: Run Wearable Instrumentation Tests
+    needs: checkAndUnitTest
     runs-on: macos-11
 
     env:
@@ -269,12 +271,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: zulu
           java-version: 11
-
-      - name: Generate cache key
-        run: ./scripts/checksum.sh checksum.txt
 
       - name: Gradle Cache
         uses: actions/cache@v2
@@ -283,7 +283,7 @@ jobs:
             ~/.gradle/caches/modules-*
             ~/.gradle/caches/jars-*
             ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('checksum.txt') }}
+          key: gradle-${{ hashFiles('**/build.gradle*', '**/*.versions.toml') }}
 
       - name: Gradle Wrapper Cache
         uses: actions/cache@v2

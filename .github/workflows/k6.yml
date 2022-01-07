@@ -2,8 +2,8 @@ name: Backend Load Test
 
 on:
   schedule:
-    # Sundays at 19:00
-    - cron: '0 19 * * 0'
+    # At 03:00 on day-of-month 15
+    - cron: '0 3 15 * *'
   workflow_dispatch:
 
 
