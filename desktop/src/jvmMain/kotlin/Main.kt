@@ -73,9 +73,7 @@ fun main() = application {
                 }
             }
         }
-        Theme(
-            darkTheme = true
-        ) {
+        Theme {
             App(koin)
         }
     }
