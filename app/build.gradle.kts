@@ -45,16 +45,13 @@ android {
     buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
-        val versionProps = Properties().apply {
-            rootDir.resolve("version.properties").inputStream().use {
-                load(it)
-            }
-        }
         applicationId = "com.cmgapps.android.curriculumvitae"
         minSdk = androidMinSdkVersion
         targetSdk = androidTargetSdkVersion
-        versionCode = versionProps.getProperty("androidAppVersion").toInt()
-        versionName = versionProps.getProperty("versionName")
+        val androidAppVersion by versionProperties()
+        val versionName by versionProperties()
+        versionCode = androidAppVersion.toInt()
+        this.versionName = versionName
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
         resourceConfigurations += listOf("en", "de")

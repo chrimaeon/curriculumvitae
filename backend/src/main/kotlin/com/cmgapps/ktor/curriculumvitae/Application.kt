@@ -58,10 +58,11 @@ import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.util.Comparator
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
+
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 enum class Routes(val route: String) {
     ROOT("/"),
@@ -148,35 +149,13 @@ fun Application.registerRoutes() {
     registerSkillRoutes()
 }
 
-private const val EMPLOYMENTS_RESOURCE_PATH = "employments"
-
 fun Application.initDb() {
     val database: CvDatabase by inject()
     val modelLoader: ModelLoader by inject()
 
-    val classLoader = this.javaClass.classLoader
     database.transaction {
-        sequence<String> {
-            classLoader.getResourceAsStream(EMPLOYMENTS_RESOURCE_PATH).also {
-                if (it == null) log.error("Employment resource folder not found")
-            }?.bufferedReader()
-                ?.use {
-                    for (line in it.lines()) {
-                        if (line.endsWith(".json", ignoreCase = true)) {
-                            log.info("Json file found for employment: $line")
-                            yield(line)
-                        }
-                    }
-                }
-        }.map {
-            modelLoader.loadModel(serializer<Employment>(), "$EMPLOYMENTS_RESOURCE_PATH/$it")
-                .also { employment ->
-                    if (employment == null) log.error("Cannot load model $it")
-                }
-        }.filterNotNull()
-            .sortedWith(Comparator.comparing(Employment::id))
-            .forEach {
-                database.employmentQueries.insertEmployment(it.asDatabaseModel())
-            }
+        modelLoader.loadModel<List<Employment>>(serializer(), "employments.json")?.forEach {
+            database.employmentQueries.insertEmployment(it.asDatabaseModel())
+        }
     }
 }

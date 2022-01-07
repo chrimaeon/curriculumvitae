@@ -28,16 +28,13 @@ android {
     buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
-        val versionProps = Properties().apply {
-            rootDir.resolve("version.properties").inputStream().use {
-                load(it)
-            }
-        }
         applicationId = "com.cmgapps.wear.curriculumvitae"
         minSdk = androidWearMinSdkVersion
         targetSdk = androidTargetSdkVersion
-        versionCode = versionProps.getProperty("androidAppVersion").toInt()
-        versionName = versionProps.getProperty("versionName")
+        val androidWearableVersion by versionProperties()
+        val versionName by versionProperties()
+        versionCode = androidWearableVersion.toInt()
+        this.versionName = versionName
 
         resourceConfigurations.addAll(listOf("en", "de"))
 

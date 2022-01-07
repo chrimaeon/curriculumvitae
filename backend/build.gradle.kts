@@ -16,7 +16,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.utils.addToStdlib.cast
 import java.util.Properties
 
 plugins {
@@ -25,22 +24,17 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.markdown)
     ktlint
-}
-
-val localImplementation: Configuration by configurations.creating {
-    extendsFrom(configurations.implementation.get())
-}
-
-val localSourceSet: SourceSet = sourceSets.create("local") {
-    java {
-        srcDir(projectDir.resolve("src/local/kotlin"))
-        compileClasspath += sourceSets.main.get().output + configurations["localCompileClasspath"]
-        runtimeClasspath += output + sourceSets.main.get().output + configurations["localRuntimeClasspath"]
-    }
+    application
+    alias(libs.plugins.shadowJar)
 }
 
 group = "com.cmgapps.ktor"
-version = "alpha1"
+val versionName by versionProperties()
+version = versionName
+
+application {
+    mainClass.set("io.ktor.server.netty.EngineMain")
+}
 
 appengine {
     val localPropsFile = rootDir.resolve("local.properties")
@@ -58,20 +52,26 @@ appengine {
         }
     }
 
-    val project: Project = project
+    stage {
+        setArtifact(
+            provider {
+                tasks.shadowJar.get().outputs.files.singleFile
+            }
+        )
+    }
 
     deploy {
         if (localProperties?.containsKey("gcloud.project.id") == true) {
             projectId = localProperties.getProperty("gcloud.project.id")
         }
-        version = project.version.cast()
+        val backendVersion by versionProperties()
+        version = backendVersion
     }
 }
 
 java {
-    // TODO update appengine to JAVA 11
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks {
@@ -96,20 +96,12 @@ tasks {
             }
         }
     }
-
-    register<JavaExec>("run") {
-        classpath =
-            sourceSets.main.get().runtimeClasspath + localSourceSet.runtimeClasspath
-        mainClass.set("MainKt")
-        jvmArgs("-Dio.ktor.development=true")
-    }
 }
 
 dependencies {
     implementation(projects.common)
     implementation(kotlin("stdlib-jdk8", libs.versions.kotlin.get()))
-
-    localImplementation(libs.ktor.netty)
+    implementation(libs.ktor.netty)
 
     implementation(libs.bundles.ktor.server)
     implementation(libs.kotlinCss)
@@ -118,8 +110,6 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.bundles.koin.server)
     implementation(libs.sqldelight.driver.jvm)
-
-    "providedCompile"(libs.appEngine)
 
     testImplementation(libs.ktor.testing)
     testImplementation(platform(libs.junit.bom))

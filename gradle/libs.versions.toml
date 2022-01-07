@@ -25,6 +25,7 @@ licenses = "com.cmgapps.licenses:4.0.0"
 benManesVersionsGradle = "com.github.ben-manes.versions:0.39.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composeJetbrains" }
+shadowJar = "com.github.johnrengelman.shadow:7.0.0"
 
 [libraries]
 

@@ -1,4 +1,4 @@
-{
+[{
   "id": 1, // unique id
   "jobTitle": "My Job Title",
   "employer": "The lovely Employer",
@@ -9,4 +9,4 @@
     "Line 1",
     "Line 2"
   ]
-}
+}]

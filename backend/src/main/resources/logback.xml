@@ -15,8 +15,8 @@
         </encoder>
     </appender>
     <root level="trace">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="CLOUD" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="CLOUD"/>
     </root>
-    <logger name="io.netty" level="INFO" />
+    <logger name="io.netty" level="INFO"/>
 </configuration>
