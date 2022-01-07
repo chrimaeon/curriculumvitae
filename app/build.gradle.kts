@@ -45,11 +45,16 @@ android {
     buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
+        val versionProps = Properties().apply {
+            rootDir.resolve("version.properties").inputStream().use {
+                load(it)
+            }
+        }
         applicationId = "com.cmgapps.android.curriculumvitae"
         minSdk = androidMinSdkVersion
         targetSdk = androidTargetSdkVersion
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = versionProps.getProperty("androidAppVersion").toInt()
+        versionName = versionProps.getProperty("versionName")
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
         resourceConfigurations += listOf("en", "de")
@@ -83,14 +88,12 @@ android {
         }
     } else null
 
-    @OptIn(ExperimentalPathApi::class)
     val debugSigningConfig = signingConfigs.named("debug") {
         storeFile = keystoreDir.resolve("debug.keystore")
     }
 
     buildTypes {
         debug {
-
             buildFeatures {
                 viewBinding = true
             }
@@ -230,6 +233,7 @@ androidComponents {
         val manifestUpdater =
             tasks.register<ManifestTransformerTask>("${variant.name}ManifestUpdater") {
                 gitInfoFile.set(gitVersion.flatMap(GitVersionTask::gitVersionOutputFile))
+                initialVersionCode = android.defaultConfig.versionCode!!
             }
 
         variant.artifacts.use(manifestUpdater)

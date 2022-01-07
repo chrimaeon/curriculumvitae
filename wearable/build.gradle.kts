@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import java.util.Properties
 import buildToolsVersion as depsBuildToolsVersion
 
 plugins {
@@ -27,19 +28,46 @@ android {
     buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
+        val versionProps = Properties().apply {
+            rootDir.resolve("version.properties").inputStream().use {
+                load(it)
+            }
+        }
         applicationId = "com.cmgapps.wear.curriculumvitae"
         minSdk = androidWearMinSdkVersion
         targetSdk = androidTargetSdkVersion
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = versionProps.getProperty("androidAppVersion").toInt()
+        versionName = versionProps.getProperty("versionName")
 
         resourceConfigurations.addAll(listOf("en", "de"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val keystoreDir = projectDir.resolve("keystore")
+    val keystorePropsFile = keystoreDir.resolve("curriculumvitae.keystore.properties")
+
+    val releaseSigningConfig = if (keystorePropsFile.exists()) {
+        signingConfigs.register("release") {
+            val keyProps = Properties().apply {
+                keystorePropsFile.inputStream().use {
+                    load(it)
+                }
+            }
+            storeFile = keystoreDir.resolve("upload.jks")
+            storePassword = keyProps.getProperty("storePass")
+            keyAlias = keyProps.getProperty("alias")
+            keyPassword = keyProps.getProperty("pass")
+        }
+    } else null
+
+    val debugSigningConfig = signingConfigs.named("debug") {
+        storeFile = keystoreDir.resolve("debug.keystore")
+    }
+
     buildTypes {
-        named("release") {
+        release {
+            signingConfig = releaseSigningConfig?.get() ?: debugSigningConfig.get()
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -65,6 +93,30 @@ android {
 
     packagingOptions {
         resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
+    }
+}
+
+androidComponents {
+    onVariants(selector().withBuildType("release")) { variant ->
+        val gitVersion by tasks.registering(com.cmgapps.gradle.GitVersionTask::class) {
+            gitVersionOutputFile.set(
+                project.buildDir.resolve("intermediates").resolve("git").resolve("output")
+            )
+            outputs.upToDateWhen { false }
+        }
+
+        val manifestUpdater =
+            tasks.register<com.cmgapps.gradle.ManifestTransformerTask>("${variant.name}ManifestUpdater") {
+                gitInfoFile.set(gitVersion.flatMap(com.cmgapps.gradle.GitVersionTask::gitVersionOutputFile))
+                initialVersionCode = android.defaultConfig.versionCode!!
+            }
+
+        variant.artifacts.use(manifestUpdater)
+            .wiredWithFiles(
+                com.cmgapps.gradle.ManifestTransformerTask::androidManifest,
+                com.cmgapps.gradle.ManifestTransformerTask::updatedManifest
+            )
+            .toTransform(com.android.build.api.artifact.SingleArtifact.MERGED_MANIFEST)
     }
 }
 

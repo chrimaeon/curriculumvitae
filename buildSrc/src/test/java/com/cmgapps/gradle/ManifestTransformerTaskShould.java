@@ -16,7 +16,6 @@
 
 package com.cmgapps.gradle;
 
-
 import static org.junit.Assert.assertEquals;
 
 import org.gradle.api.Project;
@@ -49,6 +48,7 @@ public class ManifestTransformerTaskShould {
         final File outputFile = File.createTempFile("manifestTransformer", ".tmp");
 
         task.getGitInfoFile().set(gitVersionFile);
+        task.setInitialVersionCode(900000);
         task.getAndroidManifest().set(androidManifest);
         task.getUpdatedManifest().set(outputFile);
 
@@ -57,7 +57,7 @@ public class ManifestTransformerTaskShould {
         assertEquals("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
             "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
             "    package=\"com.cmgapps.android.curriculumvitae\"\n" +
-            "    android:versionCode=\"12345\"\n" +
+            "    android:versionCode=\"912345\"\n" +
             "    android:versionName=\"1.0\">\n" +
             "\n" +
             "    <uses-sdk\n" +

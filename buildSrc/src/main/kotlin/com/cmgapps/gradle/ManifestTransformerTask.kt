@@ -18,6 +18,7 @@ package com.cmgapps.gradle
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
@@ -27,6 +28,9 @@ abstract class ManifestTransformerTask : DefaultTask() {
     @get:InputFile
     abstract val gitInfoFile: RegularFileProperty
 
+    @get:Input
+    var initialVersionCode: Int = -1
+
     @get:InputFile
     abstract val androidManifest: RegularFileProperty
 
@@ -35,10 +39,13 @@ abstract class ManifestTransformerTask : DefaultTask() {
 
     @TaskAction
     fun taskAction() {
-        val gitVersion = gitInfoFile.get().asFile.readText()
+        if (initialVersionCode == -1) {
+            error("'initialVersionCode' not set")
+        }
+        val gitVersion = gitInfoFile.get().asFile.readText().toInt()
         val manifest = androidManifest.get().asFile.readText().replace(
             """android:versionCode="\d+"""".toRegex(),
-            """android:versionCode="$gitVersion""""
+            """android:versionCode="${gitVersion + initialVersionCode}""""
         )
         updatedManifest.get().asFile.writeText(manifest)
     }
