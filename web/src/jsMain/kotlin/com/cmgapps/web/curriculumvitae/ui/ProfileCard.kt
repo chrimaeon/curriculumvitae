@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.common.curriculumvitae.infra.di.provideBaseUrl
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.web.curriculumvitae.AppStyle
 import org.jetbrains.compose.web.css.AlignSelf
@@ -63,7 +64,7 @@ fun ProfileCard(repository: ProfileRepository) {
                 }) {
                     Div({
                         style {
-                            backgroundImage("url('${profile.profileImageUrl}')")
+                            backgroundImage("url('${provideBaseUrl()}${profile.profileImagePath}')")
                         }
                         classes("card-img-top", "mt-3", ProfileStyle.profileImage)
                     })
