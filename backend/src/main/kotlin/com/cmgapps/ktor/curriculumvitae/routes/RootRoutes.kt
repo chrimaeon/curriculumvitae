@@ -152,7 +152,7 @@ private fun DIV.page() {
             Profile(
                 name = "My Name",
                 phone = "+1234567890",
-                profileImageUrl = "https://via.placeholder.com/150",
+                profileImagePath = "/profile.png",
                 address = Address(
                     street = "Main Street 1",
                     city = "My Hometown",

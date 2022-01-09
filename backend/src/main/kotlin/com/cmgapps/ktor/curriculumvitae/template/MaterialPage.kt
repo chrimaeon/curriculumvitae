@@ -40,6 +40,7 @@ class MaterialPage(private val pageTitle: String = "") : Template<HTML> {
     val head = Placeholder<HEAD>()
     val content = Placeholder<DIV>()
     override fun HTML.apply() {
+        this.attributes["lang"] = "en"
         head {
             title {
                 +pageTitle

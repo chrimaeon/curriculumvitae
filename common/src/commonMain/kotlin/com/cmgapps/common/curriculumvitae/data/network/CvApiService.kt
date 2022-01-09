@@ -17,14 +17,17 @@
 package com.cmgapps.common.curriculumvitae.data.network
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.receive
 import io.ktor.client.features.websocket.webSocket
 import io.ktor.client.request.get
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import io.ktor.http.Url
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
+import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -49,6 +52,12 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
             path("skills")
         }.build()
     )
+
+    suspend fun getAsset(assetPath: String): ByteReadChannel = client.get<HttpResponse>(
+        URLBuilder(baseUrl).apply {
+            path(assetPath)
+        }.build()
+    ).receive()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getApiStatus(): Flow<Status> = flow {

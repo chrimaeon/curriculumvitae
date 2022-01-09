@@ -22,11 +22,8 @@ import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.cmgapps.ktor.curriculumvitae.Routes
 import io.ktor.application.Application
 import io.ktor.application.call
-import io.ktor.features.origin
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.acceptLanguageItems
-import io.ktor.request.host
-import io.ktor.request.port
 import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.get
@@ -48,18 +45,12 @@ private fun Route.profileRouting() {
                     Language.EN
                 }
 
-            val host = with(call.request) {
-                "${origin.scheme}://${host()}:${port()}"
-            }
-
-            val profile = modelLoader.loadModel(
+            modelLoader.loadModel(
                 serializer<Profile>(),
                 "${lang.name.lowercase()}/profile.json"
             )?.let {
-                it.copy(profileImageUrl = it.profileImageUrl.replace("{{host}}", host))
-            }
-
-            if (profile != null) call.respond(profile) else call.respond(
+                call.respond(it)
+            } ?: call.respond(
                 HttpStatusCode.InternalServerError,
                 "Internal Server Error"
             )

@@ -49,7 +49,7 @@ class ProfileRoutesShould {
                         "{" +
                             "\"name\":\"Firstname Lastname\"," +
                             "\"phone\":\"+1234567890\"," +
-                            "\"profileImageUrl\":\"http://localhost:80/assets/profile.png\"," +
+                            "\"profileImagePath\":\"/profile.png\"," +
                             "\"address\":{" +
                             "\"street\":\"Homestreet 1\"," +
                             "\"city\":\"City\"," +
@@ -81,7 +81,7 @@ class ProfileRoutesShould {
                         "{" +
                             "\"name\":\"Vorname Nachname\"," +
                             "\"phone\":\"+1234567890\"," +
-                            "\"profileImageUrl\":\"http://localhost:80/assets/profile.png\"," +
+                            "\"profileImagePath\":\"/profile.png\"," +
                             "\"address\":{" +
                             "\"street\":\"Heimatstraße 1\"," +
                             "\"city\":\"Stadt\"," +
@@ -109,7 +109,7 @@ class ProfileRoutesShould {
                         "{" +
                             "\"name\":\"Firstname Lastname\"," +
                             "\"phone\":\"+1234567890\"," +
-                            "\"profileImageUrl\":\"http://localhost:80/assets/profile.png\"," +
+                            "\"profileImagePath\":\"/profile.png\"," +
                             "\"address\":{" +
                             "\"street\":\"Homestreet 1\"," +
                             "\"city\":\"City\"," +

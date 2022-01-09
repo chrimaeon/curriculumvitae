@@ -22,7 +22,7 @@ import kotlinx.serialization.Serializable
 data class Profile(
     val name: String,
     val phone: String,
-    val profileImageUrl: String,
+    val profileImagePath: String,
     val address: Address,
     val email: String,
     val intro: List<String>,

@@ -1,7 +1,7 @@
 {
   "name": "Vorname Nachname",
   "phone": "+1234567890",
-  "profileImageUrl": "{{host}}/assets/profile.png",
+  "profileImagePath": "/profile.png",
   "address": {
     "street": "Heimatstraße 1",
     "city": "Stadt",

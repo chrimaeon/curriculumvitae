@@ -25,4 +25,6 @@ import kotlin.coroutines.cancellation.CancellationException
 class ProfileRepository(private val api: CvApiService) {
     @Throws(IOException::class, CancellationException::class)
     suspend fun getProfile(): Profile = api.getProfile().asDomainModel()
+
+    suspend fun getProfileImage(imagePath: String) = api.getAsset(imagePath)
 }

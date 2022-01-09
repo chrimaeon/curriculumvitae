@@ -1,8 +1,6 @@
-Curriculum Vitae BFF
+# Curriculum Vitae BFF
 
-Curriculum Vitae BFF
-
-##### Available API's #####
+## Available API's #####
 
 GET
 
@@ -17,7 +15,7 @@ GET
     {
       "name": "My Name",
       "phone": "+1234567890",
-      "profileImageUrl": "https://via.placeholder.com/150",
+      "profileImagePath": "/profile.png",
       "address": {
         "street": "Main Street 1",
         "city": "My Hometown",

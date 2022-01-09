@@ -43,7 +43,7 @@ fun NetworkStatus.asDomainModel() =
 data class Profile(
     val name: String,
     val phone: String,
-    val profileImageUrl: String,
+    val profileImagePath: String,
     val address: Address,
     val email: String,
     val intro: List<String>,
@@ -54,7 +54,7 @@ data class Address(val street: String, val city: String, val postalCode: String)
 fun NetworkProfile.asDomainModel() = Profile(
     this.name,
     this.phone,
-    this.profileImageUrl,
+    this.profileImagePath,
     Address(this.address.street, this.address.city, this.address.postalCode),
     this.email,
     this.intro
