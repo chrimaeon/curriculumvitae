@@ -32,6 +32,7 @@ import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.common.curriculumvitae.repository.SkillsRepository
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.runBlocking
@@ -46,6 +47,7 @@ import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.whenever
 
@@ -99,6 +101,7 @@ class AppShould : KoinTest {
     fun beforeEach() {
         runBlocking {
             whenever(api.getProfile()) doReturn profile
+            whenever(api.getAsset(any())) doReturn ByteReadChannel.Empty
             whenever(api.getSkills()) doReturn listOf(skill)
             whenever(api.getEmployments()) doReturn listOf(StubNetworkEmployment())
         }

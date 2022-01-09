@@ -41,92 +41,96 @@ import androidx.compose.ui.input.pointer.PointerIconDefaults
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
+import io.ktor.utils.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent.get
 import java.awt.Desktop
 import java.awt.image.BufferedImage
-import java.net.HttpURLConnection
+import java.io.IOException
 import java.net.URI
-import java.net.URL
 import javax.imageio.ImageIO
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ProfileCard(profile: Profile?) {
-    if (profile == null) {
-        return
-    }
-
+fun ProfileCard(profileRepository: ProfileRepository) {
+    var profile: Profile? by remember { mutableStateOf(null) }
     var bitmap: BufferedImage? by remember { mutableStateOf(null) }
 
-    LaunchedEffect(profile.profileImageUrl) {
-        bitmap = loadImage(profile.profileImageUrl)
+    LaunchedEffect(profileRepository) {
+        try {
+            profile = profileRepository.getProfile()
+        } catch (exc: IOException) {
+            val logger: Logger = get(Logger::class.java) {
+                parametersOf("ProfileCard")
+            }
+            logger.e("Error loading profile", exc)
+        }
     }
 
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Column(
-            modifier = Modifier.padding(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    LaunchedEffect(profile) {
+        profile?.let {
+            withContext(Dispatchers.IO) {
+                bitmap = ImageIO.read(profileRepository.getProfileImage(it.profileImagePath).toInputStream())
+            }
+        }
+    }
 
-            bitmap?.let {
-                Image(
-                    painter = it.toPainter(),
-                    modifier = Modifier.size(200.dp).clip(CircleShape),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
+    profile?.let {
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Column(
+                modifier = Modifier.padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                bitmap?.let {
+                    Image(
+                        painter = it.toPainter(),
+                        modifier = Modifier.size(200.dp).clip(CircleShape),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                Text(
+                    it.name,
+                    style = MaterialTheme.typography.h3
+                )
+                Text(
+                    it.address.street,
+                    style = MaterialTheme.typography.h5
+                )
+                Text(
+                    "${it.address.postalCode} ${it.address.city}",
+                    style = MaterialTheme.typography.h5
+                )
+                Text(
+                    it.email,
+                    style = MaterialTheme.typography.h5,
+                    modifier = Modifier.clickable {
+                        if (Desktop.isDesktopSupported()) {
+                            Desktop.getDesktop().mail(URI.create("mailto:${it.email}"))
+                        }
+                    }.pointerHoverIcon(PointerIconDefaults.Hand),
+                    color = MaterialTheme.colors.primary
+                )
+                Text(
+                    it.phone,
+                    style = MaterialTheme.typography.h5,
+                    modifier = Modifier.clickable {
+                        if (Desktop.isDesktopSupported()) {
+                            Desktop.getDesktop().browse(URI.create("tel:${it.phone}"))
+                        }
+                    }.pointerHoverIcon(PointerIconDefaults.Hand),
+                    color = MaterialTheme.colors.primary
                 )
             }
-            Text(
-                profile.name,
-                style = MaterialTheme.typography.h3
-            )
-            Text(
-                profile.address.street,
-                style = MaterialTheme.typography.h5
-            )
-            Text(
-                "${profile.address.postalCode} ${profile.address.city}",
-                style = MaterialTheme.typography.h5
-            )
-            Text(
-                profile.email,
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.clickable {
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().mail(URI.create("mailto:${profile.email}"))
-                    }
-                }.pointerHoverIcon(PointerIconDefaults.Hand),
-                color = MaterialTheme.colors.primary
-            )
-            Text(
-                profile.phone,
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.clickable {
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().browse(URI.create("tel:${profile.phone}"))
-                    }
-                }.pointerHoverIcon(PointerIconDefaults.Hand),
-                color = MaterialTheme.colors.primary
-            )
         }
     }
-}
-
-private fun loadImage(source: String): BufferedImage? {
-    try {
-        val url = URL(source)
-        val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-        connection.connectTimeout = 5000
-        connection.connect()
-
-        return connection.inputStream.use {
-            ImageIO.read(it)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-
-    return null
 }
