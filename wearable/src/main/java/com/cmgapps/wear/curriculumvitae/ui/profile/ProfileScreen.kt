@@ -42,6 +42,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.wear.curriculumvitae.infra.AssetPath
 import com.cmgapps.wear.curriculumvitae.ui.Theme
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
@@ -76,7 +77,7 @@ fun ProfileScreen(
 private fun Profile(profile: Profile) {
     Box {
         val coilPainter = rememberImagePainter(
-            data = profile.profileImageUrl,
+            data = AssetPath(profile.profileImagePath),
             builder = {
                 crossfade(true)
                 error(
@@ -140,7 +141,7 @@ fun ProfilePreview() {
     val profile = Profile(
         name = "Christian Grach",
         phone = "+123456789",
-        profileImageUrl = "",
+        profileImagePath = "",
         address = Address("Street 1", "Graz", "8010"),
         email = "me@home.at",
         intro = listOf("Line 1")

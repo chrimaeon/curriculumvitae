@@ -68,7 +68,7 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
-    val keystoreDir = projectDir.resolve("keystore")
+    val keystoreDir = rootDir.resolve("keystore")
     val keystorePropsFile = keystoreDir.resolve("curriculumvitae.keystore.properties")
 
     val releaseSigningConfig = if (keystorePropsFile.exists()) {

@@ -35,7 +35,7 @@ fun StubNetworkProfile(): Profile = Profile(
     email = "me@home.at",
     intro = listOf("Line 1", "Line 2"),
     phone = "+12345678",
-    profileImageUrl = "http://image.undefined.com/image.jpeg",
+    profileImagePath = "/image.jpeg",
 )
 
 fun StubNetworkEmployment(): Employment = Employment(

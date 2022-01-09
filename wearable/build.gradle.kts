@@ -41,7 +41,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    val keystoreDir = projectDir.resolve("keystore")
+    val keystoreDir = rootDir.resolve("keystore")
     val keystorePropsFile = keystoreDir.resolve("curriculumvitae.keystore.properties")
 
     val releaseSigningConfig = if (keystorePropsFile.exists()) {
@@ -117,6 +117,7 @@ androidComponents {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencies {
     implementation(projects.common)
     implementation(projects.commonCompose)
@@ -125,6 +126,10 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.ktor.client.android)
     implementation(libs.coil.compose)
+    implementation(libs.okHttp.bom)
+    implementation(platform(libs.okHttp.bom))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
     implementation(libs.accompanist.placeholder)
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pagerIndicators)

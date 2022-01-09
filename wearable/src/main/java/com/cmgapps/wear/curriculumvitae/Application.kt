@@ -17,16 +17,23 @@
 package com.cmgapps.wear.curriculumvitae
 
 import android.app.Application
+import coil.Coil
+import coil.ImageLoader
 import com.cmgapps.common.curriculumvitae.infra.di.initKoin
 import com.cmgapps.wear.curriculumvitae.infra.di.appModule
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 
 class Application : Application() {
+
+    private val imageLoader: ImageLoader by inject()
+
     override fun onCreate() {
         super.onCreate()
         initKoin(enableNetworkLogging = true) {
             androidContext(this@Application)
             modules(appModule)
         }
+        Coil.setImageLoader(imageLoader)
     }
 }

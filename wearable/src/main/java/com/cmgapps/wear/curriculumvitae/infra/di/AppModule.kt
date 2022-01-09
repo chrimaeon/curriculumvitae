@@ -16,14 +16,54 @@
 
 package com.cmgapps.wear.curriculumvitae.infra.di
 
+import co.touchlab.kermit.Logger
+import coil.ImageLoader
+import coil.map.Mapper
+import coil.util.CoilUtils
+import com.cmgapps.common.curriculumvitae.infra.di.provideBaseUrl
+import com.cmgapps.wear.curriculumvitae.BuildConfig
+import com.cmgapps.wear.curriculumvitae.infra.AssetPath
 import com.cmgapps.wear.curriculumvitae.ui.employment.EmploymentViewModel
 import com.cmgapps.wear.curriculumvitae.ui.profile.ProfileViewModel
 import com.cmgapps.wear.curriculumvitae.ui.skills.SkillsViewModel
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val appModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { EmploymentViewModel(get()) }
     viewModel { SkillsViewModel(get()) }
+    single {
+        ImageLoader.Builder(get())
+            .okHttpClient {
+                OkHttpClient.Builder()
+                    .cache(CoilUtils.createDefaultCache(get()))
+                    .apply {
+                        if (BuildConfig.DEBUG) {
+                            val logger: Logger = get { parametersOf("ImageLoader") }
+                            addNetworkInterceptor(
+                                HttpLoggingInterceptor { message ->
+                                    logger.d(message)
+                                }.apply {
+                                    level = HttpLoggingInterceptor.Level.BODY
+                                }
+                            )
+                        }
+                    }
+                    .build()
+            }
+            .componentRegistry {
+                add(object : Mapper<AssetPath, HttpUrl> {
+                    override fun map(data: AssetPath): HttpUrl {
+                        return provideBaseUrl().toString().toHttpUrl().newBuilder(data.path)?.build()
+                            ?: error("asset url cannot be created; baseUrl=${provideBaseUrl()}, assetPath=${data.path}")
+                    }
+                })
+            }.build()
+    }
 }
