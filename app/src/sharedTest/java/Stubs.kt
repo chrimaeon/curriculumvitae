@@ -39,7 +39,7 @@ fun StubNetworkProfile() = NetworkProfile(
     email = "me@home.at",
     intro = listOf("Line 1", "Line 2"),
     phone = "+12345678",
-    profileImageUrl = "http://image.undefined.com/image.jpeg",
+    profileImagePath = "/image.jpeg",
 )
 
 fun StubDomainProfile() = StubNetworkProfile().asDomainModel()

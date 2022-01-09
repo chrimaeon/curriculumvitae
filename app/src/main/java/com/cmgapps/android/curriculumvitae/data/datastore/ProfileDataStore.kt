@@ -52,7 +52,7 @@ fun Profile.asDomainModel(): DomainProfile {
     return DomainProfile(
         name = name,
         phone = phone,
-        profileImageUrl = profile_image_url,
+        profileImagePath = profile_image_path,
         address = DomainAddress(
             street = address.street,
             city = address.city,
@@ -66,7 +66,7 @@ fun Profile.asDomainModel(): DomainProfile {
 fun NetworkProfile.asDataStoreModel(): Profile = Profile(
     name = this@asDataStoreModel.name,
     phone = this@asDataStoreModel.phone,
-    profile_image_url = this@asDataStoreModel.profileImageUrl,
+    profile_image_path = this@asDataStoreModel.profileImagePath,
     address = Address(
         street = this@asDataStoreModel.address.street,
         city = this@asDataStoreModel.address.city,

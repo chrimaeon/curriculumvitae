@@ -64,6 +64,7 @@ import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
+import com.cmgapps.android.curriculumvitae.infra.AssetPath
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.android.curriculumvitae.ui.themedRipple
@@ -203,7 +204,7 @@ private fun Header(
 @Composable
 private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
     val coilPainter = rememberImagePainter(
-        data = profile.profileImageUrl,
+        data = AssetPath(profile.profileImagePath),
         imageLoader = LocalImageLoader.current,
         builder = {
             crossfade(true)
@@ -331,7 +332,7 @@ fun PreviewContent() {
     val profile = Profile(
         "Firstname Lastname",
         "+43123456789",
-        "http://",
+        "/profile.jpg",
         Address("Street 1", "Graz", "8010"),
         email = "me@home.at",
         listOf("Line1", "Line2"),

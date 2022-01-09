@@ -35,13 +35,4 @@
     <string name="info_open_font_licenses">Open Font Licenses</string>
     <string name="project_on_github">Project on GitHub</string>
     <string name="present">Present</string>
-    <plurals name="years">
-        <item quantity="one">%d Year</item>
-        <item quantity="other">%d Years</item>
-    </plurals>
-
-    <plurals name="months">
-        <item quantity="one">%d Month</item>
-        <item quantity="other">%d Months</item>
-    </plurals>
 </resources>

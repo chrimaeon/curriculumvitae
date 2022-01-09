@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
+ * Copyright (c) 2022. Christian Grach <christian.grach@cmgapps.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,7 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package com.cmgapps.android.curriculumvitae.infra
 
-option java_package = "com.cmgapps.android.curriculumvitae.data.datastore";
-option java_multiple_files = true;
-
-message Profile {
-  string name = 1;
-  string phone = 2;
-  string profile_image_path = 3;
-  Address address = 4;
-  string email = 5;
-  repeated string intro = 6;
-}
-
-message Address {
-  string street = 1;
-  string city = 2;
-  string postal_code = 3;
-}
+@JvmInline
+value class AssetPath(val path: String)

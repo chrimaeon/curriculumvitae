@@ -18,13 +18,17 @@ package com.cmgapps.android.curriculumvitae.infra.di
 
 import android.content.Context
 import coil.ImageLoader
+import coil.map.Mapper
 import coil.util.CoilUtils
 import com.cmgapps.android.curriculumvitae.BuildConfig
+import com.cmgapps.android.curriculumvitae.infra.AssetPath
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import java.util.Locale
 import javax.inject.Singleton
@@ -42,7 +46,8 @@ object AppModule {
     @Singleton
     fun provideImageLoader(
         @ApplicationContext context: Context,
-        okHttpClient: OkHttpClient
+        okHttpClient: OkHttpClient,
+        @BaseUrl baseUrl: String,
     ): ImageLoader {
         val cachedClient =
             okHttpClient.newBuilder()
@@ -59,6 +64,14 @@ object AppModule {
                 .build()
         return ImageLoader.Builder(context)
             .okHttpClient(cachedClient)
+            .componentRegistry {
+                add(object : Mapper<AssetPath, HttpUrl> {
+                    override fun map(data: AssetPath): HttpUrl {
+                        return baseUrl.toHttpUrl().newBuilder(data.path)?.build()
+                            ?: error("Cannot create asset url; baseUrl=$baseUrl, assetPath=${data.path}")
+                    }
+                })
+            }
             .build()
     }
 }
