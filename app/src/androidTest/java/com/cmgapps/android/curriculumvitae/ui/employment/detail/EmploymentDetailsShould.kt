@@ -78,7 +78,7 @@ internal class EmploymentDetailsShould : LogTreeOnFailedTest() {
     @Test
     fun renderEmployment() {
         val employment = StubDomainEmployment()
-        composeTestRule.onNodeWithText("Foo").assertIsDisplayed()
+        composeTestRule.onNodeWithText(employment.jobTitle).assertIsDisplayed()
         composeTestRule.onNodeWithText(employment.employer).assertIsDisplayed()
         composeTestRule.onNodeWithText(employment.workPeriod.asHumanReadableString())
             .assertIsDisplayed()
