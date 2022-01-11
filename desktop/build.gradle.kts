@@ -31,6 +31,7 @@ kotlin {
             testLogging {
                 events("passed", "skipped", "failed")
             }
+            afterSuite(testCompletionLog())
         }
     }
 

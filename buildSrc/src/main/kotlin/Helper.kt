@@ -48,20 +48,24 @@ fun Project.testCompletionLog() =
         { descriptor, result ->
             if (descriptor.parent == null) {
                 val results =
-                    "| ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped) |"
+                    "\u2502 ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped) \u2502"
                 val log = buildString(results.length * 3) {
                     append('\n')
-                    repeat(results.length) {
-                        append("-")
+                    append('\u250C')
+                    repeat(results.length - 2) {
+                        append('\u2500')
                     }
+                    append('\u2510')
 
                     append('\n')
                     append(results)
                     append('\n')
 
-                    repeat(results.length) {
-                        append("-")
+                    append('\u2514')
+                    repeat(results.length - 2) {
+                        append('\u2500')
                     }
+                    append('\u2518')
                 }
                 logger.lifecycle(log)
             }

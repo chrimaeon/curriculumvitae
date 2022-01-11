@@ -91,6 +91,16 @@ android {
     packagingOptions {
         resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
     }
+
+    testOptions {
+        unitTests.all { test ->
+            test.testLogging {
+                events("passed", "skipped", "failed")
+            }
+
+            test.afterSuite(testCompletionLog())
+        }
+    }
 }
 
 androidComponents {

@@ -25,8 +25,14 @@ repositories {
 }
 
 tasks {
-    withType<KotlinCompile> {
+
+    fun AbstractCompile.compatibility() {
         targetCompatibility = JavaVersion.VERSION_11.toString()
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+    }
+
+    withType<KotlinCompile> {
+        compatibility()
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_11.toString()
             freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
@@ -34,8 +40,7 @@ tasks {
     }
 
     withType<JavaCompile> {
-        sourceCompatibility = JavaVersion.VERSION_11.toString()
-        targetCompatibility = JavaVersion.VERSION_11.toString()
+        compatibility()
     }
 }
 
