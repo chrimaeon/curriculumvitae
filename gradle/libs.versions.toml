@@ -10,7 +10,7 @@ koin = "3.1.4"
 # update GitHub Workflow env
 kotlin = "1.5.31"
 
-# 🚨 ktor > 1.6.5 uses kotlin 1.6 for konan
+# 🚨 ktor > 1.6.4 uses kotlin 1.6 for konan
 ktor = "1.6.4"
 
 logtag = "0.3.0"

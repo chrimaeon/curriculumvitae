@@ -25,6 +25,7 @@ import androidx.test.filters.LargeTest
 import com.cmgapps.android.curriculumvitae.infra.NavArguments
 import com.cmgapps.android.curriculumvitae.test.StubDatabaseEmployment
 import com.cmgapps.android.curriculumvitae.test.StubDomainEmployment
+import com.cmgapps.android.curriculumvitae.test.utils.LogTreeOnFailedTest
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.common.curriculumvitae.data.db.EmploymentQueries
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
@@ -41,10 +42,9 @@ import javax.inject.Inject
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 @LargeTest
-class EmploymentDetailsShould {
+internal class EmploymentDetailsShould : LogTreeOnFailedTest() {
 
-    @get:Rule
-    val composeTestRule = createComposeRule()
+    override val composeTestRule = createComposeRule()
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -78,7 +78,7 @@ class EmploymentDetailsShould {
     @Test
     fun renderEmployment() {
         val employment = StubDomainEmployment()
-        composeTestRule.onNodeWithText(employment.jobTitle).assertIsDisplayed()
+        composeTestRule.onNodeWithText("Foo").assertIsDisplayed()
         composeTestRule.onNodeWithText(employment.employer).assertIsDisplayed()
         composeTestRule.onNodeWithText(employment.workPeriod.asHumanReadableString())
             .assertIsDisplayed()

@@ -27,6 +27,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.cmgapps.android.curriculumvitae.test.StubNetworkEmployment
 import com.cmgapps.android.curriculumvitae.test.StubNetworkProfile
+import com.cmgapps.android.curriculumvitae.test.utils.LogTreeOnFailedTest
 import com.cmgapps.common.curriculumvitae.BuildYear
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -42,13 +43,13 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 @LargeTest
-class MainActivityShould {
+internal class MainActivityShould : LogTreeOnFailedTest() {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    override val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Before
     fun before() {

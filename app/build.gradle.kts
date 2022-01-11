@@ -320,6 +320,7 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.sqldelight.driver.jvm)
 
+    androidTestImplementation(libs.junit.junit)
     androidTestImplementation(libs.androidx.extJunit)
     androidTestImplementation(libs.androidx.coreTesting)
     androidTestImplementation(libs.androidx.espresso)
