@@ -84,7 +84,6 @@ tasks {
         rejectVersionIf {
 
             fun String.filterGroup(): Boolean = listOf(
-                "com.google.accompanist",
                 "com.squareup.wire",
                 "org.jetbrains.kotlin-wrappers",
                 "androidx.wear.compose",
