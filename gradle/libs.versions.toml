@@ -4,7 +4,7 @@ accompanist = "0.20.3"
 compose = "1.0.5"
 composeJetbrains = "1.0.0"
 composeWear = "1.0.0-alpha13"
-gradle = "7.3.2"
+gradle = "7.3.3"
 hilt = "2.40.5"
 koin = "3.1.4"
 # update GitHub Workflow env
