@@ -105,7 +105,7 @@ dependencies {
 
     implementation(libs.bundles.ktor.server)
     implementation(libs.kotlinCss)
-    implementation(libs.bundles.logback)
+    implementation(libs.logback.classic)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
     implementation(libs.bundles.koin.server)

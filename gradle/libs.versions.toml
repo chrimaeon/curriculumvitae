@@ -146,7 +146,6 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 ktor-websocket = { module = "io.ktor:ktor-websockets", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.10"
-logback-gcloud = "com.google.cloud:google-cloud-logging-logback:0.122.9-alpha"
 kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.265-kotlin-1.5.31"
 appEngine = "com.google.appengine:appengine:1.9.93"
 # endregion
@@ -203,5 +202,3 @@ androidx = [
   "androidx-hiltNavigationCompose",
   "androidx-splashscreen",
 ]
-
-logback = ["logback-classic", "logback-gcloud"]
