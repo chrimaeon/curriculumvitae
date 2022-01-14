@@ -3,7 +3,7 @@
 accompanist = "0.20.3"
 compose = "1.0.5"
 composeJetbrains = "1.0.0" # 1.0.0+ uses kotlin 1.6
-composeWear = "1.0.0-alpha13"
+composeWear = "1.0.0-alpha14"
 gradle = "7.3.3"
 hilt = "2.40.5"
 koin = "3.1.5"
@@ -40,7 +40,7 @@ wirePluginDep = "com.squareup.wire:wire-gradle-plugin:4.0.1"
 androidx-lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 androidx-datastore = "androidx.datastore:datastore:1.0.0"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-rc01"
-androidx-splashscreen = "androidx.core:core-splashscreen:1.0.0-alpha02"
+androidx-splashscreen = "androidx.core:core-splashscreen:1.0.0-beta01"
 androidx-preference = "androidx.preference:preference:1.1.1"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
