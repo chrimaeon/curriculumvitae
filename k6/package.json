@@ -14,20 +14,22 @@
     "test:api": "yarn build && docker compose run k6 run /tests/api-test.js"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.0",
+    "@babel/core": "^7.16.7",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-typescript": "^7.16.7",
     "@types/k6": "^0.35.2",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
+    "babel-loader": "^8.2.3",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.3.2",
-    "ts-loader": "^9.2.4",
     "typescript": "^4.3.5",
     "webpack": "^5.47.1",
     "webpack-cli": "^4.7.2"
   },
-  "dependencies": {
-    "chai": "^4.3.4"
-  }
+  "dependencies": {}
 }
