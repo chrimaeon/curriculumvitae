@@ -27,7 +27,7 @@ fun main() {
 
     val logger: Logger = koin.get { parametersOf("main") }
     if (jsTypeOf(window.navigator.serviceWorker) != "undefined") {
-        window.navigator.serviceWorker.register("/sw.js", RegistrationOptions(scope = "/")).then(
+        window.navigator.serviceWorker.register("/app-sw.js", RegistrationOptions(scope = "/")).then(
             onFulfilled = { reg ->
                 when {
                     reg.installing != null -> logger.i("Service worker installing")

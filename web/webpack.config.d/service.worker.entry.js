@@ -15,11 +15,7 @@
  */
 
 (function (config) {
-    const webpack = require("webpack");
+    const path = require("path");
 
-    const definePlugin = new webpack.DefinePlugin({
-        PRODUCTION: JSON.stringify(config.mode === "production"),
-    });
-
-    config.plugins.push(definePlugin);
+    config.entry["sw"] = path.resolve(__dirname, "kotlin", "sw.js");
 })(config);
