@@ -18,41 +18,34 @@
 
 import http from 'k6/http'
 import { BASE_URL } from './requests'
-import { check } from 'k6'
-import { expect } from 'chai'
+import { check, Checkers, group, JSONArray, JSONObject } from 'k6'
+
+const propertiesChecker = (props: string[]): Checkers<JSONObject> => {
+    const checkers: Checkers<JSONObject> = {}
+    props.forEach((prop) => (checkers[`has ${prop}`] = (json: JSONObject) => json[prop] !== undefined))
+
+    return checkers
+}
 
 export default (): void => {
-    let body = http.get(`${BASE_URL}profile`).json()
-    check(body, {
-        'has profile info': (json) => {
-            expect(json).to.have.all.keys('name', 'phone', 'profileImageUrl', 'address', 'email', 'intro')
-            return true
-        },
+    group('profile', () => {
+        const body: JSONObject = http.get<'text'>(`${BASE_URL}profile`).json()
+
+        check(body, propertiesChecker(['name', 'phone', 'profileImagePath', 'address', 'email', 'intro']))
     })
 
-    body = http.get<'text'>(`${BASE_URL}employment`).json()
-    check(body, {
-        'has employment info': (json) => {
-            expect(json).to.have.length.greaterThan(0)
-            expect(json[0]).to.have.all.keys(
-                'id',
-                'jobTitle',
-                'employer',
-                'startDate',
-                'endDate',
-                'city',
-                'description',
-            )
-            return true
-        },
+    group('employment', () => {
+        const body = http.get(`${BASE_URL}employment`).json()
+        check<JSONArray>(body, { 'has employments': (array) => array.length > 0 })
+        check<JSONObject>(
+            body[0],
+            propertiesChecker(['id', 'jobTitle', 'employer', 'startDate', 'endDate', 'city', 'description']),
+        )
     })
 
-    body = http.get<'text'>(`${BASE_URL}skills`).json()
-    check(body, {
-        'has skills info': (json) => {
-            expect(json).to.have.length.greaterThan(0)
-            expect(json[0]).to.have.all.keys('level', 'name')
-            return true
-        },
+    group('skills', () => {
+        const body = http.get(`${BASE_URL}skills`).json()
+        check<JSONArray>(body, { 'has skills': (array) => array.length > 0 })
+        check<JSONObject>(body[0], propertiesChecker(['level', 'name']))
     })
 }
