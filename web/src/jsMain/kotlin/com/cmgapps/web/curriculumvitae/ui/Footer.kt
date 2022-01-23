@@ -117,7 +117,7 @@ private fun Icon(iconName: String, attrs: AttrBuilderContext<HTMLElement> = {}) 
 }
 
 @Composable
-fun BaseUrlModal() {
+private fun BaseUrlModal() {
     val modalLabelId = "BaseUrlModalLabel"
     Div({
         classes("modal", "fade")
@@ -187,9 +187,7 @@ private fun RadioButton(key: String, value: String) {
             name("baseUrlDialogRadio")
             id(key)
             onChange { event -> if (event.value) localStorage["baseUrl"] = value }
-            if (localStorage["baseUrl"] == value) {
-                checked(true)
-            }
+            checked(localStorage["baseUrl"] == value)
         })
         Label(key, attrs = {
             classes("form-check-label")
