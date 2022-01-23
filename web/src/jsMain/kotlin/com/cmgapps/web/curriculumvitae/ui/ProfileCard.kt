@@ -24,10 +24,8 @@ import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.infra.di.provideBaseUrl
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.web.curriculumvitae.AppStyle
-import org.jetbrains.compose.web.css.AlignSelf
 import org.jetbrains.compose.web.css.CSSVariableValue
 import org.jetbrains.compose.web.css.StyleSheet
-import org.jetbrains.compose.web.css.alignSelf
 import org.jetbrains.compose.web.css.backgroundImage
 import org.jetbrains.compose.web.css.backgroundPosition
 import org.jetbrains.compose.web.css.backgroundRepeat
@@ -63,32 +61,48 @@ fun ProfileCard(repository: ProfileRepository) {
                     classes("card")
                 }) {
                     Div({
-                        style {
-                            backgroundImage("url('${provideBaseUrl()}${profile.profileImagePath}')")
-                        }
-                        classes("card-img-top", "mt-3", ProfileStyle.profileImage)
-                    })
-                    Div({
                         classes("card-body")
                     }) {
-
-                        H1 {
-                            Text(profile.name)
-                        }
-                        H3 {
-                            Text(profile.address.street)
-                        }
-                        H3 {
-                            Text("${profile.address.postalCode} ${profile.address.city}")
-                        }
-                        A(href = "mailto:${profile.email}") {
-                            H6 {
-                                Text(profile.email)
-                            }
-                        }
-                        A(href = "tel:${profile.phone}") {
-                            H6 {
-                                Text(profile.phone)
+                        Div({
+                            classes("container")
+                        }) {
+                            Div({
+                                classes(
+                                    "row",
+                                    "justify-content-center",
+                                    "align-items-md-center",
+                                    "justify-content-md-start"
+                                )
+                            }) {
+                                Div({
+                                    style {
+                                        backgroundImage("url('${provideBaseUrl()}${profile.profileImagePath}')")
+                                    }
+                                    classes("col-12", "col-md-4", ProfileStyle.profileImage)
+                                })
+                                Div({
+                                    classes("col-12", "col-md-8")
+                                }) {
+                                    H1 {
+                                        Text(profile.name)
+                                    }
+                                    H3 {
+                                        Text(profile.address.street)
+                                    }
+                                    H3 {
+                                        Text("${profile.address.postalCode} ${profile.address.city}")
+                                    }
+                                    A(href = "mailto:${profile.email}") {
+                                        H6 {
+                                            Text(profile.email)
+                                        }
+                                    }
+                                    A(href = "tel:${profile.phone}") {
+                                        H6 {
+                                            Text(profile.phone)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -106,7 +120,6 @@ private object ProfileStyle : StyleSheet(AppStyle) {
         backgroundSize("cover")
         backgroundPosition("center")
         borderRadius(50.percent)
-        alignSelf(AlignSelf.Center)
         property("background-color", CSSVariableValue<String>("bs-gray-500"))
     }
 }
