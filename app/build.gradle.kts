@@ -159,20 +159,6 @@ android {
         resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
     }
 
-    lint {
-        // disable Timber Lint; see https://github.com/JakeWharton/timber/issues/408
-        disable(
-            "LogNotTimber",
-            "StringFormatInTimber",
-            "ThrowableNotAtBeginning",
-            "BinaryOperationInTimber",
-            "TimberArgCount",
-            "TimberArgTypes",
-            "TimberTagLength",
-            "TimberExceptionLogging"
-        )
-    }
-
     applicationVariants.all {
         val variantName = name
         val licenseTask = tasks.named("license${variantName.capitalize()}Report")
