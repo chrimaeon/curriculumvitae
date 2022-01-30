@@ -117,7 +117,6 @@ android {
         register("benchmark") {
             initWith(buildTypes["release"])
             signingConfig = debugSigningConfig.get()
-
         }
     }
 
@@ -278,7 +277,6 @@ dependencies {
     implementation(libs.sqldelight.driver.android)
     implementation(libs.sqldelight.coroutines)
     implementation(libs.androidx.profileInstaller)
-
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)
