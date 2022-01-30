@@ -131,7 +131,7 @@ androidx-coreTesting = "androidx.arch.core:core-testing:2.1.0"
 androidx-extJunit = "androidx.test.ext:junit:1.1.3"
 androidx-espresso = "androidx.test.espresso:espresso-core:3.4.0"
 androidx-benchmarkMacroJunit4 = "androidx.benchmark:benchmark-macro-junit4:1.1.0-beta01"
-androidx-profileInstaller = "androidx.profileinstaller:profileinstaller:1.2.0-alpha01"
+androidx-profileInstaller = "androidx.profileinstaller:profileinstaller:1.0.4"
 androidx-uiAutomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 androidx-testRunner = "androidx.test:runner:1.4.0"
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
