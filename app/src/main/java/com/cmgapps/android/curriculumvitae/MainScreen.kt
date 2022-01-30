@@ -30,6 +30,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationDefaults
@@ -107,7 +108,10 @@ fun MainScreen(
         } ?: false
     }
 
-    ModalBottomSheetLayout(bottomSheetNavigator) {
+    ModalBottomSheetLayout(
+        bottomSheetNavigator,
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+    ) {
         Scaffold(
             scaffoldState = scaffoldState,
             floatingActionButton = { if (isOnMainScreen) Fab(onFabClick) },
