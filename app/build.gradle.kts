@@ -113,6 +113,12 @@ android {
             )
             buildConfigField("String[]", "DEBUG_BASE_URLS", """{}""")
         }
+
+        register("benchmark") {
+            initWith(buildTypes["release"])
+            signingConfig = debugSigningConfig.get()
+
+        }
     }
 
     compileOptions {
@@ -123,6 +129,15 @@ android {
     sourceSets {
         named("main") {
             java.srcDir(xorDirPath)
+        }
+
+        named("benchmark") {
+            java {
+                setSrcDirs(sourceSets["release"].java.srcDirs)
+            }
+            res {
+                srcDirs(sourceSets["release"].res.srcDirs)
+            }
         }
 
         listOf("debug", "release").map { named(it) }.forEach { sourceSet ->
@@ -262,6 +277,8 @@ dependencies {
     implementation(libs.bundles.ktor.android)
     implementation(libs.sqldelight.driver.android)
     implementation(libs.sqldelight.coroutines)
+    implementation(libs.androidx.profileInstaller)
+
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)
