@@ -33,7 +33,7 @@ internal class BaselineProfileGenerator {
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
-    fun startup() = baselineProfileRule.collectBaselineProfile(TARGET_PACKAGE) {
+    fun generate() = baselineProfileRule.collectBaselineProfile(TARGET_PACKAGE) {
         startActivityAndWait()
         device.waitForIdle()
     }
