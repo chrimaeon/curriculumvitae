@@ -21,6 +21,7 @@ plugins {
 }
 
 repositories {
+    google()
     mavenCentral()
 }
 
@@ -46,5 +47,6 @@ tasks {
 
 dependencies {
     implementation("com.squareup:kotlinpoet:1.10.2")
+    implementation("com.android.tools.build:gradle-api:7.1.0")
     testImplementation("junit:junit:4.13.2")
 }

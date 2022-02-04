@@ -19,11 +19,11 @@
 import com.android.build.api.artifact.SingleArtifact
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
+import com.cmgapps.gradle.baseConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
-import buildToolsVersion as depsBuildToolsVersion
 
 plugins {
     id("com.android.application")
@@ -41,13 +41,10 @@ plugins {
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    compileSdk = androidCompileSdkVersion
-    buildToolsVersion = depsBuildToolsVersion
+    baseConfig(project)
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
-        minSdk = androidMinSdkVersion
-        targetSdk = androidTargetSdkVersion
         val androidAppVersion by versionProperties()
         val versionName by versionProperties()
         versionCode = androidAppVersion.toInt()
@@ -122,11 +119,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
     sourceSets {
         named("main") {
             java.srcDir(xorDirPath)
@@ -158,16 +150,6 @@ android {
                     project.projectDir.resolve("src").resolve("sharedTest").resolve("java")
                 )
             }
-        }
-    }
-
-    testOptions {
-        unitTests.all { test ->
-            test.useJUnitPlatform()
-            test.testLogging {
-                events("passed", "skipped", "failed")
-            }
-            test.afterSuite(testCompletionLog())
         }
     }
 

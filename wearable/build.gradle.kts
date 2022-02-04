@@ -16,8 +16,8 @@
 
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
+import com.cmgapps.gradle.baseConfig
 import java.util.Properties
-import buildToolsVersion as depsBuildToolsVersion
 
 plugins {
     id("com.android.application")
@@ -26,8 +26,7 @@ plugins {
 }
 
 android {
-    compileSdk = androidCompileSdkVersion
-    buildToolsVersion = depsBuildToolsVersion
+    baseConfig(project)
 
     defaultConfig {
         applicationId = "com.cmgapps.wear.curriculumvitae"
@@ -85,23 +84,8 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
     packagingOptions {
         resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
-    }
-
-    testOptions {
-        unitTests.all { test ->
-            test.testLogging {
-                events("passed", "skipped", "failed")
-            }
-
-            test.afterSuite(testCompletionLog())
-        }
     }
 }
 

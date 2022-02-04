@@ -17,11 +17,11 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.cmgapps.gradle.GenerateBuildConfig
+import com.cmgapps.gradle.baseConfig
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.time.LocalDate
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
-import buildToolsVersion as depsBuildToolsVersion
 
 plugins {
     kotlin("multiplatform")
@@ -153,19 +153,10 @@ kotlin {
 }
 
 android {
-    compileSdk = androidCompileSdkVersion
-    buildToolsVersion = depsBuildToolsVersion
+    baseConfig(project)
 
     defaultConfig {
-        minSdk = androidMinSdkVersion
-        targetSdk = androidTargetSdkVersion
-
         consumerProguardFile(projectDir.resolve("proguard-rules.pro"))
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 
     sourceSets {

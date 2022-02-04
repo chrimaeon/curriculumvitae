@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
+import com.cmgapps.gradle.baseConfig
+
 plugins {
     id("com.android.test")
     kotlin("android")
+    ktlint
 }
 
 android {
-    compileSdk = androidCompileSdkVersion
-    buildToolsVersion = buildToolsVersion
+    baseConfig(project)
 
     defaultConfig {
-        minSdk = androidMinSdkVersion
         targetSdk = androidTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
