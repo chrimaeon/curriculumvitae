@@ -117,6 +117,8 @@ android {
         register("benchmark") {
             initWith(buildTypes["release"])
             signingConfig = debugSigningConfig.get()
+            // see https://issuetracker.google.com/issues/216940881
+            proguardFiles += projectDir.resolve("proguard-rules-benchmark.pro")
         }
     }
 
