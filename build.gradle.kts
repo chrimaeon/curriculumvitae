@@ -28,16 +28,17 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.androidPluginDep)
         classpath(libs.kotlinPluginDep)
         classpath(libs.hiltAndroidPluginDep)
         classpath(libs.appEnginePluginDep)
         classpath(libs.sqldelightPluginDep)
-        classpath(libs.wirePluginDep)
     }
 }
 
 plugins {
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.test) apply false
     alias(libs.plugins.benManesVersionsGradle)
 }
 

@@ -32,7 +32,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     ktlint
     id("dagger.hilt.android.plugin")
-    id("com.squareup.wire")
+    alias(libs.plugins.wire)
     alias(libs.plugins.licenses)
     alias(libs.plugins.ksp)
 }

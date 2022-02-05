@@ -1,6 +1,7 @@
 [versions]
 
 accompanist = "0.20.3"
+apg = "7.1.1"
 compose = "1.0.5"
 composeJetbrains = "1.0.0" # 1.0.0+ uses kotlin 1.6
 composeWear = "1.0.0-alpha14"
@@ -11,19 +12,23 @@ koin = "3.1.5"
 kotlin = "1.5.31"
 ktor = "1.6.4" #  1.6.4 uses kotlin 1.6 for konan
 
-logtag = "1.0.0"
+logtag = "1.1.0"
 mockito = "4.2.0"
 sqldelight = "1.5.3"
 
 [plugins]
 
+android-application = { id = "com.android.application", version.ref = "apg" }
+android-library = { id = "com.android.library", version.ref = "apg" }
+android-test = { id = "com.android.test", version.ref = "apg" }
+benManesVersionsGradle = "com.github.ben-manes.versions:0.42.0"
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composeJetbrains" }
 ksp = "com.google.devtools.ksp:1.5.31-1.0.0"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 licenses = "com.cmgapps.licenses:4.1.0"
-benManesVersionsGradle = "com.github.ben-manes.versions:0.41.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
-jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composeJetbrains" }
 shadowJar = "com.github.johnrengelman.shadow:7.1.2"
+wire = "com.squareup.wire:4.1.0"
 
 [libraries]
 
@@ -33,7 +38,6 @@ kotlinPluginDep = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", versio
 hiltAndroidPluginDep = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 appEnginePluginDep = "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
 sqldelightPluginDep = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
-wirePluginDep = "com.squareup.wire:wire-gradle-plugin:4.0.1"
 # endregion
 
 # region App
@@ -41,7 +45,7 @@ androidx-lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 androidx-datastore = "androidx.datastore:datastore:1.0.0"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-rc01"
 androidx-splashscreen = "androidx.core:core-splashscreen:1.0.0-beta01"
-androidx-preference = "androidx.preference:preference:1.1.1"
+androidx-preference = "androidx.preference:preference:1.2.0"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
