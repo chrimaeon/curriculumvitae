@@ -186,7 +186,8 @@ androidComponents {
         val manifestUpdater =
             tasks.register<ManifestTransformerTask>("${variant.name}ManifestUpdater") {
                 gitInfoFile.set(gitVersion.flatMap(GitVersionTask::gitVersionOutputFile))
-                initialVersionCode = android.defaultConfig.versionCode!!
+                initialVersionCode = android.defaultConfig.versionCode
+                    ?: ManifestTransformerTask.VERSION_CODE_NOT_SET
             }
 
         variant.artifacts.use(manifestUpdater)

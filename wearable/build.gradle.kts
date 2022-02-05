@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import com.cmgapps.gradle.GitVersionTask
+import com.cmgapps.gradle.ManifestTransformerTask
 import java.util.Properties
 import buildToolsVersion as depsBuildToolsVersion
 
@@ -36,7 +38,7 @@ android {
         versionCode = androidWearableVersion.toInt()
         this.versionName = versionName
 
-        resourceConfigurations.addAll(listOf("en", "de"))
+        resourceConfigurations += listOf("en", "de")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -105,7 +107,7 @@ android {
 
 androidComponents {
     onVariants(selector().withBuildType("release")) { variant ->
-        val gitVersion by tasks.registering(com.cmgapps.gradle.GitVersionTask::class) {
+        val gitVersion by tasks.registering(GitVersionTask::class) {
             gitVersionOutputFile.set(
                 project.buildDir.resolve("intermediates").resolve("git").resolve("output")
             )
@@ -113,15 +115,16 @@ androidComponents {
         }
 
         val manifestUpdater =
-            tasks.register<com.cmgapps.gradle.ManifestTransformerTask>("${variant.name}ManifestUpdater") {
-                gitInfoFile.set(gitVersion.flatMap(com.cmgapps.gradle.GitVersionTask::gitVersionOutputFile))
-                initialVersionCode = android.defaultConfig.versionCode!!
+            tasks.register<ManifestTransformerTask>("${variant.name}ManifestUpdater") {
+                gitInfoFile.set(gitVersion.flatMap(GitVersionTask::gitVersionOutputFile))
+                initialVersionCode = android.defaultConfig.versionCode
+                    ?: ManifestTransformerTask.VERSION_CODE_NOT_SET
             }
 
         variant.artifacts.use(manifestUpdater)
             .wiredWithFiles(
-                com.cmgapps.gradle.ManifestTransformerTask::androidManifest,
-                com.cmgapps.gradle.ManifestTransformerTask::updatedManifest
+                ManifestTransformerTask::androidManifest,
+                ManifestTransformerTask::updatedManifest
             )
             .toTransform(com.android.build.api.artifact.SingleArtifact.MERGED_MANIFEST)
     }

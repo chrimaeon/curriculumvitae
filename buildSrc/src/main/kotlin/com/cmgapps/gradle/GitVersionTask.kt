@@ -30,6 +30,6 @@ abstract class GitVersionTask : DefaultTask() {
     @TaskAction
     fun taskAction() {
         val gitVersion = "git rev-list --count HEAD".runCommand(workingDir = project.rootDir)
-        gitVersionOutputFile.get().asFile.writeText(gitVersion)
+        gitVersionOutputFile.asFile.get().writeText(gitVersion)
     }
 }

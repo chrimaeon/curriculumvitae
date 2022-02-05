@@ -29,7 +29,7 @@ abstract class ManifestTransformerTask : DefaultTask() {
     abstract val gitInfoFile: RegularFileProperty
 
     @get:Input
-    var initialVersionCode: Int = -1
+    var initialVersionCode: Int = VERSION_CODE_NOT_SET
 
     @get:InputFile
     abstract val androidManifest: RegularFileProperty
@@ -48,5 +48,9 @@ abstract class ManifestTransformerTask : DefaultTask() {
             """android:versionCode="${gitVersion + initialVersionCode}""""
         )
         updatedManifest.get().asFile.writeText(manifest)
+    }
+
+    companion object {
+        const val VERSION_CODE_NOT_SET = -1
     }
 }
