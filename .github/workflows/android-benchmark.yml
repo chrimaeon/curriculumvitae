@@ -1,0 +1,105 @@
+name: Android Baseline Profiles
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-profiles:
+    runs-on: macos-11
+
+    env:
+      CV_BASE_URL: https://www.host.undefined
+      CV_EMAIL: me@home.at
+      CV_DEBUG_BASE_URLS: https://www.host.undefined
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 11
+
+      - name: Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('**/build.gradle*', '**/*.versions.toml') }}
+
+      - name: Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Get Kotlin version
+        id: get-kotlin-version
+        run: |
+          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' gradle/libs.versions.toml)"
+
+      - name: Konan Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ steps.get-kotlin-version.outputs.version }}
+      - name: AVD cache
+        uses: actions/cache@v2
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: app-benchmark-avd-30-default
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: Nexus 6
+          force-avd-creation: false
+          avd-name: nexus6-30-default-benchmark
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Download dependencies
+        run: ./gradlew dependencies
+
+      - name: Build
+        run: ./gradlew :app:assembleBenchmark :app-macrobenchmark:assembleBenchmark
+
+      - name: Run Benchmark
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: Nexus 6
+          force-avd-creation: false
+          avd-name: nexus6-30-default-benchmark
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: |
+            adb install app/build/outputs/apk/benchmark/app-benchmark.apk
+            adb install app-macrobenchmark/build/outputs/apk/benchmark/app-macrobenchmark-benchmark.apk
+            adb root
+            adb logcat >logcat.txt & adb shell am instrument -w -e class com.cmgapps.android.curriculumvitae.benchmark.BaselineProfileGenerator  com.cmgapps.android.curriculumvitae.macrobenchmark/androidx.test.runner.AndroidJUnitRunner
+            adb pull "/storage/emulated/0/Android/media/com.cmgapps.android.curriculumvitae.macrobenchmark/BaselineProfileGenerator_generate-baseline-prof.txt" .
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: profile
+          path: |
+            logcat.txt
+            BaselineProfileGenerator_generate-baseline-prof.txt
+
