@@ -165,7 +165,7 @@ android {
 
         val copyTask = tasks.register<Copy>("copy${licenseTask.name}") {
             from(licenseTask)
-            into(android.sourceSets.getByName(variantName).assets.srcDirs.single())
+            into(android.sourceSets[variantName].assets.srcDirs.single())
         }
 
         mergeAssetsProvider {
@@ -174,37 +174,7 @@ android {
     }
 }
 
-// class HtmlLicenseAsset(private val fileName: String) :
-//     com.android.build.api.artifact.Artifact.Single<RegularFile>(
-//         com.android.build.api.artifact.ArtifactKind.FILE,
-//         Category.INTERMEDIATES,
-//     ),
-//     com.android.build.api.artifact.Artifact.Replaceable {
-//     override fun getFolderName(): String {
-//         return "merged_assets"
-//     }
-//
-//     override fun getFileSystemLocationName(): String {
-//         return fileName
-//     }
-// }
-
 androidComponents {
-    // onVariants { variant ->
-    // // TODO does not work correctly -> task is not triggered
-    // val copyLicenseAsset =
-    //     tasks.register<CopyLicenseAssetTask>("copyLicense${variant.name.capitalize()}Asset") {
-    //         val licenseReportTask =
-    //             tasks.named<LicensesTask>("license${variant.name.capitalize()}Report")
-    //         licenseFile.set(licenseReportTask.flatMap { it.reports.html.destination })
-    //         dependsOn(licenseReportTask)
-    //     }
-    //
-    // variant.artifacts.use(copyLicenseAsset)
-    //     .wiredWith(CopyLicenseAssetTask::output)
-    //     .toCreate(HtmlLicenseAsset("license.html"))
-    // }
-
     onVariants(selector().withBuildType("release")) { variant ->
         val gitVersion by tasks.registering(GitVersionTask::class) {
             gitVersionOutputFile.set(
