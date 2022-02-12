@@ -56,6 +56,7 @@ kotlin {
                 implementation(libs.koin.testJunit)
                 implementation(libs.mockito.kotlin)
                 implementation(libs.sqldelight.driver.jvm)
+                implementation(libs.kotlinx.coroutinesTest)
             }
         }
     }

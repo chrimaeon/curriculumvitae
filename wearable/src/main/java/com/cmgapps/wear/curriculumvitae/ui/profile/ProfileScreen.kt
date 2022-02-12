@@ -38,7 +38,6 @@ import androidx.wear.compose.foundation.CurvedRow
 import androidx.wear.compose.foundation.CurvedTextStyle
 import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
@@ -72,7 +71,6 @@ fun ProfileScreen(
     state.data?.let { Profile(it) }
 }
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun Profile(profile: Profile) {
     Box {

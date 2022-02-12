@@ -34,8 +34,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.map
 import javax.inject.Singleton
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile as DataStoreProfile
@@ -49,7 +47,6 @@ import com.cmgapps.common.curriculumvitae.data.domain.Skill as DomainSkill
 @InstallIn(SingletonComponent::class)
 object StoreModule {
 
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     @Provides
     @Singleton
     fun provideProfileStore(
@@ -63,7 +60,6 @@ object StoreModule {
         )
     ).build()
 
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     @Provides
     @Singleton
     fun provideEmploymentListStore(
@@ -89,7 +85,6 @@ object StoreModule {
             )
         ).build()
 
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     @Provides
     @Singleton
     fun provideEmploymentStore(
@@ -101,7 +96,6 @@ object StoreModule {
             }
         ).build()
 
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     @Provides
     @Singleton
     fun provideSkillsStore(

@@ -24,7 +24,7 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
@@ -36,10 +36,9 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import kotlin.time.ExperimentalTime
 import com.cmgapps.common.curriculumvitae.data.domain.Skill as DomainSkill
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class SkillsViewModelShould {
 
@@ -65,7 +64,7 @@ internal class SkillsViewModelShould {
     }
 
     @Test
-    fun `refresh skills`() = runBlockingTest {
+    fun `refresh skills`() = runTest {
         verify(store).stream(StoreRequest.cached("skills", true))
     }
 }

@@ -31,7 +31,6 @@ interface ModelLoader {
     ): T?
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 class ClassLoaderModelLoader : ModelLoader {
     private val classLoader = this.javaClass.classLoader
 

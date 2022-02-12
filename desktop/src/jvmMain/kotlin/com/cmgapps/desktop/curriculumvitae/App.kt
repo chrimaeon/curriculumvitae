@@ -16,7 +16,6 @@
 
 package com.cmgapps.desktop.curriculumvitae
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -51,7 +50,6 @@ import com.cmgapps.desktop.curriculumvitae.ui.Footer
 import org.koin.core.Koin
 import java.io.IOException
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalStdlibApi::class)
 @Composable
 fun App(koin: Koin) {
 
@@ -96,7 +94,9 @@ fun App(koin: Koin) {
                         when {
                             index == 0 -> ProfileCard(profileRepository = koin.get())
                             (employments.isEmpty() && index == 1) ||
-                                (employments.isNotEmpty() && index == employments.size + 1) -> SkillsCard(skills)
+                                (employments.isNotEmpty() && index == employments.size + 1) -> SkillsCard(
+                                skills
+                            )
                             else -> EmploymentCard(employments[index - 1])
                         }
                     }

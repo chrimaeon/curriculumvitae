@@ -55,6 +55,7 @@ import java.io.IOException
 import java.net.URI
 import javax.imageio.ImageIO
 
+@Suppress("BlockingMethodInNonBlockingContext")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileCard(profileRepository: ProfileRepository) {
@@ -75,7 +76,9 @@ fun ProfileCard(profileRepository: ProfileRepository) {
     LaunchedEffect(profile) {
         profile?.let {
             withContext(Dispatchers.IO) {
-                bitmap = ImageIO.read(profileRepository.getProfileImage(it.profileImagePath).toInputStream())
+                bitmap = ImageIO.read(
+                    profileRepository.getProfileImage(it.profileImagePath).toInputStream()
+                )
             }
         }
     }

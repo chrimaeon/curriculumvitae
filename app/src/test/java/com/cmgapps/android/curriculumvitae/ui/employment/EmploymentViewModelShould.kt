@@ -24,7 +24,7 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.BeforeEach
@@ -37,9 +37,8 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.whenever
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(value = [MockitoExtension::class, MainDispatcherExtension::class])
 internal class EmploymentViewModelShould {
 
@@ -66,7 +65,7 @@ internal class EmploymentViewModelShould {
     }
 
     @Test
-    fun `refresh employments`() = runBlockingTest {
+    fun `refresh employments`() = runTest {
         viewModel.refresh()
         verify(store, times(2)).stream(any())
     }

@@ -42,6 +42,11 @@ plugins {
     alias(libs.plugins.benManesVersionsGradle)
 }
 
+plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+    extensions.getByType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion =
+        "16.0.0"
+}
+
 allprojects {
     tasks {
         withType<JavaCompile> {
@@ -93,10 +98,7 @@ tasks {
 
             fun String.filterModule(): Boolean = listOf(
                 "core-splashscreen",
-                "hilt-navigation-compose",
-                "lifecycle-viewmodel-compose",
                 "google-cloud-logging-logback",
-                "navigation-compose",
             ).any { this == it }
 
             fun ModuleComponentIdentifier.rejectedVersion(): Boolean =

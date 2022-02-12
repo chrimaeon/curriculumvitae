@@ -23,8 +23,6 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import co.touchlab.kermit.Logger
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
-import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
-import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
@@ -36,12 +34,11 @@ import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.logger.Level
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
@@ -51,17 +48,21 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.whenever
 
-// TODO: replace assertExists with assertIsDisplayed once available
-
+/**
+ *
+ *   TODO: replace [assertExists][androidx.compose.ui.test.SemanticsNodeInteraction.assertExists] with
+ *   [assertIsDisplayed][androidx.compose.ui.test.assertIsDisplayed] once available
+ *
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
-class AppShould : KoinTest {
+internal class AppShould : KoinTest {
 
     @get:Rule
     val composeRule = createComposeRule()
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
-        printLogger(Level.DEBUG)
         modules(
             module {
                 single {
@@ -110,9 +111,8 @@ class AppShould : KoinTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `show Profile header`() = runBlockingTest {
+    fun `show Profile header`() = runTest {
         with(composeRule) {
             onNodeWithText(profile.name).assertExists()
             onNodeWithText(profile.email).assertExists()
@@ -120,9 +120,8 @@ class AppShould : KoinTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `show Employments`() = runBlockingTest {
+    fun `show Employments`() = runTest {
         with(composeRule) {
             onNodeWithText(employment.employer).assertExists()
             onNodeWithText(
@@ -132,9 +131,8 @@ class AppShould : KoinTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `show Skills`() = runBlockingTest {
+    fun `show Skills`() = runTest {
         with(composeRule) {
             onNodeWithText(skill.name).assertExists()
         }

@@ -58,9 +58,7 @@ import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
+import kotlin.time.Duration.Companion.days
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -79,7 +77,6 @@ fun Application.module() {
     registerRoutes()
 }
 
-@OptIn(ExperimentalTime::class)
 fun Application.installFeatures() {
     install(DefaultHeaders)
     install(AutoHeadResponse)
@@ -119,7 +116,7 @@ fun Application.installFeatures() {
             when {
                 contentType?.match(ContentType.Image.Any) == true -> CachingOptions(
                     CacheControl.MaxAge(
-                        maxAgeSeconds = Duration.days(1).toInt(DurationUnit.SECONDS)
+                        maxAgeSeconds = 1.days.inWholeSeconds.toInt()
                     )
                 )
                 else -> null
@@ -135,7 +132,8 @@ fun Application.installFeatures() {
     install(WebSockets)
 
     install(Koin) {
-        slf4jLogger()
+        // Workaround for https://github.com/InsertKoinIO/koin/issues/1188
+        slf4jLogger(org.koin.core.logger.Level.ERROR)
         modules(appModule)
     }
 }

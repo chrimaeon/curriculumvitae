@@ -76,7 +76,6 @@ import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import timber.log.Timber
 
@@ -200,7 +199,6 @@ private fun Header(
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
     val coilPainter = rememberImagePainter(

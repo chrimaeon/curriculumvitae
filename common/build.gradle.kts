@@ -129,11 +129,7 @@ kotlin {
         named("iosTest") {
             dependencies {
                 implementation(libs.ktor.client.mock)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core") {
-                    version {
-                        strictly("1.5.2-native-mt")
-                    }
-                }
+                implementation(libs.kotlinx.coroutines.core.nativeMt)
             }
         }
 

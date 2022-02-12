@@ -87,7 +87,6 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import java.time.format.TextStyle
 import java.util.Locale
-import kotlin.time.ExperimentalTime
 
 @LogTag
 @Composable
@@ -190,7 +189,6 @@ private fun Content(
     }
 }
 
-@OptIn(ExperimentalTime::class)
 @Composable
 private fun EmploymentCard(
     employment: Employment?,
@@ -324,12 +322,19 @@ private fun Description(
                     text = employment?.workPeriod?.asHumanReadableString().orEmpty(),
                 )
                 Text(
-                    modifier = Modifier.padding(horizontal = 2.dp).alignBy(LastBaseline),
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .alignBy(LastBaseline),
                     text = "\u00B7",
                 )
                 val startEnd = employment?.let {
                     buildString {
-                        append(it.startDate.month.getDisplayName(TextStyle.SHORT, Locale.getDefault()))
+                        append(
+                            it.startDate.month.getDisplayName(
+                                TextStyle.SHORT,
+                                Locale.getDefault()
+                            )
+                        )
                         append("\u00A0")
                         append(it.startDate.year)
 
