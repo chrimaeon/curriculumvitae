@@ -26,6 +26,12 @@ repositories {
 }
 
 tasks {
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
+    }
 
     fun AbstractCompile.compatibility() {
         targetCompatibility = JavaVersion.VERSION_11.toString()
@@ -47,6 +53,7 @@ tasks {
 
 dependencies {
     implementation("com.squareup:kotlinpoet:1.10.2")
-    implementation("com.android.tools.build:gradle-api:7.1.0")
-    testImplementation("junit:junit:4.13.2")
+    implementation("com.android.tools.build:gradle-api:7.1.1")
+    testImplementation(platform("org.junit:junit-bom:5.8.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
