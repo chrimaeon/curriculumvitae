@@ -22,10 +22,14 @@ import androidx.compose.runtime.getValue
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
+import com.cmgapps.common.curriculumvitae.resource.Res
+import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.H4
 import org.jetbrains.compose.web.dom.H5
 import org.jetbrains.compose.web.dom.H6
 import org.jetbrains.compose.web.dom.Text
+import kotlin.js.Date
 
 @Composable
 fun Employments(repository: EmploymentRepository) {
@@ -69,15 +73,36 @@ fun EmploymentCard(employment: Employment) {
         Div({
             classes("card-body")
         }) {
-            H5 {
+            H4 {
                 Text(employment.employer)
             }
             H6 {
                 Text(employment.workPeriod.asHumanReadableString())
             }
             H6 {
+                val startEnd = buildString {
+                    append(employment.startDate.toLocaleString())
+                    append(" - ")
+                    employment.endDate?.let { date ->
+                        append(date.toLocaleString())
+                    } ?: append(Res.string.present)
+                }
+                Text(startEnd)
+            }
+            H5 {
                 Text(employment.jobTitle)
             }
         }
     }
 }
+
+private fun LocalDate.toLocaleString(): String = Date(
+    this.year,
+    this.monthNumber,
+    this.dayOfMonth
+).toLocaleDateString(
+    options = dateLocaleOptions {
+        month = "long"
+        year = "numeric"
+    }
+)
