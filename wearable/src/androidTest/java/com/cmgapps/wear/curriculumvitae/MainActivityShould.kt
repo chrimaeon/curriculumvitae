@@ -20,7 +20,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performGesture
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
@@ -68,21 +68,23 @@ class MainActivityShould : KoinTest {
     }
 
     @Test
-    fun showProfile() = with(composeTestRule) {
-        onNodeWithText("First Last").assertIsDisplayed()
-        return@with
+    fun showProfile() {
+        with(composeTestRule) {
+            onNodeWithText("First Last").assertIsDisplayed()
+        }
     }
 
     @Test
-    fun showEmployments() = with(composeTestRule) {
-        onRoot().performGesture { swipeLeft() }
-        onNodeWithText("My Company").assertIsDisplayed()
-        return@with
+    fun showEmployments() {
+        with(composeTestRule) {
+            onRoot().performTouchInput { swipeLeft() }
+            onNodeWithText("My Company").assertIsDisplayed()
+        }
     }
 
     @Test
     fun showSkills() = with(composeTestRule) {
-        onRoot().performGesture {
+        onRoot().performTouchInput {
             swipeLeft()
             swipeLeft()
         }

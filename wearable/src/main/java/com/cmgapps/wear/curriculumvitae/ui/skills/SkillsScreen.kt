@@ -26,17 +26,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.ScalingLazyColumn
+import androidx.wear.compose.material.ScalingLazyColumnDefaults
 import androidx.wear.compose.material.items
 import com.cmgapps.common.curriculumvitae.data.domain.Skill
-import com.cmgapps.wear.curriculumvitae.components.CenterStartLazyColumn
 import com.cmgapps.wear.curriculumvitae.ui.Theme
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
@@ -64,32 +63,30 @@ fun SkillsScreen(
     state.data?.let { Content(it) }
 }
 
-private val ITEM_HEIGHT = 40.dp
-
 @Composable
 private fun Content(skills: List<Skill>) {
-    CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onSecondary) {
 
-        CenterStartLazyColumn(itemHeight = ITEM_HEIGHT) {
-            items(skills) {
-                Box(
-                    modifier = Modifier
-                        .background(
-                            MaterialTheme.colors.secondary,
-                            RoundedCornerShape(percent = 50)
-                        )
-                        .padding(4.dp)
-                        .fillMaxWidth()
-                        .height(ITEM_HEIGHT),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        it.name,
-                        style = MaterialTheme.typography.title2,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+    ScalingLazyColumn(
+        scalingParams = ScalingLazyColumnDefaults.scalingParams(
+            edgeScale = 0.3f,
+            minTransitionArea = 0.5f
+        )
+    ) {
+        items(skills) {
+            Box(
+                modifier = Modifier
+                    .background(MaterialTheme.colors.secondary, RoundedCornerShape(percent = 50))
+                    .padding(4.dp)
+                    .fillMaxWidth()
+                    .height(40.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    it.name,
+                    style = MaterialTheme.typography.title2,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }
