@@ -18,9 +18,12 @@ package com.cmgapps.gradle.ktlint
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.attributes.Bundling
 import org.gradle.api.tasks.JavaExec
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.named
 
 @Suppress("UnstableApiUsage")
 fun Project.configureKtlint() {
@@ -65,5 +68,11 @@ fun Project.configureKtlint() {
     }
 
     val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
-    dependencies.add(ktlintConfiguration.name, libs.findDependency("ktlint").orElseThrow())
+    dependencies {
+        ktlintConfiguration(libs.findLibrary("ktlint").orElseThrow()) {
+            attributes {
+                attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+            }
+        }
+    }
 }
