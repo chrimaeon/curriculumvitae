@@ -1,16 +1,15 @@
 [versions]
 
-accompanist = "0.23.0"
-apg = "7.1.1"
-compose = "1.1.0"
-composeJetbrains = "1.0.1"
-composeWear = "1.0.0-alpha16"
+accompanist = "0.23.1"
+apg = "7.1.2"
+compose = "1.1.1"
+composeJetbrains = "1.1.0"
+composeWear = "1.0.0-alpha17"
 gradle = "7.4"
-hilt = "2.40.5"
+hilt = "2.41"
 koin = "3.1.5"
 kotlin = "1.6.10"
 ktor = "1.6.7"
-
 logtag = "1.1.0"
 sqldelight = "1.5.3"
 
@@ -21,12 +20,12 @@ android-library = { id = "com.android.library", version.ref = "apg" }
 android-test = { id = "com.android.test", version.ref = "apg" }
 benManesVersionsGradle = "com.github.ben-manes.versions:0.42.0"
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composeJetbrains" }
-ksp = "com.google.devtools.ksp:1.6.10-1.0.2"
+ksp = "com.google.devtools.ksp:1.6.10-1.0.4"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 licenses = "com.cmgapps.licenses:4.1.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
 shadowJar = "com.github.johnrengelman.shadow:7.1.2"
-wire = "com.squareup.wire:4.1.0"
+wire = "com.squareup.wire:4.2.0"
 
 [libraries]
 
@@ -106,10 +105,10 @@ kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.3.2"
 kotlinx-coroutines-core-nativeMt = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt"
 okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.3"
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.8.0"
-ktlint = "com.pinterest:ktlint:0.43.2"
+ktlint = "com.pinterest:ktlint:0.44.0"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.2"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
-collapsingToolbar = "me.onebone:toolbar-compose:2.3.1"
+collapsingToolbar = "me.onebone:toolbar-compose:2.3.2"
 dropbox-store = "com.dropbox.mobile.store:store4:4.0.4-KT15"
 kermit = "co.touchlab:kermit:1.0.3"
 # endregion
@@ -152,7 +151,7 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 ktor-websocket = { module = "io.ktor:ktor-websockets", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.10"
-kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.298-kotlin-1.6.10"
+kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.311-kotlin-1.6.10"
 appEngine = "com.google.appengine:appengine:1.9.93"
 # endregion
 
