@@ -45,7 +45,11 @@ private struct ProfileView: View {
         let baseUrl: String = UserDefaults.standard.object(forKey: "BaseUrl") as? String ?? BuildConfigKt.BaseUrl
 
         VStack {
-            AsyncImage(withURL: baseUrl + profile.profileImagePath)
+            AsyncImage(url: URL(string: baseUrl + profile.profileImagePath)) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
                 .frame(width: 100, height: 100, alignment: .center)
                 .clipShape(Circle())
                 .shadow(radius: 10)
@@ -72,8 +76,8 @@ private struct ProfileView: View {
             }.font(.title3)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
 
-            ForEach(profile.intro, id: \.self) {
-                Text($0).frame(maxWidth: .infinity, alignment: .topLeading)
+            ForEach(profile.intro, id: \.self) { line in
+                Text(line).frame(maxWidth: .infinity, alignment: .topLeading)
             }.padding(EdgeInsets(top: 0, leading: 10, bottom: 4, trailing: 10))
         }.padding()
     }
