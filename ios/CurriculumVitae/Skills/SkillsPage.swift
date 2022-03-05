@@ -13,15 +13,44 @@
 // limitations under the License.
 
 import SwiftUI
+import common
 
 struct SkillsPage: View {
+
+    @StateObject var viewModel: SkillsViewModel
+
     var body: some View {
-        Text("Skills")
+        VStack {
+            if let skills = viewModel.skills {
+                SkillsView(skills: skills)
+            } else {
+                Spacer()
+                ProgressView()
+                Spacer()
+            }
+        }
+        .frame(maxHeight: .infinity, alignment: .top)
+        .onAppear(perform: {
+            viewModel.loadSkills()
+        })
     }
 }
 
-struct SkillsPage_Previews: PreviewProvider {
+private struct SkillsView: View {
+
+    let skills: [Skill]
+
+    var body: some View {
+        LazyVStack(alignment: .center) {
+            ForEach(skills, id: \.name) { skill in
+                Text(skill.name)
+            }
+        }
+    }
+}
+
+struct SkillsView_Previews: PreviewProvider {
     static var previews: some View {
-        SkillsPage()
+        SkillsView(skills: [])
     }
 }

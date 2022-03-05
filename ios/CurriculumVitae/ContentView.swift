@@ -43,7 +43,9 @@ struct ContentView: View {
                       systemImage: selectableImage(imageName: "briefcase.circle", selected: selection == .employment))
             }
             .tag(SelectedTab.employment)
-            SkillsPage()
+            SkillsPage(
+                viewModel: SkillsViewModel(repository: CurriculumVitaeApp.koin.getSkillRepository())
+            )
                 .tabItem {
                     Label("Skills",
                           systemImage: selectableImage(imageName: "hammer.circle", selected: selection == .skills))

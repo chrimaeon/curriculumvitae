@@ -145,3 +145,9 @@ fun Koin.getProfileRepository() = get<ProfileRepository>()
  */
 @Suppress("unused")
 fun Koin.getEmploymentRepository() = get<EmploymentRepository>()
+
+/**
+ * Easy getter for [SkillsRepository] from [Koin]
+ */
+@Suppress("unused")
+fun Koin.getSkillRepository() = get<SkillsRepository>()
