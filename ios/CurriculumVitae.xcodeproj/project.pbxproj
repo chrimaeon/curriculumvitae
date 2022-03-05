@@ -218,8 +218,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAA9776826F61A18009B60D7 /* Build configuration list for PBXNativeTarget "CurriculumVitae" */;
 			buildPhases = (
-				AAA9777726F61A6A009B60D7 /* Compile Common Kotlin Code */,
 				AA57A8B22709E9E10005A3B6 /* Run swiftlint */,
+				AAA9777726F61A6A009B60D7 /* Compile Common Kotlin Code */,
 				AAA9773F26F61A0F009B60D7 /* Sources */,
 				AAA9774026F61A0F009B60D7 /* Frameworks */,
 				AAA9774126F61A0F009B60D7 /* Resources */,
@@ -357,7 +357,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "command -v swiftlint >/dev/null 2>&1 || { echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"; exit; }\n\nswiftlint\n";
+			shellScript = "PATH=$PATH:/opt/homebrew/bin\n\ncommand -v swiftlint >/dev/null 2>&1 || { echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"; exit; }\n\nswiftlint\n";
 		};
 		AAA9777726F61A6A009B60D7 /* Compile Common Kotlin Code */ = {
 			isa = PBXShellScriptBuildPhase;
