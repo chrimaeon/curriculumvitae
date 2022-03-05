@@ -42,8 +42,10 @@ private struct ProfileView: View {
     let profile: Profile
 
     var body: some View {
+        let baseUrl: String = UserDefaults.standard.object(forKey: "BaseUrl") as? String ?? BuildConfigKt.BaseUrl
+
         VStack {
-            AsyncImage(withURL: profile.profileImageUrl)
+            AsyncImage(withURL: baseUrl + profile.profileImagePath)
                 .frame(width: 100, height: 100, alignment: .center)
                 .clipShape(Circle())
                 .shadow(radius: 10)
@@ -82,7 +84,7 @@ struct ProfileView_Previews: PreviewProvider {
         ProfileView(profile: Profile(
                         name: "Name",
                         phone: "+12345678",
-                        profileImageUrl: "",
+                        profileImagePath: "",
                         address: Address(
                             street: "Street 42",
                             city: "Graz",
