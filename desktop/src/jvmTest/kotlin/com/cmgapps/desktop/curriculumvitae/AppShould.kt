@@ -23,6 +23,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import co.touchlab.kermit.Logger
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
+import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
+import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
