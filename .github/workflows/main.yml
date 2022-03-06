@@ -1,4 +1,4 @@
-name: Build & test
+name: Build & Test
 on:
   push:
     branches: [ main ]
@@ -54,8 +54,12 @@ jobs:
         run: ./gradlew dependencies
       # endregion
       # region Common
-      - name: Check :common
-        run: ./gradlew :common:check
+
+      # `check` not working; see
+      #- name: Check :common
+      #  run: ./gradlew :common:check
+      - name: Workaround for check
+        run: ./gradlew :common:ktlint :common:allTest :common:verifySqlDelightMigration
       - name: Archive Common Test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -142,12 +146,13 @@ jobs:
         run: |
           cd ios
           swiftlint lint
-  #      not working without provisioning profile -> get Apple developer account first
-  #      - name: Build iOS Project
-  #        run: |
-  #          xcodebuild -project ios/CurriculumVitae.xcodeproj \
-  #          -scheme CurriculumVitae \
-  #          -configuration Debug
+#      not working without provisioning profile -> get Apple developer account first
+#      - name: Build iOS Project
+#        run: |
+#          xcodebuild -project ios/CurriculumVitae.xcodeproj \
+#          -scheme CurriculumVitae \
+#          -configuration Debug
+#       endregion
   connectedAndroidAppTest:
     name: Run Android Intrumentation Tests
     needs: checkAndUnitTest
