@@ -152,8 +152,10 @@ fun Application.initDb() {
     val modelLoader: ModelLoader by inject()
 
     database.transaction {
-        modelLoader.loadModel<List<Employment>>(serializer(), "employments.json")?.forEach {
-            database.employmentQueries.insertEmployment(it.asDatabaseModel())
-        }
+        modelLoader.loadModel<List<Employment>>(serializer(), "employments.json")
+            ?.map(Employment::asDatabaseModel)
+            ?.forEach {
+                database.employmentQueries.insertEmployment(it)
+            }
     }
 }
