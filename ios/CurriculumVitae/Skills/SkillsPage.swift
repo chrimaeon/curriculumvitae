@@ -41,9 +41,11 @@ private struct SkillsView: View {
     let skills: [Skill]
 
     var body: some View {
-        LazyVStack(alignment: .center) {
-            ForEach(skills, id: \.name) { skill in
-                Text(skill.name)
+        ScrollView(.vertical) {
+            LazyVStack(alignment: .center, spacing: 10) {
+                ForEach(skills, id: \.name) { skill in
+                    Text(skill.name).font(.system(size: CGFloat(18 + skill.level * 2)))
+                }
             }
         }
     }
