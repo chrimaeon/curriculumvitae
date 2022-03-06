@@ -15,6 +15,7 @@
  */
 
 @file:Suppress("UnstableApiUsage")
+@file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
 import com.android.build.api.artifact.SingleArtifact
 import com.cmgapps.gradle.GitVersionTask
@@ -22,7 +23,6 @@ import com.cmgapps.gradle.ManifestTransformerTask
 import com.cmgapps.gradle.baseConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
-import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
 
 plugins {
@@ -37,7 +37,6 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-@OptIn(ExperimentalPathApi::class)
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
@@ -137,7 +136,6 @@ android {
             sourceSet {
                 java {
                     listOf("kotlin", "java").forEach {
-                        @OptIn(ExperimentalPathApi::class)
                         srcDir(buildDir.toPath() / "generated" / "ksp" / sourceSet.name / it)
                     }
                 }

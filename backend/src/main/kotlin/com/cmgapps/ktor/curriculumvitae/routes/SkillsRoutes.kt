@@ -32,7 +32,7 @@ import org.koin.ktor.ext.inject
 private fun Route.skillsRouting() {
     val modelLoader: ModelLoader by inject()
     val skills: List<Skill> =
-        modelLoader.loadModel(serializer(), "skills/skills.json") ?: error("Cannot load skills")
+        modelLoader.loadModel(serializer(), "skills.json") ?: error("Cannot load skills")
 
     route(Routes.SKILLS.route) {
         get {

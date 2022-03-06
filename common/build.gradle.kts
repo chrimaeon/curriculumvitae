@@ -15,12 +15,12 @@
  */
 
 @file:Suppress("UnstableApiUsage")
+@file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
 import com.cmgapps.gradle.GenerateBuildConfig
 import com.cmgapps.gradle.baseConfig
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.time.LocalDate
-import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
 
 plugins {
@@ -159,13 +159,11 @@ android {
 
     sourceSets {
         named("main") {
-            @OptIn(ExperimentalPathApi::class)
             manifest.srcFile(projectDir.toPath() / "src" / "androidMain" / "AndroidManifest.xml")
         }
     }
 }
 
-@OptIn(ExperimentalPathApi::class)
 sqldelight {
     database("CvDatabase") {
         packageName = "com.cmgapps.common.curriculumvitae.data.db"

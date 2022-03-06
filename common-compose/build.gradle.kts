@@ -15,8 +15,8 @@
  */
 
 @file:Suppress("UnstableApiUsage")
+@file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
-import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.div
 import buildToolsVersion as depsBuildToolsVersion
 
@@ -77,7 +77,6 @@ android {
 
     sourceSets {
         named("main") {
-            @OptIn(ExperimentalPathApi::class)
             manifest.srcFile(projectDir.toPath() / "src" / "androidMain" / "AndroidManifest.xml")
         }
     }

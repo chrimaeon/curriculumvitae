@@ -15,6 +15,7 @@
  */
 
 @file:Suppress("UnstableApiUsage")
+@file:OptIn(kotlin.io.path.ExperimentalPathApi::class, org.jetbrains.compose.ExperimentalComposeLibrary::class)
 
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
@@ -47,7 +48,6 @@ kotlin {
             }
         }
 
-        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
         named("jvmTest") {
             dependencies {
                 implementation(libs.junit.junit)
