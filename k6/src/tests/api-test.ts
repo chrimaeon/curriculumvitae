@@ -29,23 +29,27 @@ const propertiesChecker = (props: string[]): Checkers<JSONObject> => {
 
 export default (): void => {
     group('profile', () => {
-        const body: JSONObject = http.get<'text'>(`${BASE_URL}profile`).json()
+        const body = http.get<'text'>(`${BASE_URL}profile`).json() as JSONObject
 
         check(body, propertiesChecker(['name', 'phone', 'profileImagePath', 'address', 'email', 'intro']))
     })
 
     group('employment', () => {
-        const body = http.get(`${BASE_URL}employment`).json()
-        check<JSONArray>(body, { 'has employments': (array) => array.length > 0 })
-        check<JSONObject>(
-            body[0],
+        const body = http.get(`${BASE_URL}employment`).json() as JSONArray
+        check(body, { 'has employments': (array) => array.length > 0 })
+
+        const firstEntry = body[0] as JSONObject
+        check(
+            firstEntry,
             propertiesChecker(['id', 'jobTitle', 'employer', 'startDate', 'endDate', 'city', 'description']),
         )
     })
 
     group('skills', () => {
-        const body = http.get(`${BASE_URL}skills`).json()
-        check<JSONArray>(body, { 'has skills': (array) => array.length > 0 })
-        check<JSONObject>(body[0], propertiesChecker(['level', 'name']))
+        const body = http.get(`${BASE_URL}skills`).json() as JSONArray
+        check(body, { 'has skills': (array) => array.length > 0 })
+
+        const firstEntry = body[0] as JSONObject
+        check(firstEntry, propertiesChecker(['level', 'name']))
     })
 }
