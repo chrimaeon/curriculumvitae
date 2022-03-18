@@ -19,12 +19,14 @@ package com.cmgapps.common.curriculumvitae.repository
 import StubDatabaseEmployment
 import StubDomainEmployment
 import app.cash.turbine.test
-import asMockCursor
 import co.touchlab.kermit.Logger
 import com.cmgapps.common.curriculumvitae.BaseUrl
+import com.cmgapps.common.curriculumvitae.IgnoreIos
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
+import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.common.curriculumvitae.runTest
+import com.cmgapps.common.curriculumvitae.utils.MockCursor
 import com.cmgapps.common.curriculumvitae.utils.MockSqlDriver
 import com.cmgapps.common.curriculumvitae.utils.mockClient
 import io.ktor.http.Url
@@ -39,12 +41,12 @@ import kotlin.time.ExperimentalTime
 class EmploymentRepositoryShould {
 
     private lateinit var repository: EmploymentRepository
+    private lateinit var databaseWrapper: DatabaseWrapper
 
     @BeforeTest
     fun setup() {
-        val stubDatabaseEmployment = StubDatabaseEmployment()
-        val databaseWrapper =
-            DatabaseWrapper { MockSqlDriver(stubDatabaseEmployment.asMockCursor()) }
+        databaseWrapper =
+            DatabaseWrapper { MockSqlDriver(MockCursor()) }
         repository = EmploymentRepository(
             CvApiService(mockClient, Url(BaseUrl)),
             databaseWrapper,
@@ -53,12 +55,29 @@ class EmploymentRepositoryShould {
         )
     }
 
+    /**
+     * Fails on native;
+     * [DatabaseWrapper.database][DatabaseWrapper.database] is not immutable
+     */
+    @IgnoreIos
     @Test
-    // Fails on native https://github.com/cashapp/sqldelight/issues/2561
-    fun get_employment() = runTest {
+    fun get_employment_updates() = runTest {
         repository.getEmployments().test {
+            // employments from api
             assertEquals(listOf(StubDomainEmployment()), awaitItem())
-            cancelAndIgnoreRemainingEvents()
+
+            val databaseEmployment = StubDatabaseEmployment().copy(id = 20)
+            databaseWrapper {
+                it.employmentQueries.insertEmployment(databaseEmployment)
+            }
+
+            // employments from api and database wrapper
+            assertEquals(
+                listOf(StubDomainEmployment(), databaseEmployment.asDomainModel()),
+                awaitItem()
+            )
+
+            cancel()
         }
     }
 }

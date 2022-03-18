@@ -1,17 +1,7 @@
 /*
- * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
+ * Copyright (c) 2022. Christian Grach <christian.grach@cmgapps.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 import org.gradle.api.Project
@@ -21,7 +11,9 @@ import java.util.Properties
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, String> {
+class PropertyNotExistingException(message: String) : RuntimeException(message)
+
+class PropertiesEnvDelegate(private val propertiesFile: File) : ReadOnlyProperty<Any?, String> {
 
     private val properties: Properties? = if (propertiesFile.exists()) {
         Properties().apply {
@@ -33,8 +25,14 @@ class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, Strin
         replace(camelCaseRegEx, "$1_$2").toUpperCase(Locale.ROOT)
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): String {
+        val envPropName = "CV_${property.name.toSnakeCase()}"
+
         return properties?.getProperty(property.name)
-            ?: System.getenv("CV_${property.name.toSnakeCase()}")
+            ?: System.getenv(envPropName)
+            ?: throw PropertyNotExistingException(
+                "Property '${property.name}' not found in '${propertiesFile.canonicalPath}'" +
+                    " or no Environment variable '$envPropName' found"
+            )
     }
 
     companion object {
@@ -42,5 +40,8 @@ class PropertiesEnvDelegate(propertiesFile: File) : ReadOnlyProperty<Any?, Strin
     }
 }
 
-fun Project.configProperties() = PropertiesEnvDelegate(rootDir.resolve("config.properties"))
-fun Project.versionProperties() = PropertiesEnvDelegate(rootDir.resolve("version.properties"))
+inline val Project.configProperty: PropertiesEnvDelegate
+    get() = PropertiesEnvDelegate(rootDir.resolve("config.properties"))
+
+inline val Project.versionProperty: PropertiesEnvDelegate
+    get() = PropertiesEnvDelegate(rootDir.resolve("version.properties"))

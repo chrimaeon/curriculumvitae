@@ -19,7 +19,7 @@ plugins {
 }
 
 group = "com.cmgapps.ktor"
-val versionName by versionProperties()
+val versionName by versionProperty
 version = versionName
 
 application {
@@ -55,7 +55,7 @@ appengine {
         if (localProperties?.containsKey("gcloud.project.id") == true) {
             projectId = localProperties.getProperty("gcloud.project.id")
         }
-        val backendVersion by versionProperties()
+        val backendVersion by versionProperty
         version = backendVersion
     }
 }

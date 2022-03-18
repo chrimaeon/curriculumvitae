@@ -44,8 +44,8 @@ android {
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
-        val androidAppVersion by versionProperties()
-        val versionName by versionProperties()
+        val androidAppVersion by versionProperty
+        val versionName by versionProperty
         versionCode = androidAppVersion.toInt()
         this.versionName = versionName
 
@@ -91,7 +91,7 @@ android {
                 viewBinding = true
             }
 
-            val debugBaseUrls by configProperties()
+            val debugBaseUrls by configProperty
             buildConfigField(
                 "String[]",
                 "DEBUG_BASE_URLS",
@@ -210,7 +210,7 @@ tasks {
     val generateEmailAddress by registering {
         val outputDir = xorDirPath
 
-        val email by configProperties()
+        val email by configProperty
         inputs.property("email", email)
         val packageName = android.defaultConfig.applicationId ?: error("app id not set")
         inputs.property("packageName", packageName)

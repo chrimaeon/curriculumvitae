@@ -16,10 +16,8 @@
 
 @file:Suppress("TestFunctionName")
 
-import com.cmgapps.common.curriculumvitae.data.db.DescriptionAdapter
 import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
-import com.cmgapps.common.curriculumvitae.utils.MockCursor
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
@@ -61,19 +59,6 @@ fun StubNetworkEmployment(): NetworkEmployment = NetworkEmployment(
 )
 
 fun StubDatabaseEmployment(): DatabaseEmployment = StubNetworkEmployment().asDatabaseModel()
-
-fun DatabaseEmployment.asMockCursor() = MockCursor(
-    listOf(
-        this.id,
-        this.job_title,
-        this.employer,
-        this.start_date,
-        this.end_date,
-        this.city,
-        DescriptionAdapter.encode(this.description),
-    )
-)
-
 fun StubDomainEmployment(): DomainEmployment = StubDatabaseEmployment().asDomainModel()
 
 fun StubNetworkStatus(): NetworkStatus = NetworkStatus(1, 2, 3, 4)

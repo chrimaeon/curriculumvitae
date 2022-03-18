@@ -20,34 +20,53 @@ import com.squareup.sqldelight.Transacter
 import com.squareup.sqldelight.db.SqlCursor
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.db.SqlPreparedStatement
+import com.squareup.sqldelight.logs.StatementParameterInterceptor
 
-class MockCursor(private vararg val list: List<Any?>) : SqlCursor {
+class MockCursor : SqlCursor {
 
-    private var rowIndex = -1
+    private val rows = mutableListOf<List<Any?>>()
+    private var rowIterator = rows.iterator()
+    private var currentCursor: List<Any?>? = null
 
     override fun close() {
+        currentCursor = null
     }
 
-    override fun getBytes(index: Int): ByteArray? = list[rowIndex][index] as? ByteArray
+    override fun getBytes(index: Int): ByteArray? = currentCursor?.get(index) as? ByteArray
 
-    override fun getDouble(index: Int): Double? = when (val value = list[rowIndex][index]) {
+    override fun getDouble(index: Int): Double? = when (val value = currentCursor?.get(index)) {
         is Number -> value.toDouble()
         else -> null
     }
 
-    override fun getLong(index: Int): Long? = when (val value = list[rowIndex][index]) {
+    override fun getLong(index: Int): Long? = when (val value = currentCursor?.get(index)) {
         is Number -> value.toLong()
         else -> null
     }
 
-    override fun getString(index: Int): String? = list[rowIndex][index] as? String
+    override fun getString(index: Int): String? = currentCursor?.get(index) as? String
 
     override fun next(): Boolean {
-        return list.size > ++rowIndex
+        if (rowIterator.hasNext()) {
+            currentCursor = rowIterator.next()
+            return true
+        }
+        return false
+    }
+
+    fun append(list: List<Any?>) {
+        rows += list
+        rowIterator = rows.iterator()
+        currentCursor = null
+    }
+
+    fun reset() {
+        rowIterator = rows.iterator()
+        currentCursor = null
     }
 }
 
-class MockSqlDriver(private val mockCursor: MockCursor) : SqlDriver {
+class MockSqlDriver(private var mockCursor: MockCursor) : SqlDriver {
 
     private var transaction: Transacter.Transaction? = null
 
@@ -62,7 +81,11 @@ class MockSqlDriver(private val mockCursor: MockCursor) : SqlDriver {
         parameters: Int,
         binders: (SqlPreparedStatement.() -> Unit)?
     ) {
-        // Do Nothing
+        if (binders != null) {
+            val statement = StatementParameterInterceptor()
+            statement.binders()
+            mockCursor.append(statement.getAndClearParameters())
+        }
     }
 
     override fun executeQuery(
@@ -71,7 +94,9 @@ class MockSqlDriver(private val mockCursor: MockCursor) : SqlDriver {
         parameters: Int,
         binders: (SqlPreparedStatement.() -> Unit)?
     ): SqlCursor {
-        return mockCursor
+        return mockCursor.apply {
+            reset()
+        }
     }
 
     override fun newTransaction(): Transacter.Transaction {

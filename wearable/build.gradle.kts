@@ -32,8 +32,8 @@ android {
         applicationId = "com.cmgapps.wear.curriculumvitae"
         minSdk = androidWearMinSdkVersion
         targetSdk = androidTargetSdkVersion
-        val androidWearableVersion by versionProperties()
-        val versionName by versionProperties()
+        val androidWearableVersion by versionProperty
+        val versionName by versionProperty
         versionCode = androidWearableVersion.toInt()
         this.versionName = versionName
 

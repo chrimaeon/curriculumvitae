@@ -19,7 +19,6 @@
 
 import com.cmgapps.gradle.GenerateBuildConfig
 import com.cmgapps.gradle.baseConfig
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.time.LocalDate
 import kotlin.io.path.div
 
@@ -38,8 +37,8 @@ val buildConfigFilesDir: Provider<Directory> =
 val generateBuildConfig by tasks.registering(GenerateBuildConfig::class) {
     outputDir.set(buildConfigFilesDir)
 
-    val baseUrl by configProperties()
-    val debugBaseUrls by configProperties()
+    val baseUrl by configProperty
+    val debugBaseUrls by configProperty
 
     this.baseUrl.set(baseUrl)
     this.debugBaseUrls.set(debugBaseUrls)
@@ -64,23 +63,18 @@ kotlin {
         browser()
     }
 
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
-        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
-        System.getenv("SDK_NAME")?.startsWith("iphonesimulator") == true &&
-            System.getenv("ARCHS")?.startsWith("arm64") == true -> ::iosSimulatorArm64
-        else -> ::iosX64
-    }
-
-    iosTarget("ios") {
-        binaries {
-            framework {
-                baseName = "common"
-            }
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "shared"
         }
     }
 
     sourceSets {
-        named("commonMain") {
+        val commonMain by getting {
             this.kotlin.srcDir(buildConfigFilesDir)
             dependencies {
                 implementation(libs.kotlinx.serialization.json)
@@ -94,7 +88,7 @@ kotlin {
             }
         }
 
-        named("commonTest") {
+        val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.ktor.client.mock)
@@ -121,14 +115,28 @@ kotlin {
             }
         }
 
-        named("iosMain") {
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        create("iosMain") {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(libs.sqldelight.driver.native)
                 implementation(libs.ktor.client.ios)
             }
         }
 
-        named("iosTest") {
+        val iosX64Test by getting
+        val iosArm64Test by getting
+        val iosSimulatorArm64Test by getting
+        create("iosTest") {
+            dependsOn(commonTest)
+            iosX64Test.dependsOn(this)
+            iosArm64Test.dependsOn(this)
+            iosSimulatorArm64Test.dependsOn(this)
             dependencies {
                 implementation(libs.ktor.client.mock)
                 implementation(libs.kotlinx.coroutines.core.nativeMt)
