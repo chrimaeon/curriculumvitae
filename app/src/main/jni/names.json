@@ -1,0 +1,94 @@
+[
+  {
+    "name": "com/cmgapps/android/curriculumvitae/infra/jni/CvNative",
+    "id": "CV_NATIVE_CLASS_JAVA"
+  },
+  {
+    "name": "android/content/Context",
+    "id": "CONTEXT_CLASS_JAVA"
+  },
+  {
+    "name": "getPackageManager",
+    "id": "GET_PACKAGE_MANAGER_METHOD"
+  },
+  {
+    "name": "()Landroid/content/pm/PackageManager;",
+    "id": "GET_PACKAGE_MANAGER_PARAMS"
+  },
+  {
+    "name": "getPackageName",
+    "id": "GET_PACKAGE_NAME_METHOD"
+  },
+  {
+    "name": "()Ljava/lang/String;",
+    "id": "GET_PACKAGE_NAME_PARAMS"
+  },
+  {
+    "name": "android/content/pm/PackageManager",
+    "id": "PACKAGE_MANAGER_CLASS_JAVA"
+  },
+  {
+    "name": "getPackageInfo",
+    "id": "GET_PACKAGE_INFO_METHOD"
+  },
+  {
+    "name": "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;",
+    "id": "GET_PACKAGE_INFO_PARAMS"
+  },
+  {
+    "name": "GET_SIGNATURES",
+    "id": "GET_SIGNATURES_METHOD"
+  },
+  {
+    "name": "I",
+    "id": "GET_SIGNATURES_PARAMS"
+  },
+  {
+    "name": "android/content/pm/PackageInfo",
+    "id": "PACKAGE_INFO_CLASS_JAVA"
+  },
+  {
+    "name": "signatures",
+    "id": "SIGNATURES_FIELD"
+  },
+  {
+    "name": "[Landroid/content/pm/Signature;",
+    "id": "SIGNATURE_FIELD_RETURN_VALUE"
+  },
+  {
+    "name": "android/content/pm/Signature",
+    "id": "SIGNATURE_CLASS_JAVA"
+  },
+  {
+    "name": "java/security/MessageDigest",
+    "id": "MESSAGE_DIGEST_CLASS_JAVA"
+  },
+  {
+    "name": "getInstance",
+    "id": "GET_INSTANCE_METHOD"
+  },
+  {
+    "name": "(Ljava/lang/String;)Ljava/security/MessageDigest;",
+    "id": "GET_INSTANCE_PARAMS"
+  },
+  {
+    "name": "SHA-256",
+    "id": "SHA_256_PARAM"
+  },
+  {
+    "name": "digest",
+    "id": "DIGEST_METHOD"
+  },
+  {
+    "name": "([B)[B",
+    "id": "DIGEST_PARAMS"
+  },
+  {
+    "name": "toByteArray",
+    "id": "TO_BYTE_ARRAY_METHOD"
+  },
+  {
+    "name": "()[B",
+    "id": "TO_BYTE_ARRAY_PARAMS"
+  }
+]

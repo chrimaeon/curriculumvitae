@@ -27,10 +27,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.view.WindowCompat
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
+import com.cmgapps.android.curriculumvitae.infra.jni.CvNative
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @LogTag
 @AndroidEntryPoint
@@ -40,6 +42,8 @@ class MainActivity : ComponentActivity() {
         setTheme(android.R.style.Theme_Material_Light_NoActionBar)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+
+        Timber.d(CvNative.cS(this).toString())
 
         setContent {
             Theme {

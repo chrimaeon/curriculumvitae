@@ -18,6 +18,7 @@
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
 import com.android.build.api.artifact.SingleArtifact
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
 import com.cmgapps.gradle.baseConfig
@@ -41,6 +42,7 @@ val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
     baseConfig(project)
+    ndkVersion = androidNdkVersion
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
@@ -51,6 +53,14 @@ android {
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
         resourceConfigurations += listOf("en", "de")
+
+        externalNativeBuild {
+            cmake {
+                cFlags("-Wall")
+                cppFlags("-Wall")
+                arguments("-DANDROID_STL=c++_static")
+            }
+        }
     }
 
     buildFeatures {
@@ -98,6 +108,13 @@ android {
                 debugBaseUrls.split(",")
                     .joinToString(prefix = "{", postfix = "}") { """"$it"""" }
             )
+
+            externalNativeBuild {
+                cmake {
+                    cFlags("-DDEBUG")
+                    cppFlags("-DDEBUG")
+                }
+            }
         }
 
         release {
@@ -108,6 +125,13 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String[]", "DEBUG_BASE_URLS", """{}""")
+
+            externalNativeBuild {
+                cmake {
+                    cFlags("-DRELEASE")
+                    cppFlags("-DRELEASE")
+                }
+            }
         }
 
         register("benchmark") {
@@ -167,6 +191,17 @@ android {
         mergeAssetsProvider {
             dependsOn(copyTask)
         }
+
+        externalNativeBuildProviders.forEach {
+            it.dependsOn(generateJniData)
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = projectDir.resolve("CMakeLists.txt")
+            version = "3.18.1"
+        }
     }
 }
 
@@ -204,6 +239,14 @@ licenses {
     reports {
         html.enabled = true
     }
+}
+
+val generateJniData by tasks.registering(com.cmgapps.gradle.GenerateJniDataTask::class) {
+    source.set(
+        projectDir.resolve(android.sourceSets.getByName("main").jni.srcDirs.single())
+            .resolve("names.json")
+    )
+    outputFile.set(buildDir.resolve("generated/jni/encodedNames.h"))
 }
 
 tasks {
