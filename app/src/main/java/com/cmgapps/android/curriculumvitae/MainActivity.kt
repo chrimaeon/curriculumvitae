@@ -26,7 +26,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
@@ -54,11 +53,9 @@ class MainActivity : ComponentActivity() {
                     val scaffoldState = rememberScaffoldState()
                     val coroutineScope = rememberCoroutineScope()
 
-                    val appContext = LocalContext.current.applicationContext
-
-                    val validSignature by produceState(initialValue = true, appContext) {
+                    val validSignature by produceState(initialValue = true, this) {
                         withContext(Dispatchers.Default) {
-                            value = CvNative.cS(appContext)
+                            value = CvNative.checkSignature(this@MainActivity)
                         }
                     }
 

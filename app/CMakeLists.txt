@@ -19,7 +19,7 @@ set_target_properties(${PROJECT_NAME}
         CXX_EXTENSIONS NO
         CXX_VISIBILITY_PRESET hidden
         C_VISIBILITY_PRESET hidden
-        )
+)
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE

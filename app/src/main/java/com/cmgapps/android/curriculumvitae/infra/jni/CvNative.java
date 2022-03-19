@@ -17,5 +17,9 @@ public class CvNative {
         System.loadLibrary("CvNative");
     }
 
-    public static native boolean cS(@NonNull Context context);
+    public static boolean checkSignature(@NonNull Context context) {
+        return cS(context.getApplicationContext());
+    }
+
+    private static native boolean cS(@NonNull Context appContext);
 }

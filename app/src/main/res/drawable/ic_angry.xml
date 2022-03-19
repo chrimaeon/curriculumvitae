@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (c) 2022. Christian Grach <christian.grach@cmgapps.com>
+  ~
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+  <path
+      android:pathData="M50,5A45,45 0,1 1,5 50,45.05 45.05,0 0,1 50,5m0,-5a50,50 0,1 0,50 50A50,50 0,0 0,50 0Z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M56.8,46.42a6.26,8.95 0,1 0,12.52 0a6.26,8.95 0,1 0,-12.52 0z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M73.81,36.31c-5.36,0.38 -8.71,2.57 -13.07,4.91a41.14,41.14 0,0 1,-5.41 2.43,11.32 11.32,0 0,1 6.26,-10.83c4,-2.34 10.54,-1.24 12.22,3.49Z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M31.72,76c8.72,-11.6 27.92,-11.73 36.56,0A76.6,76.6 0,0 0,59 73.24a39.2,39.2 0,0 0,-18 0c-3.18,0.61 -6.09,1.84 -9.31,2.75Z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M31.04,46.42a6.26,8.95 0,1 0,12.52 0a6.26,8.95 0,1 0,-12.52 0z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M26.54,36.31c3.25,-7.49 13.7,-5.14 17,1A10.21,10.21 0,0 1,45 43.65a41.56,41.56 0,0 1,-5.4 -2.43c-4.37,-2.34 -7.7,-4.52 -13.08,-4.91Z"
+      android:fillColor="#FFFFFF"/>
+</vector>

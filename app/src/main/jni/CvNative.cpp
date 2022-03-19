@@ -159,6 +159,10 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject a
 
     int result = memcmp(digestArray, expectedSignature, SIGNATURE_HASH_LENGTH);
 
+    if (digestArray != nullptr) {
+        env->ReleaseByteArrayElements(digest, digestArray, JNI_ABORT);
+    }
+
     if (result == 0) {
         return JNI_TRUE;
     }

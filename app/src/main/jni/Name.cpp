@@ -29,7 +29,7 @@ std::string Name::toString() {
 }
 
 std::string decodeName(const unsigned char *src, const size_t len) {
-    char *name = new char[len+1];
+    auto *name = new char[len+1];
 
     d(src, len, name);
 

@@ -18,7 +18,7 @@
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
 import com.android.build.api.artifact.SingleArtifact
-import com.android.build.gradle.internal.tasks.factory.dependsOn
+import com.android.build.gradle.tasks.ExternalNativeBuildTask
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
 import com.cmgapps.gradle.baseConfig
@@ -191,10 +191,6 @@ android {
         mergeAssetsProvider {
             dependsOn(copyTask)
         }
-
-        externalNativeBuildProviders.forEach {
-            it.dependsOn(generateJniData)
-        }
     }
 
     externalNativeBuild {
@@ -241,14 +237,6 @@ licenses {
     }
 }
 
-val generateJniData by tasks.registering(com.cmgapps.gradle.GenerateJniDataTask::class) {
-    source.set(
-        projectDir.resolve(android.sourceSets.getByName("main").jni.srcDirs.single())
-            .resolve("names.json")
-    )
-    outputFile.set(buildDir.resolve("generated/jni/encodedNames.h"))
-}
-
 tasks {
     val generateEmailAddress by registering {
         val outputDir = xorDirPath
@@ -267,6 +255,15 @@ tasks {
 
     withType<KotlinCompile> {
         dependsOn(generateEmailAddress)
+    }
+
+    val generateJniData by registering(com.cmgapps.gradle.GenerateJniDataTask::class) {
+        source.set((projectDir.toPath() / "src" / "main" / "jni" / "names.json").toFile())
+        outputFile.set((buildDir.toPath() / "generated" / "jni" / "encodedNames.h").toFile())
+    }
+
+    withType<ExternalNativeBuildTask> {
+        dependsOn(generateJniData)
     }
 }
 
