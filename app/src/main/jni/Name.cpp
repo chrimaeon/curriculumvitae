@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <malloc.h>
 #include "Name.h"
 
 extern "C" {
 #include "xor.h"
 }
 
-std::string decodeName(const u_char *src, size_t len);
+std::string decodeName(const unsigned char *src, size_t len);
 
-Name::Name(const u_char *name, size_t len) {
+Name::Name(const unsigned char *name, size_t len) {
     name_ = decodeName(name, len);
 }
 
-void Name::setName(const u_char *name, size_t len) {
+void Name::setName(const unsigned char *name, size_t len) {
     name_ = decodeName(name, len);
 }
 
@@ -25,13 +24,17 @@ const char *Name::getName() {
     return name_.c_str();
 }
 
-std::string decodeName(const u_char *src, const size_t len) {
-    char *name;
+std::string Name::toString() {
+    return name_;
+}
 
-    if (!(name = (char *) (malloc(sizeof(char) * len + 1)))) {
-        return nullptr;
-    }
+std::string decodeName(const unsigned char *src, const size_t len) {
+    char *name = new char[len+1];
 
     d(src, len, name);
-    return std::string(name);
+
+    auto decoded = std::string(name);
+
+    delete[] name;
+    return decoded;
 }

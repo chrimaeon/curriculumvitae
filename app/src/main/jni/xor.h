@@ -7,7 +7,7 @@
 #ifndef XOR_H_
 #define XOR_H_
 
-#include <jni.h>
+#include <stddef.h>
 
 void d(const unsigned char *src, size_t len, char *dst);
 

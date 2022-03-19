@@ -27,9 +27,9 @@ static JNINativeMethod sNativeMethods[] = {
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, __attribute__((unused)) void *reserved) {
 
 #ifdef DEBUG
-    LOGE("------------ 🚨 WARNING 🚨 -------------");
-    LOGE("libCvNative compiled in DEBUG mode");
-    LOGE("---------------------------------------");
+    LOGW("┌─────────── 🚨 WARNING 🚨 ───────────┐");
+    LOGW("│ libCvNative compiled in DEBUG mode │");
+    LOGW("└────────────────────────────────────┘");
 #endif
 
     JNIEnv *env;
@@ -40,7 +40,8 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, __attribute__((unused)) void *reserved) {
     Name cvNativeClassJava(CV_NATIVE_CLASS_JAVA, CV_NATIVE_CLASS_JAVA_LEN);
     jclass cvNativeClass = env->FindClass(cvNativeClassJava.getName());
 
-    if (env->RegisterNatives(cvNativeClass, sNativeMethods,
+    if (env->RegisterNatives(cvNativeClass,
+                             sNativeMethods,
                              sizeof(sNativeMethods) / sizeof(sNativeMethods[0])) < 0) {
         return JNI_ERR;
     }
@@ -48,7 +49,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, __attribute__((unused)) void *reserved) {
     return JNI_VERSION_1_6;
 }
 
-jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject context) {
+jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject appContext) {
 
     Name methodName(CONTEXT_CLASS_JAVA, CONTEXT_CLASS_JAVA_LEN);
     jclass activityClass = env->FindClass(methodName.getName());
@@ -63,9 +64,7 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject c
     params.setName(GET_PACKAGE_NAME_PARAMS, GET_PACKAGE_NAME_PARAMS_LEN);
     jmethodID getPackageNameMid = env->GetMethodID(activityClass, methodName.getName(),
                                                    params.getName());
-    jobject packageManagerObject = env->CallObjectMethod(context, getPackageManagerMid);
-
-    // packageManager = context.getPackageManager()
+    jobject packageManagerObject = env->CallObjectMethod(appContext, getPackageManagerMid);
 
     methodName.setName(PACKAGE_MANAGER_CLASS_JAVA, PACKAGE_MANAGER_CLASS_JAVA_LEN);
     jclass packageManagerClass = env->FindClass(methodName.getName());
@@ -74,9 +73,7 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject c
     params.setName(GET_PACKAGE_INFO_PARAMS, GET_PACKAGE_INFO_PARAMS_LEN);
     jmethodID getPackageInfoMid = env->GetMethodID(packageManagerClass, methodName.getName(),
                                                    params.getName());
-    auto packageNameString = (jstring) env->CallObjectMethod(context, getPackageNameMid);
-
-    // packageName = context.getPackageName()
+    auto packageNameString = (jstring) env->CallObjectMethod(appContext, getPackageNameMid);
 
     methodName.setName(GET_SIGNATURES_METHOD, GET_SIGNATURES_METHOD_LEN);
     params.setName(GET_SIGNATURES_PARAMS, GET_SIGNATURES_PARAMS_LEN);
@@ -84,13 +81,9 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject c
                                                       params.getName());
     jint GET_SIGNATURES = env->GetStaticIntField(packageManagerClass, getSignaturesFid);
 
-    // getSignatures = PackageManager.GET_SIGNATURES
-
     jobject packageInfoObject = env->CallObjectMethod(packageManagerObject,
                                                       getPackageInfoMid,
                                                       packageNameString, GET_SIGNATURES);
-
-    // packageInfo = packageManager.getPackageInfo(packageName, getSignatures)
 
     methodName.setName(PACKAGE_INFO_CLASS_JAVA, PACKAGE_INFO_CLASS_JAVA_LEN);
     jclass packageInfoClass = env->FindClass(methodName.getName());
@@ -104,10 +97,7 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject c
             packageInfoObject,
             signatureFid));
 
-    // signatures = packageInfo.getSignatures()
     jobject signatureObject = env->GetObjectArrayElement(signatureArrayObject, 0);
-
-    // signature = signature[0]
 
     methodName.setName(SIGNATURE_CLASS_JAVA, SIGNATURE_CLASS_JAVA_LEN);
     jclass signatureClass = env->FindClass(methodName.getName());
@@ -125,8 +115,6 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject c
                                                               messageDigestGetInstanceMid,
                                                               env->NewStringUTF(params.getName()));
 
-    // messageDigest = MessageDigest.getInstance("SHA-1")
-
     methodName.setName(DIGEST_METHOD, DIGEST_METHOD_LEN);
     params.setName(DIGEST_PARAMS, DIGEST_PARAMS_LEN);
 
@@ -140,13 +128,10 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject c
 
     auto signatureByteArray = (jbyteArray) (env->CallObjectMethod(signatureObject,
                                                                   toByteArrayMid));
-    // signatureByteArray = signature.toByteArray()
 
     auto digest = (jbyteArray) (env->CallObjectMethod(messageDigestObject,
                                                       digestMid,
                                                       signatureByteArray));
-
-    // digest = messageDigest.digest(signatureByteArray)
 
     jbyte *digestArray = env->GetByteArrayElements(digest, JNI_FALSE);
 
@@ -161,14 +146,14 @@ jboolean JNICALL cS(JNIEnv *env, __attribute__((unused)) jobject thiz, jobject c
                                  (jbyte) 0xBD, (jbyte) 0xF8, (jbyte) 0x22, (jbyte) 0xAF
     };
 #else
-    jbyte expectedSignature[] = {(jbyte) 0xA9, (jbyte) 0x0B, (jbyte) 0x9B, (jbyte) 0xEA,
-                                 (jbyte) 0xBD,
-                                 (jbyte) 0xC8, (jbyte) 0xBA, (jbyte) 0x19, (jbyte) 0xD0,
-                                 (jbyte) 0x1C,
-                                 (jbyte) 0xAD, (jbyte) 0x49, (jbyte) 0x16, (jbyte) 0x33,
-                                 (jbyte) 0x54,
-                                 (jbyte) 0xFC, (jbyte) 0x84, (jbyte) 0x68, (jbyte) 0xBF,
-                                 (jbyte) 0x47
+    jbyte expectedSignature[] = {(jbyte) 0xA1, (jbyte) 0x0E, (jbyte) 0xE5, (jbyte) 0x66,
+                                 (jbyte) 0xEC, (jbyte) 0xD9, (jbyte) 0xC8, (jbyte) 0x02,
+                                 (jbyte) 0x9B, (jbyte) 0x86, (jbyte) 0x53, (jbyte) 0x6D,
+                                 (jbyte) 0x03, (jbyte) 0x1B, (jbyte) 0xC0, (jbyte) 0x93,
+                                 (jbyte) 0xCE, (jbyte) 0x17, (jbyte) 0x22, (jbyte) 0x45,
+                                 (jbyte) 0xA5, (jbyte) 0x09, (jbyte) 0xC6, (jbyte) 0x69,
+                                 (jbyte) 0xF3, (jbyte) 0xBB, (jbyte) 0x24, (jbyte) 0x18,
+                                 (jbyte) 0xE2, (jbyte) 0x84, (jbyte) 0xD7, (jbyte) 0x9D,
     };
 #endif
 

@@ -23,16 +23,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
 import com.cmgapps.android.curriculumvitae.infra.jni.CvNative
+import com.cmgapps.android.curriculumvitae.ui.BadSignature
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.withContext
 
 @LogTag
 @AndroidEntryPoint
@@ -43,36 +48,46 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
-        Timber.d(CvNative.cS(this).toString())
-
         setContent {
             Theme {
                 ProvideWindowInsets(consumeWindowInsets = true) {
                     val scaffoldState = rememberScaffoldState()
                     val coroutineScope = rememberCoroutineScope()
 
-                    MainScreen(
-                        scaffoldState = scaffoldState,
-                        onFabClick = {
-                            val intent = createEmailIntent()
-                            if (intent.resolveActivity(packageManager) != null) {
-                                startActivity(intent)
-                            } else {
-                                coroutineScope.launch {
-                                    scaffoldState.snackbarHostState.showSnackbar(getString(R.string.no_email))
+                    val appContext = LocalContext.current.applicationContext
+
+                    val validSignature by produceState(initialValue = true, appContext) {
+                        withContext(Dispatchers.Default) {
+                            value = CvNative.cS(appContext)
+                        }
+                    }
+
+                    if (validSignature) {
+                        MainScreen(
+                            scaffoldState = scaffoldState,
+                            onFabClick = {
+                                val intent = createEmailIntent()
+                                if (intent.resolveActivity(packageManager) != null) {
+                                    startActivity(intent)
+                                } else {
+                                    coroutineScope.launch {
+                                        scaffoldState.snackbarHostState.showSnackbar(getString(R.string.no_email))
+                                    }
+                                }
+                            },
+                            onOpenWebsite = { uri ->
+                                val intent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    uri,
+                                )
+                                if (intent.resolveActivity(packageManager) != null) {
+                                    startActivity(intent)
                                 }
                             }
-                        },
-                        onOpenWebsite = { uri ->
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                uri,
-                            )
-                            if (intent.resolveActivity(packageManager) != null) {
-                                startActivity(intent)
-                            }
-                        }
-                    )
+                        )
+                    } else {
+                        BadSignature()
+                    }
                 }
             }
         }

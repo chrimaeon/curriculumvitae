@@ -13,13 +13,15 @@ class Name {
 private:
     std::string name_;
 public:
-    Name(const u_char *name, size_t len);
+    Name(const unsigned char *name, size_t len);
 
     ~Name() = default;
 
-    void setName(const u_char *name, size_t len);
+    void setName(const unsigned char *name, size_t len);
 
     const char *getName();
+
+    std::string toString();
 };
 
 #endif //CV_NAME_H
