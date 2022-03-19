@@ -162,7 +162,7 @@ android {
     baseConfig(project)
 
     defaultConfig {
-        consumerProguardFile(projectDir.resolve("proguard-rules.pro"))
+        consumerProguardFile(projectDir.toPath() / "proguard-rules.pro")
     }
 
     sourceSets {

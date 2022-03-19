@@ -39,6 +39,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.ktor.client.java)
                 implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.coroutines.swing)
             }
         }
 

@@ -17,10 +17,13 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.cmgapps.android.curriculumvitae">
 
-    <application>
-        <profileable android:shell="true" />
+    <application tools:ignore="MissingApplicationIcon">
+        <profileable
+            android:shell="true"
+            tools:targetApi="q" />
     </application>
 
 </manifest>

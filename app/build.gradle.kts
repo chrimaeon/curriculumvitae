@@ -115,6 +115,8 @@ android {
                     cppFlags("-DDEBUG")
                 }
             }
+
+            versionNameSuffix = "-Debug"
         }
 
         release {
@@ -132,6 +134,7 @@ android {
                     cppFlags("-DRELEASE")
                 }
             }
+            versionNameSuffix = ""
         }
 
         register("benchmark") {
@@ -139,6 +142,13 @@ android {
             signingConfig = debugSigningConfig.get()
             // see https://issuetracker.google.com/issues/216940881
             proguardFiles += projectDir.resolve("proguard-rules-benchmark.pro")
+            externalNativeBuild {
+                cmake {
+                    cFlags("-DDEBUG")
+                    cppFlags("-DDEBUG")
+                }
+            }
+            versionNameSuffix = "-Benchmark"
         }
     }
 
@@ -169,7 +179,7 @@ android {
         listOf("test", "androidTest").map { named(it) }.forEach { sourceSet ->
             sourceSet {
                 java.srcDir(
-                    project.projectDir.resolve("src").resolve("sharedTest").resolve("java")
+                    project.projectDir.toPath() / "src" / "sharedTest" / "java"
                 )
             }
         }
