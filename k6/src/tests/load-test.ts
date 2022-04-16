@@ -29,7 +29,7 @@ export const options: Partial<Options> = {
     ],
 
     thresholds: {
-        http_req_duration: ['p(99)<5000,p(95)<1000'],
+        http_req_duration: ['p(99) < 5000','p(95) < 1000'],
     },
 }
 
