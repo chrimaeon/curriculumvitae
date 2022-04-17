@@ -21,7 +21,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,14 +29,15 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.wear.compose.foundation.BasicCurvedText
-import androidx.wear.compose.foundation.CurvedRow
+import androidx.wear.compose.foundation.CurvedLayout
 import androidx.wear.compose.foundation.CurvedTextStyle
+import androidx.wear.compose.foundation.curvedRow
 import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.curvedText
 import coil.compose.rememberImagePainter
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
@@ -79,7 +79,7 @@ private fun Profile(profile: Profile) {
             builder = {
                 crossfade(true)
                 error(
-                    drawable = ColorDrawable(MaterialTheme.colors.primary.value.toInt())
+                    drawable = ColorDrawable(MaterialTheme.colors.primary.toArgb())
                 )
             }
         )
@@ -100,32 +100,28 @@ private fun Profile(profile: Profile) {
             )
             drawRect(brush)
         }
-        CurvedRow(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(4.dp)
+        val textStyle = MaterialTheme.typography.display3.copy(color = LocalContentColor.current)
+        CurvedLayout(
+            anchor = 270f
         ) {
-            BasicCurvedText(
-                profile.name,
-                style = CurvedTextStyle(
-                    MaterialTheme.typography.display3.copy(
-                        color = LocalContentColor.current,
-                    )
-                ),
-            )
-        }
 
-        CurvedRow(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(4.dp),
-            anchor = 90f,
+            curvedRow {
+                curvedText(
+                    profile.name,
+                    style = CurvedTextStyle(style = textStyle),
+                )
+            }
+        }
+        CurvedLayout(
+            anchor = 90f
         ) {
-            BasicCurvedText(
-                profile.email,
-                style = CurvedTextStyle(MaterialTheme.typography.title3.copy(color = LocalContentColor.current)),
-                clockwise = false
-            )
+            curvedRow {
+                curvedText(
+                    profile.email,
+                    style = CurvedTextStyle(textStyle),
+                    clockwise = false
+                )
+            }
         }
     }
 }
