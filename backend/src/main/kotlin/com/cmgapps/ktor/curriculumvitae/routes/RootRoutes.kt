@@ -5,13 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0
  */
 @file:Suppress("ktlint:filename")
 
@@ -23,15 +17,15 @@ import com.cmgapps.common.curriculumvitae.data.network.Profile
 import com.cmgapps.common.curriculumvitae.data.network.Skill
 import com.cmgapps.ktor.curriculumvitae.Routes
 import com.cmgapps.ktor.curriculumvitae.template.MaterialPage
-import io.ktor.application.Application
-import io.ktor.application.call
-import io.ktor.html.respondHtmlTemplate
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
-import io.ktor.routing.Route
-import io.ktor.routing.get
-import io.ktor.routing.routing
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.html.respondHtmlTemplate
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
 import kotlinx.css.Color
 import kotlinx.css.CssBuilder
 import kotlinx.css.FontWeight

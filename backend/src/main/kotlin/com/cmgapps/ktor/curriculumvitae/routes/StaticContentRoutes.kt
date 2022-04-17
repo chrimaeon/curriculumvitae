@@ -7,11 +7,11 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
-import io.ktor.application.Application
-import io.ktor.http.content.resource
-import io.ktor.http.content.resources
-import io.ktor.http.content.static
-import io.ktor.routing.routing
+import io.ktor.server.application.Application
+import io.ktor.server.http.content.resource
+import io.ktor.server.http.content.resources
+import io.ktor.server.http.content.static
+import io.ktor.server.routing.routing
 
 fun Application.registerStaticRoutes() {
     routing {

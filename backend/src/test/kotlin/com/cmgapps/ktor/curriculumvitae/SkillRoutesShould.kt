@@ -16,12 +16,12 @@
 
 package com.cmgapps.ktor.curriculumvitae
 
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
 import io.ktor.http.withCharset
-import io.ktor.server.testing.handleRequest
-import io.ktor.server.testing.withTestApplication
+import io.ktor.server.testing.testApplication
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
@@ -29,25 +29,20 @@ import org.junit.jupiter.api.Test
 class SkillRoutesShould {
 
     @Test
-    fun `return Content-Type application json`() =
-        withTestApplication(moduleFunction = { module() }) {
-            with(handleRequest(HttpMethod.Get, Routes.SKILLS.route)) {
-                assertThat(
-                    response.headers[HttpHeaders.ContentType],
-                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString()),
-                )
-            }
-        }
+    fun `return Content-Type application json`() = testApplication {
+        val response = client.get(Routes.SKILLS.route)
+        assertThat(
+            response.headers[HttpHeaders.ContentType],
+            `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString()),
+        )
+    }
 
     @Test
-    fun `return skills`() {
-        withTestApplication(moduleFunction = { module() }) {
-            with(handleRequest(HttpMethod.Get, Routes.SKILLS.route)) {
-                assertThat(
-                    response.content,
-                    `is`("""[{"name":"Skill Level 3","level":3},{"name":"Skill Level 2","level":2}]"""),
-                )
-            }
-        }
+    fun `return skills`() = testApplication {
+        val response = client.get(Routes.SKILLS.route)
+        assertThat(
+            response.bodyAsText(),
+            `is`("""[{"name":"Skill Level 3","level":3},{"name":"Skill Level 2","level":2}]"""),
+        )
     }
 }

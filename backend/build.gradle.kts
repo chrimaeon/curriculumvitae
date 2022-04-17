@@ -7,6 +7,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.cmgapps.gradle.curriculumvitae.versionProperty
+import com.cmgapps.gradle.curriculumvitae.testCompletionLog
 import java.util.Properties
 
 plugins {
@@ -72,6 +73,7 @@ tasks {
         testLogging {
             events("passed", "skipped", "failed")
         }
+        afterSuite(testCompletionLog())
     }
 
     htmlToMarkdown {
@@ -93,7 +95,6 @@ tasks {
 dependencies {
     implementation(projects.common)
     implementation(kotlin("stdlib-jdk8", libs.versions.kotlin.get()))
-    implementation(libs.ktor.netty)
 
     implementation(libs.bundles.ktor.server)
     implementation(libs.kotlinCss)

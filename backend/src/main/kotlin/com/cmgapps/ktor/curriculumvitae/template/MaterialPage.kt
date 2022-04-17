@@ -16,10 +16,10 @@
 
 package com.cmgapps.ktor.curriculumvitae.template
 
-import io.ktor.html.Placeholder
-import io.ktor.html.Template
-import io.ktor.html.insert
 import io.ktor.http.ContentType
+import io.ktor.server.html.Placeholder
+import io.ktor.server.html.Template
+import io.ktor.server.html.insert
 import kotlinx.html.DIV
 import kotlinx.html.HEAD
 import kotlinx.html.HTML

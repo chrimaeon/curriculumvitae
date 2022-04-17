@@ -16,10 +16,10 @@
 
 package com.cmgapps.ktor.curriculumvitae
 
-import io.ktor.http.HttpMethod
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.testing.handleRequest
-import io.ktor.server.testing.withTestApplication
+import io.ktor.server.testing.testApplication
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
@@ -27,23 +27,22 @@ import org.junit.jupiter.api.Test
 class RootRoutesShould {
 
     @Test
-    fun `return OK on GET`() = withTestApplication(moduleFunction = { module() }) {
-        with(handleRequest(HttpMethod.Get, Routes.ROOT.route)) {
-            assertThat(response.status(), `is`(HttpStatusCode.OK))
-        }
+    fun `return OK on GET`() = testApplication {
+        val response = client.get(Routes.ROOT.route)
+        assertThat(response.status, `is`(HttpStatusCode.OK))
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     @Test
-    fun `return html on GET`() = withTestApplication(moduleFunction = { module() }) {
+    fun `return html on GET`() = testApplication {
         val expected = javaClass.classLoader.getResourceAsStream("root.html")?.use {
             String(it.readAllBytes())
         } ?: error("resource not found")
 
-        with(handleRequest(HttpMethod.Get, Routes.ROOT.route)) {
-            assertThat(
-                response.content,
-                `is`(expected),
-            )
-        }
+        val response = client.get(Routes.ROOT.route)
+        assertThat(
+            response.bodyAsText(),
+            `is`(expected),
+        )
     }
 }

@@ -9,45 +9,43 @@ package com.cmgapps.ktor.curriculumvitae
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
 import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
+import com.cmgapps.ktor.curriculumvitae.infra.di.Koin
 import com.cmgapps.ktor.curriculumvitae.infra.di.appModule
+import com.cmgapps.ktor.curriculumvitae.infra.di.inject
 import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
 import com.cmgapps.ktor.curriculumvitae.routes.registerSkillRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
-import io.ktor.application.Application
-import io.ktor.application.ApplicationCall
-import io.ktor.application.call
-import io.ktor.application.install
-import io.ktor.application.log
-import io.ktor.features.AutoHeadResponse
-import io.ktor.features.CORS
-import io.ktor.features.CachingHeaders
-import io.ktor.features.CallLogging
-import io.ktor.features.Compression
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.DefaultHeaders
-import io.ktor.features.StatusPages
-import io.ktor.features.deflate
-import io.ktor.features.gzip
-import io.ktor.features.origin
+import io.ktor.content.TextContent
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.CachingOptions
-import io.ktor.http.content.TextContent
 import io.ktor.http.withCharset
-import io.ktor.request.httpMethod
-import io.ktor.request.httpVersion
-import io.ktor.response.respond
-import io.ktor.serialization.json
-import io.ktor.websocket.WebSockets
+import io.ktor.serialization.kotlinx.json.json
+import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.install
+import io.ktor.server.application.log
+import io.ktor.server.plugins.autohead.AutoHeadResponse
+import io.ktor.server.plugins.cachingheaders.CachingHeaders
+import io.ktor.server.plugins.callloging.CallLogging
+import io.ktor.server.plugins.compression.Compression
+import io.ktor.server.plugins.compression.deflate
+import io.ktor.server.plugins.compression.gzip
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.cors.CORS
+import io.ktor.server.plugins.defaultheaders.DefaultHeaders
+import io.ktor.server.plugins.origin
+import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.request.httpMethod
+import io.ktor.server.request.httpVersion
+import io.ktor.server.response.respond
+import io.ktor.server.websocket.WebSockets
 import kotlinx.serialization.serializer
-import org.koin.ktor.ext.Koin
-import org.koin.ktor.ext.inject
-import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -91,7 +89,7 @@ fun Application.installFeatures() {
         }
     }
     install(StatusPages) {
-        suspend fun ApplicationCall.respond(status: HttpStatusCode) {
+        suspend fun ApplicationCall.respondCode(status: HttpStatusCode) {
             this.respond(
                 TextContent(
                     "${status.value} ${status.description}",
@@ -101,23 +99,23 @@ fun Application.installFeatures() {
             )
         }
 
-        status(HttpStatusCode.NotFound) {
-            call.respond(it)
+        status(HttpStatusCode.NotFound) { call, statusCode ->
+            call.respondCode(statusCode)
         }
 
-        exception<Throwable> { cause ->
+        exception<Throwable> { call, cause ->
             StringWriter().use { stringWriter ->
                 PrintWriter(stringWriter).use { printWriter ->
                     cause.printStackTrace(printWriter)
                 }
-                log.error(stringWriter.toString())
+                call.application.log.error(stringWriter.toString())
             }
             call.respond(HttpStatusCode.InternalServerError)
         }
     }
 
     install(CachingHeaders) {
-        options { outgoingContent ->
+        options { _, outgoingContent ->
             val contentType = outgoingContent.contentType?.withoutParameters()
             when {
                 contentType?.match(ContentType.Image.Any) == true -> CachingOptions(
@@ -131,7 +129,7 @@ fun Application.installFeatures() {
     }
 
     install(CORS) {
-        header(HttpHeaders.AccessControlAllowOrigin)
+        allowHeader(HttpHeaders.AccessControlAllowOrigin)
         anyHost()
     }
 
@@ -139,7 +137,7 @@ fun Application.installFeatures() {
 
     install(Koin) {
         // Workaround for https://github.com/InsertKoinIO/koin/issues/1188
-        slf4jLogger(org.koin.core.logger.Level.ERROR)
+        logLevel = org.koin.core.logger.Level.ERROR
         modules(appModule)
     }
 }

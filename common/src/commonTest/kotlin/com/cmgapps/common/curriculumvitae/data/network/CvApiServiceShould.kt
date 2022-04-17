@@ -29,7 +29,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.time.ExperimentalTime
 
 class CvApiServiceShould {
 
@@ -58,7 +57,6 @@ class CvApiServiceShould {
         assertEquals(listOf(StubNetworkSkill()), result)
     }
 
-    @ExperimentalTime
     @Test
     @Ignore // https://youtrack.jetbrains.com/issue/KTOR-537
     fun get_status() = runTest {

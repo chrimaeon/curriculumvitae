@@ -16,11 +16,11 @@
 
 package com.cmgapps.ktor.curriculumvitae
 
+import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
-import io.ktor.server.testing.handleRequest
-import io.ktor.server.testing.withTestApplication
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.testApplication
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
@@ -28,12 +28,20 @@ import org.junit.jupiter.api.Test
 class StaticRoutesShould {
 
     @Test
-    fun `return Content-Type image png`() = withTestApplication(moduleFunction = { module() }) {
-        with(handleRequest(HttpMethod.Get, "/assets/profile.png")) {
-            assertThat(
-                response.headers[HttpHeaders.ContentType],
-                `is`(ContentType.Image.PNG.toString()),
-            )
-        }
+    fun `return Content-Type image png`() = testApplication {
+        val response = client.get("/assets/profile.png")
+        assertThat(
+            response.headers[HttpHeaders.ContentType],
+            `is`(ContentType.Image.PNG.toString()),
+        )
+    }
+
+    @Test
+    fun `get favicon from root`() = testApplication {
+        val response = client.get("/favicon.ico")
+        assertThat(
+            response.status,
+            `is`(HttpStatusCode.OK),
+        )
     }
 }

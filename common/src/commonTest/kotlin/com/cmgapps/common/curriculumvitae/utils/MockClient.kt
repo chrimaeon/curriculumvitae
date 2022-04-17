@@ -22,11 +22,11 @@ import StubNetworkSkill
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.headersOf
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -59,7 +59,7 @@ val mockClient = HttpClient(MockEngine) {
             }
         }
     }
-    install(JsonFeature) {
-        serializer = KotlinxSerializer()
+    install(ContentNegotiation) {
+        json()
     }
 }

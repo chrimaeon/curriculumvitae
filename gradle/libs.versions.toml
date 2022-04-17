@@ -8,7 +8,7 @@ gradle = "7.5"
 hilt = "2.42"
 koin = "3.1.6"
 kotlin = "1.7.0"
-ktor = "1.6.8"
+ktor = "2.0.3"
 logtag = "1.1.0"
 sqldelight = "1.5.3"
 
@@ -79,7 +79,7 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
-ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-websocket = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
@@ -140,11 +140,18 @@ turbine = "app.cash.turbine:turbine:0.7.0"
 
 # region Backend
 ktor-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
-ktor-servlet = { module = "io.ktor:ktor-server-servlet", version.ref = "ktor" }
-ktor-html = { module = "io.ktor:ktor-html-builder", version.ref = "ktor" }
-ktor-serialization = { module = "io.ktor:ktor-serialization", version.ref = "ktor" }
+ktor-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor"}
+ktor-defaultHeaders = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor"}
+ktor-compression = { module = "io.ktor:ktor-server-compression", version.ref = "ktor"}
+ktor-callLogging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor"}
+ktor-statusPages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor"}
+ktor-autoHeadResponse = { module = "io.ktor:ktor-server-auto-head-response", version.ref = "ktor"}
+ktor-cachingHeaders = { module = "io.ktor:ktor-server-caching-headers", version.ref = "ktor"}
+ktor-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor"}
+ktor-html = { module = "io.ktor:ktor-server-html-builder", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
-ktor-websocket = { module = "io.ktor:ktor-websockets", version.ref = "ktor" }
+ktor-websocket = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.11"
 kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.325-kotlin-1.6.10"
@@ -153,19 +160,29 @@ appEngine = "com.google.appengine:appengine:1.9.93"
 
 [bundles]
 ktor-server = [
-  "ktor-servlet",
+  "ktor-netty",
+  "ktor-contentNegotiation",
+  "ktor-compression",
+  "ktor-defaultHeaders",
+  "ktor-callLogging",
+  "ktor-statusPages",
+  "ktor-autoHeadResponse",
+  "ktor-cachingHeaders",
+  "ktor-cors",
   "ktor-html",
   "ktor-serialization",
   "ktor-websocket",
 ]
 ktor-common = [
-  "ktor-client-serialization",
+  "ktor-serialization",
+  "ktor-client-contentNegotiation",
   "ktor-client-websocket",
 ]
 ktor-android = [
   "ktor-client-android",
   "ktor-client-okhttp",
-  "ktor-client-serialization",
+  "ktor-client-contentNegotiation",
+  "ktor-serialization",
 ]
 koin-server = [
   "koin-core",

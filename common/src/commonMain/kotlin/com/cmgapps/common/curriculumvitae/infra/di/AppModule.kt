@@ -25,15 +25,15 @@ import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.common.curriculumvitae.repository.SkillsRepository
 import com.cmgapps.common.curriculumvitae.repository.StatusRepository
 import io.ktor.client.HttpClient
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.features.websocket.WebSockets
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.MainScope
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
@@ -42,7 +42,7 @@ import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.KoinAppDeclaration
 import co.touchlab.kermit.Logger as KermitLogger
-import io.ktor.client.features.logging.Logger as KtorLogger
+import io.ktor.client.plugins.logging.Logger as KtorLogger
 
 private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
     single {
@@ -93,8 +93,8 @@ private fun createHttpClient(
     enableNetworkLogging: Boolean,
     kermitLogger: KermitLogger,
 ): HttpClient = HttpClient {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer()
+    install(ContentNegotiation) {
+        json()
     }
 
     install(WebSockets)

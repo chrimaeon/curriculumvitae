@@ -1,33 +1,24 @@
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.cmgapps.common.curriculumvitae.data.network
 
 import io.ktor.client.HttpClient
-import io.ktor.client.call.receive
-import io.ktor.client.features.websocket.webSocket
+import io.ktor.client.call.body
+import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpMethod
 import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import io.ktor.http.Url
-import io.ktor.http.cio.websocket.Frame
-import io.ktor.http.cio.websocket.readText
+import io.ktor.http.path
 import io.ktor.utils.io.ByteReadChannel
+import io.ktor.websocket.Frame
+import io.ktor.websocket.readText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -39,25 +30,25 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
         URLBuilder(baseUrl).apply {
             path("profile")
         }.build(),
-    )
+    ).body()
 
     suspend fun getEmployments(): List<Employment> = client.get(
         URLBuilder(baseUrl).apply {
             path("employment")
         }.build(),
-    )
+    ).body()
 
     suspend fun getSkills(): List<Skill> = client.get(
         URLBuilder(baseUrl).apply {
             path("skills")
         }.build(),
-    )
+    ).body()
 
-    suspend fun getAsset(assetPath: String): ByteReadChannel = client.get<HttpResponse>(
+    suspend fun getAsset(assetPath: String): ByteReadChannel = client.get(
         URLBuilder(baseUrl).apply {
             path(assetPath)
         }.build(),
-    ).receive()
+    ).bodyAsChannel()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getApiStatus(): Flow<Status> = flow {

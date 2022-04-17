@@ -19,20 +19,20 @@ package com.cmgapps.ktor.curriculumvitae
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
 import com.cmgapps.common.curriculumvitae.data.db.EmploymentQueries
 import com.cmgapps.common.curriculumvitae.data.network.Employment
+import com.cmgapps.ktor.curriculumvitae.utils.modules
 import com.squareup.sqldelight.Query
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
 import io.ktor.http.withCharset
-import io.ktor.server.testing.handleRequest
-import io.ktor.server.testing.withTestApplication
+import io.ktor.server.testing.testApplication
 import kotlinx.datetime.LocalDate
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.koin.dsl.module
-import org.koin.ktor.ext.modules
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
@@ -51,13 +51,12 @@ class EmploymentRoutesShould {
 
     @Test
     fun `return Content-Type application json`() =
-        withTestApplication(moduleFunction = { module() }) {
-            with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
-                assertThat(
-                    response.headers[HttpHeaders.ContentType],
-                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString()),
-                )
-            }
+        testApplication {
+            val response = client.get(Routes.EMPLOYMENT.route)
+            assertThat(
+                response.headers[HttpHeaders.ContentType],
+                `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString()),
+            )
         }
 
     @Test
@@ -78,37 +77,36 @@ class EmploymentRoutesShould {
         whenever(employmentQueriesMock.selectAll<Employment>(any())) doReturn queryMock
         whenever(databaseMock.employmentQueries) doReturn employmentQueriesMock
 
-        withTestApplication(moduleFunction = {
-            module()
-        },) {
-            application.modules(
-                module {
-                    single { databaseMock }
-                },
-            )
-
-            with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
-                assertThat(
-                    response.content,
-                    `is`(
-                        "[" +
-                            "{" +
-                            "\"id\":1," +
-                            "\"jobTitle\":\"Software Developer\"," +
-                            "\"employer\":\"CMG Mobile Apps\"," +
-                            "\"startDate\":\"2010-06-01\"," +
-                            "\"endDate\":null," +
-                            "\"city\":\"Graz\"," +
-                            "\"description\":" +
-                            "[" +
-                            "\"Founder\"," +
-                            "\"Software development\"" +
-                            "]" +
-                            "}" +
-                            "]",
-                    ),
+        testApplication {
+            application {
+                modules(
+                    module {
+                        single { databaseMock }
+                    },
                 )
             }
+
+            val response = client.get(Routes.EMPLOYMENT.route)
+            assertThat(
+                response.bodyAsText(),
+                `is`(
+                    "[" +
+                        "{" +
+                        "\"id\":1," +
+                        "\"jobTitle\":\"Software Developer\"," +
+                        "\"employer\":\"CMG Mobile Apps\"," +
+                        "\"startDate\":\"2010-06-01\"," +
+                        "\"endDate\":null," +
+                        "\"city\":\"Graz\"," +
+                        "\"description\":" +
+                        "[" +
+                        "\"Founder\"," +
+                        "\"Software development\"" +
+                        "]" +
+                        "}" +
+                        "]",
+                ),
+            )
         }
     }
 }

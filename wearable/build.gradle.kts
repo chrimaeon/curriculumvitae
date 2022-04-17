@@ -126,6 +126,6 @@ dependencies {
     androidTestImplementation(libs.compose.uiTest)
     androidTestImplementation(libs.koin.test)
     androidTestImplementation(libs.ktor.client.mock)
-    androidTestImplementation(libs.ktor.client.serialization)
+    androidTestImplementation(libs.ktor.serialization)
     androidTestImplementation(libs.sqldelight.driver.android)
 }
