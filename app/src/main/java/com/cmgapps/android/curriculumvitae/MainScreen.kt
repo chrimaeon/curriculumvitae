@@ -16,7 +16,6 @@
 
 package com.cmgapps.android.curriculumvitae
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.EnterTransition
@@ -64,7 +63,6 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.plusAssign
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.infra.IconState
 import com.cmgapps.android.curriculumvitae.infra.Screen
@@ -96,10 +94,8 @@ fun MainScreen(
     onFabClick: () -> Unit = {},
     onOpenWebsite: (Uri) -> Unit = {}
 ) {
-    val navController = rememberAnimatedNavController()
     val bottomSheetNavigator = rememberBottomSheetNavigator()
-    @SuppressLint("RestrictedApi")
-    navController.navigatorProvider += bottomSheetNavigator
+    val navController = rememberAnimatedNavController(bottomSheetNavigator)
 
     var isOnMainScreen by remember { mutableStateOf(true) }
     navController.addOnDestinationChangedListener { _, destination, _ ->
