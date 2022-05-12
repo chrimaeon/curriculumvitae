@@ -16,9 +16,9 @@
 
 package com.cmgapps.gradle
 
-import androidCompileSdkVersion
+import androidCompileSdkPreviewVersion
 import androidMinSdkVersion
-import androidTargetSdkVersion
+import androidTargetSdkPreviewVersion
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildFeatures
 import com.android.build.api.dsl.BuildType
@@ -36,7 +36,7 @@ internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : Produ
     project: Project,
     block: CommonExtension<BF, BT, DC, PF>.() -> Unit
 ) {
-    compileSdk = androidCompileSdkVersion
+    compileSdkPreview = androidCompileSdkPreviewVersion
     buildToolsVersion = depsBuildToolsVersion
 
     defaultConfig {
@@ -65,7 +65,7 @@ internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : Produ
 fun ApplicationExtension.baseConfig(project: Project) {
     commonConfig(project) {
         defaultConfig {
-            targetSdk = androidTargetSdkVersion
+            targetSdkPreview = androidTargetSdkPreviewVersion
         }
     }
 }
@@ -73,7 +73,7 @@ fun ApplicationExtension.baseConfig(project: Project) {
 fun TestExtension.baseConfig(project: Project) {
     commonConfig(project) {
         defaultConfig {
-            targetSdk = androidTargetSdkVersion
+            targetSdkPreview = androidTargetSdkPreviewVersion
         }
     }
 }
@@ -81,7 +81,7 @@ fun TestExtension.baseConfig(project: Project) {
 fun LibraryExtension.baseConfig(project: Project) {
     commonConfig(project) {
         defaultConfig {
-            targetSdk = androidTargetSdkVersion
+            targetSdkPreview = androidTargetSdkPreviewVersion
         }
     }
 }

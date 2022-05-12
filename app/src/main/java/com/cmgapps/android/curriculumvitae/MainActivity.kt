@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.rememberScaffoldState
@@ -43,7 +44,10 @@ import kotlinx.coroutines.withContext
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(android.R.style.Theme_Material_Light_NoActionBar)
+        with(TypedValue()) {
+            theme.resolveAttribute(R.attr.postSplashScreenTheme, this, true)
+            setTheme(resourceId)
+        }
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 

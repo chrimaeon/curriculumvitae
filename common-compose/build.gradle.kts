@@ -17,8 +17,8 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
+import com.cmgapps.gradle.baseConfig
 import kotlin.io.path.div
-import buildToolsVersion as depsBuildToolsVersion
 
 plugins {
     kotlin("multiplatform")
@@ -62,18 +62,7 @@ kotlin {
 }
 
 android {
-    compileSdk = androidCompileSdkVersion
-    buildToolsVersion = depsBuildToolsVersion
-
-    defaultConfig {
-        minSdk = androidMinSdkVersion
-        targetSdk = androidTargetSdkVersion
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
+    baseConfig(project)
 
     sourceSets {
         named("main") {

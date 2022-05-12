@@ -24,7 +24,9 @@ val PluginDependenciesSpec.ktlint: PluginDependencySpec
 
 const val androidMinSdkVersion = 26
 const val androidWearMinSdkVersion = 28
-const val androidCompileSdkVersion = 31
+const val androidCompileSdkVersion = 32
+const val androidCompileSdkPreviewVersion = "Tiramisu"
 const val androidTargetSdkVersion = androidCompileSdkVersion
-const val buildToolsVersion = "32.0.0"
+const val androidTargetSdkPreviewVersion = androidCompileSdkPreviewVersion
+const val buildToolsVersion = "33.0.0-rc4"
 const val androidNdkVersion = "24.0.8215888"
