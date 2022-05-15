@@ -6,31 +6,31 @@
 
 This is a [Kotlin Multiplatform] project.
 
-## Android
+## [Android](app)
 
 An Android App showcasing Jetpack Compose
 
-## Wearable
+## [Wearable](wearable)
 
 An Android Watch App showcasing Jetpack Compose
 
-## iOS
+## [iOS](ios)
 
 A iOS App showcasing integration of Kotlin to Swift and SwiftUI
 
-## Desktop
+## [Desktop](desktop)
 
 A Java Desktop App showcasing [Compose for Desktop].
 
 Run `./gradlew :desktop:run` to start the app.
 
-## Web
+## [Web](web)
 
 A JavaScript Web application showcasing [Compose for Web].
 
 You can start the dev server running `./gradlew :web:jsBrowserDevelopmentRun`
 
-## Back end
+## [Back end](backend)
 
 Ktor Back end for the app
 
@@ -39,10 +39,14 @@ Run locally with `./gradlew :backend:run` or deploy to [Google Cloud App Engine]
 
 For API Documentation see [backend/README.md]
 
-## Common
+## [Common](common)
 
 The `common` project includes all the shared code across the different platforms. To learn more
 check out [Kotlin Multiplatform].
+
+## [Common Compose](common-compose)
+
+A shared Jetbrains Compose module for shared `Composables`
 
 ## MAD Scorecard
 
@@ -53,17 +57,7 @@ check out [Kotlin Multiplatform].
 ```text
 Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+SPDX-License-Identifier: Apache-2.0
 ```
 
 [backend/README.md]: /backend/README.md
