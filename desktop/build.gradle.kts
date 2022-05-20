@@ -10,13 +10,14 @@
     org.jetbrains.compose.ExperimentalComposeLibrary::class
 )
 
+import com.cmgapps.gradle.curriculumvitae.testCompletionLog
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.time.LocalDate
 
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.jetbrainsCompose)
-    ktlint
+    id("ktlint")
 }
 
 kotlin {

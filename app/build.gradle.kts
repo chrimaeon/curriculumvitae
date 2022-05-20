@@ -21,17 +21,16 @@ import com.android.build.api.artifact.SingleArtifact
 import com.android.build.gradle.tasks.ExternalNativeBuildTask
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
-import com.cmgapps.gradle.baseConfig
+import com.cmgapps.gradle.curriculumvitae.androidNdkVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 import kotlin.io.path.div
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("curriculumvitae.android.application")
     kotlin("kapt")
     alias(libs.plugins.kotlinx.serialization)
-    ktlint
+    id("ktlint")
     id("dagger.hilt.android.plugin")
     alias(libs.plugins.wire)
     alias(libs.plugins.licenses)
@@ -41,7 +40,6 @@ plugins {
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    baseConfig(project)
     ndkVersion = androidNdkVersion
 
     defaultConfig {
@@ -186,7 +184,7 @@ android {
     }
 
     packagingOptions {
-        resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
+        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
 
     applicationVariants.all {

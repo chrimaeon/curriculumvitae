@@ -13,7 +13,7 @@ plugins {
     id("com.google.cloud.tools.appengine")
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.markdown)
-    ktlint
+    id("ktlint")
     application
     alias(libs.plugins.shadowJar)
 }

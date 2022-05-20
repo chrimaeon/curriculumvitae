@@ -43,9 +43,10 @@ tasks {
 }
 
 dependencies {
-    implementation(libs.androidGradlePluginApi)
+    implementation(libs.android.gradlePlugin)
+    implementation(libs.kotlin.gradlePlugin)
     implementation("com.squareup:kotlinpoet:1.10.2")
-    implementation("com.squareup.okio:okio:3.0.0")
+    implementation("com.squareup.okio:okio:3.1.0")
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(platform("org.junit:junit-bom:5.8.2"))

@@ -28,7 +28,8 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.kotlinPluginDep)
+        classpath(libs.android.gradlePlugin)
+        classpath(libs.kotlin.gradlePlugin)
         classpath(libs.hiltAndroidPluginDep)
         classpath(libs.appEnginePluginDep)
         classpath(libs.sqldelightPluginDep)
@@ -36,9 +37,6 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.test) apply false
     alias(libs.plugins.benManesVersionsGradle)
 }
 
