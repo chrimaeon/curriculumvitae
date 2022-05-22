@@ -11,7 +11,7 @@ import org.gradle.api.tasks.testing.TestDescriptor
 import org.gradle.api.tasks.testing.TestResult
 import org.gradle.kotlin.dsl.KotlinClosure2
 
-internal fun Project.testCompletionLog() =
+fun Project.testCompletionLog() =
     KotlinClosure2<TestDescriptor, TestResult, Unit>(
         { descriptor, result ->
             if (descriptor.parent == null) {

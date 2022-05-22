@@ -21,6 +21,7 @@ import com.android.build.api.artifact.SingleArtifact
 import com.android.build.gradle.tasks.ExternalNativeBuildTask
 import com.cmgapps.gradle.GitVersionTask
 import com.cmgapps.gradle.ManifestTransformerTask
+import com.cmgapps.gradle.ObfuscateEmailTask
 import com.cmgapps.gradle.curriculumvitae.androidNdkVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
@@ -246,23 +247,21 @@ licenses {
 }
 
 tasks {
-    val generateEmailAddress by registering {
-        val outputDir = xorDirPath
 
-        val email by configProperty
-        inputs.property("email", email)
-        val packageName = android.defaultConfig.applicationId ?: error("app id not set")
-        inputs.property("packageName", packageName)
+    val obfuscateEmailAddress by registering(ObfuscateEmailTask::class) {
+        outputDir.set(xorDirPath.toFile())
+        emailAddress.set(
+            provider {
+                val email by configProperty
+                email
+            }
+        )
 
-        outputs.dir(outputDir)
-
-        doLast {
-            generateEmailAddress(email, packageName, outputDir.toFile())
-        }
+        packageName.set(android.defaultConfig.applicationId ?: error("app id not set"))
     }
 
     withType<KotlinCompile> {
-        dependsOn(generateEmailAddress)
+        dependsOn(obfuscateEmailAddress)
     }
 
     val generateJniData by registering(com.cmgapps.gradle.GenerateJniDataTask::class) {

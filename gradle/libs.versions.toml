@@ -5,7 +5,7 @@ compose = "1.1.1"
 composeJetbrains = "1.1.1"
 composeWear = "1.0.0-alpha20"
 gradle = "7.4.2"
-hilt = "2.41"
+hilt = "2.42"
 koin = "3.1.6"
 kotlin = "1.6.10"
 ktor = "1.6.8"
@@ -25,10 +25,10 @@ wire = "com.squareup.wire:4.3.0"
 [libraries]
 # region plugins
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "apg" }
+android-hiltPlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-hiltAndroidPluginDep = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-appEnginePluginDep = "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
-sqldelightPluginDep = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
+appEnginePlugin = "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
+sqldelightPlugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
 # endregion
 
 # region App

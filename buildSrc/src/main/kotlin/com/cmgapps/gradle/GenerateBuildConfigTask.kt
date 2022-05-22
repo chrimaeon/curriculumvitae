@@ -30,21 +30,22 @@ import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.kotlin.dsl.property
 import javax.inject.Inject
 
 @CacheableTask
-abstract class GenerateBuildConfig @Inject constructor(objects: ObjectFactory) : DefaultTask() {
+abstract class GenerateBuildConfigTask @Inject constructor(objects: ObjectFactory) : DefaultTask() {
     @get:OutputDirectory
     val outputDir: DirectoryProperty = objects.directoryProperty()
 
     @get:Input
-    val baseUrl: Property<String> = objects.property(String::class.java)
+    val baseUrl: Property<String> = objects.property()
 
     @get:Input
-    val debugBaseUrls: Property<String> = objects.property(String::class.java)
+    val debugBaseUrls: Property<String> = objects.property()
 
     @get:Input
-    val buildYear: Property<String> = objects.property(String::class.java)
+    val buildYear: Property<String> = objects.property()
 
     @TaskAction
     fun generateFile() {

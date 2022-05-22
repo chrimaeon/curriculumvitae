@@ -45,9 +45,11 @@ tasks {
 dependencies {
     implementation(libs.android.gradlePlugin)
     implementation(libs.kotlin.gradlePlugin)
-    implementation("com.squareup:kotlinpoet:1.10.2")
+    implementation("com.squareup:kotlinpoet:1.11.0")
     implementation("com.squareup.okio:okio:3.1.0")
     implementation(libs.kotlinx.serialization.json)
+    // see https://github.com/google/dagger/issues/3068
+    implementation("com.squareup:javapoet:1.13.0")
 
     testImplementation(platform("org.junit:junit-bom:5.8.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")

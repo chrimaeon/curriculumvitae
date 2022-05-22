@@ -30,9 +30,9 @@ buildscript {
     dependencies {
         classpath(libs.android.gradlePlugin)
         classpath(libs.kotlin.gradlePlugin)
-        classpath(libs.hiltAndroidPluginDep)
-        classpath(libs.appEnginePluginDep)
-        classpath(libs.sqldelightPluginDep)
+        classpath(libs.android.hiltPlugin)
+        classpath(libs.appEnginePlugin)
+        classpath(libs.sqldelightPlugin)
     }
 }
 

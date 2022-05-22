@@ -7,7 +7,7 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
-import com.cmgapps.gradle.GenerateBuildConfig
+import com.cmgapps.gradle.GenerateBuildConfigTask
 import java.time.LocalDate
 import kotlin.io.path.div
 
@@ -22,7 +22,7 @@ plugins {
 val buildConfigFilesDir: Provider<Directory> =
     project.layout.buildDirectory.dir("generated/buildConfig")
 
-val generateBuildConfig by tasks.registering(GenerateBuildConfig::class) {
+val generateBuildConfig by tasks.registering(GenerateBuildConfigTask::class) {
     outputDir.set(buildConfigFilesDir)
 
     val baseUrl by configProperty
