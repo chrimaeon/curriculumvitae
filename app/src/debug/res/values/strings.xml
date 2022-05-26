@@ -16,6 +16,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="shortcut_label_debug" translatable="false">Debug</string>
+    <string name="leak_canary_display_activity_label" translatable="false" tools:ignore="UnusedResources">Curriculum Vitae Leaks</string>
 </resources>
