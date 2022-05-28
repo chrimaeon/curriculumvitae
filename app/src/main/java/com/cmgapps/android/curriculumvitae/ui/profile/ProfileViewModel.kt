@@ -33,7 +33,7 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,13 +42,17 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     profileStore: Store<String, Profile>,
-    private val sensorDataRepository: SensorDataRepository,
+    sensorDataRepository: SensorDataRepository,
 ) : ViewModel() {
 
     var uiState: UiState<Profile> by mutableStateOf(UiState(loading = true))
         private set
 
-    var sensorData: Flow<SensorData> = sensorDataRepository.data.receiveAsFlow()
+    var sensorData: Flow<SensorData> = sensorDataRepository.data.onEach {
+        if (BuildConfig.DEBUG) {
+            Timber.tag(LOG_TAG).d(it.toString())
+        }
+    }
 
     init {
         viewModelScope.launch {
@@ -79,12 +83,5 @@ class ProfileViewModel @Inject constructor(
                     }
                 }
         }
-
-        sensorDataRepository.init()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        sensorDataRepository.cancel()
     }
 }

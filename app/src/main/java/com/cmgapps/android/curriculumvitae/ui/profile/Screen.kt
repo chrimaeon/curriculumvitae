@@ -222,8 +222,6 @@ private fun ProfileImage(
     profile: Profile,
     sensorData: SensorData
 ) {
-
-    Timber.d(sensorData.toString())
     val coilPainter = rememberImagePainter(
         data = AssetPath(profile.profileImagePath),
         imageLoader = LocalImageLoader.current,

@@ -79,6 +79,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSensorManager(@ApplicationContext context: Context) =
-        context.getSystemService<SensorManager>()
+    fun provideSensorManager(@ApplicationContext context: Context): SensorManager =
+        context.getSystemService()!!
 }
