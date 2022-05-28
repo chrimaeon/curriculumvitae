@@ -23,6 +23,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.BuildConfig
+import com.cmgapps.android.curriculumvitae.sensor.SensorData
+import com.cmgapps.android.curriculumvitae.sensor.SensorDataRepository
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.dropbox.android.external.store4.ResponseOrigin
@@ -30,7 +32,8 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,11 +41,14 @@ import javax.inject.Inject
 @LogTag
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    profileStore: Store<String, Profile>
+    profileStore: Store<String, Profile>,
+    private val sensorDataRepository: SensorDataRepository,
 ) : ViewModel() {
 
     var uiState: UiState<Profile> by mutableStateOf(UiState(loading = true))
         private set
+
+    var sensorData: Flow<SensorData> = sensorDataRepository.data.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -73,5 +79,12 @@ class ProfileViewModel @Inject constructor(
                     }
                 }
         }
+
+        sensorDataRepository.init()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        sensorDataRepository.cancel()
     }
 }

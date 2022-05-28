@@ -17,6 +17,8 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import android.content.Context
+import android.hardware.SensorManager
+import androidx.core.content.getSystemService
 import coil.ImageLoader
 import coil.map.Mapper
 import coil.util.CoilUtils
@@ -74,4 +76,9 @@ object AppModule {
             }
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideSensorManager(@ApplicationContext context: Context) =
+        context.getSystemService<SensorManager>()
 }
