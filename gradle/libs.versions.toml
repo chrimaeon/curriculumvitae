@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.23.1"
-apg = "7.2.0"
+apg = "7.2.1"
 compose = "1.1.1"
 composeJetbrains = "1.1.1"
 composeWear = "1.0.0-alpha20"
