@@ -42,6 +42,7 @@ include(
     ":common-compose",
     ":app",
     ":app-macrobenchmark",
+    ":app-screenshot-tests",
     ":wearable",
     ":backend",
     ":web",

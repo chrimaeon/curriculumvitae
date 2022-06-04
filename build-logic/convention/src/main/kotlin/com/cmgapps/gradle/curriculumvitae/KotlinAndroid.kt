@@ -19,6 +19,7 @@ import com.cmgapps.gradle.curriculumvitae.buildToolsVersion as androidBuildTools
 
 internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : ProductFlavor> Project.configureKotlinAndroid(
     commonExtension: CommonExtension<BF, BT, DC, PF>,
+    useJUnitPlatform: Boolean = true,
 ) {
     commonExtension.apply {
         compileSdkPreview = androidCompileSdkPreviewVersion
@@ -35,7 +36,9 @@ internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : Produ
 
         testOptions {
             unitTests.all { test ->
-                test.useJUnitPlatform()
+                if (useJUnitPlatform) {
+                    test.useJUnitPlatform()
+                }
                 test.testLogging {
                     events("passed", "skipped", "failed")
                 }
