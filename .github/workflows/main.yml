@@ -3,6 +3,7 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  pull_request:
 
 jobs:
   checkAndUnitTest:
@@ -55,6 +56,9 @@ jobs:
       - name: Download dependencies
         run: ./gradlew dependencies
       # endregion
+      # can be removed after Tiramisu is released
+      - name: Accept preview lisence
+        run: yes | /usr/local/lib/android/sdk/tools/bin/sdkmanager --licenses
       # region Common
 
       # `check` not working; see
