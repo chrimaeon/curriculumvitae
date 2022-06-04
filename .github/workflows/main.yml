@@ -17,6 +17,8 @@ jobs:
     steps:
       # region Setup
       - uses: actions/checkout@v2
+        with:
+          lfs: true
 
       - name: Set up JDK
         uses: actions/setup-java@v2
@@ -80,6 +82,19 @@ jobs:
           path: |
             app/build/reports/*
             app/build/test-results/*
+      # endregion
+      # region App screenshot tests
+      - name: Check :app-screenshot-tests
+        run: ./gradlew :app-screenshot-tests:verifyPaparazziDebug
+      - name: Archive App Screenshot Tests
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-screenshot-tests-results
+          path: |
+            app-screenshot-tests/build/reports/*
+            app-screenshot-tests/build/test-results/*
+            app-screenshot-tests/out/failures/*
       # endregion
       # region Wearable
       - name: Check :wearable
