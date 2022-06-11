@@ -6,7 +6,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import com.cmgapps.gradle.curriculumvitae.androidTargetSdkPreviewVersion
+import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
 import com.cmgapps.gradle.curriculumvitae.configureKotlinAndroid
 
 plugins {
@@ -18,6 +18,6 @@ android {
     configureKotlinAndroid(this, useJUnitPlatform = false)
 
     defaultConfig {
-        targetSdkPreview = androidTargetSdkPreviewVersion
+        targetSdk = androidTargetSdkVersion
     }
 }

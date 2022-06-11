@@ -10,11 +10,9 @@ plugins {
 }
 
 android {
-    compileSdkPreview = null
     // Paparazzi supports only API 31 with plugin version 1.0.0
     compileSdk = 31
     defaultConfig {
-        targetSdkPreview = null
         targetSdk = 31
     }
     buildFeatures {

@@ -22,7 +22,7 @@ internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : Produ
     useJUnitPlatform: Boolean = true,
 ) {
     commonExtension.apply {
-        compileSdkPreview = androidCompileSdkPreviewVersion
+        compileSdk = androidCompileSdkVersion
         buildToolsVersion = androidBuildToolsVersion
 
         defaultConfig {
