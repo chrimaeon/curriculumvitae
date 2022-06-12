@@ -21,7 +21,7 @@ internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : Produ
     commonExtension: CommonExtension<BF, BT, DC, PF>,
 ) {
     commonExtension.apply {
-        compileSdkPreview = androidCompileSdkPreviewVersion
+        compileSdk = androidCompileSdkVersion
         buildToolsVersion = androidBuildToolsVersion
 
         defaultConfig {
