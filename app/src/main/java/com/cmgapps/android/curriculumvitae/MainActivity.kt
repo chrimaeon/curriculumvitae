@@ -38,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.core.splashscreen.R as SplashscreenR
 
 @LogTag
 @AndroidEntryPoint
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with(TypedValue()) {
-            theme.resolveAttribute(R.attr.postSplashScreenTheme, this, true)
+            theme.resolveAttribute(SplashscreenR.attr.postSplashScreenTheme, this, true)
             setTheme(resourceId)
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
