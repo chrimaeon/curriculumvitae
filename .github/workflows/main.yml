@@ -55,11 +55,11 @@ jobs:
       # endregion
       # region Common
 
-      # `check` not working; see
+      # `check` not working; see https://youtrack.jetbrains.com/issue/KT-49202
       #- name: Check :common
       #  run: ./gradlew :common:check
       - name: Workaround for check
-        run: ./gradlew :common:ktlint :common:allTest :common:verifySqlDelightMigration
+        run: ./gradlew :common:ktlint :common:allTests :common:verifySqlDelightMigration
       - name: Archive Common Test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
