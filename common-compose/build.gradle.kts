@@ -7,8 +7,6 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
-import kotlin.io.path.div
-
 plugins {
     id("curriculumvitae.multiplatform.android.library")
     alias(libs.plugins.jetbrainsCompose)
@@ -34,9 +32,5 @@ kotlin {
 }
 
 android {
-    sourceSets {
-        named("main") {
-            manifest.srcFile(projectDir.toPath() / "src" / "androidMain" / "AndroidManifest.xml")
-        }
-    }
+    namespace = "com.cmgapps.common.curriculumvitae.compose"
 }

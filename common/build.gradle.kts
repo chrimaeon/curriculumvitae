@@ -135,14 +135,9 @@ kotlin {
 }
 
 android {
+    namespace = "com.cmgapps.common.curriculumvitae"
     defaultConfig {
         consumerProguardFile(projectDir.toPath() / "proguard-rules.pro")
-    }
-
-    sourceSets {
-        named("main") {
-            manifest.srcFile(projectDir.toPath() / "src" / "androidMain" / "AndroidManifest.xml")
-        }
     }
 }
 
