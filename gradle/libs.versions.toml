@@ -17,7 +17,7 @@ benManesVersionsGradle = "com.github.ben-manes.versions:0.42.0"
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composeJetbrains" }
 ksp = "com.google.devtools.ksp:1.6.10-1.0.4"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-licenses = "com.cmgapps.licenses:4.4.0"
+licenses = "com.cmgapps.licenses:4.6.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
 shadowJar = "com.github.johnrengelman.shadow:7.1.2"
 wire = "com.squareup.wire:4.3.0"
@@ -37,6 +37,7 @@ androidx-datastore = "androidx.datastore:datastore:1.0.0"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 androidx-splashscreen = "androidx.core:core-splashscreen:1.0.0-beta02"
 androidx-preference = "androidx.preference:preference:1.2.0"
+androidx-webkit = "androidx.webkit:webkit:1.4.0"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }

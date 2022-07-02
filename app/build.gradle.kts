@@ -306,6 +306,7 @@ dependencies {
     implementation(libs.sqldelight.driver.android)
     implementation(libs.sqldelight.coroutines)
     implementation(libs.androidx.profileInstaller)
+    implementation(libs.androidx.webkit)
 
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)

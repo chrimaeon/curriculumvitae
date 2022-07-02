@@ -137,12 +137,14 @@ fun InfoSheet(
 
     if (ossDialogOpen) {
         WebViewDialog(
+            title = stringResource(id = R.string.info_oss_licenses),
             url = "licenses.html".asAssetFileUrl(),
             onDismissRequest = { ossDialogOpen = false }
         )
     }
     if (oflDialogOpen) {
         WebViewDialog(
+            title = stringResource(id = R.string.info_open_font_licenses),
             url = "ofl-licenses.html".asAssetFileUrl(),
             onDismissRequest = { oflDialogOpen = false },
         )
