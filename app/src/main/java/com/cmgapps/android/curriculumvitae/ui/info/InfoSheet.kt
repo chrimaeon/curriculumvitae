@@ -16,7 +16,9 @@
 
 package com.cmgapps.android.curriculumvitae.ui.info
 
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -84,17 +86,27 @@ fun InfoSheet(
             style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(start = 24.dp),
         )
+
         val context = LocalContext.current
-        with(context.packageManager.getPackageInfo(context.packageName, 0)) {
-            Text(
-                text = stringResource(
-                    id = R.string.version,
-                    versionName,
-                    PackageInfoCompat.getLongVersionCode(this)
-                ),
-                modifier = Modifier.padding(start = 24.dp),
+        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.packageManager.getPackageInfo(
+                context.packageName,
+                PackageManager.PackageInfoFlags.of(0)
             )
+        } else {
+            @Suppress("DEPRECATION")
+            context.packageManager.getPackageInfo(context.packageName, 0)
         }
+
+        Text(
+            text = stringResource(
+                id = R.string.version,
+                packageInfo.versionName,
+                PackageInfoCompat.getLongVersionCode(packageInfo)
+            ),
+            modifier = Modifier.padding(start = 24.dp),
+        )
+
         Spacer(Modifier.height(24.dp))
         Text(
             text = CopyRightText,
