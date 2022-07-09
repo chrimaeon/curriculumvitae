@@ -32,7 +32,7 @@ class StaticRoutesShould {
         with(handleRequest(HttpMethod.Get, "/assets/profile.png")) {
             assertThat(
                 response.headers[HttpHeaders.ContentType],
-                `is`(ContentType.Image.PNG.toString())
+                `is`(ContentType.Image.PNG.toString()),
             )
         }
     }

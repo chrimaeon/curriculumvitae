@@ -31,7 +31,6 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.dropbox.android.external.store4.fresh
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,7 +38,7 @@ import javax.inject.Inject
 @LogTag
 @HiltViewModel
 class EmploymentViewModel @Inject constructor(
-    private val store: Store<String, List<Employment>>
+    private val store: Store<String, List<Employment>>,
 ) : ViewModel() {
 
     var uiState: UiState<List<Employment>?> by mutableStateOf(UiState(loading = true))
@@ -65,19 +64,19 @@ class EmploymentViewModel @Inject constructor(
                     is StoreResponse.Data -> {
                         uiState = uiState.copy(
                             loading = response.origin != ResponseOrigin.Fetcher,
-                            data = response.value
+                            data = response.value,
                         )
                     }
                     is StoreResponse.Error -> {
                         val origin = response.origin
                         val exception = Exception(
                             response.errorMessageOrNull(),
-                            if (response is StoreResponse.Error.Exception) response.error else null
+                            if (response is StoreResponse.Error.Exception) response.error else null,
                         )
                         uiState = uiState.copy(
                             loading = origin == ResponseOrigin.SourceOfTruth,
                             networkError = origin == ResponseOrigin.Fetcher,
-                            exception = exception
+                            exception = exception,
                         )
                     }
                     is StoreResponse.NoNewData -> {

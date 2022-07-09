@@ -28,7 +28,7 @@ data class Employment(
     val startDate: LocalDate,
     val endDate: LocalDate?,
     val city: String,
-    val description: List<String>
+    val description: List<String>,
 )
 
 fun List<Employment>.asDatabaseModel() = map { it.asDatabaseModel() }
@@ -40,5 +40,5 @@ fun Employment.asDatabaseModel() = DbEmployment(
     this.startDate.toString(),
     this.endDate?.toString(),
     this.city,
-    this.description
+    this.description,
 )

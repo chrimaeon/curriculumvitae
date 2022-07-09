@@ -65,12 +65,14 @@ object AppModule {
         return ImageLoader.Builder(context)
             .okHttpClient(cachedClient)
             .componentRegistry {
-                add(object : Mapper<AssetPath, HttpUrl> {
-                    override fun map(data: AssetPath): HttpUrl {
-                        return baseUrl.toHttpUrl().newBuilder(data.path)?.build()
-                            ?: error("Cannot create asset url; baseUrl=$baseUrl, assetPath=${data.path}")
-                    }
-                })
+                add(
+                    object : Mapper<AssetPath, HttpUrl> {
+                        override fun map(data: AssetPath): HttpUrl {
+                            return baseUrl.toHttpUrl().newBuilder(data.path)?.build()
+                                ?: error("Cannot create asset url; baseUrl=$baseUrl, assetPath=${data.path}")
+                        }
+                    },
+                )
             }
             .build()
     }

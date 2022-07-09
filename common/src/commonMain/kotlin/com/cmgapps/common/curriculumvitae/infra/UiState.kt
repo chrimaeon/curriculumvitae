@@ -20,5 +20,5 @@ data class UiState<T : Any?>(
     val loading: Boolean = false,
     val exception: Throwable? = null,
     val networkError: Boolean = false,
-    val data: T? = null
+    val data: T? = null,
 )

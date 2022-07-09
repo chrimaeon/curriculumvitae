@@ -24,12 +24,11 @@ import androidx.lifecycle.viewModelScope
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class EmploymentViewModel(
-    employmentRepository: EmploymentRepository
+    employmentRepository: EmploymentRepository,
 ) : ViewModel() {
 
     var uiState: UiState<List<Employment>> by mutableStateOf(UiState(loading = true))

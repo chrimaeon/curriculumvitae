@@ -51,7 +51,7 @@ private val LightColorPalette = lightColors(
 @Composable
 fun Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MaterialTheme(
         colors = if (darkTheme) DarkColorPalette else LightColorPalette,
@@ -63,8 +63,8 @@ fun Theme(
                 shape = MaterialTheme.shapes.small,
                 hoverDurationMillis = 300,
                 unhoverColor = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
-                hoverColor = MaterialTheme.colors.onSurface.copy(alpha = 0.50f)
-            )
+                hoverColor = MaterialTheme.colors.onSurface.copy(alpha = 0.50f),
+            ),
         ) {
             content()
         }

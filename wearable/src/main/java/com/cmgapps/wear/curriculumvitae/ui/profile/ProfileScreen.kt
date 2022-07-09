@@ -52,7 +52,7 @@ private val BLACK = Color.Black.copy(alpha = 0.6f)
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = getViewModel()
+    viewModel: ProfileViewModel = getViewModel(),
 ) {
     val state = viewModel.uiState
 
@@ -63,8 +63,8 @@ fun ProfileScreen(
                 .placeholder(
                     visible = true,
                     highlight = PlaceholderHighlight.shimmer(),
-                    shape = CircleShape
-                )
+                    shape = CircleShape,
+                ),
         )
     }
 
@@ -79,9 +79,9 @@ private fun Profile(profile: Profile) {
             builder = {
                 crossfade(true)
                 error(
-                    drawable = ColorDrawable(MaterialTheme.colors.primary.toArgb())
+                    drawable = ColorDrawable(MaterialTheme.colors.primary.toArgb()),
                 )
-            }
+            },
         )
         Image(
             modifier = Modifier
@@ -90,7 +90,7 @@ private fun Profile(profile: Profile) {
             painter = coilPainter,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            colorFilter = ColorFilter.tint(Color(0x20000000), BlendMode.Multiply)
+            colorFilter = ColorFilter.tint(Color(0x20000000), BlendMode.Multiply),
         )
         Canvas(modifier = Modifier.fillMaxSize()) {
             val brush = Brush.radialGradient(
@@ -102,9 +102,8 @@ private fun Profile(profile: Profile) {
         }
         val textStyle = MaterialTheme.typography.display3.copy(color = LocalContentColor.current)
         CurvedLayout(
-            anchor = 270f
+            anchor = 270f,
         ) {
-
             curvedRow {
                 curvedText(
                     profile.name,
@@ -113,13 +112,13 @@ private fun Profile(profile: Profile) {
             }
         }
         CurvedLayout(
-            anchor = 90f
+            anchor = 90f,
         ) {
             curvedRow {
                 curvedText(
                     profile.email,
                     style = CurvedTextStyle(textStyle),
-                    clockwise = false
+                    clockwise = false,
                 )
             }
         }
@@ -128,7 +127,7 @@ private fun Profile(profile: Profile) {
 
 @Preview(
     widthDp = 195,
-    heightDp = 195
+    heightDp = 195,
 )
 @Composable
 fun ProfilePreview() {
@@ -138,7 +137,7 @@ fun ProfilePreview() {
         profileImagePath = "",
         address = Address("Street 1", "Graz", "8010"),
         email = "me@home.at",
-        intro = listOf("Line 1")
+        intro = listOf("Line 1"),
     )
     Theme {
         Profile(profile)

@@ -51,7 +51,7 @@ class EmploymentRepositoryShould {
             CvApiService(mockClient, Url(BaseUrl)),
             databaseWrapper,
             Logger.withTag("Test"),
-            CoroutineScope(Dispatchers.Default)
+            CoroutineScope(Dispatchers.Default),
         )
     }
 
@@ -77,7 +77,7 @@ class EmploymentRepositoryShould {
             // employments from api and database wrapper
             assertEquals(
                 listOf(StubDomainEmployment(), databaseEmployment.asDomainModel()),
-                awaitItem()
+                awaitItem(),
             )
 
             cancel()

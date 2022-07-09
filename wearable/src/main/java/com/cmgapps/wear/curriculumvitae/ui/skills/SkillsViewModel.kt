@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 class SkillsViewModel(
-    repository: SkillsRepository
+    repository: SkillsRepository,
 ) : ViewModel() {
 
     var uiState: UiState<List<Skill>> by mutableStateOf(UiState(loading = true))

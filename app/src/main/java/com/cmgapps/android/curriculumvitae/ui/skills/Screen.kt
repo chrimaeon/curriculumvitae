@@ -40,7 +40,7 @@ import com.cmgapps.common.curriculumvitae.data.domain.Skill
 @Composable
 fun SkillsScreen(
     viewModel: SkillsViewModel,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
 ) {
     val uiState = viewModel.uiState
 
@@ -70,13 +70,13 @@ private fun Content(skills: List<Skill>) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         TagCloud {
             skills.forEach { skill ->
                 Text(
                     skill.name,
-                    style = skill.levelAsTextStyle()
+                    style = skill.levelAsTextStyle(),
                 )
             }
         }
@@ -97,43 +97,43 @@ private fun Skill.levelAsTextStyle(): TextStyle = when (level) {
     widthDp = 320,
     heightDp = 680,
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    backgroundColor = 0xFFFFFFFF,
 )
 @Composable
 fun PreviewSkills() {
     val skills = listOf(
         Skill(
             "Foobar",
-            1
+            1,
         ),
         Skill(
             "Foobar",
-            2
+            2,
         ),
         Skill(
             "Foobar",
-            3
+            3,
         ),
         Skill(
             "Foobar",
-            4
+            4,
         ),
         Skill(
             "Foobar",
-            5
+            5,
         ),
         Skill(
             "Foobar",
-            1
+            1,
         ),
         Skill(
             "Foobar",
-            3
+            3,
         ),
         Skill(
             "Foobar",
-            2
-        )
+            2,
+        ),
     )
     MaterialTheme {
         Content(skills)

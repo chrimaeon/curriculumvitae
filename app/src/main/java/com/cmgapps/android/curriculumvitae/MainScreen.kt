@@ -86,13 +86,13 @@ import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
 @OptIn(
     ExperimentalMaterialNavigationApi::class,
-    ExperimentalAnimationApi::class
+    ExperimentalAnimationApi::class,
 )
 @Composable
 fun MainScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     onFabClick: () -> Unit = {},
-    onOpenWebsite: (Uri) -> Unit = {}
+    onOpenWebsite: (Uri) -> Unit = {},
 ) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val navController = rememberAnimatedNavController(bottomSheetNavigator)
@@ -106,13 +106,13 @@ fun MainScreen(
 
     ModalBottomSheetLayout(
         bottomSheetNavigator,
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
     ) {
         Scaffold(
             scaffoldState = scaffoldState,
             floatingActionButton = { if (isOnMainScreen) Fab(onFabClick) },
             isFloatingActionButtonDocked = true,
-            bottomBar = { if (isOnMainScreen) BottomBar(navController = navController) }
+            bottomBar = { if (isOnMainScreen) BottomBar(navController = navController) },
         ) { innerPadding ->
             MainScreenNavHost(
                 modifier = Modifier.padding(innerPadding),
@@ -135,7 +135,7 @@ fun MainScreenNavHost(
     navController: NavHostController,
     scaffoldState: ScaffoldState,
     onFabClick: () -> Unit,
-    onOpenWebsite: (Uri) -> Unit
+    onOpenWebsite: (Uri) -> Unit,
 ) {
     AnimatedNavHost(navController, startDestination = Screen.Profile.route) {
         composable(
@@ -148,7 +148,7 @@ fun MainScreenNavHost(
                 viewModel = hiltViewModel(),
                 onEmailClick = onFabClick,
                 bottomContentPadding = FabTopKnobPadding,
-                snackbarHostState = scaffoldState.snackbarHostState
+                snackbarHostState = scaffoldState.snackbarHostState,
             )
         }
         navigation(startDestination = Screen.Employment.route, route = "employments") {
@@ -167,13 +167,13 @@ fun MainScreenNavHost(
                     } else {
                         exitTransition()
                     }
-                }
+                },
             ) {
                 EmploymentScreen(
                     modifier = modifier,
                     bottomContentPadding = FabTopKnobPadding,
                     viewModel = hiltViewModel(),
-                    snackbarHostState = scaffoldState.snackbarHostState
+                    snackbarHostState = scaffoldState.snackbarHostState,
                 ) { id -> navController.navigate(SubScreen.EmploymentDetail.routeWithId(id)) }
             }
             composable(
@@ -192,7 +192,7 @@ fun MainScreenNavHost(
         ) {
             SkillsScreen(
                 viewModel = hiltViewModel(),
-                snackbarHostState = scaffoldState.snackbarHostState
+                snackbarHostState = scaffoldState.snackbarHostState,
             )
         }
 
@@ -216,14 +216,14 @@ private const val DefaultTransitionDuration = 150
 
 private fun enterTransition() = fadeIn(
     animationSpec = tween(
-        durationMillis = DefaultTransitionDuration
-    )
+        durationMillis = DefaultTransitionDuration,
+    ),
 )
 
 private fun exitTransition() = fadeOut(
     animationSpec = tween(
-        durationMillis = DefaultTransitionDuration
-    )
+        durationMillis = DefaultTransitionDuration,
+    ),
 )
 
 @Composable
@@ -234,22 +234,21 @@ private fun BottomBar(navController: NavController) {
         contentColor = MaterialTheme.colors.primary,
         contentPadding = rememberInsetsPaddingValues(
             insets = LocalWindowInsets.current.navigationBars,
-            additionalEnd = (56 + 16).dp
+            additionalEnd = (56 + 16).dp,
         ),
-        cutoutShape = CircleShape
+        cutoutShape = CircleShape,
     ) {
         BottomNavigation(
             backgroundColor = Color.Transparent,
             elevation = 0.dp,
         ) {
-
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             screens.forEach { screen ->
                 NavigationItem(
                     screen = screen,
                     navController,
-                    currentDestination
+                    currentDestination,
                 )
             }
         }
@@ -260,11 +259,11 @@ private fun BottomBar(navController: NavController) {
 private fun Fab(onClick: () -> Unit = {}) {
     FloatingActionButton(
         modifier = Modifier.testTag("Fab"),
-        onClick = onClick
+        onClick = onClick,
     ) {
         Icon(
             imageVector = Icons.Default.Send,
-            contentDescription = stringResource(id = R.string.send_action)
+            contentDescription = stringResource(id = R.string.send_action),
         )
     }
 }
@@ -282,7 +281,7 @@ private fun RowScope.NavigationItem(
         icon = {
             Icon(
                 imageVector = screen.icon[iconState],
-                contentDescription = DecorativeImage
+                contentDescription = DecorativeImage,
             )
         },
         label = {
@@ -309,6 +308,6 @@ private fun RowScope.NavigationItem(
                     restoreState = true
                 }
             }
-        }
+        },
     )
 }

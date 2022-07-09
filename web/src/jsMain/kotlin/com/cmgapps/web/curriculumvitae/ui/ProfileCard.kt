@@ -53,36 +53,36 @@ fun ProfileCard(repository: ProfileRepository) {
     if (profile != null) {
         Div({
             classes("row")
-        }) {
+        },) {
             Div({
                 classes("col")
-            }) {
+            },) {
                 Div({
                     classes("card")
-                }) {
+                },) {
                     Div({
                         classes("card-body")
-                    }) {
+                    },) {
                         Div({
                             classes("container")
-                        }) {
+                        },) {
                             Div({
                                 classes(
                                     "row",
                                     "justify-content-center",
                                     "align-items-md-center",
-                                    "justify-content-md-start"
+                                    "justify-content-md-start",
                                 )
-                            }) {
+                            },) {
                                 Div({
                                     style {
                                         backgroundImage("url('${provideBaseUrl()}${profile.profileImagePath}')")
                                     }
                                     classes("col-12", "col-md-4", ProfileStyle.profileImage)
-                                })
+                                },)
                                 Div({
                                     classes("col-12", "col-md-8")
-                                }) {
+                                },) {
                                     H1 {
                                         Text(profile.name)
                                     }

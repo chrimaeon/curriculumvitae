@@ -38,15 +38,15 @@ val mockClient = HttpClient(MockEngine) {
             when (request.url.encodedPath) {
                 "/employment" -> respond(
                     Json.encodeToString(listOf(StubNetworkEmployment())),
-                    headers = responseHeaders
+                    headers = responseHeaders,
                 )
                 "/profile" -> respond(
                     Json.encodeToString(StubNetworkProfile()),
-                    headers = responseHeaders
+                    headers = responseHeaders,
                 )
                 "/skills" -> respond(
                     Json.encodeToString(listOf(StubNetworkSkill())),
-                    headers = responseHeaders
+                    headers = responseHeaders,
                 )
                 // websockets not yet supported in MockEngine
                 // https://youtrack.jetbrains.com/issue/KTOR-537

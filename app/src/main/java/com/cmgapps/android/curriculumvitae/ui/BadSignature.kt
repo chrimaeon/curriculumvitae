@@ -39,24 +39,24 @@ import com.google.accompanist.insets.systemBarsPadding
 fun BadSignature() {
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
-        backgroundColor = Color.DarkGray
+        backgroundColor = Color.DarkGray,
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Column(
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.medium),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Box(
                     Modifier
                         .background(MaterialTheme.colors.error)
                         .fillMaxWidth(.8f)
                         .padding(16.dp),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Image(
                         modifier = Modifier.size(100.dp),
@@ -64,9 +64,9 @@ fun BadSignature() {
                         contentDescription = DecorativeImage,
                         colorFilter = ColorFilter.tint(
                             MaterialTheme.colors.contentColorFor(
-                                MaterialTheme.colors.error
-                            )
-                        )
+                                MaterialTheme.colors.error,
+                            ),
+                        ),
                     )
                 }
                 Box(
@@ -74,14 +74,14 @@ fun BadSignature() {
                         .background(MaterialTheme.colors.surface)
                         .fillMaxWidth(.8f)
                         .padding(16.dp),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         stringResource(id = R.string.bad_signature),
                         color = MaterialTheme.colors.contentColorFor(MaterialTheme.colors.surface),
                         style = MaterialTheme.typography.h5,
                         fontFamily = FontFamily.Default,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
                 }
             }

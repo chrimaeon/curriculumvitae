@@ -40,7 +40,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [ApiServiceModule::class]
+    replaces = [ApiServiceModule::class],
 )
 object MockApiServiceModule {
 
@@ -55,11 +55,11 @@ object MockApiServiceModule {
                     when (request.url.encodedPath) {
                         "/employment" -> respond(
                             Json.encodeToString(listOf(StubNetworkEmployment())),
-                            headers = responseHeaders
+                            headers = responseHeaders,
                         )
                         "/profile" -> respond(
                             Json.encodeToString(StubNetworkProfile()),
-                            headers = responseHeaders
+                            headers = responseHeaders,
                         )
                         else -> error("Unhandled request: ${request.url}")
                     }

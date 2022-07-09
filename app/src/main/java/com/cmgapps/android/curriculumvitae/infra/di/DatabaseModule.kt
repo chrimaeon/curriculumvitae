@@ -40,7 +40,7 @@ object DatabaseModule {
     fun provideDatabase(driver: SqlDriver): CvDatabase = CvDatabase(
         driver,
         employmentAdapter = Employment.Adapter(
-            descriptionAdapter = DescriptionAdapter
-        )
+            descriptionAdapter = DescriptionAdapter,
+        ),
     )
 }

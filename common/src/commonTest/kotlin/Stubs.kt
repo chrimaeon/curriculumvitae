@@ -55,7 +55,7 @@ fun StubNetworkEmployment(): NetworkEmployment = NetworkEmployment(
     city = "Home City",
     description = listOf(
         "stub description",
-    )
+    ),
 )
 
 fun StubDatabaseEmployment(): DatabaseEmployment = StubNetworkEmployment().asDatabaseModel()

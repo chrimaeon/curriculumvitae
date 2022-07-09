@@ -86,9 +86,8 @@ fun ProfileScreen(
     bottomContentPadding: Dp = 0.dp,
     viewModel: ProfileViewModel,
     onEmailClick: () -> Unit,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
 ) {
-
     val uiState = viewModel.uiState
 
     if (uiState.loading && uiState.data == null) {
@@ -121,7 +120,7 @@ private fun Content(
     modifier: Modifier = Modifier,
     bottomContentPadding: Dp = 0.dp,
     profile: Profile,
-    onEmailClick: () -> Unit
+    onEmailClick: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -129,23 +128,23 @@ private fun Content(
             .padding(
                 start = 24.dp,
                 end = 24.dp,
-                top = 16.dp
+                top = 16.dp,
             )
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
         Column(
             modifier = Modifier.padding(
                 rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
-                    additionalBottom = bottomContentPadding
+                    additionalBottom = bottomContentPadding,
                 ),
-            )
+            ),
         ) {
             Header(profile, onEmailClick)
             Text(
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(top = 16.dp),
-                text = profile.intro.joinToString("\n\n")
+                text = profile.intro.joinToString("\n\n"),
             )
         }
     }
@@ -155,10 +154,10 @@ private fun Content(
 private fun Header(
     profile: Profile,
     onEmailClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         val isLandscape = minWidth > 600.dp
         val imageSize = if (isLandscape) minWidth / 6 else minWidth / 3
@@ -168,16 +167,16 @@ private fun Header(
                 ProfileImage(
                     modifier = Modifier.align(Alignment.CenterVertically),
                     imageSize = imageSize,
-                    profile = profile
+                    profile = profile,
                 )
                 Column(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
-                        .padding(start = 16.dp)
+                        .padding(start = 16.dp),
                 ) {
                     ProfileDetails(
                         profile = profile,
-                        onEmailClick = onEmailClick
+                        onEmailClick = onEmailClick,
                     )
                 }
             }
@@ -186,13 +185,13 @@ private fun Header(
                 ProfileImage(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     imageSize = imageSize,
-                    profile = profile
+                    profile = profile,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 ProfileDetails(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     profile = profile,
-                    onEmailClick = onEmailClick
+                    onEmailClick = onEmailClick,
                 )
             }
         }
@@ -207,9 +206,9 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
         builder = {
             crossfade(true)
             error(
-                drawableResId = R.drawable.ic_outline_person_24
+                drawableResId = R.drawable.ic_outline_person_24,
             )
-        }
+        },
     )
 
     var showPlaceholder by remember { mutableStateOf(true) }
@@ -237,14 +236,14 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
             .placeholder(
                 visible = showPlaceholder,
                 shape = CircleShape,
-                highlight = PlaceholderHighlight.shimmer()
-            )
+                highlight = PlaceholderHighlight.shimmer(),
+            ),
     ) {
         Image(
             painter = coilPainter,
             modifier = Modifier.fillMaxSize(),
             contentDescription = DecorativeImage,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
     }
 }
@@ -253,29 +252,28 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
 private fun ProfileDetails(
     modifier: Modifier = Modifier,
     profile: Profile,
-    onEmailClick: () -> Unit
+    onEmailClick: () -> Unit,
 ) {
     Text(
         modifier = modifier,
         text = profile.name,
-        style = MaterialTheme.typography.h5
+        style = MaterialTheme.typography.h5,
     )
     Text(
         modifier = modifier,
         text = profile.address.street,
-        style = MaterialTheme.typography.subtitle1
+        style = MaterialTheme.typography.subtitle1,
     )
 
     Text(
         modifier = modifier,
         text = "${profile.address.postalCode} ${profile.address.city}",
-        style = MaterialTheme.typography.subtitle1
+        style = MaterialTheme.typography.subtitle1,
     )
 
     val primaryColor = MaterialTheme.colors.primary
 
     CompositionLocalProvider(LocalIndication provides themedRipple(bounded = false)) {
-
         Text(
             modifier = modifier.clickable(onClick = onEmailClick),
             text = profile.email,
@@ -308,7 +306,7 @@ private fun Context.onTelClick(phoneNumber: String) {
     widthDp = 320,
     heightDp = 680,
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    backgroundColor = 0xFFFFFFFF,
 )
 @Preview(
     name = "Content Dark",
@@ -316,14 +314,14 @@ private fun Context.onTelClick(phoneNumber: String) {
     heightDp = 680,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
-    backgroundColor = 0xFF000000
+    backgroundColor = 0xFF000000,
 )
 @Preview(
     name = "Content Land",
     widthDp = 680,
     heightDp = 320,
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    backgroundColor = 0xFFFFFFFF,
 )
 @Composable
 fun PreviewContent() {
@@ -339,7 +337,7 @@ fun PreviewContent() {
         ProvideWindowInsets {
             Content(
                 profile = profile,
-                onEmailClick = {}
+                onEmailClick = {},
             )
         }
     }

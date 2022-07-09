@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("ktlint:filename")
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
@@ -37,7 +38,6 @@ private fun Route.profileRouting() {
 
     route(Routes.PROFILE.route) {
         get {
-
             val lang: Language =
                 if (call.request.acceptLanguageItems().any { it.value.startsWith("de") }) {
                     Language.DE
@@ -47,12 +47,12 @@ private fun Route.profileRouting() {
 
             modelLoader.loadModel(
                 serializer<Profile>(),
-                "${lang.name.lowercase()}/profile.json"
+                "${lang.name.lowercase()}/profile.json",
             )?.let {
                 call.respond(it)
             } ?: call.respond(
                 HttpStatusCode.InternalServerError,
-                "Internal Server Error"
+                "Internal Server Error",
             )
         }
     }

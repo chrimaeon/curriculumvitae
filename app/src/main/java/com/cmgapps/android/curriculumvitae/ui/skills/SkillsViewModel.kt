@@ -30,7 +30,6 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,7 +37,7 @@ import javax.inject.Inject
 @LogTag
 @HiltViewModel
 class SkillsViewModel @Inject constructor(
-    skillsStore: Store<String, List<Skill>>
+    skillsStore: Store<String, List<Skill>>,
 ) : ViewModel() {
 
     var uiState: UiState<List<Skill>> by mutableStateOf(UiState(loading = true))
@@ -56,12 +55,12 @@ class SkillsViewModel @Inject constructor(
                             val origin = response.origin
                             val exception = Exception(
                                 response.errorMessageOrNull(),
-                                if (response is StoreResponse.Error.Exception) response.error else null
+                                if (response is StoreResponse.Error.Exception) response.error else null,
                             )
                             uiState = uiState.copy(
                                 loading = origin == ResponseOrigin.SourceOfTruth,
                                 networkError = origin == ResponseOrigin.Fetcher,
-                                exception = exception
+                                exception = exception,
                             )
                             Timber.tag(LOG_TAG).e(exception)
                         }

@@ -23,5 +23,5 @@ import platform.Foundation.preferredLanguages
 
 actual val language: String
     get() = NSLocale.componentsFromLocaleIdentifier(
-        NSLocale.preferredLanguages.first() as String
+        NSLocale.preferredLanguages.first() as String,
     )[NSLocaleLanguageCode] as? String ?: "en"

@@ -99,7 +99,7 @@ fun EmploymentScreen(
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         val uiState = viewModel.uiState
 
@@ -140,9 +140,9 @@ private fun Content(
                 state = state,
                 refreshTriggerDistance = trigger,
                 contentColor = MaterialTheme.colors.secondaryVariant,
-                refreshingOffset = with(LocalDensity.current) { LocalWindowInsets.current.statusBars.top.toDp() + 16.dp }
+                refreshingOffset = with(LocalDensity.current) { LocalWindowInsets.current.statusBars.top.toDp() + 16.dp },
             )
-        }
+        },
     ) {
         LazyColumn(
             modifier = Modifier
@@ -153,8 +153,8 @@ private fun Content(
                 additionalStart = 2.dp,
                 additionalTop = 8.dp,
                 additionalEnd = 16.dp,
-                additionalBottom = bottomContentPadding
-            )
+                additionalBottom = bottomContentPadding,
+            ),
         ) {
             val employments = uiState.data
             if (employments != null) {
@@ -169,7 +169,7 @@ private fun Content(
                             employment = employment,
                             isFirst = isFirst,
                             isLast = isLast,
-                            navigateToEmploymentDetails = navigateToEmploymentDetails
+                            navigateToEmploymentDetails = navigateToEmploymentDetails,
                         )
                     }
                 } else {
@@ -180,7 +180,7 @@ private fun Content(
                             employment = null,
                             isFirst = isFirst,
                             isLast = isLast,
-                            navigateToEmploymentDetails = navigateToEmploymentDetails
+                            navigateToEmploymentDetails = navigateToEmploymentDetails,
                         )
                     }
                 }
@@ -194,14 +194,13 @@ private fun EmploymentCard(
     employment: Employment?,
     isFirst: Boolean = false,
     isLast: Boolean = false,
-    navigateToEmploymentDetails: (employmentId: Int) -> Unit
+    navigateToEmploymentDetails: (employmentId: Int) -> Unit,
 ) {
     var layoutHeight by remember { mutableStateOf(0) }
 
     Row(
-        Modifier.returningHeight { layoutHeight = it }
+        Modifier.returningHeight { layoutHeight = it },
     ) {
-
         Breadcrumbs(
             height = with(LocalDensity.current) { layoutHeight.toDp() },
             isFirst = isFirst,
@@ -212,7 +211,7 @@ private fun EmploymentCard(
             modifier = Modifier
                 .padding(
                     top = if (isFirst) 0.dp else 8.dp,
-                    bottom = if (isLast) 0.dp else 8.dp
+                    bottom = if (isLast) 0.dp else 8.dp,
                 )
                 .testTag("employmentCard${employment?.id ?: -1}"),
             onClick = {
@@ -220,11 +219,11 @@ private fun EmploymentCard(
                     navigateToEmploymentDetails(it.id)
                 }
             },
-            indication = themedRipple()
+            indication = themedRipple(),
         ) {
             Row(
                 modifier = Modifier.padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Avatar(isLoading = employment == null)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -238,7 +237,7 @@ private fun EmploymentCard(
 private fun Breadcrumbs(
     height: Dp,
     isFirst: Boolean = false,
-    isLast: Boolean = false
+    isLast: Boolean = false,
 ) {
     val strokeWidth = with(LocalDensity.current) { 1.dp.toPx() }
     val dotRadius = with(LocalDensity.current) { 4.dp.toPx() }
@@ -246,7 +245,7 @@ private fun Breadcrumbs(
     Canvas(
         Modifier
             .width(32.dp)
-            .height(height)
+            .height(height),
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
@@ -255,20 +254,20 @@ private fun Breadcrumbs(
             color = Color.LightGray,
             start = Offset(canvasWidth / 2, if (isFirst) canvasHeight / 2 else 0f),
             end = Offset(canvasWidth / 2, if (isLast) canvasHeight / 2 else canvasHeight),
-            strokeWidth = strokeWidth
+            strokeWidth = strokeWidth,
         )
 
         drawCircle(
             color = Color.LightGray,
             center = center,
-            radius = dotRadius
+            radius = dotRadius,
         )
     }
 }
 
 @Composable
 private fun Avatar(
-    isLoading: Boolean
+    isLoading: Boolean,
 ) {
     Surface(
         modifier = Modifier
@@ -276,9 +275,9 @@ private fun Avatar(
             .clip(CircleShape)
             .placeholder(
                 visible = isLoading,
-                highlight = PlaceholderHighlight.shimmer()
+                highlight = PlaceholderHighlight.shimmer(),
             ),
-        color = MaterialTheme.colors.primary
+        color = MaterialTheme.colors.primary,
     ) {
         Image(
             modifier = Modifier
@@ -286,27 +285,27 @@ private fun Avatar(
                 .padding(8.dp),
             imageVector = Icons.Filled.Apartment,
             contentDescription = DecorativeImage,
-            colorFilter = ColorFilter.tint(Color.White)
+            colorFilter = ColorFilter.tint(Color.White),
         )
     }
 }
 
 @Composable
 private fun Description(
-    employment: Employment?
+    employment: Employment?,
 ) {
     Column {
         val sharedModifier = Modifier
             .placeholder(
                 visible = employment == null,
-                highlight = PlaceholderHighlight.shimmer()
+                highlight = PlaceholderHighlight.shimmer(),
             )
             .fillMaxWidth()
 
         Text(
             modifier = sharedModifier,
             text = employment?.employer.orEmpty(),
-            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
         )
 
         Spacer(modifier = Modifier.height(2.dp))
@@ -315,7 +314,7 @@ private fun Description(
             modifier = sharedModifier,
         ) {
             CompositionLocalProvider(
-                LocalTextStyle provides MaterialTheme.typography.caption
+                LocalTextStyle provides MaterialTheme.typography.caption,
             ) {
                 Text(
                     modifier = Modifier.alignBy(LastBaseline),
@@ -332,8 +331,8 @@ private fun Description(
                         append(
                             it.startDate.month.getDisplayName(
                                 TextStyle.SHORT,
-                                Locale.getDefault()
-                            )
+                                Locale.getDefault(),
+                            ),
                         )
                         append("\u00A0")
                         append(it.startDate.year)
@@ -359,7 +358,7 @@ private fun Description(
         Text(
             modifier = sharedModifier,
             text = employment?.jobTitle.orEmpty(),
-            style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold),
         )
     }
 }
@@ -379,7 +378,7 @@ private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
     widthDp = 320,
     heightDp = 680,
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    backgroundColor = 0xFFFFFFFF,
 )
 @Preview(
     name = "Content Dark",
@@ -387,7 +386,7 @@ private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
     heightDp = 680,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
-    backgroundColor = 0xFF000000
+    backgroundColor = 0xFF000000,
 )
 @Composable
 fun PreviewContent() {
@@ -403,8 +402,8 @@ fun PreviewContent() {
                     city = "Graz",
                     description = listOf(
                         "Founder",
-                        "Solutions Architect"
-                    )
+                        "Solutions Architect",
+                    ),
                 )
             }
         }

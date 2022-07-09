@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 class ProfileViewModel(
-    repository: ProfileRepository
+    repository: ProfileRepository,
 ) : ViewModel() {
 
     var uiState: UiState<Profile> by mutableStateOf(UiState(loading = true))

@@ -50,7 +50,7 @@ fun App(koin: Koin) {
     Div({
         classes("container")
         style { marginTop(AppStyle.bodyPadding) }
-    }) {
+    },) {
         ProfileCard(koin.get())
         Employments(koin.get())
         SkillsCard(koin.get())

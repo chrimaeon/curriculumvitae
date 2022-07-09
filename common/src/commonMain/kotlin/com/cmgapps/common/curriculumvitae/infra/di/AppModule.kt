@@ -54,12 +54,12 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
     single {
         CvApiService(
             client = get(),
-            baseUrl = provideBaseUrl()
+            baseUrl = provideBaseUrl(),
         )
     }
     factory {
         ProfileRepository(
-            api = get()
+            api = get(),
         )
     }
     factory {
@@ -72,12 +72,12 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
     }
     factory {
         SkillsRepository(
-            api = get()
+            api = get(),
         )
     }
     factory {
         StatusRepository(
-            api = get()
+            api = get(),
         )
     }
     val baseLogger =
@@ -113,7 +113,7 @@ private fun createHttpClient(
     defaultRequest {
         header(
             HttpHeaders.AcceptLanguage,
-            language
+            language,
         )
     }
 }
@@ -123,7 +123,7 @@ expect fun platformModule(): Module
 
 fun initKoin(
     enableNetworkLogging: Boolean = false,
-    appDeclaration: KoinAppDeclaration = {}
+    appDeclaration: KoinAppDeclaration = {},
 ): KoinApplication = startKoin {
     appDeclaration()
     modules(module(enableNetworkLogging), platformModule())

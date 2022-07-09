@@ -45,16 +45,14 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun EmploymentScreen(viewModel: EmploymentViewModel = getViewModel()) {
-
     val uiState = viewModel.uiState
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onPrimary) {
         ScalingLazyColumn(
             scalingParams = ScalingLazyColumnDefaults.scalingParams(
                 edgeScale = 0.3f,
-                minTransitionArea = 0.5f
-            )
+                minTransitionArea = 0.5f,
+            ),
         ) {
-
             val isLoading = uiState.loading
             val itemCount = uiState.data?.size ?: 5
             val itemHeight = 80.dp
@@ -71,7 +69,7 @@ fun EmploymentScreen(viewModel: EmploymentViewModel = getViewModel()) {
                             highlight = PlaceholderHighlight.shimmer(),
                         )
                         .padding(start = padding, end = padding),
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     val employments = uiState.data
                     if (employments != null) {

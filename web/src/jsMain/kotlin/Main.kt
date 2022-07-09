@@ -37,7 +37,7 @@ fun main() {
             },
             onRejected = {
                 logger.w("Registration failed with $it")
-            }
+            },
         )
     } else {
         logger.w("Service worker API not available")

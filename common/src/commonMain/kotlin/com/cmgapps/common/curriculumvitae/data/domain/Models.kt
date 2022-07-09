@@ -57,7 +57,7 @@ fun NetworkProfile.asDomainModel() = Profile(
     this.profileImagePath,
     Address(this.address.street, this.address.city, this.address.postalCode),
     this.email,
-    this.intro
+    this.intro,
 )
 
 data class Employment(
@@ -67,11 +67,11 @@ data class Employment(
     val startDate: LocalDate,
     val endDate: LocalDate?,
     val city: String,
-    val description: List<String>
+    val description: List<String>,
 ) {
     val workPeriod: DatePeriod
         get() = startDate.periodUntil(
-            endDate ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            endDate ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
         ).plus(DatePeriod(months = 1))
 }
 
@@ -82,7 +82,7 @@ fun employmentMapper(
     startDate: String,
     endDate: String?,
     city: String,
-    description: List<String>
+    description: List<String>,
 ) = Employment(
     id,
     jobTitle,
@@ -90,7 +90,7 @@ fun employmentMapper(
     LocalDate.parse(startDate),
     endDate?.let { LocalDate.parse(it) },
     city,
-    description
+    description,
 )
 
 fun DatabaseEmployment.asDomainModel() =
@@ -101,7 +101,7 @@ fun DatabaseEmployment.asDomainModel() =
         LocalDate.parse(this.start_date),
         this.end_date?.let { LocalDate.parse(it) },
         this.city,
-        description
+        description,
     )
 
 fun DatePeriod.asHumanReadableString() = buildString {

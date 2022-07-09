@@ -47,7 +47,7 @@ fun StubNetworkEmployment(): Employment = Employment(
     city = "Home City",
     description = listOf(
         "stub description",
-    )
+    ),
 )
 
 fun StubNetworkSkill(): Skill = Skill("Skill level 1", 1)

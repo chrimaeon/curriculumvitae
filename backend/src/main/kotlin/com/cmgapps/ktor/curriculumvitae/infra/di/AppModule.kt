@@ -36,8 +36,8 @@ val appModule = module {
         CvDatabase(
             get(),
             employmentAdapter = Employment.Adapter(
-                descriptionAdapter = DescriptionAdapter
-            )
+                descriptionAdapter = DescriptionAdapter,
+            ),
         )
     }
 }

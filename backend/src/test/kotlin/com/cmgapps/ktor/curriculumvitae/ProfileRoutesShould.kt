@@ -34,7 +34,7 @@ class ProfileRoutesShould {
             with(handleRequest(HttpMethod.Get, Routes.PROFILE.route)) {
                 assertThat(
                     response.headers[HttpHeaders.ContentType],
-                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString())
+                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString()),
                 )
             }
         }
@@ -60,8 +60,8 @@ class ProfileRoutesShould {
                             "\"Line 1\"," +
                             "\"Line 2\"" +
                             "]" +
-                            "}"
-                    )
+                            "}",
+                    ),
                 )
             }
         }
@@ -73,7 +73,7 @@ class ProfileRoutesShould {
             with(
                 handleRequest(HttpMethod.Get, Routes.PROFILE.route) {
                     addHeader(HttpHeaders.AcceptLanguage, "de")
-                }
+                },
             ) {
                 assertThat(
                     response.content,
@@ -92,8 +92,8 @@ class ProfileRoutesShould {
                             "\"Zeile 1\"," +
                             "\"Zeile 2\"" +
                             "]" +
-                            "}"
-                    )
+                            "}",
+                    ),
                 )
             }
         }
@@ -120,8 +120,8 @@ class ProfileRoutesShould {
                             "\"Line 1\"," +
                             "\"Line 2\"" +
                             "]" +
-                            "}"
-                    )
+                            "}",
+                    ),
                 )
             }
         }

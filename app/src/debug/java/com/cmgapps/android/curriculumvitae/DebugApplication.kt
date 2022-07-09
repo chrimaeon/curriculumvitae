@@ -31,7 +31,7 @@ class DebugApplication : Application() {
         StrictMode.setThreadPolicy(
             StrictMode.ThreadPolicy.Builder().detectAll()
                 .penaltyLog()
-                .build()
+                .build(),
         )
         StrictMode.setVmPolicy(
             StrictMode.VmPolicy.Builder().detectAll().apply {
@@ -40,7 +40,7 @@ class DebugApplication : Application() {
                 }
             }
                 .penaltyLog()
-                .build()
+                .build(),
         )
     }
 }

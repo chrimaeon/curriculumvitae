@@ -85,7 +85,7 @@ class MainActivity : ComponentActivity() {
                                 if (intent.resolveActivity(packageManager) != null) {
                                     startActivity(intent)
                                 }
-                            }
+                            },
                         )
                     } else {
                         BadSignature()

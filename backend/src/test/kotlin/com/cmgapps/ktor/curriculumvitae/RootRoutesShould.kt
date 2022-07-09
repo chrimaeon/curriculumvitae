@@ -42,7 +42,7 @@ class RootRoutesShould {
         with(handleRequest(HttpMethod.Get, Routes.ROOT.route)) {
             assertThat(
                 response.content,
-                `is`(expected)
+                `is`(expected),
             )
         }
     }

@@ -52,8 +52,8 @@ internal class SkillsViewModelShould {
         whenever(store.stream(any())) doReturn flowOf(
             StoreResponse.Data(
                 StubDomainSkills(),
-                ResponseOrigin.Fetcher
-            )
+                ResponseOrigin.Fetcher,
+            ),
         )
         viewModel = SkillsViewModel(store)
     }

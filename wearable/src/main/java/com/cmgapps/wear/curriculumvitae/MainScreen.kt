@@ -44,7 +44,7 @@ fun MainScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.surface)
+                .background(MaterialTheme.colors.surface),
         ) {
             HorizontalPager(state = pagerState, count = 3) { page ->
                 when (page) {
@@ -59,7 +59,7 @@ fun MainScreen() {
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 8.dp),
                 pagerState = pagerState,
-                activeColor = MaterialTheme.colors.primary.copy(LocalContentAlpha.current)
+                activeColor = MaterialTheme.colors.primary.copy(LocalContentAlpha.current),
             )
         }
     }

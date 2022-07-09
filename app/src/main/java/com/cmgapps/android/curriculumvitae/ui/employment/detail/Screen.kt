@@ -107,7 +107,7 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
                     title = employment.jobTitle,
                     headerColor = headerColor,
                     state = state,
-                    navigateUp = navigateUp
+                    navigateUp = navigateUp,
                 )
             },
             scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
@@ -118,29 +118,29 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
                 modifier = Modifier
                     .background(
                         color = MaterialTheme.colors.surface,
-                        shape = RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius)
+                        shape = RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius),
                     )
                     .fillMaxSize(),
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.navigationBars,
                     additionalStart = 16.dp,
                     additionalTop = 16.dp,
-                    additionalEnd = 16.dp
-                )
+                    additionalEnd = 16.dp,
+                ),
             ) {
                 item {
                     Text(
-                        text = employment.employer
+                        text = employment.employer,
                     )
                 }
                 item {
                     Text(
-                        text = employment.workPeriod.asHumanReadableString()
+                        text = employment.workPeriod.asHumanReadableString(),
                     )
                 }
                 item {
                     Text(
-                        text = employment.description.joinToString(separator = "\n\n")
+                        text = employment.description.joinToString(separator = "\n\n"),
                     )
                 }
             }
@@ -153,14 +153,14 @@ private fun CollapsingToolbarScope.TopBar(
     title: String,
     headerColor: Color,
     state: CollapsingToolbarScaffoldState,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
 ) {
     val contentColor = Color.White
 
     BoxWithConstraints(
         modifier = Modifier
             .parallax()
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         val headerHeight = if (minWidth > 600.dp) 136.dp else minWidth * (9F / 16F)
         Canvas(
@@ -168,7 +168,7 @@ private fun CollapsingToolbarScope.TopBar(
                 .fillMaxWidth()
                 .height(headerHeight)
                 .background(headerColor)
-                .clipToBounds()
+                .clipToBounds(),
         ) {
             val canvasWidth = size.width
             val canvasHeight = size.height
@@ -177,7 +177,7 @@ private fun CollapsingToolbarScope.TopBar(
                 drawCircle(
                     color = headerColor.darker(getCircleColorFraction(i)),
                     center = Offset(x = canvasWidth / 2, y = canvasHeight),
-                    radius = (canvasWidth / 2) / numCircles * i
+                    radius = (canvasWidth / 2) / numCircles * i,
                 )
             }
         }
@@ -190,7 +190,7 @@ private fun CollapsingToolbarScope.TopBar(
     val backgroundColor = lerpGraphics(
         headerColor,
         headerColor.copy(alpha = 0.0f),
-        (state.toolbarState.progress * 3).coerceIn(0.0f, 1.0f)
+        (state.toolbarState.progress * 3).coerceIn(0.0f, 1.0f),
     )
 
     TopAppBar(
@@ -201,14 +201,14 @@ private fun CollapsingToolbarScope.TopBar(
         title = { },
         navigationIcon = {
             IconButton(
-                onClick = { navigateUp() }
+                onClick = { navigateUp() },
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(id = R.string.navigate_up),
                 )
             }
-        }
+        },
     )
 
     Text(
@@ -217,15 +217,15 @@ private fun CollapsingToolbarScope.TopBar(
         fontSize = lerp(
             MaterialTheme.typography.h6.fontSize,
             MaterialTheme.typography.h4.fontSize,
-            state.toolbarState.progress
+            state.toolbarState.progress,
         ),
         modifier = Modifier
             .road(
                 whenExpanded = Alignment.BottomStart,
-                whenCollapsed = { _, _, _ -> collapsedTextOffset }
+                whenCollapsed = { _, _, _ -> collapsedTextOffset },
             )
             .statusBarsPadding()
-            .padding(16.dp)
+            .padding(16.dp),
 
     )
 }
@@ -238,7 +238,7 @@ private fun CollapsingToolbarScope.TopBar(
     heightDp = 680,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
-    backgroundColor = 0xFF000000
+    backgroundColor = 0xFF000000,
 )
 @Preview(name = "Content Land", widthDp = 680, heightDp = 320)
 @Composable
@@ -250,7 +250,7 @@ fun PreviewEmploymentDetails() {
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
         null,
         "Graz",
-        listOf("Line 1")
+        listOf("Line 1"),
     )
     Theme {
         ProvideWindowInsets {

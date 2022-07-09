@@ -35,10 +35,10 @@ private val DarkColorPalette = Colors(
 
 @Composable
 fun Theme(
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MaterialTheme(
         colors = DarkColorPalette,
-        content = content
+        content = content,
     )
 }

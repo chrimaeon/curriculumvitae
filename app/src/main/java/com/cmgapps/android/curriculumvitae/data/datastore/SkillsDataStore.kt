@@ -46,7 +46,7 @@ object SkillsDataStoreSerializer : Serializer<Skills?> {
 fun Skills.asDomainModel(): List<DomainSkill> = skills.map {
     DomainSkill(
         it.name,
-        it.level
+        it.level,
     )
 }
 
@@ -54,7 +54,7 @@ fun List<NetworkSkill>.asDataStoreModel(): Skills = Skills(
     map {
         Skill(
             it.name,
-            it.level
+            it.level,
         )
-    }
+    },
 )

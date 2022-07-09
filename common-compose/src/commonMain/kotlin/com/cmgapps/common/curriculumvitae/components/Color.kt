@@ -36,6 +36,6 @@ fun Color.darker(factor: Float): Color {
         alpha = this.alpha,
         red = (this.red * factor).coerceIn(0F, 1F),
         green = (this.green * factor).coerceIn(0F, 1F),
-        blue = (this.blue * factor).coerceIn(0F, 1F)
+        blue = (this.blue * factor).coerceIn(0F, 1F),
     )
 }

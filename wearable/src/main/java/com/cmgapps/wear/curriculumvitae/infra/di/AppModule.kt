@@ -51,19 +51,21 @@ val appModule = module {
                                     logger.d(message)
                                 }.apply {
                                     level = HttpLoggingInterceptor.Level.BODY
-                                }
+                                },
                             )
                         }
                     }
                     .build()
             }
             .componentRegistry {
-                add(object : Mapper<AssetPath, HttpUrl> {
-                    override fun map(data: AssetPath): HttpUrl {
-                        return provideBaseUrl().toString().toHttpUrl().newBuilder(data.path)?.build()
-                            ?: error("asset url cannot be created; baseUrl=${provideBaseUrl()}, assetPath=${data.path}")
-                    }
-                })
+                add(
+                    object : Mapper<AssetPath, HttpUrl> {
+                        override fun map(data: AssetPath): HttpUrl {
+                            return provideBaseUrl().toString().toHttpUrl().newBuilder(data.path)?.build()
+                                ?: error("asset url cannot be created; baseUrl=${provideBaseUrl()}, assetPath=${data.path}")
+                        }
+                    },
+                )
             }.build()
     }
 }

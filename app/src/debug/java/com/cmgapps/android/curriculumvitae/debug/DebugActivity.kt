@@ -60,7 +60,7 @@ class DebugActivity : AppCompatActivity() {
     override fun navigateUpTo(upIntent: Intent?): Boolean {
         TaskStackBuilder.create(this@DebugActivity)
             .addNextIntentWithParentStack(
-                NavUtils.getParentActivityIntent(this@DebugActivity)!!
+                NavUtils.getParentActivityIntent(this@DebugActivity)!!,
             ).startActivities()
         return true
     }

@@ -31,7 +31,7 @@ fun TagCloud(
     modifier: Modifier = Modifier,
     verticalSpacing: Dp = 8.dp,
     horizontalSpacing: Dp = 8.dp,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Layout(
         modifier = modifier,
@@ -103,7 +103,7 @@ fun TagCloud(
                 placeables.forEachIndexed { j, placeable ->
                     placeable.place(
                         x = horizontalPositions[j],
-                        y = verticalPositions[i]
+                        y = verticalPositions[i],
                     )
                 }
             }

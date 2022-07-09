@@ -38,7 +38,7 @@ object DataStoreModule {
     @Provides
     fun provideProfileDataStore(@ApplicationContext context: Context): DataStore<Profile?> =
         DataStoreFactory.create(
-            ProfileDataStoreSerializer
+            ProfileDataStoreSerializer,
         ) {
             context.dataStoreFile("profile.pb")
         }
@@ -47,7 +47,7 @@ object DataStoreModule {
     @Provides
     fun provideSkillsDataStore(@ApplicationContext context: Context): DataStore<Skills?> =
         DataStoreFactory.create(
-            SkillsDataStoreSerializer
+            SkillsDataStoreSerializer,
         ) {
             context.dataStoreFile("skills.pb")
         }

@@ -49,11 +49,11 @@ fun EmploymentCard(employment: Employment) {
         onClick = { expanded = !expanded },
     ) {
         Column(
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(10.dp),
         ) {
             Text(
                 text = employment.employer,
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.h5,
 
             )
             Spacer(Modifier.height(5.dp))
@@ -62,7 +62,7 @@ fun EmploymentCard(employment: Employment) {
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 CompositionLocalProvider(
-                    LocalTextStyle provides MaterialTheme.typography.body1
+                    LocalTextStyle provides MaterialTheme.typography.body1,
                 ) {
                     Text(
                         modifier = Modifier.alignBy(LastBaseline),
@@ -95,7 +95,7 @@ fun EmploymentCard(employment: Employment) {
             Spacer(Modifier.height(5.dp))
             Text(
                 text = employment.jobTitle,
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.h6,
             )
 
             if (expanded) {
@@ -103,7 +103,7 @@ fun EmploymentCard(employment: Employment) {
                 Column {
                     employment.description.forEach {
                         Text(
-                            text = it
+                            text = it,
                         )
                     }
                 }

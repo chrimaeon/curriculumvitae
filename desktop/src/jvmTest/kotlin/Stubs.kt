@@ -43,10 +43,10 @@ fun StubNetworkEmployment() = NetworkEmployment(
     LocalDate(2021, Month.SEPTEMBER, 2),
     null,
     "City",
-    listOf("Description 1", "Description 2")
+    listOf("Description 1", "Description 2"),
 )
 
 fun StubNetworkSkill() = Skill(
     name = "Skill 1",
-    level = 5
+    level = 5,
 )

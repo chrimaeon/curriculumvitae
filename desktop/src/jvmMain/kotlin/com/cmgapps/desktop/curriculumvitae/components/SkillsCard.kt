@@ -36,15 +36,15 @@ fun SkillsCard(skills: List<Skill>?) {
     }
 
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         TagCloud(
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(10.dp),
         ) {
             skills.forEach { skill ->
                 Text(
                     skill.name,
-                    style = skill.levelAsTextStyle()
+                    style = skill.levelAsTextStyle(),
                 )
             }
         }

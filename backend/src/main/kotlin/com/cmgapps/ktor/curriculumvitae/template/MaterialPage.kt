@@ -50,7 +50,7 @@ class MaterialPage(private val pageTitle: String = "") : Template<HTML> {
 
             link(
                 rel = "preconnect",
-                href = "https://fonts.gstatic.com"
+                href = "https://fonts.gstatic.com",
             )
 
             styleLink("https://fonts.googleapis.com/icon?family=Material+Icons")
@@ -60,7 +60,7 @@ class MaterialPage(private val pageTitle: String = "") : Template<HTML> {
                 link(
                     rel = "icon",
                     type = ContentType.Image.PNG.toString(),
-                    href = "/assets/favicon-$it.png"
+                    href = "/assets/favicon-$it.png",
                 ) {
                     attributes["sizes"] = it
                 }
@@ -69,12 +69,12 @@ class MaterialPage(private val pageTitle: String = "") : Template<HTML> {
             link(
                 rel = "icon",
                 type = ContentType.Image.XIcon.toString(),
-                href = "/assets/favicon.ico"
+                href = "/assets/favicon.ico",
             )
 
             script(
                 type = ScriptType.textJavaScript,
-                src = "https://code.getmdl.io/1.3.0/material.min.js"
+                src = "https://code.getmdl.io/1.3.0/material.min.js",
             ) {
                 attributes["defer"] = ""
             }

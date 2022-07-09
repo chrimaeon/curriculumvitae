@@ -77,41 +77,39 @@ fun ProfileCard(profileRepository: ProfileRepository) {
         profile?.let {
             withContext(Dispatchers.IO) {
                 bitmap = ImageIO.read(
-                    profileRepository.getProfileImage(it.profileImagePath).toInputStream()
+                    profileRepository.getProfileImage(it.profileImagePath).toInputStream(),
                 )
             }
         }
     }
 
     profile?.let {
-
         Card(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(
                 modifier = Modifier.padding(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-
                 bitmap?.let {
                     Image(
                         painter = it.toPainter(),
                         modifier = Modifier.size(200.dp).clip(CircleShape),
                         contentDescription = null,
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
                     )
                 }
                 Text(
                     it.name,
-                    style = MaterialTheme.typography.h3
+                    style = MaterialTheme.typography.h3,
                 )
                 Text(
                     it.address.street,
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.h5,
                 )
                 Text(
                     "${it.address.postalCode} ${it.address.city}",
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.h5,
                 )
                 Text(
                     it.email,
@@ -121,7 +119,7 @@ fun ProfileCard(profileRepository: ProfileRepository) {
                             Desktop.getDesktop().mail(URI.create("mailto:${it.email}"))
                         }
                     }.pointerHoverIcon(PointerIconDefaults.Hand),
-                    color = MaterialTheme.colors.primary
+                    color = MaterialTheme.colors.primary,
                 )
                 Text(
                     it.phone,
@@ -131,7 +129,7 @@ fun ProfileCard(profileRepository: ProfileRepository) {
                             Desktop.getDesktop().browse(URI.create("tel:${it.phone}"))
                         }
                     }.pointerHoverIcon(PointerIconDefaults.Hand),
-                    color = MaterialTheme.colors.primary
+                    color = MaterialTheme.colors.primary,
                 )
             }
         }

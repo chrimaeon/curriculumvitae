@@ -33,17 +33,16 @@ import kotlin.js.Date
 
 @Composable
 fun Employments(repository: EmploymentRepository) {
-
     val employments by repository.getEmployments().collectAsState(emptyList())
 
     for (index in employments.indices step 2) {
         Div({
             classes("row")
-        }) {
+        },) {
             employments[index].let { employment ->
                 Div({
                     classes("col")
-                }) {
+                },) {
                     EmploymentCard(employment)
                 }
             }
@@ -53,13 +52,13 @@ fun Employments(repository: EmploymentRepository) {
             if (employment != null) {
                 Div({
                     classes("col-sm")
-                }) {
+                },) {
                     EmploymentCard(employment)
                 }
             } else {
                 Div({
                     classes("col-sm")
-                })
+                },)
             }
         }
     }
@@ -69,10 +68,10 @@ fun Employments(repository: EmploymentRepository) {
 fun EmploymentCard(employment: Employment) {
     Div({
         classes("card", "mt-3")
-    }) {
+    },) {
         Div({
             classes("card-body")
-        }) {
+        },) {
             H4 {
                 Text(employment.employer)
             }
@@ -99,10 +98,10 @@ fun EmploymentCard(employment: Employment) {
 private fun LocalDate.toLocaleString(): String = Date(
     this.year,
     this.monthNumber,
-    this.dayOfMonth
+    this.dayOfMonth,
 ).toLocaleDateString(
     options = dateLocaleOptions {
         month = "long"
         year = "numeric"
-    }
+    },
 )

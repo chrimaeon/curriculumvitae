@@ -27,34 +27,34 @@ private val CrimsonPro = FontFamily(
         Font(
             resId = R.font.crimson_pro_extralight,
             weight = FontWeight.W200,
-            style = FontStyle.Normal
+            style = FontStyle.Normal,
         ),
         Font(
             resId = R.font.crimson_pro_extralightitalic,
             weight = FontWeight.W200,
-            style = FontStyle.Italic
+            style = FontStyle.Italic,
         ),
         Font(
             resId = R.font.crimson_pro_regular,
             weight = FontWeight.W400,
-            style = FontStyle.Normal
+            style = FontStyle.Normal,
         ),
         Font(
             resId = R.font.crimson_pro_italic,
             weight = FontWeight.W400,
-            style = FontStyle.Italic
+            style = FontStyle.Italic,
         ),
         Font(
             resId = R.font.crimson_pro_bold,
             weight = FontWeight.W600,
-            style = FontStyle.Normal
+            style = FontStyle.Normal,
         ),
         Font(
             resId = R.font.crimson_pro_bolditalic,
             weight = FontWeight.W600,
-            style = FontStyle.Italic
+            style = FontStyle.Italic,
         ),
-    )
+    ),
 )
 
 private val defaultTypography = androidx.compose.material.Typography()

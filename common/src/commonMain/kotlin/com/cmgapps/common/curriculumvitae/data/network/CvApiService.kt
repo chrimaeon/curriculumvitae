@@ -38,25 +38,25 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
     suspend fun getProfile(): Profile = client.get(
         URLBuilder(baseUrl).apply {
             path("profile")
-        }.build()
+        }.build(),
     )
 
     suspend fun getEmployments(): List<Employment> = client.get(
         URLBuilder(baseUrl).apply {
             path("employment")
-        }.build()
+        }.build(),
     )
 
     suspend fun getSkills(): List<Skill> = client.get(
         URLBuilder(baseUrl).apply {
             path("skills")
-        }.build()
+        }.build(),
     )
 
     suspend fun getAsset(assetPath: String): ByteReadChannel = client.get<HttpResponse>(
         URLBuilder(baseUrl).apply {
             path(assetPath)
-        }.build()
+        }.build(),
     ).receive()
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -69,7 +69,7 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
             request = {
                 url.protocol =
                     if (baseUrl.protocol == URLProtocol.HTTPS) URLProtocol.WSS else URLProtocol.WS
-            }
+            },
         ) {
             while (!incoming.isClosedForReceive) {
                 val status = incoming.receive() as Frame.Text

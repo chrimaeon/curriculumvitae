@@ -52,7 +52,6 @@ import java.io.IOException
 
 @Composable
 fun App(koin: Koin) {
-
     val employmentRepo: EmploymentRepository = koin.get()
     val skillsRepo: SkillsRepository = koin.get()
 
@@ -72,12 +71,11 @@ fun App(koin: Koin) {
         modifier = Modifier.background(MaterialTheme.colors.surface),
         bottomBar = {
             Footer()
-        }
+        },
     ) { innerPadding ->
         Column(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
-
             Box {
                 val state = rememberLazyListState()
 
@@ -86,7 +84,7 @@ fun App(koin: Koin) {
                     state = state,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(10.dp),
-                    contentPadding = PaddingValues(20.dp)
+                    contentPadding = PaddingValues(20.dp),
                 ) {
                     items(
                         count = employments.size + 2,
@@ -95,7 +93,7 @@ fun App(koin: Koin) {
                             index == 0 -> ProfileCard(profileRepository = koin.get())
                             (employments.isEmpty() && index == 1) ||
                                 (employments.isNotEmpty() && index == employments.size + 1) -> SkillsCard(
-                                skills
+                                skills,
                             )
                             else -> EmploymentCard(employments[index - 1])
                         }
@@ -104,8 +102,8 @@ fun App(koin: Koin) {
                 VerticalScrollbar(
                     modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
                     adapter = rememberScrollbarAdapter(
-                        scrollState = state
-                    )
+                        scrollState = state,
+                    ),
                 )
             }
         }

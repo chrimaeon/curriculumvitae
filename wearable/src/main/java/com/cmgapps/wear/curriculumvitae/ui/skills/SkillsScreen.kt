@@ -44,7 +44,7 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SkillsScreen(
-    viewModel: SkillsViewModel = getViewModel()
+    viewModel: SkillsViewModel = getViewModel(),
 ) {
     val state = viewModel.uiState
 
@@ -55,8 +55,8 @@ fun SkillsScreen(
                 .placeholder(
                     visible = true,
                     highlight = PlaceholderHighlight.shimmer(),
-                    shape = CircleShape
-                )
+                    shape = CircleShape,
+                ),
         )
     }
 
@@ -65,12 +65,11 @@ fun SkillsScreen(
 
 @Composable
 private fun Content(skills: List<Skill>) {
-
     ScalingLazyColumn(
         scalingParams = ScalingLazyColumnDefaults.scalingParams(
             edgeScale = 0.3f,
-            minTransitionArea = 0.5f
-        )
+            minTransitionArea = 0.5f,
+        ),
     ) {
         items(skills) {
             Box(
@@ -79,13 +78,13 @@ private fun Content(skills: List<Skill>) {
                     .padding(4.dp)
                     .fillMaxWidth()
                     .height(40.dp),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Text(
                     it.name,
                     style = MaterialTheme.typography.title2,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }
@@ -94,7 +93,7 @@ private fun Content(skills: List<Skill>) {
 
 @Preview(
     widthDp = 195,
-    heightDp = 195
+    heightDp = 195,
 )
 @Composable
 fun SkillsScreenPreview() {
@@ -102,8 +101,8 @@ fun SkillsScreenPreview() {
         Content(
             listOf(
                 Skill("Skill 1", 1),
-                Skill("Skill 2", 2)
-            )
+                Skill("Skill 2", 2),
+            ),
         )
     }
 }

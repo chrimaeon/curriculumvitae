@@ -24,7 +24,7 @@ import javax.inject.Qualifier
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.VALUE_PARAMETER,
-    AnnotationTarget.FIELD
+    AnnotationTarget.FIELD,
 )
 annotation class Language
 
@@ -34,7 +34,7 @@ annotation class Language
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.VALUE_PARAMETER,
-    AnnotationTarget.FIELD
+    AnnotationTarget.FIELD,
 )
 annotation class BaseUrl
 
@@ -44,6 +44,6 @@ annotation class BaseUrl
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.VALUE_PARAMETER,
-    AnnotationTarget.FIELD
+    AnnotationTarget.FIELD,
 )
 annotation class DebugPreferences

@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [DataStoreModule::class]
+    replaces = [DataStoreModule::class],
 )
 class FakeDataStoreModule {
 

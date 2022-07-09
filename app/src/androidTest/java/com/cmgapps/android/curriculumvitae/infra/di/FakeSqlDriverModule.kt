@@ -30,7 +30,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [SqlDriverModule::class]
+    replaces = [SqlDriverModule::class],
 )
 object FakeSqlDriverModule {
 

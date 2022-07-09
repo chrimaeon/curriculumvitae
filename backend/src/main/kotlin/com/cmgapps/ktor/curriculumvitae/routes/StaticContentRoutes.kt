@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+@file:Suppress("ktlint:filename")
 
 package com.cmgapps.ktor.curriculumvitae.routes
 

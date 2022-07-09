@@ -56,8 +56,8 @@ sealed class Screen(
         R.string.profile_label,
         StateIcon(
             defaultIcon = Icons.Outlined.AccountCircle,
-            selectedIcon = Icons.Filled.AccountCircle
-        )
+            selectedIcon = Icons.Filled.AccountCircle,
+        ),
     )
 
     object Employment : Screen(
@@ -65,8 +65,8 @@ sealed class Screen(
         R.string.employment_label,
         StateIcon(
             defaultIcon = Icons.Outlined.WorkOutline,
-            selectedIcon = Icons.Filled.Work
-        )
+            selectedIcon = Icons.Filled.Work,
+        ),
     )
 
     object Skills : Screen(
@@ -74,8 +74,8 @@ sealed class Screen(
         R.string.skills_label,
         StateIcon(
             defaultIcon = Icons.Outlined.BuildCircle,
-            selectedIcon = Icons.Filled.BuildCircle
-        )
+            selectedIcon = Icons.Filled.BuildCircle,
+        ),
     )
 
     object Info : Screen(
@@ -83,8 +83,8 @@ sealed class Screen(
         R.string.info,
         StateIcon(
             defaultIcon = Icons.Outlined.Info,
-            selectedIcon = Icons.Outlined.Info
-        )
+            selectedIcon = Icons.Outlined.Info,
+        ),
     )
 }
 
@@ -92,7 +92,7 @@ val screens = listOf(
     Screen.Profile,
     Screen.Employment,
     Screen.Skills,
-    Screen.Info
+    Screen.Info,
 )
 
 enum class NavArguments(val argumentName: String) {
@@ -101,17 +101,17 @@ enum class NavArguments(val argumentName: String) {
 
 sealed class SubScreen(
     val route: String,
-    val arguments: List<NamedNavArgument> = emptyList()
+    val arguments: List<NamedNavArgument> = emptyList(),
 ) {
     object EmploymentDetail : SubScreen(
         "employment/detail/{${NavArguments.EMPLOYMENT_ID.argumentName}}",
         arguments = listOf(
             navArgument(
-                NavArguments.EMPLOYMENT_ID.argumentName
+                NavArguments.EMPLOYMENT_ID.argumentName,
             ) {
                 type = NavType.IntType
-            }
-        )
+            },
+        ),
     ) {
         fun routeWithId(id: Int): String = "employment/detail/$id"
     }

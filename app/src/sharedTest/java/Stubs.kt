@@ -54,7 +54,7 @@ fun StubNetworkEmployment() = NetworkEmployment(
     city = "Home City",
     description = listOf(
         "stub description",
-    )
+    ),
 )
 
 fun StubDatabaseEmployment() = StubNetworkEmployment().asDatabaseModel()
@@ -63,8 +63,8 @@ fun StubDomainEmployment() = StubDatabaseEmployment().asDomainModel()
 fun StubNetworkSkills() = listOf(
     NetworkSkill(
         name = "Skill level 1",
-        level = 1
-    )
+        level = 1,
+    ),
 )
 
 fun StubDomainSkills() = StubNetworkSkills().asDomainModel()

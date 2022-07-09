@@ -34,7 +34,7 @@ class SkillRoutesShould {
             with(handleRequest(HttpMethod.Get, Routes.SKILLS.route)) {
                 assertThat(
                     response.headers[HttpHeaders.ContentType],
-                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString())
+                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString()),
                 )
             }
         }
@@ -45,7 +45,7 @@ class SkillRoutesShould {
             with(handleRequest(HttpMethod.Get, Routes.SKILLS.route)) {
                 assertThat(
                     response.content,
-                    `is`("""[{"name":"Skill Level 3","level":3},{"name":"Skill Level 2","level":2}]""")
+                    `is`("""[{"name":"Skill Level 3","level":3},{"name":"Skill Level 2","level":2}]"""),
                 )
             }
         }

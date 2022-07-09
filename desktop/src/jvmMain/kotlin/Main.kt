@@ -35,7 +35,7 @@ private val koin = initKoin(enableNetworkLogging = true).koin
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Curriculum Vitae"
+        title = "Curriculum Vitae",
     ) {
         MenuBar {
             Menu("Debug", 'd') {
@@ -45,8 +45,8 @@ fun main() = application {
                         mutableStateOf(
                             prefs.get(
                                 DebugBaseUrlKey,
-                                BaseUrl
-                            )
+                                BaseUrl,
+                            ),
                         )
                     }
                     prefs.addPreferenceChangeListener {
@@ -62,7 +62,7 @@ fun main() = application {
                                 painterResource("icons/check-square.svg")
                             } else {
                                 painterResource("icons/square.svg")
-                            }
+                            },
                         ) {
                             prefs.apply {
                                 put(DebugBaseUrlKey, debugUrl)

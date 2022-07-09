@@ -54,7 +54,7 @@ fun Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     lightSystemBarColor: Color = lightSystemBars,
     darkSystemBarColor: Color = darkSystemBars,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette
@@ -67,19 +67,19 @@ fun Theme(
     SideEffect {
         systemUiController.setSystemBarsColor(
             systemBarsColor,
-            darkIcons = !darkTheme
+            darkIcons = !darkTheme,
         )
     }
 
     MaterialTheme(
         colors = colors,
         typography = Typography,
-        content = content
+        content = content,
     )
 }
 
 @Composable
 fun themedRipple(bounded: Boolean = true): Indication = rememberRipple(
     color = if (MaterialTheme.colors.isLight) MaterialTheme.colors.primary else LocalContentColor.current,
-    bounded = bounded
+    bounded = bounded,
 )

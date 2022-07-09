@@ -30,13 +30,13 @@ fun Icon(
     modifier: Modifier = Modifier,
     contentDescription: String?,
     alpha: Float = 1.0f,
-    color: Color? = null
+    color: Color? = null,
 ) {
     Image(
         modifier = modifier,
         painter = painterResource("icons/$svgName.svg"),
         colorFilter = ColorFilter.tint(color ?: LocalContentColor.current),
         contentDescription = contentDescription,
-        alpha = alpha
+        alpha = alpha,
     )
 }

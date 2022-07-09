@@ -65,7 +65,7 @@ internal class EmploymentDetailsShould : LogTreeOnFailedTest() {
         viewModel =
             EmploymentDetailViewModel(
                 SavedStateHandle(mapOf(NavArguments.EMPLOYMENT_ID.argumentName to employment.id)),
-                store
+                store,
             )
 
         composeTestRule.setContent {

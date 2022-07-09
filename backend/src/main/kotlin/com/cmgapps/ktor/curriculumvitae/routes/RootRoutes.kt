@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("ktlint:filename")
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
@@ -141,7 +142,7 @@ private fun DIV.page() {
         HttpHeaders.AcceptLanguage,
         String::class.java,
         Where.HEADER,
-        "A HTTP language header; see https://datatracker.ietf.org/doc/html/rfc7231#section-5.3.5"
+        "A HTTP language header; see https://datatracker.ietf.org/doc/html/rfc7231#section-5.3.5",
     )
 
     div(classes = "mdl-grid") {
@@ -156,15 +157,15 @@ private fun DIV.page() {
                 address = Address(
                     street = "Main Street 1",
                     city = "My Hometown",
-                    postalCode = "42"
+                    postalCode = "42",
                 ),
                 email = "noreply@test.com",
                 intro = listOf(
                     "Intro line 1 ...",
                     "Intro line 2 ...",
-                    "etc ... etc ... etc ..."
+                    "etc ... etc ... etc ...",
                 ),
-            )
+            ),
         )
         apiCard(
             HttpMethod.Get,
@@ -178,15 +179,15 @@ private fun DIV.page() {
                 city = "Graz",
                 description = listOf(
                     "Founder",
-                    "Software development"
-                )
-            )
+                    "Software development",
+                ),
+            ),
         )
 
         apiCard(
             HttpMethod.Get,
             Routes.SKILLS.route,
-            response = listOf(Skill("Mobile Development", 5), Skill("Android", 5))
+            response = listOf(Skill("Mobile Development", 5), Skill("Android", 5)),
         )
     }
 }
@@ -210,7 +211,7 @@ private inline fun <reified T> DIV.apiCard(
     method: HttpMethod,
     route: String,
     params: List<Param>? = null,
-    response: T? = null
+    response: T? = null,
 ) {
     div(classes = "mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet") {
         div(classes = "api-card mdl-card mdl-shadow--2dp") {

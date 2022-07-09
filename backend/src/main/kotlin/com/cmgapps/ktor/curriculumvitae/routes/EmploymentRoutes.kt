@@ -42,7 +42,7 @@ private fun mapper(
     startDate: String,
     endDate: String?,
     city: String,
-    description: List<String>
+    description: List<String>,
 ) = Employment(
     id,
     jobTitle,

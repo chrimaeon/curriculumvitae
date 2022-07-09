@@ -52,8 +52,8 @@ internal class EmploymentViewModelShould {
         whenever(store.stream(any())) doReturn flowOf(
             StoreResponse.Data(
                 listOf(StubDomainEmployment()),
-                ResponseOrigin.Fetcher
-            )
+                ResponseOrigin.Fetcher,
+            ),
         )
 
         viewModel = EmploymentViewModel(store)

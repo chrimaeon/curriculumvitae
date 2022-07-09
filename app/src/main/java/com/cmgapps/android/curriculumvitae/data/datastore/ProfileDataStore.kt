@@ -56,10 +56,10 @@ fun Profile.asDomainModel(): DomainProfile {
         address = DomainAddress(
             street = address.street,
             city = address.city,
-            postalCode = address.postal_code
+            postalCode = address.postal_code,
         ),
         email = email,
-        intro = intro
+        intro = intro,
     )
 }
 
@@ -73,5 +73,5 @@ fun NetworkProfile.asDataStoreModel(): Profile = Profile(
         postal_code = this@asDataStoreModel.address.postalCode,
     ),
     email = this@asDataStoreModel.email,
-    intro = this@asDataStoreModel.intro
+    intro = this@asDataStoreModel.intro,
 )

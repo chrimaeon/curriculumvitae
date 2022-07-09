@@ -52,8 +52,8 @@ internal class ProfileViewModelShould {
         whenever(store.stream(any())) doReturn flowOf(
             StoreResponse.Data(
                 StubDomainProfile(),
-                ResponseOrigin.Fetcher
-            )
+                ResponseOrigin.Fetcher,
+            ),
         )
         viewModel = ProfileViewModel(store)
     }

@@ -57,8 +57,8 @@ class EmploymentDetailViewModelShould {
         whenever(store.stream(any())) doReturn flowOf(
             StoreResponse.Data(
                 StubDomainEmployment(),
-                ResponseOrigin.Fetcher
-            )
+                ResponseOrigin.Fetcher,
+            ),
         )
         viewModel = EmploymentDetailViewModel(savedStateHandleMock, store)
     }

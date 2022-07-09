@@ -52,7 +52,7 @@ import com.google.accompanist.insets.rememberInsetsPaddingValues
 @Composable
 fun InfoSheet(
     modifier: Modifier = Modifier,
-    onOpenWebsite: (Uri) -> Unit
+    onOpenWebsite: (Uri) -> Unit,
 ) {
     var ossDialogOpen by remember { mutableStateOf(false) }
     var oflDialogOpen by remember { mutableStateOf(false) }
@@ -69,7 +69,7 @@ fun InfoSheet(
                     Offset(size.width / 2 + length, paddingTop),
                     strokeWidth = 4.dp.toPx(),
                     cap = StrokeCap.Round,
-                    alpha = 0.2f
+                    alpha = 0.2f,
                 )
             }
             .padding(
@@ -77,9 +77,9 @@ fun InfoSheet(
                     insets = LocalWindowInsets.current.navigationBars,
                     additionalTop = 24.dp,
                     additionalEnd = 24.dp,
-                    additionalBottom = 24.dp
-                )
-            )
+                    additionalBottom = 24.dp,
+                ),
+            ),
     ) {
         Text(
             text = stringResource(id = R.string.app_name),
@@ -91,7 +91,7 @@ fun InfoSheet(
         val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.packageManager.getPackageInfo(
                 context.packageName,
-                PackageManager.PackageInfoFlags.of(0)
+                PackageManager.PackageInfoFlags.of(0),
             )
         } else {
             @Suppress("DEPRECATION")
@@ -102,7 +102,7 @@ fun InfoSheet(
             text = stringResource(
                 id = R.string.version,
                 packageInfo.versionName,
-                PackageInfoCompat.getLongVersionCode(packageInfo)
+                PackageInfoCompat.getLongVersionCode(packageInfo),
             ),
             modifier = Modifier.padding(start = 24.dp),
         )
@@ -119,19 +119,19 @@ fun InfoSheet(
         )
         InfoTextButton(
             text = stringResource(id = R.string.info_oss_licenses),
-            onClick = { ossDialogOpen = true }
+            onClick = { ossDialogOpen = true },
         )
         InfoTextButton(
             text = stringResource(id = R.string.info_open_font_licenses),
-            onClick = { oflDialogOpen = true }
+            onClick = { oflDialogOpen = true },
         )
         InfoTextButton(
             text = stringResource(id = R.string.project_on_github),
             onClick = {
                 onOpenWebsite(
-                    Uri.parse("https://github.com/chrimaeon/curriculumvitae")
+                    Uri.parse("https://github.com/chrimaeon/curriculumvitae"),
                 )
-            }
+            },
         )
     }
 
@@ -139,7 +139,7 @@ fun InfoSheet(
         WebViewDialog(
             title = stringResource(id = R.string.info_oss_licenses),
             url = "licenses.html".asAssetFileUrl(),
-            onDismissRequest = { ossDialogOpen = false }
+            onDismissRequest = { ossDialogOpen = false },
         )
     }
     if (oflDialogOpen) {

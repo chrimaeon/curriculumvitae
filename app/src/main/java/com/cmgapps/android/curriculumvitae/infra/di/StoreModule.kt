@@ -51,20 +51,20 @@ object StoreModule {
     @Singleton
     fun provideProfileStore(
         dataStore: DataStore<DataStoreProfile?>,
-        api: CvApiService
+        api: CvApiService,
     ): Store<String, DomainProfile> = StoreBuilder.from(
         fetcher = Fetcher.of<String, DataStoreProfile> { api.getProfile().asDataStoreModel() },
         sourceOfTruth = SourceOfTruth.of(
             reader = { dataStore.data.map { it?.asDomainModel() } },
             writer = { _, data -> dataStore.updateData { data } },
-        )
+        ),
     ).build()
 
     @Provides
     @Singleton
     fun provideEmploymentListStore(
         employmentQueries: EmploymentQueries,
-        api: CvApiService
+        api: CvApiService,
     ): Store<String, List<DomainEmployment>> =
         StoreBuilder.from(
             fetcher = Fetcher.of<String, List<DatabaseEmployment>> {
@@ -81,8 +81,8 @@ object StoreModule {
                             employmentQueries.insertEmployment(it)
                         }
                     }
-                }
-            )
+                },
+            ),
         ).build()
 
     @Provides
@@ -93,19 +93,19 @@ object StoreModule {
         StoreBuilder.from(
             fetcher = Fetcher.ofFlow { id: Int ->
                 employmentQueries.getEmployment(id, ::employmentMapper).asFlow().mapToOne()
-            }
+            },
         ).build()
 
     @Provides
     @Singleton
     fun provideSkillsStore(
         dataStore: DataStore<DataStoreSkills?>,
-        api: CvApiService
+        api: CvApiService,
     ): Store<String, List<DomainSkill>> = StoreBuilder.from(
         fetcher = Fetcher.of<String, DataStoreSkills> { api.getSkills().asDataStoreModel() },
         sourceOfTruth = SourceOfTruth.of(
             reader = { dataStore.data.map { it?.asDomainModel() } },
             writer = { _, data -> dataStore.updateData { data } },
-        )
+        ),
     ).build()
 }

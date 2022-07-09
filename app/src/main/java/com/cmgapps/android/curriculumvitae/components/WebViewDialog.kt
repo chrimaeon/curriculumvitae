@@ -70,13 +70,13 @@ private fun Content(url: String) {
             if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
                 WebSettingsCompat.setForceDark(
                     webView.settings,
-                    WebSettingsCompat.FORCE_DARK_ON
+                    WebSettingsCompat.FORCE_DARK_ON,
                 )
             }
             if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
                 WebSettingsCompat.setForceDarkStrategy(
                     webView.settings,
-                    WebSettingsCompat.DARK_STRATEGY_PREFER_WEB_THEME_OVER_USER_AGENT_DARKENING
+                    WebSettingsCompat.DARK_STRATEGY_PREFER_WEB_THEME_OVER_USER_AGENT_DARKENING,
                 )
             }
         }

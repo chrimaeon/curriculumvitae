@@ -96,8 +96,8 @@ fun Application.installFeatures() {
                 TextContent(
                     "${status.value} ${status.description}",
                     ContentType.Text.Plain.withCharset(Charsets.UTF_8),
-                    status
-                )
+                    status,
+                ),
             )
         }
 
@@ -122,8 +122,8 @@ fun Application.installFeatures() {
             when {
                 contentType?.match(ContentType.Image.Any) == true -> CachingOptions(
                     CacheControl.MaxAge(
-                        maxAgeSeconds = 1.days.inWholeSeconds.toInt()
-                    )
+                        maxAgeSeconds = 1.days.inWholeSeconds.toInt(),
+                    ),
                 )
                 else -> null
             }

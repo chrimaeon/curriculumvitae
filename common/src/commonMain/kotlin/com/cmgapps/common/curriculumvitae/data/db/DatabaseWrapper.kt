@@ -21,7 +21,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class DatabaseWrapper(
-    private val driverProvider: suspend (SqlDriver.Schema) -> SqlDriver
+    private val driverProvider: suspend (SqlDriver.Schema) -> SqlDriver,
 ) {
     private lateinit var database: CvDatabase
     private val mutex = Mutex()
@@ -42,7 +42,7 @@ class DatabaseWrapper(
     private fun SqlDriver.createDatabase() = CvDatabase(
         this,
         employmentAdapter = Employment.Adapter(
-            descriptionAdapter = DescriptionAdapter
-        )
+            descriptionAdapter = DescriptionAdapter,
+        ),
     )
 }

@@ -36,17 +36,17 @@ import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 fun ContentError() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             modifier = Modifier
                 .background(
                     shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colors.error
+                    color = MaterialTheme.colors.error,
                 )
                 .padding(16.dp),
             text = stringResource(id = R.string.generic_error),
-            color = MaterialTheme.colors.onError
+            color = MaterialTheme.colors.onError,
         )
     }
 }
@@ -55,7 +55,7 @@ fun ContentError() {
 fun ContentLoading() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }

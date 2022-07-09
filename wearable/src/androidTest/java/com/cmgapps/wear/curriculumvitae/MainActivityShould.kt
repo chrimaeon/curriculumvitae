@@ -54,7 +54,7 @@ class MainActivityShould : KoinTest {
                         AndroidSqliteDriver(CvDatabase.Schema, get(), /* in-memory */null)
                     },
                     logger = get { parametersOf("MockEmploymentRepository") },
-                    scope = MainScope()
+                    scope = MainScope(),
                 )
             }
         }

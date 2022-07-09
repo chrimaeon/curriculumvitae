@@ -55,7 +55,7 @@ object OkHttpClientModule {
                     Timber.tag("HttpLoggingInterceptor").d(message)
                 }.apply {
                     level = HttpLoggingInterceptor.Level.BODY
-                }
+                },
             ).build()
 
     @Provides

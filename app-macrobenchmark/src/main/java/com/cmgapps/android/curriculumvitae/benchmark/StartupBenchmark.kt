@@ -39,8 +39,8 @@ internal class StartupBenchmark {
     @Test
     fun startupBaselineProfile() = startup(
         CompilationMode.Partial(
-            baselineProfileMode = BaselineProfileMode.Require
-        )
+            baselineProfileMode = BaselineProfileMode.Require,
+        ),
     )
 
     private fun startup(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
@@ -48,7 +48,7 @@ internal class StartupBenchmark {
         metrics = listOf(StartupTimingMetric()),
         iterations = 10,
         startupMode = StartupMode.COLD,
-        compilationMode = compilationMode
+        compilationMode = compilationMode,
     ) {
         pressHome()
         startActivityAndWait()

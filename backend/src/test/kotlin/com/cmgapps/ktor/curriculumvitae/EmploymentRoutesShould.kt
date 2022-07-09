@@ -55,7 +55,7 @@ class EmploymentRoutesShould {
             with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
                 assertThat(
                     response.headers[HttpHeaders.ContentType],
-                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString())
+                    `is`(ContentType.Application.Json.withCharset(Charsets.UTF_8).toString()),
                 )
             }
         }
@@ -71,8 +71,8 @@ class EmploymentRoutesShould {
                     LocalDate.parse("2010-06-01"),
                     null,
                     "Graz",
-                    listOf("Founder", "Software development")
-                )
+                    listOf("Founder", "Software development"),
+                ),
             )
         }
         whenever(employmentQueriesMock.selectAll<Employment>(any())) doReturn queryMock
@@ -80,11 +80,11 @@ class EmploymentRoutesShould {
 
         withTestApplication(moduleFunction = {
             module()
-        }) {
+        },) {
             application.modules(
                 module {
                     single { databaseMock }
-                }
+                },
             )
 
             with(handleRequest(HttpMethod.Get, Routes.EMPLOYMENT.route)) {
@@ -105,8 +105,8 @@ class EmploymentRoutesShould {
                             "\"Software development\"" +
                             "]" +
                             "}" +
-                            "]"
-                    )
+                            "]",
+                    ),
                 )
             }
         }

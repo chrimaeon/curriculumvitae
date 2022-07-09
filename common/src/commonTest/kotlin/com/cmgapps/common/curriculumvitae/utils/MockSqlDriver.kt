@@ -79,7 +79,7 @@ class MockSqlDriver(private var mockCursor: MockCursor) : SqlDriver {
         identifier: Int?,
         sql: String,
         parameters: Int,
-        binders: (SqlPreparedStatement.() -> Unit)?
+        binders: (SqlPreparedStatement.() -> Unit)?,
     ) {
         if (binders != null) {
             val statement = StatementParameterInterceptor()
@@ -92,7 +92,7 @@ class MockSqlDriver(private var mockCursor: MockCursor) : SqlDriver {
         identifier: Int?,
         sql: String,
         parameters: Int,
-        binders: (SqlPreparedStatement.() -> Unit)?
+        binders: (SqlPreparedStatement.() -> Unit)?,
     ): SqlCursor {
         return mockCursor.apply {
             reset()
@@ -107,7 +107,7 @@ class MockSqlDriver(private var mockCursor: MockCursor) : SqlDriver {
     }
 
     private inner class Transaction(
-        override val enclosingTransaction: Transacter.Transaction?
+        override val enclosingTransaction: Transacter.Transaction?,
     ) : Transacter.Transaction() {
         override fun endTransaction(successful: Boolean) {
             transaction = enclosingTransaction

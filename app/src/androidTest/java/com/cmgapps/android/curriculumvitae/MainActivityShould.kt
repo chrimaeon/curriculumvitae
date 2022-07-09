@@ -95,7 +95,6 @@ internal class MainActivityShould : LogTreeOnFailedTest() {
 
     @Test
     fun moveToSkills() = with(composeTestRule) {
-
         onNodeWithText(activity.resources.getString(R.string.skills_label)).assertIsDisplayed()
             .performClick()
         onNodeWithText("Skill level 1").assertIsDisplayed()

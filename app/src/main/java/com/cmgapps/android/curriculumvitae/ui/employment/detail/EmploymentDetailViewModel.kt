@@ -37,7 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EmploymentDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    store: Store<Int, Employment>
+    store: Store<Int, Employment>,
 ) : ViewModel() {
 
     var uiState: UiState<Employment> by mutableStateOf(UiState(loading = true))

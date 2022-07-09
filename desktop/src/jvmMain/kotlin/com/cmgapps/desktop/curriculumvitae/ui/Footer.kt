@@ -54,18 +54,18 @@ import java.net.URI
 @Composable
 fun Footer() {
     Surface(
-        color = MaterialTheme.colors.primarySurface
+        color = MaterialTheme.colors.primarySurface,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             CompositionLocalProvider(
                 LocalContentColor provides MaterialTheme.colors.contentColorFor(
-                    MaterialTheme.colors.primarySurface
-                )
+                    MaterialTheme.colors.primarySurface,
+                ),
             ) {
                 Left()
                 Right()
@@ -80,14 +80,14 @@ private fun Left() {
     Column {
         Text(CopyRightText)
         Row(
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.Bottom,
         ) {
             var hover by remember { mutableStateOf(false) }
 
             Icon(
                 "code-slash",
                 contentDescription = "Coded",
-                color = MaterialTheme.colors.codeBlue
+                color = MaterialTheme.colors.codeBlue,
             )
             Text(" with ")
             Icon("heart-fill", contentDescription = "Love", color = MaterialTheme.colors.heartRed)
@@ -110,7 +110,7 @@ private fun Left() {
                         onExit = {
                             hover = false
                             false
-                        }
+                        },
                     )
                     .alpha(if (hover) 0.8f else 1.0f),
             )
@@ -141,9 +141,9 @@ private fun Right() {
                 onExit = {
                     hover = false
                     false
-                }
+                },
             ),
         alpha = if (hover) 0.8f else 1f,
-        contentDescription = "Link to Github Repository"
+        contentDescription = "Link to Github Repository",
     )
 }

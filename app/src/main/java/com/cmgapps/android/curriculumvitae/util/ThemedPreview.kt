@@ -23,7 +23,7 @@ import com.cmgapps.android.curriculumvitae.ui.Theme
 @Composable
 internal fun ThemedPreview(
     darkTheme: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Theme(darkTheme = darkTheme) {
         Surface {

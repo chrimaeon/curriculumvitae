@@ -50,9 +50,9 @@ fun Route.healthCheck() {
                             freeMemory = runtime.freeMemory(),
                             totalMemory = runtime.totalMemory(),
                             maxMemory = runtime.maxMemory(),
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             )
             delay(2000L)
         }

@@ -37,15 +37,15 @@ fun MockHttpClient(): HttpClient = HttpClient(MockEngine) {
             when (request.url.encodedPath) {
                 "/profile" -> respond(
                     Json.encodeToString(StubNetworkProfile()),
-                    headers = responseHeaders
+                    headers = responseHeaders,
                 )
                 "/employment" -> respond(
                     Json.encodeToString(listOf(StubNetworkEmployment())),
-                    headers = responseHeaders
+                    headers = responseHeaders,
                 )
                 "/skills" -> respond(
                     Json.encodeToString(listOf(StubNetworkSkill())),
-                    headers = responseHeaders
+                    headers = responseHeaders,
                 )
                 else -> error("Unhandled request: ${request.url}")
             }

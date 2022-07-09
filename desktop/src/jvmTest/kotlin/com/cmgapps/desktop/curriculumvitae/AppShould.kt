@@ -80,11 +80,11 @@ internal class AppShould : KoinTest {
                         api,
                         databaseWrapper = get(),
                         kermitLogger,
-                        MainScope()
+                        MainScope(),
                     )
                 }
                 factory { SkillsRepository(api) }
-            }
+            },
         )
     }
 
@@ -127,7 +127,7 @@ internal class AppShould : KoinTest {
         with(composeRule) {
             onNodeWithText(employment.employer).assertExists()
             onNodeWithText(
-                employment.asDatabaseModel().asDomainModel().workPeriod.asHumanReadableString()
+                employment.asDatabaseModel().asDomainModel().workPeriod.asHumanReadableString(),
             ).assertExists()
             onNodeWithText(employment.jobTitle).assertExists()
         }
