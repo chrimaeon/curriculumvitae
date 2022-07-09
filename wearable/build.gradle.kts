@@ -58,7 +58,7 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -74,7 +74,7 @@ android {
     }
 
     packagingOptions {
-        resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
+        resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}")
     }
 }
 
@@ -82,7 +82,7 @@ androidComponents {
     onVariants(selector().withBuildType("release")) { variant ->
         val gitVersion by tasks.registering(GitVersionTask::class) {
             gitVersionOutputFile.set(
-                project.buildDir.resolve("intermediates").resolve("git").resolve("output")
+                project.buildDir.resolve("intermediates").resolve("git").resolve("output"),
             )
             outputs.upToDateWhen { false }
         }
@@ -97,7 +97,7 @@ androidComponents {
         variant.artifacts.use(manifestUpdater)
             .wiredWithFiles(
                 ManifestTransformerTask::androidManifest,
-                ManifestTransformerTask::updatedManifest
+                ManifestTransformerTask::updatedManifest,
             )
             .toTransform(com.android.build.api.artifact.SingleArtifact.MERGED_MANIFEST)
     }
