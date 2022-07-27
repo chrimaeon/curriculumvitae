@@ -3,6 +3,7 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  pull_request:
 
 jobs:
   checkAndUnitTest:
@@ -128,6 +129,14 @@ jobs:
           path: |
             web/build/reports/*
             web/build/test-results/*
+      # endregion
+      # region k6
+      - name: Check k6
+        working-directory: k6
+        run: |
+          yarn install
+          yarn lint:check --format=checkstyle --max-warnings=0
+          yarn build
       # endregion
 
   checkiOS:
