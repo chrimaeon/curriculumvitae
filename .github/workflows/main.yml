@@ -135,7 +135,7 @@ jobs:
         working-directory: k6
         run: |
           yarn install
-          yarn lint:check --format=checkstyle --max-warnings=0
+          yarn lint:check --format=stylish --max-warnings=0
           yarn build
       # endregion
 
