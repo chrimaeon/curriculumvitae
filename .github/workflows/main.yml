@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  checkAndUnitTest:
+  checkAndUnitTestJvmAndroid:
     name: Check and Run Unit Tests (JVM/Android)
     runs-on: ubuntu-latest
 
@@ -129,16 +129,23 @@ jobs:
           path: |
             web/build/reports/*
             web/build/test-results/*
-      # endregion
-      # region k6
+
+  checkK6:
+    name: Check k6
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: K6 node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: 'k6/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('k6/yarn.lock') }}
       - name: Check k6
         working-directory: k6
         run: |
           yarn install
           yarn lint:check --format=stylish --max-warnings=0
           yarn build
-      # endregion
-
   checkiOS:
     name: Check iOS
     runs-on: macos-11
@@ -164,7 +171,7 @@ jobs:
 #       endregion
   connectedAndroidAppTest:
     name: Run Android Intrumentation Tests
-    needs: checkAndUnitTest
+    needs: checkAndUnitTestJvmAndroid
     runs-on: macos-11
 
     env:
@@ -269,7 +276,7 @@ jobs:
 
   connectedWearableTest:
     name: Run Wearable Instrumentation Tests
-    needs: checkAndUnitTest
+    needs: checkAndUnitTestJvmAndroid
     runs-on: macos-11
 
     env:
