@@ -7,7 +7,6 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
-import com.cmgapps.gradle.curriculumvitae.GenerateBuildConfigTask
 import com.cmgapps.gradle.curriculumvitae.configProperty
 import java.time.LocalDate
 import kotlin.io.path.div
@@ -18,20 +17,7 @@ plugins {
     id("com.squareup.sqldelight")
     id("ktlint")
     alias(libs.plugins.licenses)
-}
-
-val buildConfigFilesDir: Provider<Directory> =
-    project.layout.buildDirectory.dir("generated/buildConfig")
-
-val generateBuildConfig by tasks.registering(GenerateBuildConfigTask::class) {
-    outputDir.set(buildConfigFilesDir)
-
-    val baseUrl by configProperty
-    val debugBaseUrls by configProperty
-
-    this.baseUrl.set(baseUrl)
-    this.debugBaseUrls.set(debugBaseUrls)
-    this.buildYear.set(LocalDate.now().year.toString())
+    id("curriculumvitae.buildconfig")
 }
 
 kotlin {
@@ -46,13 +32,13 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "common"
         }
     }
 
     sourceSets {
         val commonMain by getting {
-            this.kotlin.srcDir(buildConfigFilesDir)
+            this.kotlin.srcDir(tasks.generateBuildConfig.get().outputs)
             dependencies {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
@@ -128,7 +114,7 @@ kotlin {
     targets.all {
         compilations.all {
             compileKotlinTaskProvider {
-                dependsOn(generateBuildConfig)
+                dependsOn(tasks.generateBuildConfig)
             }
         }
     }
@@ -155,4 +141,13 @@ licenses {
         html.enabled = false
         text.enabled = true
     }
+}
+
+buildConfig {
+    val baseUrl by configProperty
+    val debugBaseUrls by configProperty
+
+    this.baseUrl.set(baseUrl)
+    this.debugBaseUrls.set(debugBaseUrls)
+    this.buildYear.set(LocalDate.now().year.toString())
 }
