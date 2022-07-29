@@ -23,11 +23,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -70,9 +77,6 @@ import com.cmgapps.common.curriculumvitae.components.AnimatedCard
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.infra.UiState
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
@@ -139,21 +143,24 @@ private fun Content(
                 state = state,
                 refreshTriggerDistance = trigger,
                 contentColor = MaterialTheme.colors.secondaryVariant,
-                refreshingOffset = with(LocalDensity.current) { LocalWindowInsets.current.statusBars.top.toDp() + 16.dp },
+                refreshingOffset = with(LocalDensity.current) {
+                    WindowInsets.statusBars.getTop(this).toDp() + 16.dp
+                },
             )
         },
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
-            contentPadding = rememberInsetsPaddingValues(
-                insets = LocalWindowInsets.current.systemBars,
-                applyBottom = false,
-                additionalStart = 2.dp,
-                additionalTop = 8.dp,
-                additionalEnd = 16.dp,
-                additionalBottom = bottomContentPadding,
-            ),
+            contentPadding =
+            WindowInsets.systemBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top).add(
+                WindowInsets(
+                    left = 2.dp,
+                    top = 8.dp,
+                    right = 16.dp,
+                    bottom = bottomContentPadding,
+                ),
+            ).asPaddingValues(),
         ) {
             val employments = uiState.data
             if (employments != null) {
@@ -406,8 +413,6 @@ fun PreviewContent() {
             }
         }
     Theme {
-        ProvideWindowInsets {
-            Content(UiState(data = previewEmployments), 0.dp, {})
-        }
+        Content(UiState(data = previewEmployments), 0.dp, {})
     }
 }

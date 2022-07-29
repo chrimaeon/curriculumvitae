@@ -16,10 +16,12 @@
 
 package com.cmgapps.wear.curriculumvitae.infra.di
 
+import android.content.Context
 import co.touchlab.kermit.Logger
+import coil.ComponentRegistry
 import coil.ImageLoader
+import coil.disk.DiskCache
 import coil.map.Mapper
-import coil.util.CoilUtils
 import com.cmgapps.common.curriculumvitae.infra.di.provideBaseUrl
 import com.cmgapps.wear.curriculumvitae.BuildConfig
 import com.cmgapps.wear.curriculumvitae.infra.AssetPath
@@ -39,10 +41,10 @@ val appModule = module {
     viewModel { EmploymentViewModel(get()) }
     viewModel { SkillsViewModel(get()) }
     single {
-        ImageLoader.Builder(get())
+        val context: Context = get()
+        ImageLoader.Builder(context)
             .okHttpClient {
                 OkHttpClient.Builder()
-                    .cache(CoilUtils.createDefaultCache(get()))
                     .apply {
                         if (BuildConfig.DEBUG) {
                             val logger: Logger = get { parametersOf("ImageLoader") }
@@ -57,15 +59,20 @@ val appModule = module {
                     }
                     .build()
             }
-            .componentRegistry {
-                add(
-                    object : Mapper<AssetPath, HttpUrl> {
-                        override fun map(data: AssetPath): HttpUrl {
-                            return provideBaseUrl().toString().toHttpUrl().newBuilder(data.path)?.build()
+            .components(
+                fun ComponentRegistry.Builder.() {
+                    add(
+                        Mapper<AssetPath, HttpUrl> { data, _ ->
+                            provideBaseUrl().toString().toHttpUrl().newBuilder(data.path)
+                                ?.build()
                                 ?: error("asset url cannot be created; baseUrl=${provideBaseUrl()}, assetPath=${data.path}")
-                        }
-                    },
-                )
+                        },
+                    )
+                },
+            ).diskCache {
+                DiskCache.Builder()
+                    .directory(context.cacheDir.resolve("image_cache"))
+                    .build()
             }.build()
     }
 }

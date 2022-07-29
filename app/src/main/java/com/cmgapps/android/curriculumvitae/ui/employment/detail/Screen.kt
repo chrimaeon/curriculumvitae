@@ -21,10 +21,15 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -55,10 +60,6 @@ import com.cmgapps.common.curriculumvitae.components.darker
 import com.cmgapps.common.curriculumvitae.components.lightBlue500
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -121,12 +122,9 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
                         shape = RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius),
                     )
                     .fillMaxSize(),
-                contentPadding = rememberInsetsPaddingValues(
-                    insets = LocalWindowInsets.current.navigationBars,
-                    additionalStart = 16.dp,
-                    additionalTop = 16.dp,
-                    additionalEnd = 16.dp,
-                ),
+                contentPadding = WindowInsets.navigationBars.add(
+                    WindowInsets(left = 16.dp, top = 16.dp, right = 16.dp),
+                ).asPaddingValues(),
             ) {
                 item {
                     Text(
@@ -226,7 +224,6 @@ private fun CollapsingToolbarScope.TopBar(
             )
             .statusBarsPadding()
             .padding(16.dp),
-
     )
 }
 
@@ -253,9 +250,7 @@ fun PreviewEmploymentDetails() {
         listOf("Line 1"),
     )
     Theme {
-        ProvideWindowInsets {
-            EmploymentDetails(previewEmployment) {}
-        }
+        EmploymentDetails(previewEmployment) {}
     }
 }
 // endregion

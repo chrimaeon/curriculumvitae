@@ -17,9 +17,10 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import android.content.Context
+import coil.ComponentRegistry
 import coil.ImageLoader
+import coil.disk.DiskCache
 import coil.map.Mapper
-import coil.util.CoilUtils
 import com.cmgapps.android.curriculumvitae.BuildConfig
 import com.cmgapps.android.curriculumvitae.infra.AssetPath
 import dagger.Module
@@ -51,7 +52,6 @@ object AppModule {
     ): ImageLoader {
         val cachedClient =
             okHttpClient.newBuilder()
-                .cache(CoilUtils.createDefaultCache(context))
                 .apply {
                     if (BuildConfig.DEBUG) {
                         // Simulate loading
@@ -64,15 +64,19 @@ object AppModule {
                 .build()
         return ImageLoader.Builder(context)
             .okHttpClient(cachedClient)
-            .componentRegistry {
-                add(
-                    object : Mapper<AssetPath, HttpUrl> {
-                        override fun map(data: AssetPath): HttpUrl {
-                            return baseUrl.toHttpUrl().newBuilder(data.path)?.build()
+            .components(
+                fun ComponentRegistry.Builder.() {
+                    add(
+                        Mapper<AssetPath, HttpUrl> { data, _ ->
+                            baseUrl.toHttpUrl().newBuilder(data.path)?.build()
                                 ?: error("Cannot create asset url; baseUrl=$baseUrl, assetPath=${data.path}")
-                        }
-                    },
-                )
+                        },
+                    )
+                },
+            ).diskCache {
+                DiskCache.Builder()
+                    .directory(context.cacheDir.resolve("image_cache"))
+                    .build()
             }
             .build()
     }

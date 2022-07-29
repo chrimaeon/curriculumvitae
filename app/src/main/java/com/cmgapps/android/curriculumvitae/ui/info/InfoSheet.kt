@@ -21,8 +21,12 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -46,8 +50,6 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.WebViewDialog
 import com.cmgapps.android.curriculumvitae.util.ThemedPreview
 import com.cmgapps.common.curriculumvitae.CopyRightText
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 
 @Composable
 fun InfoSheet(
@@ -73,12 +75,15 @@ fun InfoSheet(
                 )
             }
             .padding(
-                rememberInsetsPaddingValues(
-                    insets = LocalWindowInsets.current.navigationBars,
-                    additionalTop = 24.dp,
-                    additionalEnd = 24.dp,
-                    additionalBottom = 24.dp,
-                ),
+                WindowInsets.navigationBars
+                    .add(
+                        WindowInsets(
+                            top = 24.dp,
+                            bottom = 24.dp,
+                            right = 24.dp,
+                        ),
+                    )
+                    .asPaddingValues(),
             ),
     ) {
         Text(
@@ -167,8 +172,8 @@ private fun InfoTextButton(
     }
 }
 
-@Preview()
-@Composable()
+@Preview
+@Composable
 fun PreviewInfoSheet() {
     ThemedPreview {
         InfoSheet(onOpenWebsite = {})

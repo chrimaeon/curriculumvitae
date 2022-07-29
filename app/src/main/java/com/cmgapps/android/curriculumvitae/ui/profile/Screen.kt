@@ -27,11 +27,15 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -54,10 +58,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
-import coil.compose.LocalImageLoader
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
@@ -67,9 +70,6 @@ import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
@@ -131,10 +131,8 @@ private fun Content(
     ) {
         Column(
             modifier = Modifier.padding(
-                rememberInsetsPaddingValues(
-                    insets = LocalWindowInsets.current.statusBars,
-                    additionalBottom = bottomContentPadding,
-                ),
+                WindowInsets.statusBars.add(WindowInsets(bottom = bottomContentPadding))
+                    .asPaddingValues(),
             ),
         ) {
             Header(profile, onEmailClick)
@@ -197,26 +195,24 @@ private fun Header(
 
 @Composable
 private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
-    val coilPainter = rememberImagePainter(
-        data = AssetPath(profile.profileImagePath),
-        imageLoader = LocalImageLoader.current,
-        builder = {
-            crossfade(true)
-            error(
+    val coilPainter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(AssetPath(profile.profileImagePath))
+            .crossfade(true)
+            .error(
                 drawableResId = R.drawable.ic_outline_person_24,
             )
-        },
+            .build(),
     )
 
     var showPlaceholder by remember { mutableStateOf(true) }
 
-    @OptIn(ExperimentalCoilApi::class)
     LaunchedEffect(coilPainter) {
         snapshotFlow { coilPainter.state }
             .filter {
                 when (it) {
-                    is ImagePainter.State.Success -> true
-                    is ImagePainter.State.Error -> {
+                    is AsyncImagePainter.State.Success -> true
+                    is AsyncImagePainter.State.Error -> {
                         Timber.tag(ComposableProfileScreen.LOG_TAG).e(it.result.throwable)
                         true
                     }
@@ -329,12 +325,10 @@ fun PreviewContent() {
         listOf("Line1", "Line2"),
     )
     Theme {
-        ProvideWindowInsets {
-            Content(
-                profile = profile,
-                onEmailClick = {},
-            )
-        }
+        Content(
+            profile = profile,
+            onEmailClick = {},
+        )
     }
 }
 // endregion

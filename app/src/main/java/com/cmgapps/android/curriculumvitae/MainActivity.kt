@@ -33,7 +33,6 @@ import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
 import com.cmgapps.android.curriculumvitae.infra.jni.CvNative
 import com.cmgapps.android.curriculumvitae.ui.BadSignature
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,42 +53,40 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Theme {
-                ProvideWindowInsets(consumeWindowInsets = true) {
-                    val scaffoldState = rememberScaffoldState()
-                    val coroutineScope = rememberCoroutineScope()
+                val scaffoldState = rememberScaffoldState()
+                val coroutineScope = rememberCoroutineScope()
 
-                    val validSignature by produceState(initialValue = true, this) {
-                        withContext(Dispatchers.Default) {
-                            value = CvNative.checkSignature(this@MainActivity)
-                        }
+                val validSignature by produceState(initialValue = true, this) {
+                    withContext(Dispatchers.Default) {
+                        value = CvNative.checkSignature(this@MainActivity)
                     }
+                }
 
-                    if (validSignature) {
-                        MainScreen(
-                            scaffoldState = scaffoldState,
-                            onFabClick = {
-                                val intent = createEmailIntent()
-                                if (intent.resolveActivity(packageManager) != null) {
-                                    startActivity(intent)
-                                } else {
-                                    coroutineScope.launch {
-                                        scaffoldState.snackbarHostState.showSnackbar(getString(R.string.no_email))
-                                    }
+                if (validSignature) {
+                    MainScreen(
+                        scaffoldState = scaffoldState,
+                        onFabClick = {
+                            val intent = createEmailIntent()
+                            if (intent.resolveActivity(packageManager) != null) {
+                                startActivity(intent)
+                            } else {
+                                coroutineScope.launch {
+                                    scaffoldState.snackbarHostState.showSnackbar(getString(R.string.no_email))
                                 }
-                            },
-                            onOpenWebsite = { uri ->
-                                val intent = Intent(
-                                    Intent.ACTION_VIEW,
-                                    uri,
-                                )
-                                if (intent.resolveActivity(packageManager) != null) {
-                                    startActivity(intent)
-                                }
-                            },
-                        )
-                    } else {
-                        BadSignature()
-                    }
+                            }
+                        },
+                        onOpenWebsite = { uri ->
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                uri,
+                            )
+                            if (intent.resolveActivity(packageManager) != null) {
+                                startActivity(intent)
+                            }
+                        },
+                    )
+                } else {
+                    BadSignature()
                 }
             }
         }

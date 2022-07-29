@@ -27,6 +27,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,8 +77,6 @@ import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetail
 import com.cmgapps.android.curriculumvitae.ui.info.InfoSheet
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -232,10 +234,8 @@ private fun BottomBar(navController: NavController) {
         backgroundColor = MaterialTheme.colors.surface,
         elevation = BottomNavigationDefaults.Elevation,
         contentColor = MaterialTheme.colors.primary,
-        contentPadding = rememberInsetsPaddingValues(
-            insets = LocalWindowInsets.current.navigationBars,
-            additionalEnd = (56 + 16).dp,
-        ),
+        contentPadding =
+        WindowInsets.navigationBars.add(WindowInsets(right = (56 + 16).dp)).asPaddingValues(),
         cutoutShape = CircleShape,
     ) {
         BottomNavigation(
