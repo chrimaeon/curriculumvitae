@@ -6,6 +6,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import com.cmgapps.gradle.curriculumvitae.versionProperty
 import java.util.Properties
 
 plugins {
@@ -47,7 +48,7 @@ appengine {
         setArtifact(
             provider {
                 tasks.shadowJar.get().outputs.files.singleFile
-            }
+            },
         )
     }
 

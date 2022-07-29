@@ -66,7 +66,6 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.cmgapps.common.curriculumvitae.components.AnimatedCard
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
@@ -219,7 +218,6 @@ private fun EmploymentCard(
                     navigateToEmploymentDetails(it.id)
                 }
             },
-            indication = themedRipple(),
         ) {
             Row(
                 modifier = Modifier.padding(8.dp),

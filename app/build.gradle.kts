@@ -1,17 +1,7 @@
 /*
  * Copyright (c) 2021. Christian Grach <christian.grach@cmgapps.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 @file:Suppress("UnstableApiUsage")
@@ -19,10 +9,13 @@
 
 import com.android.build.api.artifact.SingleArtifact
 import com.android.build.gradle.tasks.ExternalNativeBuildTask
-import com.cmgapps.gradle.GitVersionTask
-import com.cmgapps.gradle.ManifestTransformerTask
-import com.cmgapps.gradle.ObfuscateEmailTask
+import com.cmgapps.gradle.curriculumvitae.GenerateJniDataTask
+import com.cmgapps.gradle.curriculumvitae.GitVersionTask
+import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
+import com.cmgapps.gradle.curriculumvitae.ObfuscateEmailTask
 import com.cmgapps.gradle.curriculumvitae.androidNdkVersion
+import com.cmgapps.gradle.curriculumvitae.configProperty
+import com.cmgapps.gradle.curriculumvitae.versionProperty
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 import kotlin.io.path.div
@@ -105,7 +98,7 @@ android {
                 "String[]",
                 "DEBUG_BASE_URLS",
                 debugBaseUrls.split(",")
-                    .joinToString(prefix = "{", postfix = "}") { """"$it"""" }
+                    .joinToString(prefix = "{", postfix = "}") { """"$it"""" },
             )
 
             externalNativeBuild {
@@ -123,7 +116,7 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             buildConfigField("String[]", "DEBUG_BASE_URLS", """{}""")
 
@@ -178,7 +171,7 @@ android {
         listOf("test", "androidTest").map { named(it) }.forEach { sourceSet ->
             sourceSet {
                 java.srcDir(
-                    project.projectDir.toPath() / "src" / "sharedTest" / "java"
+                    project.projectDir.toPath() / "src" / "sharedTest" / "java",
                 )
             }
         }
@@ -214,7 +207,7 @@ androidComponents {
     onVariants(selector().withBuildType("release")) { variant ->
         val gitVersion by tasks.registering(GitVersionTask::class) {
             gitVersionOutputFile.set(
-                project.buildDir.resolve("intermediates").resolve("git").resolve("output")
+                project.buildDir.resolve("intermediates").resolve("git").resolve("output"),
             )
             outputs.upToDateWhen { false }
         }
@@ -229,7 +222,7 @@ androidComponents {
         variant.artifacts.use(manifestUpdater)
             .wiredWithFiles(
                 ManifestTransformerTask::androidManifest,
-                ManifestTransformerTask::updatedManifest
+                ManifestTransformerTask::updatedManifest,
             )
             .toTransform(SingleArtifact.MERGED_MANIFEST)
     }
@@ -254,7 +247,7 @@ tasks {
             provider {
                 val email by configProperty
                 email
-            }
+            },
         )
 
         packageName.set(android.defaultConfig.applicationId ?: error("app id not set"))
@@ -264,7 +257,7 @@ tasks {
         dependsOn(obfuscateEmailAddress)
     }
 
-    val generateJniData by registering(com.cmgapps.gradle.GenerateJniDataTask::class) {
+    val generateJniData by registering(GenerateJniDataTask::class) {
         source.set((projectDir.toPath() / "src" / "main" / "jni" / "names.json").toFile())
         outputFile.set((buildDir.toPath() / "generated" / "jni" / "encodedNames.h").toFile())
     }

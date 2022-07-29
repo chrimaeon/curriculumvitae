@@ -7,10 +7,11 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(
     kotlin.io.path.ExperimentalPathApi::class,
-    org.jetbrains.compose.ExperimentalComposeLibrary::class
+    org.jetbrains.compose.ExperimentalComposeLibrary::class,
 )
 
 import com.cmgapps.gradle.curriculumvitae.testCompletionLog
+import com.cmgapps.gradle.curriculumvitae.versionProperty
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.time.LocalDate
 

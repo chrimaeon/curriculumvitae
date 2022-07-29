@@ -7,7 +7,8 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
-import com.cmgapps.gradle.GenerateBuildConfigTask
+import com.cmgapps.gradle.curriculumvitae.GenerateBuildConfigTask
+import com.cmgapps.gradle.curriculumvitae.configProperty
 import java.time.LocalDate
 import kotlin.io.path.div
 
@@ -42,7 +43,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -126,7 +127,6 @@ kotlin {
 
     targets.all {
         compilations.all {
-
             compileKotlinTaskProvider {
                 dependsOn(generateBuildConfig)
             }

@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.gradle
+package com.cmgapps.gradle.curriculumvitae
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
-import runCommand
 
 abstract class GitVersionTask : DefaultTask() {
 

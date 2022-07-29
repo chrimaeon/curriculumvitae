@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.gradle
+package com.cmgapps.gradle.curriculumvitae
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
@@ -34,7 +34,7 @@ abstract class GenerateJniDataTask @Inject constructor(objects: ObjectFactory) :
         logger.info(
             "Writing JNI data from {} to {}",
             sourceFile.absolutePath,
-            outputFile.absolutePath
+            outputFile.absolutePath,
         )
         sourceFile writeXorTo outputFile
     }

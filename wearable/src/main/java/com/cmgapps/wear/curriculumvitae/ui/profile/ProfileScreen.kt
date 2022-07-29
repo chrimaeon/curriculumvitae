@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.wear.compose.foundation.CurvedDirection
 import androidx.wear.compose.foundation.CurvedLayout
 import androidx.wear.compose.foundation.CurvedTextStyle
 import androidx.wear.compose.foundation.curvedRow
@@ -118,7 +119,7 @@ private fun Profile(profile: Profile) {
                 curvedText(
                     profile.email,
                     style = CurvedTextStyle(textStyle),
-                    clockwise = false,
+                    angularDirection = CurvedDirection.Angular.CounterClockwise,
                 )
             }
         }

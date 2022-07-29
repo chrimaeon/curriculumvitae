@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.gradle
+package com.cmgapps.gradle.curriculumvitae
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
@@ -69,7 +69,7 @@ abstract class ObfuscateEmailTask @Inject constructor(objects: ObjectFactory) : 
                 keyParameter,
                 sizeMember,
                 intToCharMember,
-                toCharArrayMember
+                toCharArrayMember,
             )
             .build()
 
@@ -89,7 +89,7 @@ abstract class ObfuscateEmailTask @Inject constructor(objects: ObjectFactory) : 
                         }
                         add(")")
                     }
-                }.build()
+                }.build(),
             ).build()
 
         val stringToCharArrayMember = String::class.asClassName().member("toCharArray")
@@ -100,7 +100,7 @@ abstract class ObfuscateEmailTask @Inject constructor(objects: ObjectFactory) : 
                 emailCharsProperty,
                 xorFun,
                 packageName,
-                stringToCharArrayMember
+                stringToCharArrayMember,
             )
             .build()
 

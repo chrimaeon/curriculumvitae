@@ -54,7 +54,7 @@ allprojects {
         withType<KotlinCompile> {
             kotlinOptions {
                 jvmTarget = JavaVersion.VERSION_11.toString()
-                freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
+                freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
             }
         }
     }
@@ -116,7 +116,13 @@ tasks {
     // Workaround to run "check" task on all modules
     // see https://youtrack.jetbrains.com/issue/KT-49202
     register("checkWorkaround") {
-        dependsOn(":common:ktlint", ":common:allTests", ":common:verifySqlDelightMigration")
+        dependsOn(
+            ":common:ktlint",
+            ":common:jvmTest",
+            ":common:jsTest",
+            ":common:iosSimulatorArm64Test",
+            ":common:verifySqlDelightMigration",
+        )
         dependsOn(":app:check")
         dependsOn(":wearable:check")
         dependsOn(":backend:check")

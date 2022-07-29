@@ -15,6 +15,7 @@
  */
 package com.cmgapps.gradle
 
+import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -89,7 +90,7 @@ internal class ManifestTransformerTaskShould {
 
                 """
                 .trimIndent(),
-            outputFile.readText()
+            outputFile.readText(),
         )
         outputFile.delete()
     }

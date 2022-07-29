@@ -40,9 +40,11 @@ fun BadSignature() {
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         backgroundColor = Color.DarkGray,
-    ) {
+    ) { contentPadding ->
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
             contentAlignment = Alignment.Center,
         ) {
             Column(

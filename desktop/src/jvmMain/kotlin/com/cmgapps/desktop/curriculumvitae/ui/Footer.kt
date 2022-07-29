@@ -39,9 +39,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerIconDefaults
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.CopyRightText
 import com.cmgapps.common.curriculumvitae.GitHubLink
@@ -102,14 +103,16 @@ private fun Left() {
                         }
                     }
                     .pointerHoverIcon(PointerIconDefaults.Hand)
-                    .pointerMoveFilter(
-                        onEnter = {
+                    .onPointerEvent(
+                        PointerEventType.Enter,
+                        onEvent = {
                             hover = true
-                            false
                         },
-                        onExit = {
+                    )
+                    .onPointerEvent(
+                        PointerEventType.Exit,
+                        onEvent = {
                             hover = false
-                            false
                         },
                     )
                     .alpha(if (hover) 0.8f else 1.0f),
@@ -133,14 +136,16 @@ private fun Right() {
                 }
             }
             .pointerHoverIcon(PointerIconDefaults.Hand)
-            .pointerMoveFilter(
-                onEnter = {
+            .onPointerEvent(
+                PointerEventType.Enter,
+                onEvent = {
                     hover = true
-                    false
                 },
-                onExit = {
+            )
+            .onPointerEvent(
+                PointerEventType.Exit,
+                onEvent = {
                     hover = false
-                    false
                 },
             ),
         alpha = if (hover) 0.8f else 1f,

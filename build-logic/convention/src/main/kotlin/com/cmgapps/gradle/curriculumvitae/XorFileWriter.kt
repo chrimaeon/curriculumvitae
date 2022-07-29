@@ -4,10 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.gradle
+package com.cmgapps.gradle.curriculumvitae
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.descriptors.element
+import kotlinx.serialization.encoding.CompositeDecoder
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.encoding.decodeStructure
+import kotlinx.serialization.encoding.encodeStructure
 import kotlinx.serialization.json.Json
 import okio.BufferedSink
 import okio.buffer
@@ -35,7 +43,7 @@ class XorFileWriter(private val source: File) {
                             DateTimeFormatter.ofLocalizedDateTime(
                                 FormatStyle.SHORT,
                                 FormatStyle.LONG,
-                            )
+                            ),
                         )
                     sink.writeUtf8(
                         """/*
@@ -47,10 +55,13 @@ class XorFileWriter(private val source: File) {
                         |#define $DEFINE_NAME
                         |
                         |
-                        """.trimMargin()
+                        """.trimMargin(),
                     )
 
-                    Json.decodeFromString<List<Name>>(source.source().buffer().readUtf8())
+                    Json.decodeFromString(
+                        ListSerializer(NameSerializer),
+                        source.source().buffer().readUtf8(),
+                    )
                         .forEach { it.writeXorEncodedArray(sink) }
 
                     sink.writeUtf8("#endif //$DEFINE_NAME")
@@ -66,10 +77,8 @@ class XorFileWriter(private val source: File) {
     }
 }
 
-@Serializable
-data class Name(var name: String, var id: String) {
+internal data class Name(var name: String, var id: String) {
     fun writeXorEncodedArray(sink: BufferedSink) {
-
         try {
             sink.writeUtf8("// $name\n")
                 .writeUtf8("const unsigned char ")
@@ -79,7 +88,7 @@ data class Name(var name: String, var id: String) {
             sink.writeUtf8(
                 array.toList().joinToString(prefix = "{", postfix = "}") {
                     "0x${it.toString(16)}"
-                }
+                },
             )
                 .writeUtf8(";\n")
                 .writeUtf8("const size_t ")
@@ -103,4 +112,33 @@ private fun ByteArray.xor(key: ByteArray): ByteArray = mapIndexed { index, char 
     (char.toInt() xor key[index % key.size].toInt()).toByte()
 }.toByteArray()
 
-infix fun File.writeXorTo(output: File) = XorFileWriter(this).write(output)
+internal infix fun File.writeXorTo(output: File) = XorFileWriter(this).write(output)
+
+internal object NameSerializer : KSerializer<Name> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Name") {
+        element<String>("name")
+        element<String>("id")
+    }
+
+    override fun deserialize(decoder: Decoder): Name =
+        decoder.decodeStructure(descriptor) {
+            var name: String? = null
+            var id: String? = null
+            while (true) {
+                when (val index = decodeElementIndex(descriptor)) {
+                    0 -> name = decodeStringElement(descriptor, 0)
+                    1 -> id = decodeStringElement(descriptor, 1)
+                    CompositeDecoder.DECODE_DONE -> break
+                    else -> error("Unexpected index: $index")
+                }
+            }
+            requireNotNull(name)
+            requireNotNull(id)
+            Name(name, id)
+        }
+
+    override fun serialize(encoder: Encoder, value: Name) = encoder.encodeStructure(descriptor) {
+        encodeStringElement(descriptor, 0, value.name)
+        encodeStringElement(descriptor, 1, value.id)
+    }
+}

@@ -21,7 +21,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -40,7 +39,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,7 +65,6 @@ import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.infra.AssetPath
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import com.cmgapps.android.curriculumvitae.ui.themedRipple
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.google.accompanist.insets.LocalWindowInsets
@@ -273,22 +270,20 @@ private fun ProfileDetails(
 
     val primaryColor = MaterialTheme.colors.primary
 
-    CompositionLocalProvider(LocalIndication provides themedRipple(bounded = false)) {
-        Text(
-            modifier = modifier.clickable(onClick = onEmailClick),
-            text = profile.email,
-            style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
-        )
+    Text(
+        modifier = modifier.clickable(onClick = onEmailClick),
+        text = profile.email,
+        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
+    )
 
-        val context = LocalContext.current
-        val phoneNumber = profile.phone
+    val context = LocalContext.current
+    val phoneNumber = profile.phone
 
-        Text(
-            modifier = modifier.clickable(onClick = { context.onTelClick(phoneNumber) }),
-            text = phoneNumber,
-            style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
-        )
-    }
+    Text(
+        modifier = modifier.clickable(onClick = { context.onTelClick(phoneNumber) }),
+        text = phoneNumber,
+        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
+    )
 }
 
 private fun Context.onTelClick(phoneNumber: String) {

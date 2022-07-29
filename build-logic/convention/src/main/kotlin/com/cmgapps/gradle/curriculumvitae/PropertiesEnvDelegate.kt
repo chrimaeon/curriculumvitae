@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+package com.cmgapps.gradle.curriculumvitae
+
 import org.gradle.api.Project
 import java.io.File
 import java.util.Locale
@@ -31,7 +33,7 @@ class PropertiesEnvDelegate(private val propertiesFile: File) : ReadOnlyProperty
             ?: System.getenv(envPropName)
             ?: throw PropertyNotExistingException(
                 "Property '${property.name}' not found in '${propertiesFile.canonicalPath}'" +
-                    " or no Environment variable '$envPropName' found"
+                    " or no Environment variable '$envPropName' found",
             )
     }
 

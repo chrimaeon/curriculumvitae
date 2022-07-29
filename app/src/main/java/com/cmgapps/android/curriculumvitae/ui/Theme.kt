@@ -16,14 +16,16 @@
 
 package com.cmgapps.android.curriculumvitae.ui
 
-import androidx.compose.foundation.Indication
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.cmgapps.common.curriculumvitae.components.amber200
@@ -74,12 +76,29 @@ fun Theme(
     MaterialTheme(
         colors = colors,
         typography = Typography,
-        content = content,
+        content = {
+            CompositionLocalProvider(
+                LocalRippleTheme provides CvRippleTheme(),
+                content = content,
+            )
+        },
     )
 }
 
-@Composable
-fun themedRipple(bounded: Boolean = true): Indication = rememberRipple(
-    color = if (MaterialTheme.colors.isLight) MaterialTheme.colors.primary else LocalContentColor.current,
-    bounded = bounded,
-)
+private class CvRippleTheme : RippleTheme {
+    @Composable
+    override fun defaultColor(): Color = RippleTheme.defaultRippleColor(
+        contentColor = if (MaterialTheme.colors.isLight) {
+            MaterialTheme.colors.primary
+        } else {
+            LocalContentColor.current
+        },
+        lightTheme = MaterialTheme.colors.isLight,
+    )
+
+    @Composable
+    override fun rippleAlpha(): RippleAlpha = RippleTheme.defaultRippleAlpha(
+        contentColor = LocalContentColor.current,
+        lightTheme = MaterialTheme.colors.isLight,
+    )
+}
