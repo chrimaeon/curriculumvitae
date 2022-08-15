@@ -23,11 +23,15 @@ import kotlin.io.path.div
 plugins {
     id("curriculumvitae.android.application")
     kotlin("kapt")
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.kotlinx.serialization)
     id("ktlint")
     id("dagger.hilt.android.plugin")
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.wire)
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.licenses)
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.ksp)
 }
 

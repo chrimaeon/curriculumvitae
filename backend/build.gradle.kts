@@ -6,17 +6,20 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import com.cmgapps.gradle.curriculumvitae.versionProperty
 import com.cmgapps.gradle.curriculumvitae.testCompletionLog
+import com.cmgapps.gradle.curriculumvitae.versionProperty
 import java.util.Properties
 
 plugins {
     kotlin("jvm")
     id("com.google.cloud.tools.appengine")
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.kotlinx.serialization)
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.markdown)
     id("ktlint")
     application
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.shadowJar)
 }
 

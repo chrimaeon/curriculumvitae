@@ -9,6 +9,7 @@
 
 plugins {
     id("curriculumvitae.multiplatform.android.library")
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.jetbrainsCompose)
     id("ktlint")
 }
