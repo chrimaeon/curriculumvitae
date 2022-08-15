@@ -6,7 +6,7 @@
 
 plugins {
     `kotlin-dsl`
-    // alias(libs.plugins.kotlinx.serialization)
+    kotlin("plugin.serialization") version embeddedKotlinVersion
 }
 
 group = "com.cmgapps.gradle.curriculumvitae.buildlogic"
@@ -29,8 +29,8 @@ dependencies {
     implementation(libs.android.gradlePlugin)
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.kotlinx.serialization.json)
-    implementation("com.squareup:kotlinpoet:1.11.0")
-    implementation("com.squareup.okio:okio:3.1.0")
-    testImplementation(platform("org.junit:junit-bom:5.8.2"))
+    implementation(libs.squareup.kotlinpoet)
+    implementation(libs.squareup.okio)
+    testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
