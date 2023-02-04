@@ -10,5 +10,5 @@ const val androidMinSdkVersion = 26
 const val androidWearMinSdkVersion = 28
 const val androidCompileSdkVersion = 33
 const val androidTargetSdkVersion = androidCompileSdkVersion
-const val buildToolsVersion = "33.0.0"
+const val buildToolsVersion = "33.0.1"
 const val androidNdkVersion = "24.0.8215888"

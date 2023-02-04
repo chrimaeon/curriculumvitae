@@ -41,11 +41,6 @@ plugins {
     alias(libs.plugins.benManesVersionsGradle)
 }
 
-plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
-    extensions.getByType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion =
-        "16.0.0"
-}
-
 allprojects {
     tasks {
         withType<JavaCompile> {
@@ -87,29 +82,10 @@ tasks {
 
         revision = "release"
         rejectVersionIf {
-
-            fun String.filterGroup(): Boolean = listOf(
-                "com.squareup.wire",
-                "org.jetbrains.kotlin-wrappers",
-                "androidx.wear.compose",
-                "co.touchlab",
-            ).any { this.contains(it) }
-
-            fun String.filterModule(): Boolean = listOf(
-                "core-splashscreen",
-                "google-cloud-logging-logback",
-            ).any { this == it }
-
-            fun ModuleComponentIdentifier.rejectedVersion(): Boolean =
-                listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->
-                    """(?i).*[.-]?$qualifier[.\d-]*""".toRegex()
-                        .containsMatchIn(version)
-                }
-
-            fun ModuleComponentIdentifier.filter(): ModuleComponentIdentifier? =
-                if (group.filterGroup() || module.filterModule()) null else this
-
-            candidate.filter()?.rejectedVersion() ?: false
+            listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->
+                """(?i).*[.-]?$qualifier[.\d-]*""".toRegex()
+                    .containsMatchIn(candidate.version)
+            }
         }
         gradleReleaseChannel = CURRENT.id
     }

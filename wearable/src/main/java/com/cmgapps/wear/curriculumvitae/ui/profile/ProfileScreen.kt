@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.foundation.CurvedDirection
 import androidx.wear.compose.foundation.CurvedLayout
@@ -39,7 +40,8 @@ import androidx.wear.compose.foundation.curvedRow
 import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.curvedText
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.wear.curriculumvitae.infra.AssetPath
@@ -75,14 +77,12 @@ fun ProfileScreen(
 @Composable
 private fun Profile(profile: Profile) {
     Box {
-        val coilPainter = rememberImagePainter(
-            data = AssetPath(profile.profileImagePath),
-            builder = {
-                crossfade(true)
-                error(
-                    drawable = ColorDrawable(MaterialTheme.colors.primary.toArgb()),
-                )
-            },
+        val coilPainter = rememberAsyncImagePainter(
+            ImageRequest.Builder(LocalContext.current)
+                .data(AssetPath(profile.profileImagePath))
+                .error(ColorDrawable(MaterialTheme.colors.primary.toArgb()))
+                .crossfade(true)
+                .build(),
         )
         Image(
             modifier = Modifier

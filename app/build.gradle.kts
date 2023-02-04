@@ -39,6 +39,7 @@ val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
     ndkVersion = androidNdkVersion
+    namespace = "com.cmgapps.android.curriculumvitae"
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
@@ -67,7 +68,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     val keystoreDir = rootDir.resolve("keystore")
@@ -85,7 +86,9 @@ android {
             keyAlias = keyProps.getProperty("alias")
             keyPassword = keyProps.getProperty("pass")
         }
-    } else null
+    } else {
+        null
+    }
 
     val debugSigningConfig = signingConfigs.named("debug") {
         storeFile = keystoreDir.resolve("debug.keystore")
@@ -155,7 +158,7 @@ android {
 
         named("benchmark") {
             java {
-                setSrcDirs(sourceSets["release"].java.srcDirs)
+                srcDirs(sourceSets["release"].java.srcDirs)
             }
             res {
                 srcDirs(sourceSets["release"].res.srcDirs)
@@ -191,7 +194,7 @@ android {
 
         val copyTask = tasks.register<Copy>("copy${licenseTask.name}") {
             from(licenseTask)
-            into(android.sourceSets[variantName].assets.srcDirs.single())
+            into(android.sourceSets[variantName].assets.srcDirs.first())
         }
 
         mergeAssetsProvider {

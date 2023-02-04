@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
+@file:Suppress("UnstableApiUsage")
 
+import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
 
 plugins {
     id("curriculumvitae.android.test")
@@ -13,6 +14,7 @@ plugins {
 }
 
 android {
+    namespace = "com.cmgapps.android.curriculumvitae.macrobenchmark"
     defaultConfig {
         targetSdk = androidTargetSdkVersion
 

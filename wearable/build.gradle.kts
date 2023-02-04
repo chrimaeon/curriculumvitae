@@ -4,25 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// import com.cmgapps.gradle.GitVersionTask
-// import com.cmgapps.gradle.ManifestTransformerTask
+@file:Suppress("UnstableApiUsage")
+
+import com.cmgapps.gradle.curriculumvitae.GitVersionTask
+import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
 import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
 import com.cmgapps.gradle.curriculumvitae.androidWearMinSdkVersion
+import com.cmgapps.gradle.curriculumvitae.versionProperty
 import java.util.Properties
 
 plugins {
     id("curriculumvitae.android.application")
-    kotlin("android")
     id("ktlint")
 }
 
 android {
+    namespace = "com.cmgapps.wear.curriculumvitae"
     defaultConfig {
         applicationId = "com.cmgapps.wear.curriculumvitae"
         minSdk = androidWearMinSdkVersion
         targetSdk = androidTargetSdkVersion
-        val androidWearableVersion = "1"/* by versionProperty*/
-        val versionName = ""/* by versionProperty*/
+        val androidWearableVersion by versionProperty
+        val versionName by versionProperty
         versionCode = androidWearableVersion.toInt()
         this.versionName = versionName
 
@@ -46,7 +49,9 @@ android {
             keyAlias = keyProps.getProperty("alias")
             keyPassword = keyProps.getProperty("pass")
         }
-    } else null
+    } else {
+        null
+    }
 
     val debugSigningConfig = signingConfigs.named("debug") {
         storeFile = keystoreDir.resolve("debug.keystore")
@@ -70,7 +75,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     packagingOptions {
@@ -79,28 +84,28 @@ android {
 }
 
 androidComponents {
-    // onVariants(selector().withBuildType("release")) { variant ->
-    //     val gitVersion by tasks.registering(GitVersionTask::class) {
-    //         gitVersionOutputFile.set(
-    //             project.buildDir.resolve("intermediates").resolve("git").resolve("output"),
-    //         )
-    //         outputs.upToDateWhen { false }
-    //     }
-    //
-    //     val manifestUpdater =
-    //         tasks.register<ManifestTransformerTask>("${variant.name}ManifestUpdater") {
-    //             gitInfoFile.set(gitVersion.flatMap(GitVersionTask::gitVersionOutputFile))
-    //             initialVersionCode = android.defaultConfig.versionCode
-    //                 ?: ManifestTransformerTask.VERSION_CODE_NOT_SET
-    //         }
-    //
-    //     variant.artifacts.use(manifestUpdater)
-    //         .wiredWithFiles(
-    //             ManifestTransformerTask::androidManifest,
-    //             ManifestTransformerTask::updatedManifest,
-    //         )
-    //         .toTransform(com.android.build.api.artifact.SingleArtifact.MERGED_MANIFEST)
-    // }
+    onVariants(selector().withBuildType("release")) { variant ->
+        val gitVersion by tasks.registering(GitVersionTask::class) {
+            gitVersionOutputFile.set(
+                project.buildDir.resolve("intermediates").resolve("git").resolve("output"),
+            )
+            outputs.upToDateWhen { false }
+        }
+
+        val manifestUpdater =
+            tasks.register<ManifestTransformerTask>("${variant.name}ManifestUpdater") {
+                gitInfoFile.set(gitVersion.flatMap(GitVersionTask::gitVersionOutputFile))
+                initialVersionCode = android.defaultConfig.versionCode
+                    ?: ManifestTransformerTask.VERSION_CODE_NOT_SET
+            }
+
+        variant.artifacts.use(manifestUpdater)
+            .wiredWithFiles(
+                ManifestTransformerTask::androidManifest,
+                ManifestTransformerTask::updatedManifest,
+            )
+            .toTransform(com.android.build.api.artifact.SingleArtifact.MERGED_MANIFEST)
+    }
 }
 
 @Suppress("UnstableApiUsage")

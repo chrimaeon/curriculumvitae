@@ -8,6 +8,7 @@
 
 import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
 import com.cmgapps.gradle.curriculumvitae.configureKotlinAndroid
+import com.cmgapps.gradle.curriculumvitae.configureLanguageVersion
 
 plugins {
     id("com.android.application")
@@ -21,3 +22,5 @@ android {
         targetSdk = androidTargetSdkVersion
     }
 }
+
+configureLanguageVersion()

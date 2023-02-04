@@ -17,8 +17,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.cmgapps.android.curriculumvitae.macrobenchmark">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Requesting legacy storage is needed to be able to write to additionalTestOutputDir on API 29 -->
     <application
