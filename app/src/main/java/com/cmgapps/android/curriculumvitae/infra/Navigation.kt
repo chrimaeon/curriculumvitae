@@ -96,7 +96,7 @@ val screens = listOf(
 )
 
 enum class NavArguments(val argumentName: String) {
-    EMPLOYMENT_ID("employmentId")
+    EMPLOYMENT_ID("employmentId"),
 }
 
 sealed class SubScreen(

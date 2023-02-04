@@ -21,7 +21,7 @@ import kotlinx.serialization.json.Json
 
 enum class Language {
     EN,
-    DE
+    DE,
 }
 
 interface ModelLoader {

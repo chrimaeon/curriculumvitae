@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
@@ -46,6 +47,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
+import androidx.compose.material.pullrefresh.PullRefreshDefaults
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -80,9 +85,6 @@ import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.TimeZone
@@ -128,6 +130,7 @@ fun EmploymentScreen(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun Content(
     uiState: UiState<List<Employment>?>,
@@ -135,32 +138,30 @@ private fun Content(
     navigateToEmploymentDetails: (employmentId: Int) -> Unit,
     onRefresh: () -> Unit = {},
 ) {
-    SwipeRefresh(
-        state = rememberSwipeRefreshState(uiState.loading),
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = uiState.loading,
         onRefresh = onRefresh,
-        indicator = { state, trigger ->
-            SwipeRefreshIndicator(
-                state = state,
-                refreshTriggerDistance = trigger,
-                contentColor = MaterialTheme.colors.secondaryVariant,
-                refreshingOffset = with(LocalDensity.current) {
-                    WindowInsets.statusBars.getTop(this).toDp() + 16.dp
-                },
-            )
+        refreshingOffset = with(LocalDensity.current) {
+            WindowInsets.statusBars.getTop(this).toDp() + PullRefreshDefaults.RefreshingOffset
         },
+    )
+
+    Box(
+        modifier = Modifier.pullRefresh(state = pullRefreshState),
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding =
-            WindowInsets.systemBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top).add(
-                WindowInsets(
-                    left = 2.dp,
-                    top = 8.dp,
-                    right = 16.dp,
-                    bottom = bottomContentPadding,
-                ),
-            ).asPaddingValues(),
+            WindowInsets.systemBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+                .add(
+                    WindowInsets(
+                        left = 2.dp,
+                        top = 8.dp,
+                        right = 16.dp,
+                        bottom = bottomContentPadding,
+                    ),
+                ).asPaddingValues(),
         ) {
             val employments = uiState.data
             if (employments != null) {
@@ -192,6 +193,12 @@ private fun Content(
                 }
             }
         }
+        PullRefreshIndicator(
+            refreshing = uiState.loading,
+            state = pullRefreshState,
+            contentColor = MaterialTheme.colors.secondaryVariant,
+            modifier = Modifier.align(Alignment.TopCenter),
+        )
     }
 }
 

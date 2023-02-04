@@ -60,23 +60,23 @@ fun SkillsCard(repository: SkillsRepository) {
     if (skills != null && skills.isNotEmpty()) {
         Div({
             classes("row")
-        },) {
+        }) {
             Div({
                 classes("col")
-            },) {
+            }) {
                 Div({
                     classes("card", "mt-3", "align-items-center")
-                },) {
+                }) {
                     Ul({
                         classes(SkillsStyle.cloud)
-                    },) {
+                    }) {
                         skills.forEach {
                             Li({
                                 style {
                                     fontSize(0.5.em * it.level + 0.75.em)
                                     padding(0.125.cssRem, 0.25.cssRem)
                                 }
-                            },) {
+                            }) {
                                 Text(it.name)
                             }
                         }

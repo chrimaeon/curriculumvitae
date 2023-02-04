@@ -38,11 +38,11 @@ fun Employments(repository: EmploymentRepository) {
     for (index in employments.indices step 2) {
         Div({
             classes("row")
-        },) {
+        }) {
             employments[index].let { employment ->
                 Div({
                     classes("col")
-                },) {
+                }) {
                     EmploymentCard(employment)
                 }
             }
@@ -52,13 +52,13 @@ fun Employments(repository: EmploymentRepository) {
             if (employment != null) {
                 Div({
                     classes("col-sm")
-                },) {
+                }) {
                     EmploymentCard(employment)
                 }
             } else {
                 Div({
                     classes("col-sm")
-                },)
+                })
             }
         }
     }
@@ -68,10 +68,10 @@ fun Employments(repository: EmploymentRepository) {
 fun EmploymentCard(employment: Employment) {
     Div({
         classes("card", "mt-3")
-    },) {
+    }) {
         Div({
             classes("card-body")
-        },) {
+        }) {
             H4 {
                 Text(employment.employer)
             }

@@ -51,24 +51,24 @@ import org.w3c.dom.set
 fun PageFooter() {
     Div({
         classes("mt-5", AppStyle.footerContainer)
-    },) {
+    }) {
         Footer({
             classes("container", "h-100")
-        },) {
+        }) {
             Div({
                 classes("row", "h-100", "align-items-center")
-            },) {
+            }) {
                 Div({
                     classes("col-sm")
-                },) {
+                }) {
                     Div({
                         classes("text-center", "text-sm-start")
-                    },) {
+                    }) {
                         Text(CopyRightText)
                     }
                     Div({
                         classes("text-center", "text-sm-start")
-                    },) {
+                    }) {
                         Icon("code-slash") {
                             style {
                                 property("color", BootstrapVariables.bsPrimary.value())
@@ -92,7 +92,7 @@ fun PageFooter() {
                 }
                 Div({
                     classes("col-sm", "text-center", "text-sm-end")
-                },) {
+                }) {
                     A(href = GitHubLink) {
                         Icon("github") {
                             style {
@@ -114,7 +114,7 @@ private fun Icon(iconName: String, attrs: AttrBuilderContext<HTMLElement> = {}) 
     I({
         classes("bi-$iconName")
         attrs()
-    },)
+    })
 }
 
 @Composable
@@ -126,26 +126,26 @@ private fun BaseUrlModal() {
         tabIndex(-1)
         attr("aria-labelledby", modalLabelId)
         attr("aria-hidden", "true")
-    },) {
+    }) {
         Div({
             classes("modal-dialog")
-        },) {
+        }) {
             Div({
                 classes("modal-content")
-            },) {
+            }) {
                 Div({
                     classes("modal-header")
-                },) {
+                }) {
                     H5({
                         classes("modal-title")
                         id(modalLabelId)
-                    },) {
+                    }) {
                         Text("Base URL")
                     }
                 }
                 Div({
                     classes("modal-body")
-                },) {
+                }) {
                     DebugBaseUrls.mapIndexed { index, url -> "baseUrl.option.$index" to url }
                         .forEach { (key, url) ->
                             RadioButton(key, url)
@@ -153,12 +153,12 @@ private fun BaseUrlModal() {
                 }
                 Div({
                     classes("modal-footer")
-                },) {
+                }) {
                     Button({
                         type(ButtonType.Button)
                         classes("btn", "btn-secondary")
                         attr("data-bs-dismiss", "modal")
-                    },) {
+                    }) {
                         Text("Close")
                     }
 
@@ -169,7 +169,7 @@ private fun BaseUrlModal() {
                         onClick {
                             window.location.reload()
                         }
-                    },) {
+                    }) {
                         Text("Reload")
                     }
                 }
@@ -182,17 +182,17 @@ private fun BaseUrlModal() {
 private fun RadioButton(key: String, value: String) {
     Div({
         classes("form-check")
-    },) {
+    }) {
         Input(type = InputType.Radio, attrs = {
             classes("form-check-input")
             name("baseUrlDialogRadio")
             id(key)
             onChange { event -> if (event.value) localStorage["baseUrl"] = value }
             checked(localStorage["baseUrl"] == value)
-        },)
+        })
         Label(key, attrs = {
             classes("form-check-label")
-        },) {
+        }) {
             Text(value)
         }
     }
