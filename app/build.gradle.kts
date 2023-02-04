@@ -169,7 +169,7 @@ android {
             sourceSet {
                 java {
                     listOf("kotlin", "java").forEach {
-                        srcDir(buildDir.toPath() / "generated" / "ksp" / sourceSet.name / it)
+                        // srcDir((buildDir.toPath() / "generated" / "ksp" / sourceSet.name / it).toFile())
                     }
                 }
             }

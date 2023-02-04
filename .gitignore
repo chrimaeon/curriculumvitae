@@ -15,4 +15,3 @@
 /config.properties
 /keystore/*
 !/keystore/debug.keystore
-kotlin-js-store/

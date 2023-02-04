@@ -9,13 +9,14 @@
 import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
 import com.cmgapps.gradle.curriculumvitae.configureKotlinAndroid
 import com.cmgapps.gradle.curriculumvitae.testCompletionLog
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 plugins {
     id("com.android.library")
     kotlin("multiplatform")
 }
 
-kotlin {
+configure<KotlinMultiplatformExtension> {
     jvm {
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()

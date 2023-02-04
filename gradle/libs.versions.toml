@@ -2,21 +2,21 @@
 accompanist = "0.25.0"
 agp = "7.3.1"
 compose = "1.3.3"
-composeCompiler = "1.3.2"
-composeJetbrains = "1.2.2"
+composeCompiler = "1.4.0"
+composeJetbrains = "1.3.0"
 composeWear = "1.0.0"
 gradle = "7.6"
-hilt = "2.43"
+hilt = "2.44.2"
 koin = "3.2.0"
-kotlin = "1.7.20"
+kotlin = "1.8.0"
 ktor = "2.0.3"
 logtag = "1.1.0"
-sqldelight = "1.5.3"
+sqldelight = "1.5.5"
 
 [plugins]
 benManesVersionsGradle = "com.github.ben-manes.versions:0.42.0"
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composeJetbrains" }
-ksp = "com.google.devtools.ksp:1.7.20-1.0.8"
+ksp = "com.google.devtools.ksp:1.8.0-1.0.9"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 licenses = "com.cmgapps.licenses:4.6.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
@@ -156,7 +156,7 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 ktor-websocket = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.2.11"
-kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.360"
+kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.491"
 appEngine = "com.google.appengine:appengine:1.9.93"
 # endregion
 

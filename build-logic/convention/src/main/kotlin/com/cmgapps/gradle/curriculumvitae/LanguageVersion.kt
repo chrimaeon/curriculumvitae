@@ -6,21 +6,22 @@
 
 package com.cmgapps.gradle.curriculumvitae
 
-import gradle.kotlin.dsl.accessors._245178ab2107cafd8125acd1dd232d15.java
-import gradle.kotlin.dsl.accessors._245178ab2107cafd8125acd1dd232d15.kotlin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 fun Project.configureLanguageVersion() {
     val java11LanguageVersion = JavaLanguageVersion.of(11)
 
-    java {
+    configure<JavaPluginExtension> {
         toolchain {
             languageVersion.set(java11LanguageVersion)
         }
     }
 
-    kotlin {
+    configure<KotlinAndroidProjectExtension> {
         jvmToolchain {
             languageVersion.set(java11LanguageVersion)
         }
