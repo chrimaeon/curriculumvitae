@@ -9,7 +9,7 @@ gradle = "7.6"
 hilt = "2.44.2"
 koin = "3.2.0"
 kotlin = "1.8.0"
-ktor = "2.0.3"
+ktor = "2.2.3"
 logtag = "1.1.0"
 sqldelight = "1.5.5"
 
@@ -21,7 +21,7 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 licenses = "com.cmgapps.licenses:4.6.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
 shadowJar = "com.github.johnrengelman.shadow:7.1.2"
-wire = "com.squareup.wire:4.4.3"
+wire = "com.squareup.wire:4.5.0"
 
 [libraries]
 # region plugins
