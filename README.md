@@ -32,10 +32,9 @@ You can start the dev server running `./gradlew :web:jsBrowserDevelopmentRun`
 
 ## [Back end](backend)
 
-Ktor Back end for the app
+Ktor Back end for the apps
 
 Run locally with `./gradlew :backend:run` or deploy to [Google Cloud App Engine] with `./gradlew :backend:appengineDeploy`
-
 
 For API Documentation see [backend/README.md]
 
@@ -47,10 +46,6 @@ check out [Kotlin Multiplatform].
 ## [Common Compose](common-compose)
 
 A shared Jetbrains Compose module for shared `Composables`
-
-## MAD Scorecard
-
-![MAD Scorecard](art/summary.png)
 
 ## License
 
