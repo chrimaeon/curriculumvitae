@@ -18,6 +18,9 @@
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.updates.gradle.GradleReleaseChannel.CURRENT
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
@@ -105,5 +108,14 @@ tasks {
         dependsOn(":backend:check")
         dependsOn(":desktop:check")
         dependsOn(":web:check")
+    }
+}
+
+rootProject.plugins.withType(YarnPlugin::class.java) {
+    if (System.getenv("CI") != null) {
+        rootProject.configure<YarnRootExtension> {
+            yarnLockMismatchReport = YarnLockMismatchReport.WARNING
+            reportNewYarnLock = true
+        }
     }
 }
