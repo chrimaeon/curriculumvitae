@@ -28,13 +28,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.AutoCenteringParams
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyColumnDefaults
 import androidx.wear.compose.material.items
+import androidx.wear.compose.material.rememberScalingLazyListState
 import com.cmgapps.common.curriculumvitae.data.domain.Skill
 import com.cmgapps.wear.curriculumvitae.ui.Theme
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -63,13 +66,24 @@ fun SkillsScreen(
     state.data?.let { Content(it) }
 }
 
+private val itemHeight = 40.dp
+
 @Composable
 private fun Content(skills: List<Skill>) {
+    val initialOffset = with(LocalDensity.current) {
+        itemHeight.roundToPx()
+    }
+    val listState = rememberScalingLazyListState(
+        initialCenterItemIndex = 0,
+        initialCenterItemScrollOffset = -initialOffset,
+    )
     ScalingLazyColumn(
+        state = listState,
         scalingParams = ScalingLazyColumnDefaults.scalingParams(
             edgeScale = 0.3f,
             minTransitionArea = 0.5f,
         ),
+        autoCentering = AutoCenteringParams(itemIndex = 0),
     ) {
         items(skills) {
             Box(
@@ -77,7 +91,7 @@ private fun Content(skills: List<Skill>) {
                     .background(MaterialTheme.colors.secondary, RoundedCornerShape(percent = 50))
                     .padding(4.dp)
                     .fillMaxWidth()
-                    .height(40.dp),
+                    .height(itemHeight),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(

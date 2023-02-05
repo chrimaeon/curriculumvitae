@@ -26,16 +26,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material.AutoCenteringParams
 import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyColumnDefaults
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.rememberScalingLazyListState
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.wear.curriculumvitae.ui.Theme
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -43,26 +46,36 @@ import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import org.koin.androidx.compose.getViewModel
 
+private val itemHeight = 80.dp
+
 @Composable
 fun EmploymentScreen(viewModel: EmploymentViewModel = getViewModel()) {
     val uiState = viewModel.uiState
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onPrimary) {
+        val initialOffset = with(LocalDensity.current) {
+            itemHeight.roundToPx()
+        }
+        val listState = rememberScalingLazyListState(
+            initialCenterItemIndex = 0,
+            initialCenterItemScrollOffset = -initialOffset,
+        )
         ScalingLazyColumn(
+            state = listState,
             scalingParams = ScalingLazyColumnDefaults.scalingParams(
                 edgeScale = 0.3f,
                 minTransitionArea = 0.5f,
             ),
+            autoCentering = AutoCenteringParams(itemIndex = 0),
         ) {
             val isLoading = uiState.loading
             val itemCount = uiState.data?.size ?: 5
-            val itemHeight = 80.dp
             val padding = itemHeight / 4
 
             items(itemCount) { index ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(80.dp)
+                        .height(itemHeight)
                         .background(MaterialTheme.colors.primary, RoundedCornerShape(percent = 50))
                         .placeholder(
                             visible = isLoading,
