@@ -23,8 +23,20 @@ plugins {
 }
 
 kotlin {
+
+    val java11LanguageVersion = JavaLanguageVersion.of(11)
+
+    jvmToolchain {
+        languageVersion.set(java11LanguageVersion)
+    }
+
     jvm {
         withJava()
+
+        jvmToolchain {
+            languageVersion.set(java11LanguageVersion)
+        }
+
         testRuns["test"].executionTask.configure {
             testLogging {
                 events("passed", "skipped", "failed")

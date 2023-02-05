@@ -13,7 +13,6 @@ import com.cmgapps.gradle.curriculumvitae.GenerateJniDataTask
 import com.cmgapps.gradle.curriculumvitae.GitVersionTask
 import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
 import com.cmgapps.gradle.curriculumvitae.ObfuscateEmailTask
-import com.cmgapps.gradle.curriculumvitae.androidNdkVersion
 import com.cmgapps.gradle.curriculumvitae.configProperty
 import com.cmgapps.gradle.curriculumvitae.versionProperty
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -38,7 +37,7 @@ plugins {
 val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
 
 android {
-    ndkVersion = androidNdkVersion
+    ndkVersion = libs.versions.androidNdk.get()
     namespace = "com.cmgapps.android.curriculumvitae"
 
     defaultConfig {
@@ -205,7 +204,7 @@ android {
     externalNativeBuild {
         cmake {
             path = projectDir.resolve("CMakeLists.txt")
-            version = "3.18.1"
+            version = "3.22.1"
         }
     }
 }
@@ -311,6 +310,7 @@ dependencies {
     debugImplementation(libs.processPhoenix)
     debugImplementation(libs.leakCanary)
     debugImplementation(libs.androidx.preference)
+    debugImplementation(libs.compose.uiTestManifest)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")

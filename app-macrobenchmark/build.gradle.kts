@@ -6,8 +6,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
-
 plugins {
     id("curriculumvitae.android.test")
     id("ktlint")
@@ -16,7 +14,7 @@ plugins {
 android {
     namespace = "com.cmgapps.android.curriculumvitae.macrobenchmark"
     defaultConfig {
-        targetSdk = androidTargetSdkVersion
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

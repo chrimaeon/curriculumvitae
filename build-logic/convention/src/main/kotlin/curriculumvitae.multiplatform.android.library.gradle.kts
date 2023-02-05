@@ -6,8 +6,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
 import com.cmgapps.gradle.curriculumvitae.configureKotlinAndroid
+import com.cmgapps.gradle.curriculumvitae.getVersion
+import com.cmgapps.gradle.curriculumvitae.libs
 import com.cmgapps.gradle.curriculumvitae.testCompletionLog
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -31,9 +32,9 @@ configure<KotlinMultiplatformExtension> {
 }
 
 android {
-    configureKotlinAndroid(this)
+    configureKotlinAndroid(this, libs)
 
     defaultConfig {
-        targetSdk = androidTargetSdkVersion
+        targetSdk = libs.getVersion("androidTargetSdk").toInt()
     }
 }

@@ -15,17 +15,18 @@ import com.android.build.api.dsl.DefaultConfig
 import com.android.build.api.dsl.ProductFlavor
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import com.cmgapps.gradle.curriculumvitae.buildToolsVersion as androidBuildToolsVersion
+import org.gradle.api.artifacts.VersionCatalog
 
 internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : ProductFlavor> Project.configureKotlinAndroid(
     commonExtension: CommonExtension<BF, BT, DC, PF>,
+    libs: VersionCatalog,
 ) {
     commonExtension.apply {
-        compileSdk = androidCompileSdkVersion
-        buildToolsVersion = androidBuildToolsVersion
+        compileSdk = libs.getVersion("androidCompileSdk").toInt()
+        buildToolsVersion = libs.getVersion("androidBuildTools")
 
         defaultConfig {
-            minSdk = androidMinSdkVersion
+            minSdk = libs.getVersion("androidMinSdk").toInt()
         }
 
         compileOptions {

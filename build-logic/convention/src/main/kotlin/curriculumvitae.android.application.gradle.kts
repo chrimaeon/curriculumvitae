@@ -6,9 +6,10 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import com.cmgapps.gradle.curriculumvitae.androidTargetSdkVersion
 import com.cmgapps.gradle.curriculumvitae.configureKotlinAndroid
 import com.cmgapps.gradle.curriculumvitae.configureLanguageVersion
+import com.cmgapps.gradle.curriculumvitae.getVersion
+import com.cmgapps.gradle.curriculumvitae.libs
 
 plugins {
     id("com.android.application")
@@ -16,10 +17,10 @@ plugins {
 }
 
 android {
-    configureKotlinAndroid(this)
+    configureKotlinAndroid(this, libs)
 
     defaultConfig {
-        targetSdk = androidTargetSdkVersion
+        targetSdk = libs.getVersion("androidTargetSdk").toInt()
     }
 }
 

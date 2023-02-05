@@ -7,17 +7,14 @@
 package com.cmgapps.gradle.curriculumvitae
 
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.attributes.Bundling
 import org.gradle.api.tasks.JavaExec
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.named
 
 @Suppress("UnstableApiUsage")
 fun Project.configureKtlint() {
-
     val ktlintConfiguration = configurations.create("ktlint")
 
     tasks {
@@ -48,7 +45,7 @@ fun Project.configureKtlint() {
             args = listOf(
                 "src/**/*.kt",
                 "--reporter=plain",
-                "--reporter=html,output=$outputDir/ktlint.html"
+                "--reporter=html,output=$outputDir/ktlint.html",
             )
         }
 
@@ -57,9 +54,11 @@ fun Project.configureKtlint() {
         }
     }
 
-    val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
     dependencies {
-        ktlintConfiguration(libs.findLibrary("ktlint").orElseThrow()) {
+        ktlintConfiguration(
+            libs.findLibrary("ktlint")
+                .orElseThrow { NoSuchElementException("ktlint not found in version catalog") },
+        ) {
             attributes {
                 attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
             }
