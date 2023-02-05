@@ -43,7 +43,7 @@ jobs:
       - name: Get Kotlin version
         id: get-kotlin-version
         run: |
-          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' ./gradle/libs.versions.toml)"
+          echo "version=$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' ./gradle/libs.versions.toml)" >> $GITHUB_OUTPUT
 
       - name: Konan Cache
         uses: actions/cache@v3
@@ -212,7 +212,7 @@ jobs:
       - name: Get Kotlin version
         id: get-kotlin-version
         run: |
-          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' gradle/libs.versions.toml)"
+          echo "version=$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' ./gradle/libs.versions.toml)" >> $GITHUB_OUTPUT
 
       - name: Konan Cache
         uses: actions/cache@v3
@@ -316,7 +316,7 @@ jobs:
       - name: Get Kotlin version
         id: get-kotlin-version
         run: |
-          echo "::set-output name=version::$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' gradle/libs.versions.toml)"
+          echo "version=$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' ./gradle/libs.versions.toml)" >> $GITHUB_OUTPUT
 
       - name: Konan Cache
         uses: actions/cache@v3
