@@ -64,18 +64,26 @@ compose.desktop {
     application {
         mainClass = "MainKt"
 
+        buildTypes {
+            release {
+                proguard {
+                    isEnabled.set(false)
+                    configurationFiles.from(projectDir.resolve("proguard-rules.pro"))
+                }
+            }
+        }
+
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Curriculum Vitae"
             val versionName by versionProperty
             packageVersion = versionName
             vendor = "CMG Mobile Apps"
-            copyright = """
-            Copyright (c) ${LocalDate.now().year}. Christian Grach <christian.grach@cmgapps.com>
-
-            SPDX-License-Identifier: Apache-2.0
-            """.trimIndent()
+            copyright =
+                "Copyright (c) ${LocalDate.now().year}. Christian Grach <christian.grach@cmgapps.com>"
             licenseFile.set(rootDir.resolve("LICENSE"))
+
+            modules("java.net.http", "java.sql")
 
             windows {
                 menuGroup = "Curriculum Vitae"
