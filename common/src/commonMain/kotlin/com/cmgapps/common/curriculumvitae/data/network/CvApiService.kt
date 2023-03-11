@@ -12,10 +12,9 @@ import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpMethod
-import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import io.ktor.http.Url
-import io.ktor.http.path
+import io.ktor.http.appendPathSegments
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
@@ -26,29 +25,29 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
-    suspend fun getProfile(): Profile = client.get(
-        URLBuilder(baseUrl).apply {
-            path("profile")
-        }.build(),
-    ).body()
+    suspend fun getProfile(): Profile = client.get(baseUrl) {
+        url {
+            appendPathSegments("profile")
+        }
+    }.body()
 
-    suspend fun getEmployments(): List<Employment> = client.get(
-        URLBuilder(baseUrl).apply {
-            path("employment")
-        }.build(),
-    ).body()
+    suspend fun getEmployments(): List<Employment> = client.get(baseUrl) {
+        url {
+            appendPathSegments("employment")
+        }
+    }.body()
 
-    suspend fun getSkills(): List<Skill> = client.get(
-        URLBuilder(baseUrl).apply {
-            path("skills")
-        }.build(),
-    ).body()
+    suspend fun getSkills(): List<Skill> = client.get(baseUrl) {
+        url {
+            appendPathSegments("skills")
+        }
+    }.body()
 
-    suspend fun getAsset(assetPath: String): ByteReadChannel = client.get(
-        URLBuilder(baseUrl).apply {
-            path(assetPath)
-        }.build(),
-    ).bodyAsChannel()
+    suspend fun getAsset(assetPath: String): ByteReadChannel = client.get(baseUrl) {
+        url {
+            appendPathSegments(assetPath)
+        }
+    }.bodyAsChannel()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getApiStatus(): Flow<Status> = flow {
@@ -68,4 +67,10 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
             }
         }
     }
+
+    suspend fun getOssProjects(): List<OssProject> = client.get(baseUrl) {
+        url {
+            appendPathSegments("oss-projects")
+        }
+    }.body()
 }

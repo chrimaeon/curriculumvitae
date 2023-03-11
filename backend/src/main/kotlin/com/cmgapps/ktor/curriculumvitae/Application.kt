@@ -14,6 +14,7 @@ import com.cmgapps.ktor.curriculumvitae.infra.di.appModule
 import com.cmgapps.ktor.curriculumvitae.infra.di.inject
 import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
+import com.cmgapps.ktor.curriculumvitae.routes.registerOssProjects
 import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
 import com.cmgapps.ktor.curriculumvitae.routes.registerSkillRoutes
@@ -45,6 +46,7 @@ import io.ktor.server.request.httpMethod
 import io.ktor.server.request.httpVersion
 import io.ktor.server.response.respond
 import io.ktor.server.websocket.WebSockets
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import org.slf4j.event.Level
 import java.io.PrintWriter
@@ -60,6 +62,7 @@ enum class Routes(val route: String) {
     PROFILE("/profile"),
     EMPLOYMENT("/employment"),
     SKILLS("/skills"),
+    OSS_PROJECTS("/oss-projects"),
 }
 
 fun Application.module() {
@@ -149,6 +152,7 @@ fun Application.registerRoutes() {
     registerProfileRoutes()
     registerEmploymentRoutes()
     registerSkillRoutes()
+    registerOssProjects()
 }
 
 fun Application.initDb() {
@@ -162,4 +166,8 @@ fun Application.initDb() {
                 database.employmentQueries.insertEmployment(it)
             }
     }
+}
+
+val IgnoreKeysJson = Json {
+    ignoreUnknownKeys = true
 }

@@ -26,6 +26,7 @@ import kotlinx.datetime.periodUntil
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
+import com.cmgapps.common.curriculumvitae.data.network.OssProject as NetworkOssProject
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 import com.cmgapps.common.curriculumvitae.data.network.Skill as NetworkSkill
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkStatus
@@ -120,4 +121,26 @@ fun DatePeriod.asHumanReadableString() = buildString {
 
 data class Skill(val name: String, val level: Int)
 
-fun List<NetworkSkill>.asDomainModel() = map { Skill(it.name, it.level) }
+fun NetworkSkill.asDomainModel() = Skill(name = this.name, level = this.level)
+
+data class OssProject(
+    val name: String,
+    val description: String,
+    val url: String,
+    val topics: List<String>,
+    val stars: Int,
+    val private: Boolean,
+    val fork: Boolean,
+    val archived: Boolean,
+)
+
+fun NetworkOssProject.asDomainModel() = OssProject(
+    name = this.name,
+    description = this.description,
+    url = this.url,
+    topics = this.topics,
+    stars = this.stars,
+    private = this.private,
+    fork = this.fork,
+    archived = this.archived,
+)

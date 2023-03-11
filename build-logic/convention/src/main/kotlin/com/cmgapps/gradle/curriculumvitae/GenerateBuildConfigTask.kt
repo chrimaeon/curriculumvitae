@@ -11,7 +11,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.asClassName
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
@@ -37,6 +36,9 @@ abstract class GenerateBuildConfigTask @Inject constructor(objects: ObjectFactor
     @get:Input
     val buildYear: Property<String> = objects.property()
 
+    @get:Input
+    val githubReposUrl: Property<String> = objects.property()
+
     @TaskAction
     fun generateFile() {
         FileSpec.builder("com.cmgapps.common.curriculumvitae", "BuildConfig")
@@ -49,7 +51,7 @@ abstract class GenerateBuildConfigTask @Inject constructor(objects: ObjectFactor
             ).addProperty(
                 PropertySpec.builder(
                     "DebugBaseUrls",
-                    List::class.asClassName().parameterizedBy(String::class.asClassName()),
+                    List::class.parameterizedBy(String::class),
                 ).initializer(
                     "%N(%L)",
                     MemberName("kotlin.collections", "listOf"),
@@ -61,6 +63,12 @@ abstract class GenerateBuildConfigTask @Inject constructor(objects: ObjectFactor
                     String::class,
                     KModifier.CONST,
                 ).initializer("%S", buildYear.get()).build(),
+            ).addProperty(
+                PropertySpec.builder(
+                    "GithubReposUrl",
+                    String::class,
+                    KModifier.CONST,
+                ).initializer("%S", githubReposUrl.get()).build(),
             )
             .build()
             .writeTo(outputDir.get().asFile)

@@ -16,6 +16,7 @@ interface BuildConfigExtension {
     val baseUrl: Property<String>
     val debugBaseUrls: Property<String>
     val buildYear: Property<String>
+    val githubReposUrls: Property<String>
 }
 
 fun Project.configureBuildConfig() {
@@ -29,5 +30,6 @@ fun Project.configureBuildConfig() {
         this.baseUrl.set(extension.baseUrl)
         this.debugBaseUrls.set(extension.debugBaseUrls)
         this.buildYear.set(extension.buildYear)
+        this.githubReposUrl.set(extension.githubReposUrls)
     }
 }

@@ -16,13 +16,13 @@
 
 package com.cmgapps.common.curriculumvitae.repository
 
-import com.cmgapps.common.curriculumvitae.data.domain.Skill
+import com.cmgapps.common.curriculumvitae.data.domain.OssProject
 import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import io.ktor.utils.io.errors.IOException
 import kotlin.coroutines.cancellation.CancellationException
 
-class SkillsRepository(private val api: CvApiService) {
+class OssProjectRepository(private val api: CvApiService) {
     @Throws(IOException::class, CancellationException::class)
-    suspend fun getSkills(): List<Skill> = api.getSkills().map { it.asDomainModel() }
+    suspend fun getOssProjects(): List<OssProject> = api.getOssProjects().map { it.asDomainModel() }
 }

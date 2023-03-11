@@ -36,6 +36,8 @@ buildscript {
         classpath(libs.android.hiltPlugin)
         classpath(libs.appEnginePlugin)
         classpath(libs.sqldelightPlugin)
+        // needed because moshi uses okio:2.x and wire plugin requires okio:3.x
+        classpath(libs.squareup.okio)
     }
 }
 

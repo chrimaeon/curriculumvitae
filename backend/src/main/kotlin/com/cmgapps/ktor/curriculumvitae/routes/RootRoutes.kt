@@ -13,6 +13,7 @@ package com.cmgapps.ktor.curriculumvitae.routes
 
 import com.cmgapps.common.curriculumvitae.data.network.Address
 import com.cmgapps.common.curriculumvitae.data.network.Employment
+import com.cmgapps.common.curriculumvitae.data.network.OssProject
 import com.cmgapps.common.curriculumvitae.data.network.Profile
 import com.cmgapps.common.curriculumvitae.data.network.Skill
 import com.cmgapps.ktor.curriculumvitae.Routes
@@ -174,6 +175,27 @@ private fun DIV.page() {
                 description = listOf(
                     "Founder",
                     "Software development",
+                ),
+            ),
+        )
+
+        apiCard(
+            HttpMethod.Get,
+            Routes.OSS_PROJECTS.route,
+            response = listOf(
+                OssProject(
+                    name = "my-project",
+                    description = "My Open Source Project",
+                    url = "https://cmgapps.com",
+                    topics = listOf(
+                        "kotlin",
+                        "android",
+                        "kotlin multiplatform",
+                    ),
+                    stars = 42,
+                    private = false,
+                    fork = false,
+                    archived = false,
                 ),
             ),
         )

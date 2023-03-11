@@ -115,7 +115,7 @@ kotlin {
 
     targets.all {
         compilations.all {
-            compileKotlinTaskProvider {
+            compileTaskProvider {
                 dependsOn(tasks.generateBuildConfig)
             }
         }
@@ -148,8 +148,10 @@ licenses {
 buildConfig {
     val baseUrl by configProperty
     val debugBaseUrls by configProperty
+    val githubReposUrl by configProperty
 
     this.baseUrl.set(baseUrl)
     this.debugBaseUrls.set(debugBaseUrls)
     this.buildYear.set(LocalDate.now().year.toString())
+    this.githubReposUrls.set(githubReposUrl)
 }
