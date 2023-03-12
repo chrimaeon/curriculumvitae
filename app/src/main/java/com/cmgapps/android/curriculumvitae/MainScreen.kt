@@ -28,11 +28,9 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
@@ -75,6 +73,7 @@ import com.cmgapps.android.curriculumvitae.infra.screens
 import com.cmgapps.android.curriculumvitae.ui.employment.EmploymentScreen
 import com.cmgapps.android.curriculumvitae.ui.employment.detail.EmploymentDetails
 import com.cmgapps.android.curriculumvitae.ui.info.InfoSheet
+import com.cmgapps.android.curriculumvitae.ui.ossprojects.OssProjectsScreen
 import com.cmgapps.android.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.android.curriculumvitae.ui.skills.SkillsScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -113,7 +112,6 @@ fun MainScreen(
         Scaffold(
             scaffoldState = scaffoldState,
             floatingActionButton = { if (isOnMainScreen) Fab(onFabClick) },
-            isFloatingActionButtonDocked = true,
             bottomBar = { if (isOnMainScreen) BottomBar(navController = navController) },
         ) { innerPadding ->
             MainScreenNavHost(
@@ -149,7 +147,7 @@ fun MainScreenNavHost(
                 modifier = modifier,
                 viewModel = hiltViewModel(),
                 onEmailClick = onFabClick,
-                bottomContentPadding = FabTopKnobPadding,
+                bottomContentPadding = FabPadding,
                 snackbarHostState = scaffoldState.snackbarHostState,
             )
         }
@@ -173,7 +171,7 @@ fun MainScreenNavHost(
             ) {
                 EmploymentScreen(
                     modifier = modifier,
-                    bottomContentPadding = FabTopKnobPadding,
+                    bottomContentPadding = FabPadding,
                     viewModel = hiltViewModel(),
                     snackbarHostState = scaffoldState.snackbarHostState,
                 ) { id -> navController.navigate(SubScreen.EmploymentDetail.routeWithId(id)) }
@@ -197,6 +195,18 @@ fun MainScreenNavHost(
                 snackbarHostState = scaffoldState.snackbarHostState,
             )
         }
+        composable(
+            route = Screen.OssProjects.route,
+            enterTransition = defaultEnterTransition,
+            exitTransition = defaultExitTransition,
+        ) {
+            OssProjectsScreen(
+                modifier = modifier,
+                bottomContentPadding = FabPadding,
+                viewModel = hiltViewModel(),
+                snackbarHostState = scaffoldState.snackbarHostState,
+            )
+        }
 
         bottomSheet(Screen.Info.route) {
             InfoSheet(onOpenWebsite = onOpenWebsite)
@@ -204,7 +214,7 @@ fun MainScreenNavHost(
     }
 }
 
-private val FabTopKnobPadding = 40.dp
+private val FabPadding = 56.dp + 32.dp
 
 @OptIn(ExperimentalAnimationApi::class)
 private val defaultEnterTransition: AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition =
@@ -234,9 +244,7 @@ private fun BottomBar(navController: NavController) {
         backgroundColor = MaterialTheme.colors.surface,
         elevation = BottomNavigationDefaults.Elevation,
         contentColor = MaterialTheme.colors.primary,
-        contentPadding =
-        WindowInsets.navigationBars.add(WindowInsets(right = (56 + 16).dp)).asPaddingValues(),
-        cutoutShape = CircleShape,
+        contentPadding = WindowInsets.navigationBars.asPaddingValues(),
     ) {
         BottomNavigation(
             backgroundColor = Color.Transparent,

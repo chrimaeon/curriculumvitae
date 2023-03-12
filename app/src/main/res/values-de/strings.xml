@@ -26,4 +26,5 @@
     <string name="project_on_github">Projekt auf GitHub</string>
     <string name="present">Heute</string>
     <string name="bad_signature">Die Signatur ist schlecht und du solltest dich schlecht fühlen!</string>
+    <string name="oss_projects_label">Projekte</string>
 </resources>

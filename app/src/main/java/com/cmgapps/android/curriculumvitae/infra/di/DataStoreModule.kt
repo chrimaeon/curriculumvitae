@@ -20,6 +20,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
+import com.cmgapps.android.curriculumvitae.data.datastore.OssProjects
+import com.cmgapps.android.curriculumvitae.data.datastore.OssProjectsDataStoreSerializer
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.data.datastore.ProfileDataStoreSerializer
 import com.cmgapps.android.curriculumvitae.data.datastore.Skills
@@ -50,5 +52,14 @@ object DataStoreModule {
             SkillsDataStoreSerializer,
         ) {
             context.dataStoreFile("skills.pb")
+        }
+
+    @Singleton
+    @Provides
+    fun provideOssProjectsDataStore(@ApplicationContext context: Context): DataStore<OssProjects?> =
+        DataStoreFactory.create(
+            OssProjectsDataStoreSerializer,
+        ) {
+            context.dataStoreFile("oss_projects.pb")
         }
 }

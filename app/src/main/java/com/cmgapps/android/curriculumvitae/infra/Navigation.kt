@@ -30,10 +30,13 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.cmgapps.android.curriculumvitae.R
+import com.cmgapps.android.curriculumvitae.ui.icon.CvIcons
+import com.cmgapps.android.curriculumvitae.ui.icon.filled.Octocat
+import com.cmgapps.android.curriculumvitae.ui.icon.outlined.Octocat
 
-sealed class IconState {
-    object Selected : IconState()
-    object Default : IconState()
+enum class IconState {
+    Selected,
+    Default,
 }
 
 class StateIcon(
@@ -86,11 +89,21 @@ sealed class Screen(
             selectedIcon = Icons.Outlined.Info,
         ),
     )
+
+    object OssProjects : Screen(
+        route = "ossProjects",
+        R.string.oss_projects_label,
+        StateIcon(
+            defaultIcon = CvIcons.Outlined.Octocat,
+            selectedIcon = CvIcons.Filled.Octocat,
+        ),
+    )
 }
 
 val screens = listOf(
     Screen.Profile,
     Screen.Employment,
+    Screen.OssProjects,
     Screen.Skills,
     Screen.Info,
 )

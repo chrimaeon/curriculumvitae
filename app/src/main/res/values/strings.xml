@@ -11,6 +11,7 @@
     <string name="profile_label">Profile</string>
     <string name="employment_label">Employment</string>
     <string name="skills_label">Skills</string>
+    <string name="oss_projects_label">Projects</string>
     <string name="send_action">Send</string>
     <string name="you_are_hired">You are hired!</string>
     <string name="no_email">D\'oh, no email app found</string>
