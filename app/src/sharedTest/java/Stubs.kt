@@ -67,5 +67,5 @@ fun StubNetworkSkills() = listOf(
     ),
 )
 
-fun StubDomainSkills() = StubNetworkSkills().asDomainModel()
+fun StubDomainSkills() = StubNetworkSkills().map { it.asDomainModel() }
 fun StubDataStoreSkills() = StubNetworkSkills().asDataStoreModel()
