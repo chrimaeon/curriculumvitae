@@ -7,7 +7,6 @@
 package com.cmgapps.android.curriculumvitae.ui.ossprojects
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,22 +23,16 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.pullrefresh.PullRefreshDefaults
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,8 +44,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
-import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.Theme
+import com.cmgapps.common.curriculumvitae.components.StarChip
 import com.cmgapps.common.curriculumvitae.data.domain.OssProject
 import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -185,34 +178,13 @@ private fun OssProjectCard(
                 )
                 StarChip(
                     modifier = Modifier.padding(start = 8.dp),
+                    backgroundColor = MaterialTheme.colors.primary,
+                    contentColor = MaterialTheme.colors.onPrimary,
                     stars = ossProject?.stars ?: 0,
                 )
             }
 
             Text(ossProject?.description ?: "")
-        }
-    }
-}
-
-@Composable
-private fun StarChip(modifier: Modifier = Modifier, stars: Int) {
-    CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onPrimary) {
-        Row(
-            modifier = modifier
-                .background(
-                    color = MaterialTheme.colors.primary,
-                    shape = RoundedCornerShape(percent = 50),
-                )
-                .padding(vertical = 4.dp, horizontal = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                Icons.Filled.Star,
-                contentDescription = DecorativeImage,
-                tint = LocalContentColor.current.copy(alpha = 0.7F),
-            )
-            Text(stars.toString())
         }
     }
 }
@@ -258,13 +230,5 @@ private fun ContentPreview() {
             ),
         )
         Content(uiState = UiState(data = previewProjects), bottomContentPadding = 0.dp)
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewStarChip() {
-    Theme {
-        StarChip(stars = 42)
     }
 }

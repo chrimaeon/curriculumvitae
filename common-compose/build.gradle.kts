@@ -22,6 +22,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(compose.materialIconsExtended)
                 implementation(libs.kotlinx.datetime)
             }
         }
