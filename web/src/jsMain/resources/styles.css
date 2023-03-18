@@ -1,5 +1,9 @@
 body {
-    --bs-primary: #3596e8
+    --bs-primary: #3596e8;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 
 body::before {

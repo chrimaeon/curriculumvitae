@@ -21,6 +21,7 @@ import co.touchlab.kermit.platformLogWriter
 import com.cmgapps.common.curriculumvitae.data.network.CvApiService
 import com.cmgapps.common.curriculumvitae.language
 import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
+import com.cmgapps.common.curriculumvitae.repository.OssProjectRepository
 import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
 import com.cmgapps.common.curriculumvitae.repository.SkillsRepository
 import com.cmgapps.common.curriculumvitae.repository.StatusRepository
@@ -80,6 +81,13 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
             api = get(),
         )
     }
+
+    factory {
+        OssProjectRepository(
+            api = get(),
+        )
+    }
+
     val baseLogger =
         co.touchlab.kermit.Logger(
             config = StaticConfig(logWriterList = listOf(platformLogWriter())),

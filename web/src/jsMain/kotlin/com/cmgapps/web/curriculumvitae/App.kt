@@ -19,20 +19,32 @@ package com.cmgapps.web.curriculumvitae
 import androidx.compose.runtime.Composable
 import com.cmgapps.web.curriculumvitae.infra.BootstrapVariables
 import com.cmgapps.web.curriculumvitae.ui.Employments
+import com.cmgapps.web.curriculumvitae.ui.OssProjects
 import com.cmgapps.web.curriculumvitae.ui.PageFooter
 import com.cmgapps.web.curriculumvitae.ui.ProfileCard
 import com.cmgapps.web.curriculumvitae.ui.SkillsCard
+import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
+import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.bottom
 import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.div
 import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.left
 import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.marginBottom
+import org.jetbrains.compose.web.css.marginRight
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.minHeight
 import org.jetbrains.compose.web.css.minus
+import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.paddingBottom
 import org.jetbrains.compose.web.css.plus
 import org.jetbrains.compose.web.css.position
@@ -43,17 +55,21 @@ import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.Div
 import org.koin.core.Koin
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun App(koin: Koin) {
     Style(AppStyle)
-    Div({
-        classes("container")
-        style { marginTop(AppStyle.bodyPadding) }
-    }) {
+    Div(
+        {
+            classes("container")
+            style { marginTop(AppStyle.bodyPadding) }
+        },
+    ) {
         ProfileCard(koin.get())
         Employments(koin.get())
         SkillsCard(koin.get())
+        OssProjects(koin.get(), koin.get { parametersOf("main") })
     }
     PageFooter()
 }
@@ -84,6 +100,32 @@ object AppStyle : StyleSheet() {
         }
         "a" style {
             property("color", BootstrapVariables.bsPrimary.value())
+        }
+    }
+
+    val starChip by style {
+        property("background-color", BootstrapVariables.bsPrimary.value())
+        val height = 30.px
+        borderRadius(height / 2)
+        height(height)
+        alignItems(AlignItems.Center)
+        display(DisplayStyle.LegacyInlineFlex)
+        justifyContent(JustifyContent.Center)
+        padding(0.25.cssRem, 0.5.cssRem)
+
+        desc(self, "img") style {
+            marginRight(0.25.cssRem)
+        }
+    }
+
+    val ossProjectHeaderContainer by style {
+        display(DisplayStyle.Flex)
+        justifyContent(JustifyContent.SpaceBetween)
+        alignItems(AlignItems.Center)
+        marginBottom(0.5.cssRem)
+
+        desc(self, selector("h4")) style {
+            margin(0.px)
         }
     }
 }
