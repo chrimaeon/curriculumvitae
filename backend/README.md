@@ -50,6 +50,29 @@ GET
 
 GET
 
+### /oss-projects ###
+
+###### Response ######
+
+    [
+      {
+        "name": "my-project",
+        "description": "My Open Source Project",
+        "url": "https://cmgapps.com",
+        "topics": [
+          "kotlin",
+          "android",
+          "kotlin multiplatform"
+        ],
+        "stars": 42,
+        "private": false,
+        "fork": false,
+        "archived": false
+      }
+    ]
+
+GET
+
 ### /skills ###
 
 ###### Response ######
