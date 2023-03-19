@@ -16,39 +16,20 @@
 
 package com.cmgapps.desktop.curriculumvitae
 
-import StubNetworkEmployment
-import StubNetworkProfile
-import StubNetworkSkill
+import StubDomainEmployment
+import StubDomainOssProject
+import StubDomainProfile
+import StubDomainSkill
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import co.touchlab.kermit.Logger
-import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
-import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
-import com.cmgapps.common.curriculumvitae.data.network.CvApiService
-import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
-import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
-import com.cmgapps.common.curriculumvitae.repository.ProfileRepository
-import com.cmgapps.common.curriculumvitae.repository.SkillsRepository
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import org.jetbrains.skiko.toImage
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.koin.dsl.module
-import org.koin.test.KoinTest
-import org.koin.test.KoinTestRule
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.whenever
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -57,59 +38,27 @@ import org.mockito.kotlin.whenever
  *
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-@RunWith(MockitoJUnitRunner::class)
-internal class AppShould : KoinTest {
+internal class AppShould {
 
     @get:Rule
     val composeRule = createComposeRule()
 
-    @get:Rule
-    val koinTestRule = KoinTestRule.create {
-        modules(
-            module {
-                single {
-                    DatabaseWrapper { schema ->
-                        sqliteDriver.also {
-                            schema.create(it)
-                        }
-                    }
-                }
-                factory { ProfileRepository(api) }
-                factory {
-                    EmploymentRepository(
-                        api,
-                        databaseWrapper = get(),
-                        kermitLogger,
-                        MainScope(),
-                    )
-                }
-                factory { SkillsRepository(api) }
-            },
-        )
-    }
-
-    @Mock
-    lateinit var api: CvApiService
-
-    @Mock
-    lateinit var kermitLogger: Logger
-
-    private val profile = StubNetworkProfile()
-    private val skill = StubNetworkSkill()
-    private val employment = StubNetworkEmployment()
-
-    private val sqliteDriver: SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+    private val profile = StubDomainProfile()
+    private val skill = StubDomainSkill()
+    private val employment = StubDomainEmployment()
+    private val project = StubDomainOssProject()
 
     @Before
     fun beforeEach() {
-        runBlocking {
-            whenever(api.getProfile()) doReturn profile
-            whenever(api.getAsset(any())) doReturn ByteReadChannel.Empty
-            whenever(api.getSkills()) doReturn listOf(skill)
-            whenever(api.getEmployments()) doReturn listOf(StubNetworkEmployment())
-        }
         composeRule.setContent {
-            App(koinTestRule.koin)
+            App(
+                profile = profile,
+                profileImage = BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB),
+                employments = listOf(employment),
+                skills = listOf(skill),
+                projects = listOf(project),
+                backgroundImage = BufferedImage(1200, 1200, BufferedImage.TYPE_INT_RGB).toImage(),
+            )
         }
     }
 
@@ -127,7 +76,7 @@ internal class AppShould : KoinTest {
         with(composeRule) {
             onNodeWithText(employment.employer).assertExists()
             onNodeWithText(
-                employment.asDatabaseModel().asDomainModel().workPeriod.asHumanReadableString(),
+                employment.workPeriod.asHumanReadableString(),
             ).assertExists()
             onNodeWithText(employment.jobTitle).assertExists()
         }
@@ -137,6 +86,15 @@ internal class AppShould : KoinTest {
     fun `show Skills`() = runTest {
         with(composeRule) {
             onNodeWithText(skill.name).assertExists()
+        }
+    }
+
+    @Test
+    fun `show OssProjects`() = runTest {
+        with(composeRule) {
+            onNodeWithText(project.name).assertExists()
+            onNodeWithText(project.stars.toString()).assertExists()
+            onNodeWithText(project.description).assertExists()
         }
     }
 }

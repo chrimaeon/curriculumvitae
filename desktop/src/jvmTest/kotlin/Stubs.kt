@@ -16,14 +16,15 @@
 
 @file:Suppress("TestFunctionName")
 
-import com.cmgapps.common.curriculumvitae.data.network.Address
-import com.cmgapps.common.curriculumvitae.data.network.Profile
-import com.cmgapps.common.curriculumvitae.data.network.Skill
+import com.cmgapps.common.curriculumvitae.data.domain.Address
+import com.cmgapps.common.curriculumvitae.data.domain.Employment
+import com.cmgapps.common.curriculumvitae.data.domain.OssProject
+import com.cmgapps.common.curriculumvitae.data.domain.Profile
+import com.cmgapps.common.curriculumvitae.data.domain.Skill
 import kotlinx.datetime.LocalDate
 import java.time.Month
-import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
 
-fun StubNetworkProfile() = Profile(
+fun StubDomainProfile() = Profile(
     name = "Firstname Lastname",
     address = Address(
         city = "Graz",
@@ -36,7 +37,7 @@ fun StubNetworkProfile() = Profile(
     profileImagePath = "/profile.png",
 )
 
-fun StubNetworkEmployment() = NetworkEmployment(
+fun StubDomainEmployment() = Employment(
     1,
     "Job Title",
     "Employer",
@@ -46,7 +47,18 @@ fun StubNetworkEmployment() = NetworkEmployment(
     listOf("Description 1", "Description 2"),
 )
 
-fun StubNetworkSkill() = Skill(
+fun StubDomainSkill() = Skill(
     name = "Skill 1",
     level = 5,
+)
+
+fun StubDomainOssProject() = OssProject(
+    name = "My PRoject",
+    description = "My awesome Project for Kotlin",
+    url = "https://cmgapps.com",
+    topics = listOf("Kotlin", "Multiplatform"),
+    stars = 42,
+    private = false,
+    fork = false,
+    archived = false,
 )

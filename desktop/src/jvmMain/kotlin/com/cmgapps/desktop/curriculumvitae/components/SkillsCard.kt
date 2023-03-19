@@ -30,8 +30,8 @@ import com.cmgapps.common.curriculumvitae.components.TagCloud
 import com.cmgapps.common.curriculumvitae.data.domain.Skill
 
 @Composable
-fun SkillsCard(skills: List<Skill>?) {
-    if (skills == null || skills.isEmpty()) {
+fun SkillsCard(skills: List<Skill>) {
+    if (skills.isEmpty()) {
         return
     }
 

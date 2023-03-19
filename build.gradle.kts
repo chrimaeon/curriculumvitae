@@ -94,23 +94,6 @@ tasks {
         }
         gradleReleaseChannel = CURRENT.id
     }
-
-    // Workaround to run "check" task on all modules
-    // see https://youtrack.jetbrains.com/issue/KT-49202
-    register("checkWorkaround") {
-        dependsOn(
-            ":common:ktlint",
-            ":common:jvmTest",
-            ":common:jsTest",
-            ":common:iosSimulatorArm64Test",
-            ":common:verifySqlDelightMigration",
-        )
-        dependsOn(":app:check")
-        dependsOn(":wearable:check")
-        dependsOn(":backend:check")
-        dependsOn(":desktop:check")
-        dependsOn(":web:check")
-    }
 }
 
 rootProject.plugins.withType(YarnPlugin::class.java) {

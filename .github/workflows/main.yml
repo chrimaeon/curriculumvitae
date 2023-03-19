@@ -14,6 +14,7 @@ jobs:
       CV_BASE_URL: https://www.host.undefined
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
+      CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
 
     steps:
       # region Setup
@@ -55,12 +56,8 @@ jobs:
         run: ./gradlew dependencies
       # endregion
       # region Common
-
-      # `check` not working; see https://youtrack.jetbrains.com/issue/KT-49202
-      #- name: Check :common
-      #  run: ./gradlew :common:check
-      - name: Workaround for check
-        run: ./gradlew :common:ktlint :common:jsTest :common:jvmTest :common:verifySqlDelightMigration
+      - name: Check :common
+        run: ./gradlew :common:check
       - name: Archive Common Test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
@@ -155,6 +152,7 @@ jobs:
       CV_BASE_URL: https://www.host.undefined
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
+      CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
 
     steps:
       # region Setup
@@ -179,6 +177,7 @@ jobs:
       CV_BASE_URL: https://www.host.undefined
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
+      CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
 
     strategy:
       matrix:
@@ -284,6 +283,7 @@ jobs:
       CV_BASE_URL: https://www.host.undefined
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
+      CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
 
     strategy:
       matrix:

@@ -140,22 +140,25 @@ fun initKoin(
 /**
  * used by native to easily create [KoinApplication]
  */
+@Suppress("unused")
 fun initKoinNative() = initKoin(enableNetworkLogging = true) { }
 
 /**
  * Easy getter for [ProfileRepository] from [Koin]
  */
-@Suppress("unused")
 fun Koin.getProfileRepository() = get<ProfileRepository>()
 
 /**
  * Easy getter for [EmploymentRepository] from [Koin]
  */
-@Suppress("unused")
 fun Koin.getEmploymentRepository() = get<EmploymentRepository>()
 
 /**
  * Easy getter for [SkillsRepository] from [Koin]
  */
-@Suppress("unused")
 fun Koin.getSkillRepository() = get<SkillsRepository>()
+
+/**
+ * Easy getter for [OssProjectRepository] from [Koin]
+ */
+fun Koin.getOssProjectRepository() = get<OssProjectRepository>()

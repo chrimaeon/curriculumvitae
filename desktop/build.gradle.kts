@@ -74,7 +74,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "com.cmgapps.desktop.curriculumvitae.MainKt"
 
         buildTypes {
             release {
