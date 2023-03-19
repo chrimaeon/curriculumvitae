@@ -14,7 +14,6 @@ package com.cmgapps.ktor.curriculumvitae.routes
 import com.cmgapps.common.curriculumvitae.data.network.Skill
 import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.cmgapps.ktor.curriculumvitae.Routes
-import com.cmgapps.ktor.curriculumvitae.infra.di.inject
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
@@ -22,6 +21,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import kotlinx.serialization.serializer
+import org.koin.ktor.ext.inject
 
 private fun Route.skillsRouting() {
     val modelLoader: ModelLoader by inject()

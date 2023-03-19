@@ -9,9 +9,7 @@ package com.cmgapps.ktor.curriculumvitae
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
 import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
-import com.cmgapps.ktor.curriculumvitae.infra.di.Koin
 import com.cmgapps.ktor.curriculumvitae.infra.di.appModule
-import com.cmgapps.ktor.curriculumvitae.infra.di.inject
 import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerOssProjects
@@ -48,6 +46,8 @@ import io.ktor.server.response.respond
 import io.ktor.server.websocket.WebSockets
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
+import org.koin.ktor.ext.inject
+import org.koin.ktor.plugin.Koin
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -139,8 +139,6 @@ fun Application.installFeatures() {
     install(WebSockets)
 
     install(Koin) {
-        // Workaround for https://github.com/InsertKoinIO/koin/issues/1188
-        logLevel = org.koin.core.logger.Level.ERROR
         modules(appModule)
     }
 }

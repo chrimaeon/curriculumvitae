@@ -8,9 +8,9 @@
 
 package com.cmgapps.ktor.curriculumvitae.utils
 
-import com.cmgapps.ktor.curriculumvitae.infra.di.getKoin
 import io.ktor.server.application.Application
 import org.koin.core.module.Module
+import org.koin.ktor.ext.getKoin
 
 fun Application.modules(vararg block: Module) =
     getKoin().loadModules(block.asList(), allowOverride = true)
