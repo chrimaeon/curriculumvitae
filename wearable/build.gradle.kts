@@ -29,7 +29,7 @@ android {
 
         resourceConfigurations += listOf("en", "de")
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.cmgapps.wear.curriculumvitae.test.CvTestRunner"
     }
 
     val keystoreDir = rootDir.resolve("keystore")
@@ -124,11 +124,13 @@ dependencies {
     implementation(libs.accompanist.pagerIndicators)
     implementation(libs.kotlinx.datetime)
 
+    androidTestImplementation(libs.androidx.testRunner)
     androidTestImplementation(libs.androidx.extJunit)
     androidTestImplementation(libs.androidx.coreTesting)
     androidTestImplementation(libs.compose.uiTest)
     androidTestImplementation(libs.koin.test)
     androidTestImplementation(libs.ktor.client.mock)
+    androidTestImplementation(libs.ktor.client.contentNegotiation)
     androidTestImplementation(libs.ktor.serialization)
     androidTestImplementation(libs.sqldelight.driver.android)
 }

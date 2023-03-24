@@ -26,6 +26,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
+import com.cmgapps.common.curriculumvitae.data.network.OssProject as NetworkOssProject
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 import com.cmgapps.common.curriculumvitae.data.network.Skill as NetworkSkill
 
@@ -69,3 +70,19 @@ fun StubNetworkSkills() = listOf(
 
 fun StubDomainSkills() = StubNetworkSkills().map { it.asDomainModel() }
 fun StubDataStoreSkills() = StubNetworkSkills().asDataStoreModel()
+
+fun StubNetworkOssProjects() = listOf(
+    NetworkOssProject(
+        name = "My Project",
+        description = "My Kotlin Multiplatform Project",
+        url = "https://github.com/chrimaeon/curriculumvitae",
+        topics = listOf("Kotlin", "Multiplatform"),
+        stars = 42,
+        private = false,
+        fork = false,
+        archived = false,
+    ),
+)
+
+fun StubDomainOssProjects() = StubNetworkOssProjects().map { it.asDomainModel() }
+fun StubDataStoreOssProjects() = StubNetworkOssProjects().asDataStoreModel()

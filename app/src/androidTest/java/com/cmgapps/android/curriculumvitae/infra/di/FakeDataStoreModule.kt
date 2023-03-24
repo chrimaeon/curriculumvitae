@@ -16,17 +16,22 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
+import android.content.Context
 import androidx.datastore.core.DataStore
+import com.cmgapps.android.curriculumvitae.data.datastore.OssProjects
 import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.data.datastore.Skills
+import com.cmgapps.android.curriculumvitae.test.StubDataStoreOssProjects
 import com.cmgapps.android.curriculumvitae.test.StubDataStoreProfile
 import com.cmgapps.android.curriculumvitae.test.StubDataStoreSkills
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
@@ -66,6 +71,23 @@ class FakeDataStoreModule {
                 transform(skills).also {
                     skills = it
                     skillsFlow.value = it
+                }
+        }
+
+    @Singleton
+    @Provides
+    fun provideOssProjectsDataStore(@ApplicationContext context: Context): DataStore<OssProjects?> =
+        object : DataStore<OssProjects?> {
+            private var projects: OssProjects? = StubDataStoreOssProjects()
+
+            private val projectsFlow = MutableStateFlow(projects)
+
+            override val data: Flow<OssProjects?> = projectsFlow
+
+            override suspend fun updateData(transform: suspend (t: OssProjects?) -> OssProjects?) =
+                transform(projects).also {
+                    projects = it
+                    projectsFlow.value = it
                 }
         }
 }

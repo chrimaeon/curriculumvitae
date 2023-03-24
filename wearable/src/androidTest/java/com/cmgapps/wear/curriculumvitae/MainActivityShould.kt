@@ -18,22 +18,13 @@ package com.cmgapps.wear.curriculumvitae
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
-import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
-import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
-import com.cmgapps.common.curriculumvitae.repository.EmploymentRepository
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import kotlinx.coroutines.MainScope
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.core.module.Module
-import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
 import org.koin.test.KoinTest
 
 class MainActivityShould : KoinTest {
@@ -41,36 +32,10 @@ class MainActivityShould : KoinTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    private lateinit var mockedModule: Module
-
-    @Before
-    fun beforeEach() {
-        mockedModule = module {
-            single { MockHttpClient() }
-            factory {
-                EmploymentRepository(
-                    api = get(),
-                    databaseWrapper = DatabaseWrapper {
-                        AndroidSqliteDriver(CvDatabase.Schema, get(), /* in-memory */null)
-                    },
-                    logger = get { parametersOf("MockEmploymentRepository") },
-                    scope = MainScope(),
-                )
-            }
-        }
-
-        getKoin().loadModules(listOf(mockedModule), allowOverride = true)
-    }
-
-    @After
-    fun afterEach() {
-        getKoin().unloadModules(listOf(mockedModule))
-    }
-
     @Test
     fun showProfile() {
         with(composeTestRule) {
-            onNodeWithText("First Last").assertIsDisplayed()
+            onNodeWithContentDescription("First Last").assertIsDisplayed()
         }
     }
 

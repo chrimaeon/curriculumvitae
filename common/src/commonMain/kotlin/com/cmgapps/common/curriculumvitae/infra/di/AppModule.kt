@@ -133,8 +133,8 @@ fun initKoin(
     enableNetworkLogging: Boolean = false,
     appDeclaration: KoinAppDeclaration = {},
 ): KoinApplication = startKoin {
-    appDeclaration()
     modules(module(enableNetworkLogging), platformModule())
+    appDeclaration()
 }
 
 /**
