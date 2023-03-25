@@ -14,7 +14,6 @@ import com.cmgapps.gradle.curriculumvitae.GitVersionTask
 import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
 import com.cmgapps.gradle.curriculumvitae.ObfuscateEmailTask
 import com.cmgapps.gradle.curriculumvitae.configProperty
-import com.cmgapps.gradle.curriculumvitae.versionProperty
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 import kotlin.io.path.div
@@ -23,7 +22,7 @@ plugins {
     id("curriculumvitae.android.application")
     kotlin("kapt")
     @Suppress("DSL_SCOPE_VIOLATION")
-    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.serialization)
     id("ktlint")
     id("dagger.hilt.android.plugin")
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -42,10 +41,8 @@ android {
 
     defaultConfig {
         applicationId = "com.cmgapps.android.curriculumvitae"
-        val androidAppVersion by versionProperty
-        val versionName by versionProperty
-        versionCode = androidAppVersion.toInt()
-        this.versionName = versionName
+        versionCode = libs.versions.androidAppVersion.get().toInt()
+        versionName = libs.versions.versionName.get()
 
         testInstrumentationRunner = "com.cmgapps.android.curriculumvitae.CvTestRunner"
         resourceConfigurations += listOf("en", "de")

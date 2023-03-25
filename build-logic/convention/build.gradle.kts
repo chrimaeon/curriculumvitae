@@ -9,11 +9,36 @@ plugins {
     kotlin("plugin.serialization") version embeddedKotlinVersion
 }
 
-group = "com.cmgapps.gradle.curriculumvitae.buildlogic"
+group = "com.cmgapps.gradle.curriculumvitae.buildlogic.conventions"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+}
+
+gradlePlugin {
+    plugins {
+        register("androidApplicationConvention") {
+            id = "curriculumvitae.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+        register("androidTestConvention") {
+            id = "curriculumvitae.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
+        register("multiplatformAndroidLibraryConvention") {
+            id = "curriculumvitae.multiplatform.android.library"
+            implementationClass = "MultiplatformAndroidLibraryPlugin"
+        }
+        register("multiplatformJvmConvention") {
+            id = "curriculumVitae.multiplatform.jvm"
+            implementationClass = "MultiplatformJvmPlugin"
+        }
+        register("testConvention") {
+            id = "curriculumvitae.test"
+            implementationClass = "TestConventionPlugin"
+        }
+    }
 }
 
 tasks {
@@ -26,11 +51,11 @@ tasks {
 }
 
 dependencies {
-    implementation(libs.android.gradlePlugin)
-    implementation(libs.kotlin.gradlePlugin)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.squareup.kotlinpoet)
-    implementation(libs.squareup.okio)
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.squareup.kotlinpoet)
+    compileOnly(libs.squareup.okio)
+    compileOnly(libs.kotlinx.serialization.json)
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }

@@ -12,18 +12,18 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
-fun Project.configureLanguageVersion() {
-    val java11LanguageVersion = JavaLanguageVersion.of(11)
+val javaLanguageVersion = JavaLanguageVersion.of(11)
 
+fun Project.configureLanguageVersion() {
     configure<JavaPluginExtension> {
         toolchain {
-            languageVersion.set(java11LanguageVersion)
+            languageVersion.set(javaLanguageVersion)
         }
     }
 
     configure<KotlinAndroidProjectExtension> {
         jvmToolchain {
-            languageVersion.set(java11LanguageVersion)
+            languageVersion.set(javaLanguageVersion)
         }
     }
 }

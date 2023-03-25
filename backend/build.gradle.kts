@@ -6,15 +6,13 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import com.cmgapps.gradle.curriculumvitae.testCompletionLog
-import com.cmgapps.gradle.curriculumvitae.versionProperty
 import java.util.Properties
 
 plugins {
-    kotlin("jvm")
+    id("curriculumvitae.test")
     id("com.google.cloud.tools.appengine")
     @Suppress("DSL_SCOPE_VIOLATION")
-    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.serialization)
     @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.markdown)
     id("ktlint")
@@ -24,8 +22,7 @@ plugins {
 }
 
 group = "com.cmgapps.ktor"
-val versionName by versionProperty
-version = versionName
+version = libs.versions.versionName
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
@@ -40,7 +37,9 @@ appengine {
                 load(it)
             }
         }
-    } else null
+    } else {
+        null
+    }
 
     tools {
         if (localProperties?.containsKey("gcloud.sdk.dir") == true) {
@@ -60,8 +59,7 @@ appengine {
         if (localProperties?.containsKey("gcloud.project.id") == true) {
             projectId = localProperties.getProperty("gcloud.project.id")
         }
-        val backendVersion by versionProperty
-        version = backendVersion
+        version = libs.versions.backendVersion.get()
     }
 }
 
@@ -71,13 +69,6 @@ java {
 }
 
 tasks {
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
-        afterSuite(testCompletionLog())
-    }
 
     htmlToMarkdown {
         sourceDir = sourceSets.test.get().resources.sourceDirectories.singleFile

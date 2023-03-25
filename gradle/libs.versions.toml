@@ -7,6 +7,13 @@ androidTargetSdk = "33"
 androidBuildTools = "33.0.1"
 androidNdk = "25.2.9519653"
 # endregion
+# region release versions
+androidWearableVersion="1"
+androidAppVersion="2"
+backendVersion="2"
+# also update backend/src/main/appengine/app.yaml
+versionName="1.0.0"
+# endregion
 
 accompanist = "0.28.0"
 agp = "7.3.1"
@@ -26,16 +33,19 @@ sqldelight = "1.5.5"
 benManesVersionsGradle = "com.github.ben-manes.versions:0.46.0"
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composeJetbrains" }
 ksp = "com.google.devtools.ksp:1.8.10-1.0.9"
-kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 licenses = "com.cmgapps.licenses:4.7.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
 shadowJar = "com.github.johnrengelman.shadow:7.1.2"
 wire = "com.squareup.wire:4.5.2"
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+hilt = {id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 
 [libraries]
 # region plugins
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-android-hiltPlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 appEnginePlugin = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
 sqldelightPlugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
@@ -141,6 +151,7 @@ androidx-testRunner = "androidx.test:runner:1.5.2"
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-uiTestManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 junit-bom = "org.junit:junit-bom:5.9.2"
+junit-vintageEngine = "org.junit.vintage:junit-vintage-engine:5.9.2"
 junit-junit = "junit:junit:4.13.2"
 hamcrest = "org.hamcrest:hamcrest:2.2"
 mockito-jupiter = { module = "org.mockito:mockito-junit-jupiter", version = "5.2.0" }

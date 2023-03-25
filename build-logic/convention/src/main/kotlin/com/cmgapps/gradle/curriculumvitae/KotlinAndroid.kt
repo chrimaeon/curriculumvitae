@@ -25,9 +25,7 @@ internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : Produ
         compileSdk = libs.getVersion("androidCompileSdk").toInt()
         buildToolsVersion = libs.getVersion("androidBuildTools")
 
-        defaultConfig {
-            minSdk = libs.getVersion("androidMinSdk").toInt()
-        }
+        defaultConfig.minSdk = libs.getVersion("androidMinSdk").toInt()
 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_11

@@ -8,7 +8,6 @@
 
 import com.cmgapps.gradle.curriculumvitae.GitVersionTask
 import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
-import com.cmgapps.gradle.curriculumvitae.versionProperty
 import java.util.Properties
 
 plugins {
@@ -22,10 +21,8 @@ android {
         applicationId = "com.cmgapps.wear.curriculumvitae"
         minSdk = libs.versions.androidWearMinSdk.get().toInt()
         targetSdk = libs.versions.androidTargetSdk.get().toInt()
-        val androidWearableVersion by versionProperty
-        val versionName by versionProperty
-        versionCode = androidWearableVersion.toInt()
-        this.versionName = versionName
+        versionCode = libs.versions.androidWearableVersion.get().toInt()
+        this.versionName = libs.versions.versionName.get()
 
         resourceConfigurations += listOf("en", "de")
 

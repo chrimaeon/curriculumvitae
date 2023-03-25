@@ -10,41 +10,17 @@
     org.jetbrains.compose.ExperimentalComposeLibrary::class,
 )
 
-import com.cmgapps.gradle.curriculumvitae.testCompletionLog
-import com.cmgapps.gradle.curriculumvitae.versionProperty
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.time.LocalDate
 
 plugins {
-    kotlin("multiplatform")
+    id("curriculumVitae.multiplatform.jvm")
     @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.jetbrainsCompose)
     id("ktlint")
 }
 
 kotlin {
-
-    val java11LanguageVersion = JavaLanguageVersion.of(11)
-
-    jvmToolchain {
-        languageVersion.set(java11LanguageVersion)
-    }
-
-    jvm {
-        withJava()
-
-        jvmToolchain {
-            languageVersion.set(java11LanguageVersion)
-        }
-
-        testRuns["test"].executionTask.configure {
-            testLogging {
-                events("passed", "skipped", "failed")
-            }
-            afterSuite(testCompletionLog())
-        }
-    }
-
     sourceSets {
         named("jvmMain") {
             dependencies {
@@ -61,6 +37,7 @@ kotlin {
         named("jvmTest") {
             dependencies {
                 implementation(libs.junit.junit)
+                runtimeOnly(libs.junit.vintageEngine)
                 implementation(compose.uiTestJUnit4)
                 implementation(libs.koin.test)
                 implementation(libs.koin.testJunit)
@@ -88,8 +65,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Curriculum Vitae"
-            val versionName by versionProperty
-            packageVersion = versionName
+            packageVersion = libs.versions.versionName.get()
             vendor = "CMG Mobile Apps"
             copyright =
                 "Copyright (c) ${LocalDate.now().year}. Christian Grach <christian.grach@cmgapps.com>"

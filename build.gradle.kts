@@ -31,9 +31,6 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.android.gradlePlugin)
-        classpath(libs.kotlin.gradlePlugin)
-        classpath(libs.android.hiltPlugin)
         classpath(libs.appEnginePlugin)
         classpath(libs.sqldelightPlugin)
         // needed because moshi uses okio:2.x and wire plugin requires okio:3.x
@@ -44,6 +41,14 @@ buildscript {
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.benManesVersionsGradle)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.android.application) apply false
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.android.test) apply false
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.kotlin.jvm) apply false
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.hilt) apply false
 }
 
 allprojects {

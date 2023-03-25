@@ -21,7 +21,9 @@ class PropertiesEnvDelegate(private val propertiesFile: File) : ReadOnlyProperty
         Properties().apply {
             propertiesFile.inputStream().use { load(it) }
         }
-    } else null
+    } else {
+        null
+    }
 
     private fun String.toSnakeCase(): String =
         replace(camelCaseRegEx, "$1_$2").toUpperCase(Locale.ROOT)
@@ -44,6 +46,3 @@ class PropertiesEnvDelegate(private val propertiesFile: File) : ReadOnlyProperty
 
 inline val Project.configProperty: PropertiesEnvDelegate
     get() = PropertiesEnvDelegate(rootDir.resolve("config.properties"))
-
-inline val Project.versionProperty: PropertiesEnvDelegate
-    get() = PropertiesEnvDelegate(rootDir.resolve("version.properties"))
