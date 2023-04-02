@@ -55,6 +55,20 @@ jobs:
       - name: Download dependencies
         run: ./gradlew dependencies
       # endregion
+      # region build-logic
+      - name: Check :build-logic
+        run: ./gradlew :build-logic:convention:check :build-logic:plugins:check
+      - name: Archive Build-Logic Test results
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-logic-test-results
+          path: |
+            build-logic/convention/build/reports/*
+            build-logic/convention/build/test-results/*
+            build-logic/plugins/build/reports/*
+            build-logic/plugins/build/test-results/*
+      # endregion
       # region Common
       - name: Check :common
         run: ./gradlew :common:check
@@ -161,13 +175,13 @@ jobs:
         run: |
           cd ios
           swiftlint lint
-#      not working without provisioning profile -> get Apple developer account first
-#      - name: Build iOS Project
-#        run: |
-#          xcodebuild -project ios/CurriculumVitae.xcodeproj \
-#          -scheme CurriculumVitae \
-#          -configuration Debug
-#       endregion
+  #      not working without provisioning profile -> get Apple developer account first
+  #      - name: Build iOS Project
+  #        run: |
+  #          xcodebuild -project ios/CurriculumVitae.xcodeproj \
+  #          -scheme CurriculumVitae \
+  #          -configuration Debug
+  #       endregion
   connectedAndroidAppTest:
     name: Run Android Intrumentation Tests
     needs: checkAndUnitTestJvmAndroid

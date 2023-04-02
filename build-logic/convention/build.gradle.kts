@@ -58,4 +58,5 @@ dependencies {
     compileOnly(libs.kotlinx.serialization.json)
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(libs.hamcrest)
 }

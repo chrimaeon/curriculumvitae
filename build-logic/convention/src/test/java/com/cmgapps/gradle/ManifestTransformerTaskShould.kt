@@ -59,7 +59,6 @@ internal class ManifestTransformerTaskShould {
             """
                 <?xml version="1.0" encoding="utf-8"?>
                 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                    package="com.cmgapps.android.curriculumvitae"
                     android:versionCode="${initialVersion + gitRefCount}"
                     android:versionName="1.0">
 
