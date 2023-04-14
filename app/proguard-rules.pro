@@ -16,6 +16,7 @@
 -dontwarn org.bouncycastle.**
 -dontwarn org.conscrypt.**
 -dontwarn org.openjsse.**
+-dontwarn org.slf4j.impl.StaticLoggerBinder
 
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
   public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);

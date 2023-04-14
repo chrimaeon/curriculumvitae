@@ -28,8 +28,8 @@ internal fun <BF : BuildFeatures, BT : BuildType, DC : DefaultConfig, PF : Produ
         defaultConfig.minSdk = libs.getVersion("androidMinSdk").toInt()
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
 
         testOptions {

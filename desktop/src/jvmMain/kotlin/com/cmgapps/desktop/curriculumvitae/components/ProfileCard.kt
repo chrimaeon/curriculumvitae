@@ -28,11 +28,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toPainter
-import androidx.compose.ui.input.pointer.PointerIconDefaults
+import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -41,7 +40,6 @@ import java.awt.Desktop
 import java.awt.image.BufferedImage
 import java.net.URI
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileCard(
     profile: Profile,
@@ -80,7 +78,7 @@ fun ProfileCard(
                     if (Desktop.isDesktopSupported()) {
                         Desktop.getDesktop().mail(URI.create("mailto:${profile.email}"))
                     }
-                }.pointerHoverIcon(PointerIconDefaults.Hand),
+                }.pointerHoverIcon(PointerIcon.Hand),
                 color = MaterialTheme.colors.primary,
             )
             Text(
@@ -90,7 +88,7 @@ fun ProfileCard(
                     if (Desktop.isDesktopSupported()) {
                         Desktop.getDesktop().browse(URI.create("tel:${profile.phone}"))
                     }
-                }.pointerHoverIcon(PointerIconDefaults.Hand),
+                }.pointerHoverIcon(PointerIcon.Hand),
                 color = MaterialTheme.colors.primary,
             )
         }

@@ -8,7 +8,6 @@ package com.cmgapps.gradle.curriculumvitae
 
 import org.gradle.api.Project
 import java.io.File
-import java.util.Locale
 import java.util.Properties
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -26,7 +25,7 @@ class PropertiesEnvDelegate(private val propertiesFile: File) : ReadOnlyProperty
     }
 
     private fun String.toSnakeCase(): String =
-        replace(camelCaseRegEx, "$1_$2").toUpperCase(Locale.ROOT)
+        replace(camelCaseRegEx, "$1_$2").uppercase()
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): String {
         val envPropName = "CV_${property.name.toSnakeCase()}"

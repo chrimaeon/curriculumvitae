@@ -65,15 +65,15 @@ android {
 
     buildFeatures {
         compose = true
-        aidl = false
-        renderScript = false
+        shaders = false
+        buildConfig = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}")
     }
 }

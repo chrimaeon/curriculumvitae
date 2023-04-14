@@ -15,6 +15,7 @@ import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
 import com.cmgapps.gradle.curriculumvitae.ObfuscateEmailTask
 import com.cmgapps.gradle.curriculumvitae.configProperty
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Locale
 import java.util.Properties
 import kotlin.io.path.div
 
@@ -58,9 +59,8 @@ android {
 
     buildFeatures {
         compose = true
-        aidl = false
-        renderScript = false
         shaders = false
+        buildConfig = true
     }
 
     composeOptions {
@@ -180,13 +180,15 @@ android {
         }
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
 
     applicationVariants.all {
         val variantName = name
-        val licenseTask = tasks.named("license${variantName.capitalize()}Report")
+        val capitalizedVariantName =
+            variantName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        val licenseTask = tasks.named("license${capitalizedVariantName}Report")
 
         val copyTask = tasks.register<Copy>("copy${licenseTask.name}") {
             from(licenseTask)
@@ -195,6 +197,18 @@ android {
 
         mergeAssetsProvider {
             dependsOn(copyTask)
+        }
+
+        afterEvaluate {
+            tasks.named("ksp${capitalizedVariantName}Kotlin") {
+                dependsOn("generate${capitalizedVariantName}Protos")
+            }
+        }
+
+        if (buildType.name == "release") {
+            tasks.named("lintVitalAnalyze$capitalizedVariantName") {
+                dependsOn(copyTask)
+            }
         }
     }
 

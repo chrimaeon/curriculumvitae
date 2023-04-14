@@ -40,7 +40,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.PointerIconDefaults
+import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
@@ -102,7 +102,7 @@ private fun Left() {
                                 .browse(URI.create("https://github.com/jetbrains/compose-jb"))
                         }
                     }
-                    .pointerHoverIcon(PointerIconDefaults.Hand)
+                    .pointerHoverIcon(PointerIcon.Hand)
                     .onPointerEvent(
                         PointerEventType.Enter,
                         onEvent = {
@@ -135,7 +135,7 @@ private fun Right() {
                     Desktop.getDesktop().browse(URI.create(GitHubLink))
                 }
             }
-            .pointerHoverIcon(PointerIconDefaults.Hand)
+            .pointerHoverIcon(PointerIcon.Hand)
             .onPointerEvent(
                 PointerEventType.Enter,
                 onEvent = {

@@ -8,6 +8,7 @@
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
 import com.cmgapps.gradle.curriculumvitae.configProperty
+import com.cmgapps.gradle.curriculumvitae.javaLanguageVersion
 import java.time.LocalDate
 import kotlin.io.path.div
 
@@ -119,6 +120,10 @@ kotlin {
                 dependsOn(tasks.generateBuildConfig)
             }
         }
+    }
+
+    jvmToolchain {
+        languageVersion.set(javaLanguageVersion)
     }
 }
 

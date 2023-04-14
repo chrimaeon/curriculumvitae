@@ -19,6 +19,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- leak canary -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".DebugApplication"
         android:usesCleartextTraffic="true"
@@ -29,7 +32,8 @@
             android:label="@string/shortcut_label_debug"
             android:exported="true"
             android:theme="@style/Theme.DebugActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            />
     </application>
 
 </manifest>

@@ -8,7 +8,6 @@
 
 import com.android.build.api.dsl.LibraryExtension
 import com.cmgapps.gradle.curriculumvitae.configureKotlinAndroid
-import com.cmgapps.gradle.curriculumvitae.getVersion
 import com.cmgapps.gradle.curriculumvitae.libs
 import com.cmgapps.gradle.curriculumvitae.testCompletionLog
 import org.gradle.api.Plugin
@@ -42,8 +41,6 @@ class MultiplatformAndroidLibraryPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this, libs)
-
-                defaultConfig.targetSdk = libs.getVersion("androidTargetSdk").toInt()
             }
         }
     }

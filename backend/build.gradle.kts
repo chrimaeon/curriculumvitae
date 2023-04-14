@@ -6,6 +6,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import com.cmgapps.gradle.curriculumvitae.javaLanguageVersion
 import java.util.Properties
 
 plugins {
@@ -64,8 +65,9 @@ appengine {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    toolchain {
+        languageVersion.set(javaLanguageVersion)
+    }
 }
 
 tasks {

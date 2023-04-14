@@ -84,7 +84,7 @@ abstract class ObfuscateEmailTask @Inject constructor(objects: ObjectFactory) : 
                     emailAddress.get().toCharArray().xor(packageName.toCharArray()).let {
                         val size = it.size
                         it.forEachIndexed { index, char ->
-                            add("${char.toInt()}.%N()", intToCharMember)
+                            add("${char.code}.%N()", intToCharMember)
                             if (index < size - 1) add(",")
                         }
                         add(")")
@@ -113,5 +113,5 @@ abstract class ObfuscateEmailTask @Inject constructor(objects: ObjectFactory) : 
 }
 
 private fun CharArray.xor(key: CharArray) = mapIndexed { index, char ->
-    (char.toInt() xor key[index % key.size].toInt()).toChar()
+    (char.code xor key[index % key.size].code).toChar()
 }.toCharArray()
