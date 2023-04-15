@@ -188,26 +188,10 @@ android {
         val variantName = name
         val capitalizedVariantName =
             variantName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        val licenseTask = tasks.named("license${capitalizedVariantName}Report")
-
-        val copyTask = tasks.register<Copy>("copy${licenseTask.name}") {
-            from(licenseTask)
-            into(android.sourceSets[variantName].assets.srcDirs.first())
-        }
-
-        mergeAssetsProvider {
-            dependsOn(copyTask)
-        }
 
         afterEvaluate {
             tasks.named("ksp${capitalizedVariantName}Kotlin") {
                 dependsOn("generate${capitalizedVariantName}Protos")
-            }
-        }
-
-        if (buildType.name == "release") {
-            tasks.named("lintVitalAnalyze$capitalizedVariantName") {
-                dependsOn(copyTask)
             }
         }
     }
