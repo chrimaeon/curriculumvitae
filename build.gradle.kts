@@ -21,7 +21,6 @@ import com.github.benmanes.gradle.versions.updates.gradle.GradleReleaseChannel.C
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -56,17 +55,14 @@ allprojects {
         withType<JavaCompile> {
             options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xmaxerrs", "500"))
         }
-
-        withType<KotlinCompile> {
-            kotlinOptions {
-                freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
-            }
-        }
     }
+
+    val localProject: Project = this
 
     configurations.all {
         resolutionStrategy {
-            @Suppress("UnstableApiUsage")
+            val composeVersion = libs.versions.composeMultiplatform
+
             with(libs.hamcrest.get()) {
                 "${this.module.group}:${this.module.name}:${this.versionConstraint.displayName}"
             }.let {
@@ -75,6 +71,19 @@ allprojects {
                     substitute(module("org.hamcrest:hamcrest-core")).using(module(it))
                     substitute(module("org.hamcrest:hamcrest-integration")).using(module(it))
                     substitute(module("org.hamcrest:hamcrest-library")).using(module(it))
+                }
+            }
+            eachDependency {
+                // Use released version of Compose for Android
+                // remove once compose web is in "main" repository
+                val useAndroidComposeVersion =
+                    localProject.name.contains("app") || localProject.name == "wearable"
+                val isComposeGroup = requested.module.group.startsWith("org.jetbrains.compose")
+                val isComposeCompiler =
+                    requested.module.group.startsWith("org.jetbrains.compose.compiler")
+                if (useAndroidComposeVersion && isComposeGroup && !isComposeCompiler) {
+                    logger.info(":${localProject.name} is using version ${composeVersion.get()} for ${requested.module}")
+                    useVersion(composeVersion.get())
                 }
             }
         }
