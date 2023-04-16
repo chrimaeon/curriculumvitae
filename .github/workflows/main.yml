@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
   pull_request:
 
+env:
+  JAVA_VERSION: 17
+
 jobs:
   checkAndUnitTestJvmAndroid:
     name: Check and Run Unit Tests (JVM/Android)
@@ -24,7 +27,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 11
+          java-version: ${{ env.JAVA_VERSION }}
 
       - name: Gradle Cache
         uses: actions/cache@v3
@@ -205,7 +208,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 11
+          java-version: ${{ env.JAVA_VERSION }}
 
       - name: Gradle Cache
         uses: actions/cache@v3
@@ -310,7 +313,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: ${{ env.JAVA_VERSION }}
 
       - name: Gradle Cache
         uses: actions/cache@v3

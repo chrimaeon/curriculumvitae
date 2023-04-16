@@ -12,7 +12,8 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
-val javaLanguageVersion = JavaLanguageVersion.of(17)
+// Update Github workflow as well
+val javaLanguageVersion: JavaLanguageVersion = JavaLanguageVersion.of(17)
 
 fun Project.configureLanguageVersion() {
     configure<JavaPluginExtension> {
