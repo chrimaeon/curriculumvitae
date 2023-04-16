@@ -16,10 +16,13 @@
 
 package com.cmgapps.wear.curriculumvitae
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -31,12 +34,11 @@ import androidx.wear.compose.material.MaterialTheme
 import com.cmgapps.wear.curriculumvitae.ui.employment.EmploymentScreen
 import com.cmgapps.wear.curriculumvitae.ui.profile.ProfileScreen
 import com.cmgapps.wear.curriculumvitae.ui.skills.SkillsScreen
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
 
-@OptIn(ExperimentalPagerApi::class)
+private const val pageCount = 3
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen() {
     val pagerState = rememberPagerState()
@@ -46,7 +48,7 @@ fun MainScreen() {
                 .fillMaxSize()
                 .background(MaterialTheme.colors.surface),
         ) {
-            HorizontalPager(state = pagerState, count = 3) { page ->
+            HorizontalPager(state = pagerState, pageCount = pageCount) { page ->
                 when (page) {
                     0 -> ProfileScreen()
                     1 -> EmploymentScreen()
@@ -59,6 +61,7 @@ fun MainScreen() {
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 8.dp),
                 pagerState = pagerState,
+                pageCount = pageCount,
                 activeColor = MaterialTheme.colors.primary.copy(LocalContentAlpha.current),
             )
         }
