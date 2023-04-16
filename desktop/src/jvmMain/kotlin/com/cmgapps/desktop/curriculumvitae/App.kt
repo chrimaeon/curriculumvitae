@@ -23,9 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.ShaderBrush
-import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.OssProject
@@ -36,18 +36,18 @@ import com.cmgapps.desktop.curriculumvitae.components.OssProjectCard
 import com.cmgapps.desktop.curriculumvitae.components.ProfileCard
 import com.cmgapps.desktop.curriculumvitae.components.SkillsCard
 import com.cmgapps.desktop.curriculumvitae.ui.Footer
-import org.jetbrains.skia.Image
 import org.jetbrains.skia.Shader
-import java.awt.image.BufferedImage
+import java.awt.Desktop
+import java.net.URI
 
 @Composable
 fun App(
     profile: Profile,
-    profileImage: BufferedImage,
+    profileImage: ImageBitmap,
     employments: List<Employment>,
     skills: List<Skill>,
     projects: List<OssProject>,
-    backgroundImage: Image,
+    backgroundImage: ImageBitmap,
 ) {
     Scaffold(
         bottomBar = {
@@ -67,7 +67,20 @@ fun App(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                ProfileCard(profile, profileImage)
+                ProfileCard(
+                    profile,
+                    profileImage,
+                    onEmailClicked = {
+                        if (Desktop.isDesktopSupported()) {
+                            Desktop.getDesktop().mail(URI.create("mailto:${profile.email}"))
+                        }
+                    },
+                    onPhoneClicked = {
+                        if (Desktop.isDesktopSupported()) {
+                            Desktop.getDesktop().browse(URI.create("tel:${profile.phone}"))
+                        }
+                    },
+                )
                 for (index in employments.indices step 2) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -119,12 +132,12 @@ fun App(
     }
 }
 
-class ImageBrush(private val image: Image?) : ShaderBrush() {
+class ImageBrush(private val image: ImageBitmap?) : ShaderBrush() {
     override fun createShader(size: Size): Shader {
         if (image == null) {
             return Shader.makeEmpty()
         }
 
-        return ImageShader(image.toComposeImageBitmap())
+        return ImageShader(image)
     }
 }

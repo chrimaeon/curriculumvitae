@@ -20,15 +20,35 @@ A iOS App showcasing integration of Kotlin to Swift and SwiftUI
 
 ## [Desktop](desktop)
 
-A Java Desktop App showcasing [Compose for Desktop].
+A Java Desktop App showcasing [Compose Multiplatform] for Desktop.
 
 Run `./gradlew :desktop:run` to start the app.
 
-## [Web](web)
+## [Web - HTML](web)
 
-A JavaScript Web application showcasing [Compose for Web].
+A JavaScript Web application showcasing [Compose Multiplatform] for HTML.
 
 You can start the dev server running `./gradlew :web:jsBrowserDevelopmentRun`
+
+## [Web - Canvas](web-canvas)
+
+> **Note**
+> Web support is Experimental
+
+A JavaScript / WebAssembly Browser Application showcasing [Compose Multiplatform] rendered on a Canvas.
+
+Run `./gradlew :web-canvas:jsBrowserDevelopmentRun` to start the JavaScript Application
+
+Run `./gradlew :web-canvas:wasmBrowserDevelopmentRun` to start the WebAssembly Application
+
+>**Note**
+> Using experimental Kotlin/Wasm may require enabling experimental features in the target environment.
+
+- **Chrome** 110 or newer: enable **WebAssembly Garbage Collection** at [chrome://flags/#enable-webassembly-garbage-collection](chrome://flags/#enable-webassembly-garbage-collection) or with Chrome 109 or newer, run the program with the `--js-flags=--experimental-wasm-gc` command line argument.
+- **Firefox Nightly** 112 or newer: enable **javascript.options.wasm_function_references** and **javascript.options.wasm_gc** at [about:config](about:config).
+- **Edge** 109 or newer: run the program with the `--js-flags=--experimental-wasm-gc` command line argument.
+
+For more information see https://kotl.in/wasm_help/.
 
 ## [Back end](backend)
 
@@ -59,8 +79,6 @@ SPDX-License-Identifier: Apache-2.0
 
 [Kotlin Multiplatform]: https://kotlinlang.org/docs/mpp-intro.html
 
-[Compose for Desktop]: https://www.jetbrains.com/de-de/lp/compose/
-
-[Compose for Web]: https://compose-web.ui.pages.jetbrains.team/
+[Compose Multiplatform]: https://compose-web.ui.pages.jetbrains.team/
 
 [Google Cloud App Engine]: https://cloud.google.com/appengine/

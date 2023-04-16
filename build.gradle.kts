@@ -101,10 +101,9 @@ tasks {
 }
 
 rootProject.plugins.withType(YarnPlugin::class.java) {
-    if (System.getenv("CI") != null) {
-        rootProject.configure<YarnRootExtension> {
-            yarnLockMismatchReport = YarnLockMismatchReport.WARNING
-            reportNewYarnLock = true
-        }
+    rootProject.configure<YarnRootExtension> {
+        yarnLockMismatchReport = YarnLockMismatchReport.WARNING
+        // TODO WASM not handling it correctly
+        reportNewYarnLock = false
     }
 }

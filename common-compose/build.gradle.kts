@@ -4,26 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-@file:Suppress("UnstableApiUsage")
-@file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     id("curriculumvitae.multiplatform.android.library")
     @Suppress("DSL_SCOPE_VIOLATION")
-    alias(libs.plugins.jetbrainsCompose)
+    id("org.jetbrains.compose") version libs.versions.composeMultiplatformWasm
     id("ktlint")
 }
 
 kotlin {
+    js(IR) {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasm {
+        browser()
+    }
+
     sourceSets {
         named("commonMain") {
             dependencies {
-                implementation(projects.common)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
-                implementation(compose.materialIconsExtended)
-                implementation(libs.kotlinx.datetime)
             }
         }
 

@@ -20,16 +20,15 @@ import StubDomainEmployment
 import StubDomainOssProject
 import StubDomainProfile
 import StubDomainSkill
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.jetbrains.skiko.toImage
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.awt.image.BufferedImage
 
 /**
  *
@@ -53,11 +52,11 @@ internal class AppShould {
         composeRule.setContent {
             App(
                 profile = profile,
-                profileImage = BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB),
+                profileImage = ImageBitmap(500, 500),
                 employments = listOf(employment),
                 skills = listOf(skill),
                 projects = listOf(project),
-                backgroundImage = BufferedImage(1200, 1200, BufferedImage.TYPE_INT_RGB).toImage(),
+                backgroundImage = ImageBitmap(1200, 1200),
             )
         }
     }

@@ -23,6 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.useResource
 import androidx.compose.ui.unit.dp
@@ -52,9 +54,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import org.jetbrains.skia.Image
-import org.jetbrains.skiko.toImage
-import java.awt.image.BufferedImage
 import java.io.IOException
 import java.util.prefs.Preferences
 import javax.imageio.ImageIO
@@ -66,7 +65,7 @@ data class AppState(
     val skills: List<Skill>? = null,
     val projects: List<OssProject>? = null,
     val employments: List<Employment>? = null,
-    val backgroundImage: Image? = null,
+    val backgroundImage: ImageBitmap? = null,
 ) {
     val loading: Boolean
         get() = profile == null ||
@@ -78,7 +77,7 @@ data class AppState(
 
 data class ProfileState(
     val profile: Profile,
-    val profileImage: BufferedImage,
+    val profileImage: ImageBitmap,
 )
 
 val koin = initKoin(enableNetworkLogging = true).koin
@@ -115,14 +114,14 @@ fun main() = runBlocking {
                     withContext(Dispatchers.IO) {
                         ImageIO.read(
                             profileRepo.getProfileImage(profile.profileImagePath).toInputStream(),
-                        )
+                        ).toComposeImageBitmap()
                     }
                 ProfileState(profile, profileImage)
             }
 
             val backgroundImage = async {
                 useResource("/page_background.jpg") {
-                    ImageIO.read(it).toImage()
+                    ImageIO.read(it).toComposeImageBitmap()
                 }
             }
 
@@ -202,9 +201,9 @@ fun SplashScreen(onCloseRequest: () -> Unit) {
 
 @Composable
 fun MainScreen(
-    backgroundImage: Image,
+    backgroundImage: ImageBitmap,
     profile: Profile,
-    profileImage: BufferedImage,
+    profileImage: ImageBitmap,
     employments: List<Employment>,
     skills: List<Skill>,
     projects: List<OssProject>,
