@@ -25,7 +25,7 @@ class BuildConfigPlugin : Plugin<Project> {
                 this.baseUrl.set(extension.baseUrl)
                 this.debugBaseUrls.set(extension.debugBaseUrls)
                 this.buildYear.set(extension.buildYear)
-                this.githubReposUrl.set(extension.githubReposUrls)
+                this.githubReposUrl.set(extension.githubReposUrl)
             }
         }
     }

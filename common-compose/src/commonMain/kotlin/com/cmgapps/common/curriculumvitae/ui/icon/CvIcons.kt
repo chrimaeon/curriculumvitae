@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.desktop.curriculumvitae.ui.icon
+package com.cmgapps.common.curriculumvitae.ui.icon
 
 object CvIcons

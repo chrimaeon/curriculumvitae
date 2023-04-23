@@ -12,5 +12,5 @@ interface BuildConfigExtension {
     val baseUrl: Property<String>
     val debugBaseUrls: Property<String>
     val buildYear: Property<String>
-    val githubReposUrls: Property<String>
+    val githubReposUrl: Property<String>
 }

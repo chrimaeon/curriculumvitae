@@ -25,7 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.useResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
@@ -46,9 +46,11 @@ import com.cmgapps.common.curriculumvitae.infra.di.getOssProjectRepository
 import com.cmgapps.common.curriculumvitae.infra.di.getProfileRepository
 import com.cmgapps.common.curriculumvitae.infra.di.getSkillRepository
 import com.cmgapps.common.curriculumvitae.infra.di.initKoin
+import com.cmgapps.common.curriculumvitae.ui.icon.CheckSquare
+import com.cmgapps.common.curriculumvitae.ui.icon.CvIcons
+import com.cmgapps.common.curriculumvitae.ui.icon.Logo
+import com.cmgapps.common.curriculumvitae.ui.icon.Square
 import com.cmgapps.desktop.curriculumvitae.ui.Theme
-import com.cmgapps.desktop.curriculumvitae.ui.icon.CvIcons
-import com.cmgapps.desktop.curriculumvitae.ui.icon.Logo
 import io.ktor.utils.io.jvm.javaio.toInputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -236,9 +238,9 @@ fun MainScreen(
                         Item(
                             debugUrl,
                             icon = if (currentUrl == debugUrl) {
-                                painterResource("icons/check-square.svg")
+                                rememberVectorPainter(CvIcons.CheckSquare)
                             } else {
-                                painterResource("icons/square.svg")
+                                rememberVectorPainter(CvIcons.Square)
                             },
                         ) {
                             prefs.apply {

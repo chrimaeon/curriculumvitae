@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.cmgapps.desktop.curriculumvitae.ui
+package com.cmgapps.common.curriculumvitae.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,21 +40,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
-import com.cmgapps.common.curriculumvitae.CopyRightText
-import com.cmgapps.common.curriculumvitae.GitHubLink
-import com.cmgapps.desktop.curriculumvitae.codeBlue
-import com.cmgapps.desktop.curriculumvitae.components.Icon
-import com.cmgapps.desktop.curriculumvitae.heartRed
-import java.awt.Desktop
-import java.net.URI
+import com.cmgapps.common.curriculumvitae.ui.icon.CodeSlash
+import com.cmgapps.common.curriculumvitae.ui.icon.CvIcons
+import com.cmgapps.common.curriculumvitae.ui.icon.Github
+import com.cmgapps.common.curriculumvitae.ui.icon.HeartFill
 
 @Composable
-fun Footer() {
+fun Footer(
+    copyRightText: String,
+    onComposeDesktopClick: () -> Unit,
+    onGithubClick: () -> Unit,
+) {
     Surface(
         color = MaterialTheme.colors.primarySurface,
     ) {
@@ -68,8 +71,11 @@ fun Footer() {
                     MaterialTheme.colors.primarySurface,
                 ),
             ) {
-                Left()
-                Right()
+                Left(
+                    onComposeDesktopClick = onComposeDesktopClick,
+                    copyRightText = copyRightText,
+                )
+                Right(onGithubClick = onGithubClick)
             }
         }
     }
@@ -77,31 +83,33 @@ fun Footer() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun Left() {
+private fun Left(
+    copyRightText: String,
+    onComposeDesktopClick: () -> Unit,
+) {
     Column {
-        Text(CopyRightText)
+        Text(copyRightText)
         Row(
             verticalAlignment = Alignment.Bottom,
         ) {
             var hover by remember { mutableStateOf(false) }
 
-            Icon(
-                "code-slash",
+            Image(
+                CvIcons.CodeSlash,
                 contentDescription = "Coded",
-                color = MaterialTheme.colors.codeBlue,
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.codeBlue),
             )
             Text(" with ")
-            Icon("heart-fill", contentDescription = "Love", color = MaterialTheme.colors.heartRed)
+            Image(
+                CvIcons.HeartFill,
+                contentDescription = "Love",
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.heartRed),
+            )
             Text(" and ")
             Text(
                 "Compose for Desktop",
                 modifier = Modifier
-                    .clickable {
-                        if (Desktop.isDesktopSupported()) {
-                            Desktop.getDesktop()
-                                .browse(URI.create("https://github.com/jetbrains/compose-jb"))
-                        }
-                    }
+                    .clickable(onClick = onComposeDesktopClick)
                     .pointerHoverIcon(PointerIcon.Hand)
                     .onPointerEvent(
                         PointerEventType.Enter,
@@ -123,18 +131,16 @@ private fun Left() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun Right() {
+private fun Right(
+    onGithubClick: () -> Unit,
+) {
     var hover by remember { mutableStateOf(false) }
 
-    Icon(
-        svgName = "github",
+    Image(
+        CvIcons.Github,
         modifier = Modifier
             .size(32.dp)
-            .clickable {
-                if (Desktop.isDesktopSupported()) {
-                    Desktop.getDesktop().browse(URI.create(GitHubLink))
-                }
-            }
+            .clickable(onClick = onGithubClick)
             .pointerHoverIcon(PointerIcon.Hand)
             .onPointerEvent(
                 PointerEventType.Enter,

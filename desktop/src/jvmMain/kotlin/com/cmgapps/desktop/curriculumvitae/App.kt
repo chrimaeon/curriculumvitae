@@ -27,15 +27,17 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.unit.dp
+import com.cmgapps.common.curriculumvitae.CopyRightText
+import com.cmgapps.common.curriculumvitae.GitHubLink
+import com.cmgapps.common.curriculumvitae.components.ProfileCard
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.OssProject
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.data.domain.Skill
+import com.cmgapps.common.curriculumvitae.ui.Footer
 import com.cmgapps.desktop.curriculumvitae.components.EmploymentCard
 import com.cmgapps.desktop.curriculumvitae.components.OssProjectCard
-import com.cmgapps.desktop.curriculumvitae.components.ProfileCard
 import com.cmgapps.desktop.curriculumvitae.components.SkillsCard
-import com.cmgapps.desktop.curriculumvitae.ui.Footer
 import org.jetbrains.skia.Shader
 import java.awt.Desktop
 import java.net.URI
@@ -51,7 +53,20 @@ fun App(
 ) {
     Scaffold(
         bottomBar = {
-            Footer()
+            Footer(
+                copyRightText = CopyRightText,
+                onComposeDesktopClick = {
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop()
+                            .browse(URI.create("https://github.com/jetbrains/compose-jb"))
+                    }
+                },
+                onGithubClick = {
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().browse(URI.create(GitHubLink))
+                    }
+                },
+            )
         },
     ) { innerPadding ->
         Box(
@@ -68,8 +83,13 @@ fun App(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 ProfileCard(
-                    profile,
-                    profileImage,
+                    name = profile.name,
+                    street = profile.address.street,
+                    city = profile.address.city,
+                    postalCode = profile.address.city,
+                    email = profile.email,
+                    phone = profile.phone,
+                    profileImage = profileImage,
                     onEmailClicked = {
                         if (Desktop.isDesktopSupported()) {
                             Desktop.getDesktop().mail(URI.create("mailto:${profile.email}"))

@@ -5,12 +5,17 @@
  */
 
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import java.time.LocalDate
+import java.util.Properties
 
 plugins {
     kotlin("multiplatform")
     @Suppress("DSL_SCOPE_VIOLATION")
     id("org.jetbrains.compose") version libs.versions.composeMultiplatformWasm
     id("ktlint")
+
+    // TODO remove once common can be shared
+    id("curriculumvitae.buildconfig")
 }
 
 kotlin {
@@ -29,6 +34,7 @@ kotlin {
 
     sourceSets {
         val jsWasmMain by creating {
+            this.kotlin.srcDir(tasks.generateBuildConfig)
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.ui)
@@ -36,6 +42,7 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4-wasm0")
             }
         }
 
@@ -52,6 +59,41 @@ kotlin {
             }
         }
     }
+
+    targets.all {
+        compilations.all {
+            compileTaskProvider {
+                dependsOn(tasks.generateBuildConfig)
+            }
+        }
+    }
+}
+
+// TODO remove once common can be shared
+buildConfig {
+    val configProperties by lazy {
+        Properties().apply {
+            rootDir.resolve("config.properties").inputStream().use {
+                load(it)
+            }
+        }
+    }
+    this.baseUrl.set(
+        provider {
+            configProperties.getProperty("baseUrl")
+        },
+    )
+    this.debugBaseUrls.set(
+        provider {
+            configProperties.getProperty("debugBaseUrls")
+        },
+    )
+    this.buildYear.set(LocalDate.now().year.toString())
+    this.githubReposUrl.set(
+        provider {
+            configProperties.getProperty("githubReposUrl")
+        },
+    )
 }
 
 compose.experimental {

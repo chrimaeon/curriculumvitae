@@ -41,7 +41,7 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-            this.kotlin.srcDir(tasks.generateBuildConfig.get().outputs)
+            this.kotlin.srcDir(tasks.generateBuildConfig)
             dependencies {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
@@ -158,5 +158,5 @@ buildConfig {
     this.baseUrl.set(baseUrl)
     this.debugBaseUrls.set(debugBaseUrls)
     this.buildYear.set(LocalDate.now().year.toString())
-    this.githubReposUrls.set(githubReposUrl)
+    this.githubReposUrl.set(githubReposUrl)
 }

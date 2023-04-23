@@ -1,4 +1,10 @@
-package com.cmgapps.desktop.curriculumvitae.ui.icon
+/*
+ * Copyright (c) 2023. Christian Grach <christian.grach@cmgapps.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.cmgapps.common.curriculumvitae.ui.icon
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -19,7 +25,7 @@ val CvIcons.Logo: ImageVector
             viewportWidth = 200.0f,
             viewportHeight = 200.0f,
         ).apply {
-            path(fill = SolidColor(Color(0xFFFFFFFF))) {
+            path(fill = SolidColor(Color(0xFF000000))) {
                 moveTo(143.8f, 150.8f)
                 horizontalLineTo(56.2f)
                 verticalLineToRelative(-10.2f)
