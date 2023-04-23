@@ -19,6 +19,7 @@ package com.cmgapps.common.curriculumvitae.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +34,7 @@ import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -60,22 +62,40 @@ fun Footer(
     Surface(
         color = MaterialTheme.colors.primarySurface,
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(vertical = 10.dp, horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            CompositionLocalProvider(
-                LocalContentColor provides MaterialTheme.colors.contentColorFor(
-                    MaterialTheme.colors.primarySurface,
-                ),
-            ) {
-                Left(
-                    onComposeDesktopClick = onComposeDesktopClick,
-                    copyRightText = copyRightText,
-                )
-                Right(onGithubClick = onGithubClick)
+        val content = remember {
+            movableContentOf {
+                CompositionLocalProvider(
+                    LocalContentColor provides MaterialTheme.colors.contentColorFor(
+                        MaterialTheme.colors.primarySurface,
+                    ),
+                ) {
+                    Left(
+                        onComposeDesktopClick = onComposeDesktopClick,
+                        copyRightText = copyRightText,
+                    )
+                    Right(onGithubClick = onGithubClick)
+                }
+            }
+        }
+        BoxWithConstraints {
+            if (maxWidth < 600.dp) {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.Start,
+                ) {
+                    content()
+                }
+            } else {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    content()
+                }
             }
         }
     }
