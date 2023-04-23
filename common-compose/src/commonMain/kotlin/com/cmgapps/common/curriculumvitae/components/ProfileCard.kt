@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -55,14 +56,17 @@ fun ProfileCard(
             Text(
                 name,
                 style = MaterialTheme.typography.h3,
+                textAlign = TextAlign.Center,
             )
             Text(
                 street,
                 style = MaterialTheme.typography.h5,
+                textAlign = TextAlign.Center,
             )
             Text(
                 "$postalCode $city",
                 style = MaterialTheme.typography.h5,
+                textAlign = TextAlign.Center,
             )
             Text(
                 email,
@@ -71,6 +75,7 @@ fun ProfileCard(
                     onEmailClicked()
                 }.pointerHoverIcon(PointerIcon.Hand),
                 color = MaterialTheme.colors.primary,
+                textAlign = TextAlign.Center,
             )
             Text(
                 phone,
@@ -79,6 +84,7 @@ fun ProfileCard(
                     onPhoneClicked()
                 }.pointerHoverIcon(PointerIcon.Hand),
                 color = MaterialTheme.colors.primary,
+                textAlign = TextAlign.Center,
             )
         }
     }
