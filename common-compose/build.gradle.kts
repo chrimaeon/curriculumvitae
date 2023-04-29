@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
@@ -23,12 +24,14 @@ kotlin {
         browser()
     }
 
+    @OptIn(ExperimentalComposeLibrary::class)
     sourceSets {
         named("commonMain") {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(compose.components.resources)
             }
         }
 

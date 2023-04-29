@@ -100,7 +100,7 @@ tasks {
 
         revision = "release"
         rejectVersionIf {
-            listOf("alpha", "beta", "rc", "cr", "m", "eap").any { qualifier ->
+            listOf("alpha", "beta", "rc", "cr", "m", "eap", "dev").any { qualifier ->
                 """(?i).*[.-]?$qualifier[.\d-]*""".toRegex()
                     .containsMatchIn(candidate.version)
             }

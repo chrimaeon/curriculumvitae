@@ -41,9 +41,10 @@ fun StarChip(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            @Suppress("ktlint:standard:comment-wrapping")
             Icon(
                 Icons.Filled.Star,
-                contentDescription = null, /*Decorative Image*/
+                contentDescription = null, /* Decorative Image */
                 tint = LocalContentColor.current.copy(alpha = 0.7F),
             )
             Text(stars.toString())

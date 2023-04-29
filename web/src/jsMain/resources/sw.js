@@ -10,6 +10,7 @@ self.addEventListener("install", function (event) {
                 "/styles.css",
                 "/page_background.jpg",
                 "/sql-wasm.wasm",
+                "/star.svg"
             ]);
         })
     );

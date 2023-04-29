@@ -32,7 +32,7 @@ interface ModelLoader {
 }
 
 class ClassLoaderModelLoader : ModelLoader {
-    private val classLoader = this.javaClass.classLoader
+    private val classLoader: ClassLoader = this.javaClass.classLoader!!
 
     override fun <T> loadModel(serializer: KSerializer<T>, filePath: String): T? =
         classLoader

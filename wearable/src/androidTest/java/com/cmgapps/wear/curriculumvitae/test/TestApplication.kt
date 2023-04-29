@@ -27,6 +27,7 @@ class TestApplication : Application() {
             EmploymentRepository(
                 api = get(),
                 databaseWrapper = DatabaseWrapper {
+                    @Suppress("ktlint:standard:comment-wrapping")
                     AndroidSqliteDriver(CvDatabase.Schema, get(), /* in-memory */null)
                 },
                 logger = get { parametersOf("MockEmploymentRepository") },

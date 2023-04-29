@@ -37,5 +37,6 @@ object FakeSqlDriverModule {
     @Provides
     @Singleton
     fun provideInMemoryDriver(@ApplicationContext context: Context): SqlDriver =
+        @Suppress("ktlint:standard:comment-wrapping")
         AndroidSqliteDriver(CvDatabase.Schema, context, /* in-memory */null)
 }

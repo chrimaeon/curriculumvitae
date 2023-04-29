@@ -42,7 +42,7 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4-wasm0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4-wasm3")
             }
         }
 

@@ -6,8 +6,8 @@
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
+import com.cmgapps.common.curriculumvitae.ui.Theme
 import com.cmgapps.webcanvas.curriculumvitae.App
-import com.cmgapps.webcanvas.curriculumvitae.Theme
 import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)
