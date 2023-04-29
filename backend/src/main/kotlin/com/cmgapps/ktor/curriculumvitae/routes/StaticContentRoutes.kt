@@ -7,17 +7,35 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
-import io.ktor.server.http.content.resource
-import io.ktor.server.http.content.resources
-import io.ktor.server.http.content.static
+import io.ktor.server.application.application
+import io.ktor.server.application.call
+import io.ktor.server.http.content.staticResources
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondOutputStream
+import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 
 fun Application.registerStaticRoutes() {
     routing {
-        static("assets") {
-            resources("assets")
+        staticResources("assets", "assets")
+        get("favicon.ico") {
+            val iconStream =
+                application.environment.classLoader.getResourceAsStream("assets/favicon.ico")
+
+            if (iconStream == null) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+
+            call.respondOutputStream(
+                status = HttpStatusCode.OK,
+                contentType = ContentType.Image.XIcon,
+            ) {
+                iconStream.copyTo(this)
+            }
         }
-        resource("favicon.ico", resourcePackage = "assets")
     }
 }
