@@ -19,9 +19,9 @@ package com.cmgapps.android.curriculumvitae.ui.skills
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -85,11 +85,11 @@ private fun Content(skills: List<Skill>) {
 
 @Composable
 private fun Skill.levelAsTextStyle(): TextStyle = when (level) {
-    1 -> MaterialTheme.typography.h6
-    2 -> MaterialTheme.typography.h5
-    3 -> MaterialTheme.typography.h4
-    4 -> MaterialTheme.typography.h3
-    5 -> MaterialTheme.typography.h2
+    1 -> MaterialTheme.typography.displayLarge
+    2 -> MaterialTheme.typography.displayMedium
+    3 -> MaterialTheme.typography.displaySmall
+    4 -> MaterialTheme.typography.headlineLarge
+    5 -> MaterialTheme.typography.headlineMedium
     else -> error("level not specified")
 }.copy(fontWeight = FontWeight.Bold)
 

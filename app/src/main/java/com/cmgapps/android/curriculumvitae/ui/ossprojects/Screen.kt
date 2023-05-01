@@ -10,33 +10,33 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
-import androidx.compose.material.pullrefresh.PullRefreshDefaults
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,8 +49,8 @@ import com.cmgapps.common.curriculumvitae.components.StarChip
 import com.cmgapps.common.curriculumvitae.data.domain.OssProject
 import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
+import com.google.accompanist.placeholder.material3.placeholder
+import com.google.accompanist.placeholder.material3.shimmer
 
 @Composable
 fun OssProjectsScreen(
@@ -86,37 +86,56 @@ fun OssProjectsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Content(
     uiState: UiState<List<OssProject>>,
     bottomContentPadding: Dp,
     onRefresh: () -> Unit = {},
 ) {
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = uiState.loading,
-        onRefresh = onRefresh,
-        refreshingOffset = with(LocalDensity.current) {
-            WindowInsets.statusBars.getTop(this).toDp() + PullRefreshDefaults.RefreshingOffset
-        },
-    )
+    // TODO pull-to-refresh with Material 3
+    // val pullRefreshState = rememberPullRefreshState(
+    //     refreshing = uiState.loading,
+    //     onRefresh = onRefresh,
+    //     refreshingOffset = with(LocalDensity.current) {
+    //         WindowInsets.statusBars.getTop(this).toDp() + PullRefreshDefaults.RefreshingOffset
+    //     },
+    // )
+    // Box(
+    //     // modifier = Modifier.pullRefresh(state = pullRefreshState),
+    // ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    Box(
-        modifier = Modifier.pullRefresh(state = pullRefreshState),
-    ) {
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(stringResource(id = R.string.oss_projects_label))
+                },
+                actions = {
+                    IconButton(onClick = onRefresh) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = "Refresh",
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+    ) { innerPadding ->
+        val layoutDirection = LocalLayoutDirection.current
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
-            contentPadding =
-            WindowInsets.systemBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-                .add(
-                    WindowInsets(
-                        left = 16.dp,
-                        top = 8.dp,
-                        right = 16.dp,
-                        bottom = bottomContentPadding,
-                    ),
-                ).asPaddingValues(),
+            contentPadding = PaddingValues(
+                top = innerPadding.calculateTopPadding() + 8.dp,
+                start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
+                bottom = bottomContentPadding,
+                end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
+            ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             val ossProjects = uiState.data
@@ -139,12 +158,13 @@ private fun Content(
                 }
             }
         }
-        PullRefreshIndicator(
-            refreshing = uiState.loading,
-            state = pullRefreshState,
-            contentColor = MaterialTheme.colors.secondaryVariant,
-            modifier = Modifier.align(Alignment.TopCenter),
-        )
+        // TODO pull-to-refresh with Material 3
+        // PullRefreshIndicator(
+        //     refreshing = uiState.loading,
+        //     state = pullRefreshState,
+        //     contentColor = MaterialTheme.colors.secondaryVariant,
+        //     modifier = Modifier.align(Alignment.TopCenter),
+        // )
     }
 }
 
@@ -160,7 +180,6 @@ private fun OssProjectCard(
             )
             .fillMaxWidth()
             .testTag("ossProjectCard${ossProject?.name ?: ""}"),
-        elevation = 4.dp,
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
@@ -174,12 +193,12 @@ private fun OssProjectCard(
                 Text(
                     modifier = Modifier.weight(1F),
                     text = ossProject?.name ?: "",
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.headlineSmall,
                 )
                 StarChip(
                     modifier = Modifier.padding(start = 8.dp),
-                    backgroundColor = MaterialTheme.colors.primary,
-                    contentColor = MaterialTheme.colors.onPrimary,
+                    backgroundColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                     stars = ossProject?.stars ?: 0,
                 )
             }

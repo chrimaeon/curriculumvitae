@@ -22,6 +22,7 @@ import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import io.ktor.http.Url
+import kotlinx.coroutines.Dispatchers
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import java.io.File
@@ -45,3 +46,5 @@ private fun provideDbDriver(schema: SqlDriver.Schema, logger: Logger): SqlDriver
         schema.create(driver)
     }
 }
+
+actual val IO = Dispatchers.IO

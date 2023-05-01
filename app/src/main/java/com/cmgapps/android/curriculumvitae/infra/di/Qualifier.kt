@@ -16,9 +16,11 @@
 
 package com.cmgapps.android.curriculumvitae.infra.di
 
+import com.cmgapps.common.curriculumvitae.infra.di.CvDispatchers
 import javax.inject.Qualifier
 
 @Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
@@ -29,6 +31,7 @@ import javax.inject.Qualifier
 annotation class Language
 
 @Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
@@ -39,6 +42,7 @@ annotation class Language
 annotation class BaseUrl
 
 @Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
@@ -47,3 +51,7 @@ annotation class BaseUrl
     AnnotationTarget.FIELD,
 )
 annotation class DebugPreferences
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Dispatcher(val cvDispatcher: CvDispatchers)

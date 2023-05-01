@@ -23,10 +23,12 @@ import com.cmgapps.ktor.curriculumvitae.ClassLoaderModelLoader
 import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import kotlinx.coroutines.Dispatchers
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appModule = module {
-    single<ModelLoader> { ClassLoaderModelLoader() }
+    singleOf<ModelLoader>(::ClassLoaderModelLoader)
     single<SqlDriver> {
         JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY).also { driver ->
             CvDatabase.Schema.create(driver)
@@ -40,4 +42,5 @@ val appModule = module {
             ),
         )
     }
+    single { Dispatchers.IO }
 }

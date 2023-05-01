@@ -16,17 +16,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -34,12 +32,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
+import com.cmgapps.android.curriculumvitae.ui.icon.CvIcons
+import com.cmgapps.android.curriculumvitae.ui.icon.outlined.Angry
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BadSignature() {
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
-        backgroundColor = Color.DarkGray,
+        containerColor = MaterialTheme.colorScheme.errorContainer,
     ) { contentPadding ->
         Box(
             modifier = Modifier
@@ -55,33 +56,29 @@ fun BadSignature() {
             ) {
                 Box(
                     Modifier
-                        .background(MaterialTheme.colors.error)
+                        .background(MaterialTheme.colorScheme.error)
                         .fillMaxWidth(.8f)
                         .padding(16.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Image(
                         modifier = Modifier.size(100.dp),
-                        painter = painterResource(id = R.drawable.ic_angry),
+                        imageVector = CvIcons.Outlined.Angry,
                         contentDescription = DecorativeImage,
-                        colorFilter = ColorFilter.tint(
-                            MaterialTheme.colors.contentColorFor(
-                                MaterialTheme.colors.error,
-                            ),
-                        ),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onError),
                     )
                 }
                 Box(
                     Modifier
-                        .background(MaterialTheme.colors.surface)
+                        .background(MaterialTheme.colorScheme.surface)
                         .fillMaxWidth(.8f)
                         .padding(16.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         stringResource(id = R.string.bad_signature),
-                        color = MaterialTheme.colors.contentColorFor(MaterialTheme.colors.surface),
-                        style = MaterialTheme.typography.h5,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.headlineSmall,
                         fontFamily = FontFamily.Default,
                         textAlign = TextAlign.Center,
                     )
@@ -95,6 +92,14 @@ fun BadSignature() {
 @Preview()
 fun BadSignaturePreview() {
     Theme {
+        BadSignature()
+    }
+}
+
+@Composable
+@Preview()
+fun BadSignaturePreviewDarkMode() {
+    Theme(darkTheme = true) {
         BadSignature()
     }
 }

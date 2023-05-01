@@ -21,36 +21,33 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
-import androidx.compose.material.pullrefresh.PullRefreshDefaults
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -64,6 +61,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
@@ -83,8 +81,8 @@ import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import com.cmgapps.common.curriculumvitae.infra.UiState
 import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
+import com.google.accompanist.placeholder.material3.placeholder
+import com.google.accompanist.placeholder.material3.shimmer
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.TimeZone
@@ -130,7 +128,7 @@ fun EmploymentScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Content(
     uiState: UiState<List<Employment>?>,
@@ -138,30 +136,57 @@ private fun Content(
     navigateToEmploymentDetails: (employmentId: Int) -> Unit,
     onRefresh: () -> Unit = {},
 ) {
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = uiState.loading,
-        onRefresh = onRefresh,
-        refreshingOffset = with(LocalDensity.current) {
-            WindowInsets.statusBars.getTop(this).toDp() + PullRefreshDefaults.RefreshingOffset
-        },
-    )
+    // TODO pull-to-refresh with Material 3
+    // val pullRefreshState = rememberPullRefreshState(
+    //     refreshing = uiState.loading,
+    //     onRefresh = onRefresh,
+    //     refreshingOffset = with(LocalDensity.current) {
+    //         WindowInsets.statusBars.getTop(this).toDp() + PullRefreshDefaults.RefreshingOffset
+    //     },
+    // )
+    // Box(
+    //     modifier = Modifier.pullRefresh(state = pullRefreshState),
+    // ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    Box(
-        modifier = Modifier.pullRefresh(state = pullRefreshState),
-    ) {
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(stringResource(id = R.string.employment_label))
+                },
+                actions = {
+                    IconButton(onClick = onRefresh) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = "Refresh",
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+    ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize(),
-            contentPadding =
-            WindowInsets.systemBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-                .add(
-                    WindowInsets(
-                        left = 2.dp,
-                        top = 8.dp,
-                        right = 16.dp,
-                        bottom = bottomContentPadding,
-                    ),
-                ).asPaddingValues(),
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(
+                top = 8.dp,
+                start = 2.dp,
+                bottom = bottomContentPadding,
+                end = 16.dp,
+            ),
+            // WindowInsets.systemBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+            //     .add(
+            //         WindowInsets(
+            //             left = 2.dp,
+            //             top = 8.dp,
+            //             right = 16.dp,
+            //             bottom = bottomContentPadding,
+            //         ),
+            //     ).asPaddingValues(),
         ) {
             val employments = uiState.data
             if (employments != null) {
@@ -193,12 +218,13 @@ private fun Content(
                 }
             }
         }
-        PullRefreshIndicator(
-            refreshing = uiState.loading,
-            state = pullRefreshState,
-            contentColor = MaterialTheme.colors.secondaryVariant,
-            modifier = Modifier.align(Alignment.TopCenter),
-        )
+        // TODO pull-to-refresh with Material 3
+        // PullRefreshIndicator(
+        //     refreshing = uiState.loading,
+        //     state = pullRefreshState,
+        //     contentColor = MaterialTheme.colors.secondaryVariant,
+        //     modifier = Modifier.align(Alignment.TopCenter),
+        // )
     }
 }
 
@@ -232,14 +258,17 @@ private fun EmploymentCard(
                     navigateToEmploymentDetails(it.id)
                 }
             },
+            backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
         ) {
-            Row(
-                modifier = Modifier.padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Avatar(isLoading = employment == null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Description(employment)
+            CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Avatar(isLoading = employment == null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Description(employment)
+                }
             }
         }
     }
@@ -253,6 +282,7 @@ private fun Breadcrumbs(
 ) {
     val strokeWidth = with(LocalDensity.current) { 1.dp.toPx() }
     val dotRadius = with(LocalDensity.current) { 4.dp.toPx() }
+    val color = MaterialTheme.colorScheme.onBackground
 
     Canvas(
         Modifier
@@ -263,14 +293,14 @@ private fun Breadcrumbs(
         val canvasHeight = size.height
 
         drawLine(
-            color = Color.LightGray,
+            color = color,
             start = Offset(canvasWidth / 2, if (isFirst) canvasHeight / 2 else 0f),
             end = Offset(canvasWidth / 2, if (isLast) canvasHeight / 2 else canvasHeight),
             strokeWidth = strokeWidth,
         )
 
         drawCircle(
-            color = Color.LightGray,
+            color = color,
             center = center,
             radius = dotRadius,
         )
@@ -289,7 +319,7 @@ private fun Avatar(
                 visible = isLoading,
                 highlight = PlaceholderHighlight.shimmer(),
             ),
-        color = MaterialTheme.colors.primary,
+        color = MaterialTheme.colorScheme.primary,
     ) {
         Image(
             modifier = Modifier
@@ -317,7 +347,7 @@ private fun Description(
         Text(
             modifier = sharedModifier,
             text = employment?.employer.orEmpty(),
-            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
         )
 
         Spacer(modifier = Modifier.height(2.dp))
@@ -326,7 +356,7 @@ private fun Description(
             modifier = sharedModifier,
         ) {
             CompositionLocalProvider(
-                LocalTextStyle provides MaterialTheme.typography.caption,
+                LocalTextStyle provides MaterialTheme.typography.bodySmall,
             ) {
                 Text(
                     modifier = Modifier.alignBy(LastBaseline),
@@ -370,7 +400,7 @@ private fun Description(
         Text(
             modifier = sharedModifier,
             text = employment?.jobTitle.orEmpty(),
-            style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
         )
     }
 }

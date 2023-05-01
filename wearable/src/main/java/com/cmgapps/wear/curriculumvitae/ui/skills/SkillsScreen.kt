@@ -41,8 +41,8 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import com.cmgapps.common.curriculumvitae.data.domain.Skill
 import com.cmgapps.wear.curriculumvitae.ui.Theme
 import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
+import com.google.accompanist.placeholder.material3.placeholder
+import com.google.accompanist.placeholder.material3.shimmer
 import org.koin.androidx.compose.getViewModel
 
 @Composable

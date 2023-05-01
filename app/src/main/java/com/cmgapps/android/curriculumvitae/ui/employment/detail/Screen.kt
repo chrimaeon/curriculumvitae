@@ -32,14 +32,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,7 +60,6 @@ import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.common.curriculumvitae.components.darker
-import com.cmgapps.common.curriculumvitae.components.lightBlue500
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import kotlinx.datetime.Clock
@@ -86,18 +88,20 @@ fun EmploymentDetails(
                 employment = employment,
                 navigateUp = navigateUp,
             )
+
             uiState.exception != null -> ContentError()
         }
     }
 }
 
 private const val numCircles = 4
-private fun getCircleColorFraction(circle: Int) = 0.5f + (0.9f - 0.5f) / (numCircles + 1) * circle
+private fun getCircleColorFraction(circle: Int) =
+    0.5f + (circle.toFloat() / (numCircles + 1)) * (0.9f - 0.5f)
 
 @Composable
 private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
     val state = rememberCollapsingToolbarScaffoldState()
-    val headerColor = lightBlue500
+    val headerColor = MaterialTheme.colorScheme.secondary
 
     Surface(color = headerColor.darker(getCircleColorFraction(4))) {
         CollapsingToolbarScaffold(
@@ -118,7 +122,7 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
             LazyColumn(
                 modifier = Modifier
                     .background(
-                        color = MaterialTheme.colors.surface,
+                        color = MaterialTheme.colorScheme.surface,
                         shape = RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius),
                     )
                     .fillMaxSize(),
@@ -146,6 +150,7 @@ private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CollapsingToolbarScope.TopBar(
     title: String,
@@ -153,7 +158,7 @@ private fun CollapsingToolbarScope.TopBar(
     state: CollapsingToolbarScaffoldState,
     navigateUp: () -> Unit,
 ) {
-    val contentColor = Color.White
+    val contentColor = MaterialTheme.colorScheme.contentColorFor(headerColor)
 
     BoxWithConstraints(
         modifier = Modifier
@@ -193,9 +198,11 @@ private fun CollapsingToolbarScope.TopBar(
 
     TopAppBar(
         modifier = Modifier.statusBarsPadding(),
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        elevation = 0.dp,
+        colors = TopAppBarDefaults.largeTopAppBarColors(
+            containerColor = backgroundColor,
+            titleContentColor = contentColor,
+            navigationIconContentColor = contentColor,
+        ),
         title = { },
         navigationIcon = {
             IconButton(
@@ -211,10 +218,10 @@ private fun CollapsingToolbarScope.TopBar(
 
     Text(
         text = title,
-        style = MaterialTheme.typography.h6.copy(color = contentColor),
+        style = MaterialTheme.typography.titleLarge.copy(color = contentColor),
         fontSize = lerp(
-            MaterialTheme.typography.h6.fontSize,
-            MaterialTheme.typography.h4.fontSize,
+            MaterialTheme.typography.titleLarge.fontSize,
+            MaterialTheme.typography.headlineMedium.fontSize,
             state.toolbarState.progress,
         ),
         modifier = Modifier

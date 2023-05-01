@@ -57,12 +57,12 @@ private val CrimsonPro = FontFamily(
     ),
 )
 
-private val defaultTypography = androidx.compose.material.Typography()
-val Typography = androidx.compose.material.Typography(
-    h1 = defaultTypography.h1.copy(fontFamily = CrimsonPro),
-    h2 = defaultTypography.h2.copy(fontFamily = CrimsonPro),
-    h3 = defaultTypography.h3.copy(fontFamily = CrimsonPro),
-    h4 = defaultTypography.h4.copy(fontFamily = CrimsonPro),
-    h5 = defaultTypography.h5.copy(fontFamily = CrimsonPro),
-    h6 = defaultTypography.h6.copy(fontFamily = CrimsonPro),
+private val defaultTypography = androidx.compose.material3.Typography()
+val Typography = androidx.compose.material3.Typography(
+    displayLarge = defaultTypography.displayLarge.copy(fontFamily = CrimsonPro),
+    displayMedium = defaultTypography.displayMedium.copy(fontFamily = CrimsonPro),
+    displaySmall = defaultTypography.displaySmall.copy(fontFamily = CrimsonPro),
+    headlineLarge = defaultTypography.headlineLarge.copy(fontFamily = CrimsonPro),
+    headlineMedium = defaultTypography.headlineMedium.copy(fontFamily = CrimsonPro),
+    headlineSmall = defaultTypography.headlineSmall.copy(fontFamily = CrimsonPro),
 )

@@ -26,25 +26,29 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationDefaults
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -88,10 +92,12 @@ import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 @OptIn(
     ExperimentalMaterialNavigationApi::class,
     ExperimentalAnimationApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalLayoutApi::class,
 )
 @Composable
 fun MainScreen(
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    snackbarHostState: SnackbarHostState,
     onFabClick: () -> Unit = {},
     onOpenWebsite: (Uri) -> Unit = {},
 ) {
@@ -110,14 +116,22 @@ fun MainScreen(
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
     ) {
         Scaffold(
-            scaffoldState = scaffoldState,
+            snackbarHost = { SnackbarHost(snackbarHostState) },
             floatingActionButton = { if (isOnMainScreen) Fab(onFabClick) },
             bottomBar = { if (isOnMainScreen) BottomBar(navController = navController) },
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
         ) { innerPadding ->
             MainScreenNavHost(
-                modifier = Modifier.padding(innerPadding),
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .consumeWindowInsets(innerPadding)
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal,
+                        ),
+                    ),
                 navController = navController,
-                scaffoldState = scaffoldState,
+                snackbarHostState = snackbarHostState,
                 onFabClick = onFabClick,
                 onOpenWebsite = onOpenWebsite,
             )
@@ -133,7 +147,7 @@ fun MainScreen(
 fun MainScreenNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     onFabClick: () -> Unit,
     onOpenWebsite: (Uri) -> Unit,
 ) {
@@ -148,7 +162,7 @@ fun MainScreenNavHost(
                 viewModel = hiltViewModel(),
                 onEmailClick = onFabClick,
                 bottomContentPadding = FabPadding,
-                snackbarHostState = scaffoldState.snackbarHostState,
+                snackbarHostState = snackbarHostState,
             )
         }
         navigation(startDestination = Screen.Employment.route, route = "employments") {
@@ -173,7 +187,7 @@ fun MainScreenNavHost(
                     modifier = modifier,
                     bottomContentPadding = FabPadding,
                     viewModel = hiltViewModel(),
-                    snackbarHostState = scaffoldState.snackbarHostState,
+                    snackbarHostState = snackbarHostState,
                 ) { id -> navController.navigate(SubScreen.EmploymentDetail.routeWithId(id)) }
             }
             composable(
@@ -192,7 +206,7 @@ fun MainScreenNavHost(
         ) {
             SkillsScreen(
                 viewModel = hiltViewModel(),
-                snackbarHostState = scaffoldState.snackbarHostState,
+                snackbarHostState = snackbarHostState,
             )
         }
         composable(
@@ -204,10 +218,11 @@ fun MainScreenNavHost(
                 modifier = modifier,
                 bottomContentPadding = FabPadding,
                 viewModel = hiltViewModel(),
-                snackbarHostState = scaffoldState.snackbarHostState,
+                snackbarHostState = snackbarHostState,
             )
         }
 
+        // TODO use Material 3
         bottomSheet(Screen.Info.route) {
             InfoSheet(onOpenWebsite = onOpenWebsite)
         }
@@ -241,14 +256,12 @@ private fun exitTransition() = fadeOut(
 @Composable
 private fun BottomBar(navController: NavController) {
     BottomAppBar(
-        backgroundColor = MaterialTheme.colors.surface,
-        elevation = BottomNavigationDefaults.Elevation,
-        contentColor = MaterialTheme.colors.primary,
-        contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+        containerColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.primary,
     ) {
-        BottomNavigation(
-            backgroundColor = Color.Transparent,
-            elevation = 0.dp,
+        NavigationBar(
+            containerColor = Color.Transparent,
+            tonalElevation = 0.dp,
         ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
@@ -285,7 +298,7 @@ private fun RowScope.NavigationItem(
     val selected =
         currentDestination?.hierarchy?.any { it.route == screen.route } == true
     val iconState = if (selected) IconState.Selected else IconState.Default
-    BottomNavigationItem(
+    NavigationBarItem(
         icon = {
             Icon(
                 imageVector = screen.icon[iconState],

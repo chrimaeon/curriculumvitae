@@ -27,6 +27,7 @@ kotlin {
                 implementation(projects.common)
                 implementation(projects.commonCompose)
                 implementation(compose.desktop.currentOs)
+                implementation(compose.uiTooling)
                 implementation(libs.koin.core)
                 implementation(libs.ktor.client.java)
                 implementation(libs.kotlinx.datetime)

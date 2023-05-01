@@ -40,6 +40,7 @@ import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.OssProject
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.data.domain.Skill
+import com.cmgapps.common.curriculumvitae.infra.di.CvDispatchers
 import com.cmgapps.common.curriculumvitae.infra.di.DebugBaseUrlKey
 import com.cmgapps.common.curriculumvitae.infra.di.getEmploymentRepository
 import com.cmgapps.common.curriculumvitae.infra.di.getOssProjectRepository
@@ -52,10 +53,11 @@ import com.cmgapps.common.curriculumvitae.ui.icon.Logo
 import com.cmgapps.common.curriculumvitae.ui.icon.Square
 import com.cmgapps.desktop.curriculumvitae.ui.Theme
 import io.ktor.utils.io.jvm.javaio.toInputStream
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.koin.core.qualifier.named
 import java.io.IOException
 import java.util.prefs.Preferences
 import javax.imageio.ImageIO
@@ -87,6 +89,7 @@ val koin = initKoin(enableNetworkLogging = true).koin
 fun main() = runBlocking {
     awaitApplication {
         var appState by remember { mutableStateOf(AppState()) }
+        val ioDispatcher: CoroutineDispatcher by koin.inject(named(CvDispatchers.IO))
 
         LaunchedEffect(Unit) {
             val skills = async {
@@ -108,12 +111,12 @@ fun main() = runBlocking {
 
             val profileRepo = koin.getProfileRepository()
 
-            @Suppress("kotlin:S6310")
+            @Suppress("kotlin:S6310", "BlockingMethodInNonBlockingContext")
             val profileState = async {
                 val profile =
                     profileRepo.getProfile()
                 val profileImage =
-                    withContext(Dispatchers.IO) {
+                    withContext(ioDispatcher) {
                         ImageIO.read(
                             profileRepo.getProfileImage(profile.profileImagePath).toInputStream(),
                         ).toComposeImageBitmap()

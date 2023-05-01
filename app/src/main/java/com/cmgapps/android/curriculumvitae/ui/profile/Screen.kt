@@ -39,16 +39,15 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -71,9 +70,8 @@ import com.cmgapps.android.curriculumvitae.ui.Theme
 import com.cmgapps.common.curriculumvitae.data.domain.Address
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
-import kotlinx.coroutines.flow.filter
+import com.google.accompanist.placeholder.material3.placeholder
+import com.google.accompanist.placeholder.material3.shimmer
 import timber.log.Timber
 
 @LogTag
@@ -137,7 +135,7 @@ private fun Content(
         ) {
             Header(profile, onEmailClick)
             Text(
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(top = 16.dp),
                 text = profile.intro.joinToString("\n\n"),
             )
@@ -195,6 +193,8 @@ private fun Header(
 
 @Composable
 private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: Profile) {
+    var showPlaceholder by remember { mutableStateOf(true) }
+
     val coilPainter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(AssetPath(profile.profileImagePath))
@@ -203,24 +203,18 @@ private fun ProfileImage(modifier: Modifier = Modifier, imageSize: Dp, profile: 
                 drawableResId = R.drawable.ic_outline_person_24,
             )
             .build(),
-    )
-
-    var showPlaceholder by remember { mutableStateOf(true) }
-
-    LaunchedEffect(coilPainter) {
-        snapshotFlow { coilPainter.state }
-            .filter {
-                when (it) {
-                    is AsyncImagePainter.State.Success -> true
-                    is AsyncImagePainter.State.Error -> {
-                        Timber.tag(ComposableProfileScreen.LOG_TAG).e(it.result.throwable)
-                        true
-                    }
-                    else -> false
+        onState = { state ->
+            showPlaceholder = when (state) {
+                is AsyncImagePainter.State.Success -> false
+                is AsyncImagePainter.State.Error -> {
+                    Timber.tag(ComposableProfileScreen.LOG_TAG).e(state.result.throwable)
+                    false
                 }
+
+                else -> true
             }
-            .collect { showPlaceholder = false }
-    }
+        },
+    )
 
     Box(
         modifier = modifier
@@ -250,26 +244,26 @@ private fun ProfileDetails(
     Text(
         modifier = modifier,
         text = profile.name,
-        style = MaterialTheme.typography.h5,
+        style = MaterialTheme.typography.headlineSmall,
     )
     Text(
         modifier = modifier,
         text = profile.address.street,
-        style = MaterialTheme.typography.subtitle1,
+        style = MaterialTheme.typography.titleMedium,
     )
 
     Text(
         modifier = modifier,
         text = "${profile.address.postalCode} ${profile.address.city}",
-        style = MaterialTheme.typography.subtitle1,
+        style = MaterialTheme.typography.titleMedium,
     )
 
-    val primaryColor = MaterialTheme.colors.primary
+    val primaryColor = MaterialTheme.colorScheme.primary
 
     Text(
         modifier = modifier.clickable(onClick = onEmailClick),
         text = profile.email,
-        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
+        style = MaterialTheme.typography.titleMedium.copy(color = primaryColor),
     )
 
     val context = LocalContext.current
@@ -278,7 +272,7 @@ private fun ProfileDetails(
     Text(
         modifier = modifier.clickable(onClick = { context.onTelClick(phoneNumber) }),
         text = phoneNumber,
-        style = MaterialTheme.typography.subtitle1.copy(color = primaryColor),
+        style = MaterialTheme.typography.titleMedium.copy(color = primaryColor),
     )
 }
 

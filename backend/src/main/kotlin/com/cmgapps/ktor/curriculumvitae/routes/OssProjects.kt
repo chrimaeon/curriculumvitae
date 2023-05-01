@@ -18,18 +18,22 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
+import org.koin.ktor.ext.inject
 import java.io.IOException
 import java.net.URL
 
 @OptIn(ExperimentalSerializationApi::class)
 private fun Route.ossProjectsRoute() {
+    val ioDispatcher: CoroutineDispatcher by inject()
+
     get(Routes.OSS_PROJECTS.route) {
+        @Suppress("BlockingMethodInNonBlockingContext")
         val response: List<OssProject> = try {
-            withContext(Dispatchers.IO) {
+            withContext(ioDispatcher) {
                 generateUrl().openConnection().apply {
                     setRequestProperty("Accept", "application/vnd.github+json")
                 }.getInputStream().use { stream ->

@@ -23,25 +23,33 @@ import android.os.Bundle
 import android.util.TypedValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.view.WindowCompat
 import com.cmgapps.LogTag
 import com.cmgapps.android.curriculumvitae.email.EMAIL_ADDRESS
+import com.cmgapps.android.curriculumvitae.infra.di.Dispatcher
 import com.cmgapps.android.curriculumvitae.infra.jni.CvNative
 import com.cmgapps.android.curriculumvitae.ui.BadSignature
 import com.cmgapps.android.curriculumvitae.ui.Theme
+import com.cmgapps.common.curriculumvitae.infra.di.CvDispatchers
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import androidx.core.splashscreen.R as SplashscreenR
 
 @LogTag
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    @Dispatcher(CvDispatchers.Default)
+    lateinit var defaultDispatchers: CoroutineDispatcher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with(TypedValue()) {
@@ -53,25 +61,25 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Theme {
-                val scaffoldState = rememberScaffoldState()
+                val snackbarHostState = remember { SnackbarHostState() }
                 val coroutineScope = rememberCoroutineScope()
 
                 val validSignature by produceState(initialValue = true, this) {
-                    withContext(Dispatchers.Default) {
+                    withContext(defaultDispatchers) {
                         value = CvNative.checkSignature(this@MainActivity)
                     }
                 }
 
                 if (validSignature) {
                     MainScreen(
-                        scaffoldState = scaffoldState,
+                        snackbarHostState = snackbarHostState,
                         onFabClick = {
                             val intent = createEmailIntent()
                             if (intent.resolveActivity(packageManager) != null) {
                                 startActivity(intent)
                             } else {
                                 coroutineScope.launch {
-                                    scaffoldState.snackbarHostState.showSnackbar(getString(R.string.no_email))
+                                    snackbarHostState.showSnackbar(getString(R.string.no_email))
                                 }
                             }
                         },

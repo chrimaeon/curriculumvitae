@@ -20,6 +20,7 @@ import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import io.ktor.http.Url
+import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
@@ -35,3 +36,5 @@ actual fun platformModule() = module {
         }
     }
 }
+
+actual val IO = Dispatchers.Default

@@ -22,9 +22,9 @@ import android.webkit.WebView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -48,7 +48,7 @@ fun WebViewDialog(
                 Text(
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                     text = title,
-                    style = MaterialTheme.typography.h6,
+                    style = MaterialTheme.typography.titleLarge,
                 )
                 Content(url = url)
             }
@@ -60,24 +60,26 @@ fun WebViewDialog(
 private fun Content(url: String) {
     val configuration = LocalConfiguration.current
     AndroidView(factory = ::WebView) { webView ->
-        val isNightModeActive = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            configuration.isNightModeActive
-        } else {
-            configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-        }
-
-        if (isNightModeActive) {
-            if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-                WebSettingsCompat.setForceDark(
-                    webView.settings,
-                    WebSettingsCompat.FORCE_DARK_ON,
-                )
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            val isNightModeActive = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                configuration.isNightModeActive
+            } else {
+                configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
             }
-            if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
-                WebSettingsCompat.setForceDarkStrategy(
-                    webView.settings,
-                    WebSettingsCompat.DARK_STRATEGY_PREFER_WEB_THEME_OVER_USER_AGENT_DARKENING,
-                )
+
+            if (isNightModeActive) {
+                if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                    WebSettingsCompat.setForceDark(
+                        webView.settings,
+                        WebSettingsCompat.FORCE_DARK_ON,
+                    )
+                }
+                if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
+                    WebSettingsCompat.setForceDarkStrategy(
+                        webView.settings,
+                        WebSettingsCompat.DARK_STRATEGY_PREFER_WEB_THEME_OVER_USER_AGENT_DARKENING,
+                    )
+                }
             }
         }
 

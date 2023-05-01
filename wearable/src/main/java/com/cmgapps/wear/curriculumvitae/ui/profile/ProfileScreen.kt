@@ -47,8 +47,8 @@ import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.wear.curriculumvitae.infra.AssetPath
 import com.cmgapps.wear.curriculumvitae.ui.Theme
 import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
+import com.google.accompanist.placeholder.material3.placeholder
+import com.google.accompanist.placeholder.material3.shimmer
 import org.koin.androidx.compose.getViewModel
 
 private val BLACK = Color.Black.copy(alpha = 0.6f)

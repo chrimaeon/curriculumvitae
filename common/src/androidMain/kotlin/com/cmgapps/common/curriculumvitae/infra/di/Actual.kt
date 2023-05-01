@@ -20,6 +20,7 @@ import com.cmgapps.common.curriculumvitae.BaseUrl
 import com.cmgapps.common.curriculumvitae.data.db.DatabaseWrapper
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import io.ktor.http.Url
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -31,3 +32,5 @@ actual fun platformModule() = module {
         }
     }
 }
+
+actual val IO = Dispatchers.IO

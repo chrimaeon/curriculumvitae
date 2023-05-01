@@ -23,6 +23,7 @@ import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.drivers.sqljs.initSqlDriver
 import io.ktor.http.Url
 import kotlinx.browser.window
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.await
 import org.koin.dsl.module
 import org.w3c.dom.get
@@ -39,3 +40,5 @@ actual fun platformModule() = module {
 
 private suspend fun provideDbDriver(schema: SqlDriver.Schema): SqlDriver =
     initSqlDriver(schema).await()
+
+actual val IO = Dispatchers.Default

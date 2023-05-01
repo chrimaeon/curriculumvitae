@@ -124,7 +124,7 @@ object AppStyle : StyleSheet() {
         alignItems(AlignItems.Center)
         marginBottom(0.5.cssRem)
 
-        desc(self, selector("h4")) style {
+        desc(self, "h4") style {
             margin(0.px)
         }
     }

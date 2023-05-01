@@ -28,10 +28,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,7 +57,7 @@ fun InfoSheet(
 ) {
     var ossDialogOpen by remember { mutableStateOf(false) }
     var oflDialogOpen by remember { mutableStateOf(false) }
-    val strokeColor = MaterialTheme.colors.onSurface
+    val strokeColor = MaterialTheme.colorScheme.onSurface
     Column(
         modifier
             .fillMaxWidth()
@@ -88,7 +87,7 @@ fun InfoSheet(
     ) {
         Text(
             text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.h5,
+            style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(start = 24.dp),
         )
 
@@ -99,7 +98,7 @@ fun InfoSheet(
                 PackageManager.PackageInfoFlags.of(0),
             )
         } else {
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION", "kotlin:S1874")
             context.packageManager.getPackageInfo(context.packageName, 0)
         }
 
@@ -165,7 +164,6 @@ private fun InfoTextButton(
 ) {
     TextButton(
         modifier = Modifier.padding(start = 16.dp),
-        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.primaryVariant),
         onClick = onClick,
     ) {
         Text(text)

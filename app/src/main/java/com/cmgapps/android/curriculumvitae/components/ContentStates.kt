@@ -20,9 +20,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,11 +42,11 @@ fun ContentError() {
             modifier = Modifier
                 .background(
                     shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colors.error,
+                    color = MaterialTheme.colorScheme.error,
                 )
                 .padding(16.dp),
             text = stringResource(id = R.string.generic_error),
-            color = MaterialTheme.colors.onError,
+            color = MaterialTheme.colorScheme.onError,
         )
     }
 }

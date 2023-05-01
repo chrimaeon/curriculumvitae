@@ -6,6 +6,7 @@
 
 package com.cmgapps.desktop.curriculumvitae
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,18 +24,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.unit.dp
 import com.cmgapps.common.curriculumvitae.CopyRightText
 import com.cmgapps.common.curriculumvitae.GitHubLink
 import com.cmgapps.common.curriculumvitae.components.ProfileCard
+import com.cmgapps.common.curriculumvitae.components.amber500
+import com.cmgapps.common.curriculumvitae.components.lightBlue500
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.OssProject
 import com.cmgapps.common.curriculumvitae.data.domain.Profile
 import com.cmgapps.common.curriculumvitae.data.domain.Skill
 import com.cmgapps.common.curriculumvitae.ui.Footer
+import com.cmgapps.common.curriculumvitae.ui.Theme
 import com.cmgapps.desktop.curriculumvitae.components.EmploymentCard
 import com.cmgapps.desktop.curriculumvitae.components.OssProjectCard
 import com.cmgapps.desktop.curriculumvitae.components.SkillsCard
@@ -159,5 +165,47 @@ class ImageBrush(private val image: ImageBitmap?) : ShaderBrush() {
         }
 
         return ImageShader(image)
+    }
+}
+
+@Preview()
+@Composable
+fun PreviewProfile() {
+    val imageSize = 200
+    val image = ImageBitmap(imageSize, imageSize)
+    Canvas(image).apply {
+        drawRect(
+            left = 0F,
+            top = 0F,
+            right = imageSize.toFloat(),
+            bottom = imageSize.toFloat(),
+            paint = Paint().apply {
+                color = lightBlue500
+                isAntiAlias = true
+            },
+        )
+        drawRect(
+            left = imageSize.toFloat() / 4,
+            top = imageSize.toFloat() / 4,
+            right = imageSize.toFloat() / 4 * 3,
+            bottom = imageSize.toFloat() / 4 * 3,
+            paint = Paint().apply {
+                color = amber500
+                isAntiAlias = true
+            },
+        )
+    }
+    Theme {
+        ProfileCard(
+            name = "Firstname Lastname",
+            street = "Home 1234",
+            city = "City",
+            postalCode = "90210",
+            email = "me@invalid.email",
+            phone = "+1234567890",
+            profileImage = image,
+            onEmailClicked = {},
+            onPhoneClicked = {},
+        )
     }
 }

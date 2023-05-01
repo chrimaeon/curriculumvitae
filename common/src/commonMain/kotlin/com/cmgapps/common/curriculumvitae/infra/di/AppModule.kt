@@ -35,12 +35,15 @@ import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import co.touchlab.kermit.Logger as KermitLogger
 import io.ktor.client.plugins.logging.Logger as KtorLogger
@@ -58,11 +61,7 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
             baseUrl = provideBaseUrl(),
         )
     }
-    factory {
-        ProfileRepository(
-            api = get(),
-        )
-    }
+    factoryOf(::ProfileRepository)
     factory {
         EmploymentRepository(
             api = get(),
@@ -71,22 +70,10 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
             scope = MainScope(),
         )
     }
-    factory {
-        SkillsRepository(
-            api = get(),
-        )
-    }
-    factory {
-        StatusRepository(
-            api = get(),
-        )
-    }
+    factoryOf(::SkillsRepository)
+    factoryOf(::StatusRepository)
 
-    factory {
-        OssProjectRepository(
-            api = get(),
-        )
-    }
+    factoryOf(::OssProjectRepository)
 
     val baseLogger =
         co.touchlab.kermit.Logger(
@@ -95,6 +82,9 @@ private fun module(enableNetworkLogging: Boolean) = org.koin.dsl.module {
         )
 
     factory { (tag: String?) -> tag?.let { baseLogger.withTag(tag) } ?: baseLogger }
+
+    single(named(CvDispatchers.Default)) { Dispatchers.Default }
+    single(named(CvDispatchers.IO)) { IO }
 }
 
 private fun createHttpClient(
