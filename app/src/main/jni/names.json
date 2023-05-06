@@ -90,5 +90,49 @@
   {
     "name": "()[B",
     "id": "TO_BYTE_ARRAY_PARAMS"
+  },
+  {
+    "name": "(Ljava/lang/String;Landroid/content/pm/PackageManager$PackageInfoFlags;)Landroid/content/pm/PackageInfo;",
+    "id": "GET_PACKAGE_INFO_TIRAMISU_PARAMS"
+  },
+  {
+    "name": "GET_SIGNING_CERTIFICATES",
+    "id": "GET_SIGNING_CERTIFICATES_METHOD"
+  },
+  {
+    "name": "I",
+    "id": "GET_SIGNING_CERTIFICATES_PARAMS"
+  },
+  {
+    "name": "android/content/pm/PackageManager$PackageInfoFlags",
+    "id": "PACKAGE_INFO_FLAGS_CLASS_JAVA"
+  },
+  {
+    "name": "of",
+    "id": "PACKAGE_INFO_FLAGS_OF_METHOD"
+  },
+  {
+    "name": "(J)Landroid/content/pm/PackageManager$PackageInfoFlags;",
+    "id": "PACKAGE_INFO_FLAGS_OF_PARAMS"
+  },
+  {
+    "name": "signingInfo",
+    "id": "SIGNING_INFO_FIELD"
+  },
+  {
+    "name": "Landroid/content/pm/SigningInfo;",
+    "id": "SIGNING_INFO_RETURN_PARAMS"
+  },
+  {
+    "name": "getApkContentsSigners",
+    "id": "GET_APK_CONTENTS_SIGNERS_METHOD"
+  },
+  {
+    "name": "()[Landroid/content/pm/Signature;",
+    "id": "GET_APK_CONTENTS_SIGNERS_PARAMS"
+  },
+  {
+    "name": "android/content/pm/SigningInfo",
+    "id": "SIGNING_INFO_CLASS_JAVA"
   }
 ]
