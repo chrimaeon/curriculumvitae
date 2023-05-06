@@ -21,8 +21,10 @@ import StubDomainOssProject
 import StubDomainProfile
 import StubDomainSkill
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performScrollTo
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -30,12 +32,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-/**
- *
- *   TODO: replace [assertExists][androidx.compose.ui.test.SemanticsNodeInteraction.assertExists] with
- *   [assertIsDisplayed][androidx.compose.ui.test.assertIsDisplayed] once available
- *
- */
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class AppShould {
 
@@ -64,36 +60,52 @@ internal class AppShould {
     @Test
     fun `show Profile header`() = runTest {
         with(composeRule) {
-            onNodeWithText(profile.name).assertExists()
-            onNodeWithText(profile.email).assertExists()
-            onNodeWithText(profile.phone).assertExists()
+            onNodeWithText(profile.name).assertIsDisplayed()
+            onNodeWithText(profile.email).assertIsDisplayed()
+            onNodeWithText(profile.phone).assertIsDisplayed()
         }
     }
 
     @Test
     fun `show Employments`() = runTest {
         with(composeRule) {
-            onNodeWithText(employment.employer).assertExists()
+            onNodeWithText(employment.employer).assertIsDisplayed()
             onNodeWithText(
                 employment.workPeriod.asHumanReadableString(),
-            ).assertExists()
-            onNodeWithText(employment.jobTitle).assertExists()
+            ).assertIsDisplayed()
+            onNodeWithText(employment.jobTitle).assertIsDisplayed()
         }
     }
 
     @Test
     fun `show Skills`() = runTest {
         with(composeRule) {
-            onNodeWithText(skill.name).assertExists()
+            onNodeWithText(skill.name)
+                .performScrollTo()
+                .assertExists()
+            // TODO performScrollTo seems not to work correctly
+            // .assertIsDisplayed()
         }
     }
 
     @Test
     fun `show OssProjects`() = runTest {
         with(composeRule) {
-            onNodeWithText(project.name).assertExists()
-            onNodeWithText(project.stars.toString()).assertExists()
-            onNodeWithText(project.description).assertExists()
+            onNodeWithText(project.name)
+                .performScrollTo()
+                .assertExists()
+            // TODO performScrollTo seems not to work correctly
+            // .assertIsDisplayed()
+            onNodeWithText(project.stars.toString())
+                .performScrollTo()
+                .assertExists()
+            // TODO performScrollTo seems not to work correctly
+            // .assertIsDisplayed()
+            onNodeWithText(project.description)
+                .performScrollTo()
+                .assertExists()
+            // TODO performScrollTo seems not to work correctly
+            // .assertIsDisplayed()
         }
     }
 }
