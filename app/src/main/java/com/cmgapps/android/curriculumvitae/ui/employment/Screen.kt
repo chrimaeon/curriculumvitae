@@ -36,6 +36,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -76,6 +77,16 @@ import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.infra.DecorativeImage
 import com.cmgapps.android.curriculumvitae.ui.Theme
+import com.cmgapps.android.curriculumvitae.ui.avatarBlue
+import com.cmgapps.android.curriculumvitae.ui.avatarGreen
+import com.cmgapps.android.curriculumvitae.ui.avatarOrange
+import com.cmgapps.android.curriculumvitae.ui.avatarRed
+import com.cmgapps.android.curriculumvitae.ui.avatarViolet
+import com.cmgapps.android.curriculumvitae.ui.onAvatarBlue
+import com.cmgapps.android.curriculumvitae.ui.onAvatarGreen
+import com.cmgapps.android.curriculumvitae.ui.onAvatarOrange
+import com.cmgapps.android.curriculumvitae.ui.onAvatarRed
+import com.cmgapps.android.curriculumvitae.ui.onAvatarViolet
 import com.cmgapps.common.curriculumvitae.components.AnimatedCard
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
@@ -265,7 +276,7 @@ private fun EmploymentCard(
                     modifier = Modifier.padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Avatar(isLoading = employment == null)
+                    Avatar(isLoading = employment == null, employerName = employment?.employer)
                     Spacer(modifier = Modifier.width(8.dp))
                     Description(employment)
                 }
@@ -308,9 +319,31 @@ private fun Breadcrumbs(
 }
 
 @Composable
+private fun rememberAvatarColors(colorScheme: ColorScheme): List<Pair<Color, Color>> {
+    return remember {
+        listOf(
+            colorScheme.avatarRed to colorScheme.onAvatarRed,
+            colorScheme.avatarOrange to colorScheme.onAvatarOrange,
+            colorScheme.avatarGreen to colorScheme.onAvatarGreen,
+            colorScheme.avatarBlue to colorScheme.onAvatarBlue,
+            colorScheme.avatarViolet to colorScheme.onAvatarViolet,
+        )
+    }
+}
+
+@Composable
 private fun Avatar(
+    employerName: String?,
     isLoading: Boolean,
 ) {
+    val avatarColors = rememberAvatarColors(MaterialTheme.colorScheme)
+    val (backgroundColor, foregroundColor) = remember(employerName) {
+        val hashCode =
+            employerName?.splitToSequence(' ')?.mapNotNull { it.firstOrNull() }?.joinToString()
+                .hashCode()
+        avatarColors[hashCode % avatarColors.size]
+    }
+
     Surface(
         modifier = Modifier
             .size(56.dp)
@@ -319,7 +352,7 @@ private fun Avatar(
                 visible = isLoading,
                 highlight = PlaceholderHighlight.shimmer(),
             ),
-        color = MaterialTheme.colorScheme.primary,
+        color = backgroundColor,
     ) {
         Image(
             modifier = Modifier
@@ -327,7 +360,7 @@ private fun Avatar(
                 .padding(8.dp),
             imageVector = Icons.Filled.Apartment,
             contentDescription = DecorativeImage,
-            colorFilter = ColorFilter.tint(Color.White),
+            colorFilter = ColorFilter.tint(foregroundColor),
         )
     }
 }
@@ -434,11 +467,11 @@ private fun Modifier.returningHeight(onHeightMeasured: (Int) -> Unit) =
 fun PreviewContent() {
     val previewEmployments =
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.let { now ->
-            (1..3).map {
+            (1..5).map {
                 Employment(
                     id = it,
                     jobTitle = "Software developer",
-                    employer = "CMG Mobile Apps",
+                    employer = (96 + it).toChar().titlecase(),
                     startDate = now.minus(DatePeriod(months = 3 + it)),
                     endDate = now.minus(DatePeriod(months = 1 - it)),
                     city = "Graz",

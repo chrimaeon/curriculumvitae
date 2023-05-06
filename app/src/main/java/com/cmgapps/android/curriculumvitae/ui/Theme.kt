@@ -18,6 +18,7 @@ package com.cmgapps.android.curriculumvitae.ui
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -131,3 +132,28 @@ fun Theme(
         content = content,
     )
 }
+
+val ColorScheme.avatarGreen: Color
+    get() = caribbean_current
+val ColorScheme.onAvatarGreen: Color
+    get() = Color.White
+
+val ColorScheme.avatarBlue: Color
+    get() = argentinian_blue
+val ColorScheme.onAvatarBlue: Color
+    get() = Color.Black
+
+val ColorScheme.avatarViolet: Color
+    get() = pink_lavender
+val ColorScheme.onAvatarViolet: Color
+    get() = Color.Black
+
+val ColorScheme.avatarRed: Color
+    get() = imperial_red
+val ColorScheme.onAvatarRed: Color
+    get() = Color.Black
+
+val ColorScheme.avatarOrange: Color
+    get() = sunset
+val ColorScheme.onAvatarOrange: Color
+    get() = Color.Black

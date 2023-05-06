@@ -70,4 +70,10 @@ val md_theme_dark_surfaceTint = Color(0xFF8DCDFF)
 val md_theme_dark_outlineVariant = Color(0xFF41474D)
 val md_theme_dark_scrim = Color(0xFF000000)
 
+val imperial_red = Color(0xFFed474a)
+val sunset = Color(0xFFf3c98b)
+val caribbean_current = Color(0xFF006d77)
+val argentinian_blue = Color(0xFF65afff)
+val pink_lavender = Color(0xFFd4adcf)
+
 val seed = Color(0xFF03A9F4)
