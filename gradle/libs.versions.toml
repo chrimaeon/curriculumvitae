@@ -16,7 +16,7 @@ versionName = "1.0.0"
 # endregion
 
 accompanist = "0.30.1"
-agp = "8.0.0"
+agp = "8.0.1"
 compose = "1.4.2"
 composeCompiler = "1.4.6"
 composeMultiplatform = "1.4.0"
