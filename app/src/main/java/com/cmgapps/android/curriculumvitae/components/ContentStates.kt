@@ -16,6 +16,7 @@
 
 package com.cmgapps.android.curriculumvitae.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -63,17 +64,13 @@ fun ContentLoading() {
 
 // region Preview
 @Preview(name = "Error")
+@Preview(
+    name = "Error Dark",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 fun PreviewContentError() {
-    ThemedPreview(darkTheme = false) {
-        ContentError()
-    }
-}
-
-@Preview(name = "Error Dark")
-@Composable
-fun PreviewDarkContentError() {
-    ThemedPreview(darkTheme = true) {
+    ThemedPreview {
         ContentError()
     }
 }

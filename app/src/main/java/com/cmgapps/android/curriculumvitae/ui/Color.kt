@@ -76,4 +76,7 @@ val caribbean_current = Color(0xFF006d77)
 val argentinian_blue = Color(0xFF65afff)
 val pink_lavender = Color(0xFFd4adcf)
 
+val dark_system_bars = Color(0x40000000)
+val light_system_bars = Color(0xB3FFFFFF)
+
 val seed = Color(0xFF03A9F4)

@@ -16,13 +16,14 @@
 
 package com.cmgapps.android.curriculumvitae.util
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import com.cmgapps.android.curriculumvitae.ui.Theme
 
 @Composable
 internal fun ThemedPreview(
-    darkTheme: Boolean = false,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     Theme(darkTheme = darkTheme) {

@@ -17,19 +17,15 @@
 package com.cmgapps.android.curriculumvitae.ui.employment.detail
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -37,40 +33,36 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.cmgapps.android.curriculumvitae.R
 import com.cmgapps.android.curriculumvitae.components.ContentError
 import com.cmgapps.android.curriculumvitae.components.ContentLoading
 import com.cmgapps.android.curriculumvitae.ui.Theme
-import com.cmgapps.common.curriculumvitae.components.darker
 import com.cmgapps.common.curriculumvitae.data.domain.Employment
 import com.cmgapps.common.curriculumvitae.data.domain.asHumanReadableString
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.CollapsingToolbarScaffoldState
-import me.onebone.toolbar.CollapsingToolbarScope
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import androidx.compose.ui.graphics.lerp as lerpGraphics
 
 @Composable
 fun EmploymentDetails(
@@ -94,144 +86,107 @@ fun EmploymentDetails(
     }
 }
 
-private const val numCircles = 4
-private fun getCircleColorFraction(circle: Int) =
-    0.5f + (circle.toFloat() / (numCircles + 1)) * (0.9f - 0.5f)
-
-@Composable
-private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
-    val state = rememberCollapsingToolbarScaffoldState()
-    val headerColor = MaterialTheme.colorScheme.secondary
-
-    Surface(color = headerColor.darker(getCircleColorFraction(4))) {
-        CollapsingToolbarScaffold(
-            modifier = Modifier.fillMaxSize(),
-            state = state,
-            toolbar = {
-                TopBar(
-                    title = employment.jobTitle,
-                    headerColor = headerColor,
-                    state = state,
-                    navigateUp = navigateUp,
-                )
-            },
-            scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
-        ) {
-            val cornerRadius =
-                lerp(16.dp, 0.dp, ((1 - state.toolbarState.progress) * 3).coerceIn(0.0f, 1.0f))
-            LazyColumn(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius),
-                    )
-                    .fillMaxSize(),
-                contentPadding = WindowInsets.navigationBars.add(
-                    WindowInsets(left = 16.dp, top = 16.dp, right = 16.dp),
-                ).asPaddingValues(),
-            ) {
-                item {
-                    Text(
-                        text = employment.employer,
-                    )
-                }
-                item {
-                    Text(
-                        text = employment.workPeriod.asHumanReadableString(),
-                    )
-                }
-                item {
-                    Text(
-                        text = employment.description.joinToString(separator = "\n\n"),
-                    )
-                }
-            }
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CollapsingToolbarScope.TopBar(
-    title: String,
-    headerColor: Color,
-    state: CollapsingToolbarScaffoldState,
-    navigateUp: () -> Unit,
-) {
-    val contentColor = MaterialTheme.colorScheme.contentColorFor(headerColor)
+private fun EmploymentDetails(employment: Employment, navigateUp: () -> Unit) {
+    val headerColor = MaterialTheme.colorScheme.surfaceVariant
+    val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    BoxWithConstraints(
+    Scaffold(
         modifier = Modifier
-            .parallax()
-            .fillMaxWidth(),
-    ) {
-        val headerHeight = if (minWidth > 600.dp) 136.dp else minWidth * (9F / 16F)
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(headerHeight)
-                .background(headerColor)
-                .clipToBounds(),
-        ) {
-            val canvasWidth = size.width
-            val canvasHeight = size.height
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        containerColor = headerColor,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    Text(
+                        employment.jobTitle,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = headerColor,
+                    titleContentColor = contentColor,
+                    navigationIconContentColor = contentColor,
+                ),
+                navigationIcon = {
+                    IconButton(
+                        onClick = { navigateUp() },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.navigate_up),
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+    ) { innerPadding ->
+        val scrollState = remember(scrollBehavior) { scrollBehavior.state }
 
-            for (i in numCircles downTo 1) {
-                drawCircle(
-                    color = headerColor.darker(getCircleColorFraction(i)),
-                    center = Offset(x = canvasWidth / 2, y = canvasHeight),
-                    radius = (canvasWidth / 2) / numCircles * i,
+        val initialCornerRadius = 16.dp
+
+        var cornerRadius by remember { mutableStateOf(initialCornerRadius) }
+
+        LaunchedEffect(scrollState) {
+            snapshotFlow { scrollState.collapsedFraction }
+                .distinctUntilChanged()
+                .collect {
+                    cornerRadius =
+                        lerp(initialCornerRadius, 0.dp, it)
+                }
+        }
+
+        val layoutDirection = LocalLayoutDirection.current
+
+        LazyColumn(
+            modifier = Modifier
+                .padding(
+                    PaddingValues(
+                        start = innerPadding.calculateStartPadding(layoutDirection),
+                        top = innerPadding.calculateTopPadding(),
+                        end = innerPadding.calculateEndPadding(layoutDirection),
+                    ),
                 )
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius),
+                )
+                .fillMaxSize(),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                top = 16.dp,
+                end = 16.dp,
+                bottom = innerPadding.calculateBottomPadding(),
+            ),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            item {
+                Text(
+                    text = employment.employer,
+                )
+            }
+            item {
+                Text(
+                    text = employment.workPeriod.asHumanReadableString(),
+                )
+            }
+            item {
+                val descriptions = employment.description
+
+                descriptions.forEachIndexed { index, description ->
+                    Text(description)
+                    if (index != descriptions.lastIndex) {
+                        Box(Modifier.height(4.dp))
+                    }
+                }
             }
         }
     }
-
-    val collapsedTextOffset = with(LocalDensity.current) {
-        IntOffset((72.dp - 16.dp).toPx().toInt(), 0)
-    }
-
-    val backgroundColor = lerpGraphics(
-        headerColor,
-        headerColor.copy(alpha = 0.0f),
-        (state.toolbarState.progress * 3).coerceIn(0.0f, 1.0f),
-    )
-
-    TopAppBar(
-        modifier = Modifier.statusBarsPadding(),
-        colors = TopAppBarDefaults.largeTopAppBarColors(
-            containerColor = backgroundColor,
-            titleContentColor = contentColor,
-            navigationIconContentColor = contentColor,
-        ),
-        title = { },
-        navigationIcon = {
-            IconButton(
-                onClick = { navigateUp() },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.navigate_up),
-                )
-            }
-        },
-    )
-
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleLarge.copy(color = contentColor),
-        fontSize = lerp(
-            MaterialTheme.typography.titleLarge.fontSize,
-            MaterialTheme.typography.headlineMedium.fontSize,
-            state.toolbarState.progress,
-        ),
-        modifier = Modifier
-            .road(
-                whenExpanded = Alignment.BottomStart,
-                whenCollapsed = { _, _, _ -> collapsedTextOffset },
-            )
-            .statusBarsPadding()
-            .padding(16.dp),
-    )
 }
 
 // region Preview

@@ -161,16 +161,6 @@ android {
             }
         }
 
-        listOf("debug", "release").map { named(it) }.forEach { sourceSet ->
-            sourceSet {
-                java {
-                    listOf("kotlin", "java").forEach {
-                        // srcDir((buildDir.toPath() / "generated" / "ksp" / sourceSet.name / it).toFile())
-                    }
-                }
-            }
-        }
-
         listOf("test", "androidTest").map { named(it) }.forEach { sourceSet ->
             sourceSet {
                 java.srcDir(
@@ -294,7 +284,6 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.cmgapps.lintLogDebug)
     implementation(libs.coil.compose)
-    implementation(libs.collapsingToolbar)
     implementation(libs.dropbox.store)
     implementation(libs.bundles.ktor.android)
     implementation(libs.sqldelight.driver.android)

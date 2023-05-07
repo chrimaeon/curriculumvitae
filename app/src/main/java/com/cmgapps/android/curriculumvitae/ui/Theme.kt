@@ -121,7 +121,7 @@ fun Theme(
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setSystemBarsColor(
-            Color.Transparent,
+            systemBarsColor(darkTheme),
             darkIcons = !darkTheme,
         )
     }
@@ -132,6 +132,9 @@ fun Theme(
         content = content,
     )
 }
+
+fun systemBarsColor(darkTheme: Boolean): Color =
+    if (darkTheme) dark_system_bars else light_system_bars
 
 val ColorScheme.avatarGreen: Color
     get() = caribbean_current
