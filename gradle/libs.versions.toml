@@ -64,7 +64,7 @@ androidx-webkit = "androidx.webkit:webkit:1.6.1"
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-compose-material = { module = "androidx.compose.material3:material3", version.require = "1.0.1" }
+compose-material = { module = "androidx.compose.material3:material3", version.require = "1.1.0" }
 compose-materialIconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
 compose-activity = "androidx.activity:activity-compose:1.7.1"
 compose-viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
