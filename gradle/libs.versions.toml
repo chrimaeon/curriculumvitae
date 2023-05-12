@@ -40,7 +40,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 licenses = "com.cmgapps.licenses:4.7.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
 shadowJar = "com.github.johnrengelman.shadow:8.1.1"
-wire = "com.squareup.wire:4.6.0"
+wire = "com.squareup.wire:4.6.2"
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
@@ -115,7 +115,7 @@ sqlite-jdbc = "org.xerial:sqlite-jdbc:3.32.2"
 # endregion
 
 # region Misc
-kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 kotlinx-coroutines-core-nativeMt = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3-native-mt"
 kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4"
