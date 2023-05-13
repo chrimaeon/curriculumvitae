@@ -6,6 +6,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import com.cmgapps.gradle.curriculumvitae.configProperty
 import com.cmgapps.gradle.curriculumvitae.javaLanguageVersion
 import java.util.Properties
 
@@ -20,6 +21,7 @@ plugins {
     application
     @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.shadowJar)
+    alias(libs.plugins.buildConfig)
 }
 
 group = "com.cmgapps.ktor"
@@ -71,7 +73,6 @@ java {
 }
 
 tasks {
-
     htmlToMarkdown {
         sourceDir = sourceSets.test.get().resources.sourceDirectories.singleFile
         configuration = mapOf("tables" to true)
@@ -86,6 +87,29 @@ tasks {
             }
         }
     }
+}
+
+buildConfig {
+    packageName("com.cmgapps.ktor.curriculumvitae")
+    buildConfigField(
+        "com.cmgapps.ktor.curriculumvitae.ApiInfo",
+        "apiInfo",
+        provider {
+            val email by configProperty
+            val name by configProperty
+            val version = libs.versions.backendVersion.get()
+            val serverProductionUrl by configProperty
+            val serverProductionDescription by configProperty
+
+            """ApiInfo(
+              version = "$version",
+              contactName = "$name",
+              contactEmail = "$email",
+              serverUrl = "$serverProductionUrl",
+              serverDescription = "$serverProductionDescription"
+            )"""
+        },
+    )
 }
 
 dependencies {

@@ -18,6 +18,9 @@ jobs:
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
+      CV_NAME: My Name
+      CV_SERVER_PRODUCTION_URL: https://url.invalid
+      CV_SERVER_PRODUCTION_Description: Production
 
     steps:
       # region Setup
@@ -170,6 +173,9 @@ jobs:
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
+      CV_NAME: My Name
+      CV_SERVER_PRODUCTION_URL: https://url.invalid
+      CV_SERVER_PRODUCTION_Description: Production
 
     steps:
       # region Setup
@@ -195,6 +201,9 @@ jobs:
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
+      CV_NAME: My Name
+      CV_SERVER_PRODUCTION_URL: https://url.invalid
+      CV_SERVER_PRODUCTION_Description: Production
 
     strategy:
       matrix:
@@ -301,6 +310,9 @@ jobs:
       CV_EMAIL: me@home.at
       CV_DEBUG_BASE_URLS: https://www.host.undefined
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
+      CV_NAME: My Name
+      CV_SERVER_PRODUCTION_URL: https://url.invalid
+      CV_SERVER_PRODUCTION_Description: Production
 
     strategy:
       matrix:

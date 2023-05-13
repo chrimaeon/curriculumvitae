@@ -80,8 +80,9 @@ class DebugSettingFragment : PreferenceFragmentCompat() {
                     it.entry ?: BaseUrl
                 }
                 setDefaultValue(BaseUrl)
-                entries = DebugBaseUrls.toTypedArray()
-                entryValues = DebugBaseUrls.toTypedArray()
+                val debugBaseUrls = DebugBaseUrls.split(",").toTypedArray()
+                entries = debugBaseUrls
+                entryValues = debugBaseUrls
             }
     }
 }

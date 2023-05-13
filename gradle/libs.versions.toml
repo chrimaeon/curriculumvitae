@@ -44,6 +44,7 @@ wire = "com.squareup.wire:4.6.2"
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+buildConfig = "com.github.gmazzo.buildconfig:4.0.4"
 
 [libraries]
 # region plugins

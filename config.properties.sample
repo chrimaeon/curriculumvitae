@@ -17,5 +17,9 @@
 baseUrl=https://10.0.2.2:8080
 #comma-separated list of backend urls
 debugBaseUrls=https://10.0.2.2:8080
-email=me@home.at
+name=
+email=
 githubReposUrl=https://api.github.com/users/github/repos
+server.production.url=
+server.production.description=
+

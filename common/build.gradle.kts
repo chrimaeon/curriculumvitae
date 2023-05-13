@@ -20,7 +20,7 @@ plugins {
     id("ktlint")
     @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.licenses)
-    id("curriculumvitae.buildconfig")
+    alias(libs.plugins.buildConfig)
 }
 
 kotlin {
@@ -41,7 +41,6 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-            this.kotlin.srcDir(tasks.generateBuildConfig)
             dependencies {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
@@ -114,14 +113,6 @@ kotlin {
         }
     }
 
-    targets.all {
-        compilations.all {
-            compileTaskProvider {
-                dependsOn(tasks.generateBuildConfig)
-            }
-        }
-    }
-
     jvmToolchain {
         languageVersion.set(javaLanguageVersion)
     }
@@ -151,12 +142,52 @@ licenses {
 }
 
 buildConfig {
-    val baseUrl by configProperty
-    val debugBaseUrls by configProperty
-    val githubReposUrl by configProperty
+    packageName("com.cmgapps.common.curriculumvitae")
 
-    this.baseUrl.set(baseUrl)
-    this.debugBaseUrls.set(debugBaseUrls)
-    this.buildYear.set(LocalDate.now().year.toString())
-    this.githubReposUrl.set(githubReposUrl)
+    useKotlinOutput {
+        topLevelConstants = true
+        internalVisibility = false
+    }
+
+    buildConfigField(
+        "String",
+        "BaseUrl",
+        provider {
+            val baseUrl by configProperty
+            """"$baseUrl""""
+        },
+    )
+    buildConfigField(
+        "String",
+        "DebugBaseUrls",
+        provider {
+            val debugBaseUrls by configProperty
+            """"$debugBaseUrls""""
+        },
+    )
+    buildConfigField(
+        "String",
+        "BuildYear",
+        provider {
+            """"${LocalDate.now().year}""""
+        },
+    )
+    buildConfigField(
+        "String",
+        "GithubReposUrl",
+        provider {
+            val githubReposUrl by configProperty
+            """"$githubReposUrl""""
+        },
+    )
+}
+
+afterEvaluate {
+    tasks.named("lintAnalyzeDebug") {
+        // https://github.com/gmazzo/gradle-buildconfig-plugin/pull/38
+        dependsOn(
+            tasks.named("generateAndroidUnitTestDebugNonAndroidBuildConfig"),
+            tasks.named("generateAndroidUnitTestNonAndroidBuildConfig"),
+        )
+    }
 }

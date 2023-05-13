@@ -21,10 +21,6 @@ gradlePlugin {
             id = "ktlint"
             implementationClass = "KtlintPlugin"
         }
-        register("buildConfigConvention") {
-            id = "curriculumvitae.buildconfig"
-            implementationClass = "BuildConfigPlugin"
-        }
     }
 }
 

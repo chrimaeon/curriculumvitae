@@ -15,7 +15,7 @@ plugins {
     id("ktlint")
 
     // TODO remove once common can be shared
-    id("curriculumvitae.buildconfig")
+    alias(libs.plugins.buildConfig)
 }
 
 kotlin {
@@ -71,6 +71,9 @@ kotlin {
 
 // TODO remove once common can be shared
 buildConfig {
+    packageName("com.cmgapps.common.curriculumvitae")
+    useKotlinOutput { topLevelConstants = true }
+
     val configProperties by lazy {
         Properties().apply {
             rootDir.resolve("config.properties").inputStream().use {
@@ -78,20 +81,32 @@ buildConfig {
             }
         }
     }
-    this.baseUrl.set(
+    buildConfigField(
+        "String",
+        "BaseUrl",
         provider {
-            configProperties.getProperty("baseUrl")
+            """"${configProperties.getProperty("baseUrl")}""""
         },
     )
-    this.debugBaseUrls.set(
+    buildConfigField(
+        "String",
+        "DebugBaseUrls",
         provider {
-            configProperties.getProperty("debugBaseUrls")
+            """"${configProperties.getProperty("debugBaseUrls")}""""
         },
     )
-    this.buildYear.set(LocalDate.now().year.toString())
-    this.githubReposUrl.set(
+    buildConfigField(
+        "String",
+        "BuildYear",
         provider {
-            configProperties.getProperty("githubReposUrl")
+            """"${LocalDate.now().year}""""
+        },
+    )
+    buildConfigField(
+        "String",
+        "GithubReposUrl",
+        provider {
+            """"${configProperties.getProperty("githubReposUrl")}""""
         },
     )
 }

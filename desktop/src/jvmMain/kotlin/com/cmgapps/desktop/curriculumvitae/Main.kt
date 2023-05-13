@@ -16,6 +16,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +60,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.core.qualifier.named
 import java.io.IOException
+import java.util.prefs.PreferenceChangeEvent
 import java.util.prefs.Preferences
 import javax.imageio.ImageIO
 
@@ -225,19 +227,27 @@ fun MainScreen(
                     val prefs = Preferences.userRoot()
                     var currentUrl by remember {
                         mutableStateOf(
+                            @Suppress("kotlin:S6518")
                             prefs.get(
                                 DebugBaseUrlKey,
                                 BaseUrl,
                             ),
                         )
                     }
-                    prefs.addPreferenceChangeListener {
-                        if (it.key == DebugBaseUrlKey) {
-                            currentUrl = it.newValue
+                    DisposableEffect(prefs) {
+                        val changeListener: (event: PreferenceChangeEvent) -> Unit = {
+                            if (it.key == DebugBaseUrlKey) {
+                                currentUrl = it.newValue
+                            }
+                        }
+                        prefs.addPreferenceChangeListener(changeListener)
+
+                        onDispose {
+                            prefs.removePreferenceChangeListener(changeListener)
                         }
                     }
 
-                    DebugBaseUrls.forEach { debugUrl ->
+                    DebugBaseUrls.split(",").forEach { debugUrl ->
                         Item(
                             debugUrl,
                             icon = if (currentUrl == debugUrl) {

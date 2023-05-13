@@ -146,7 +146,7 @@ private fun BaseUrlModal() {
                 Div({
                     classes("modal-body")
                 }) {
-                    DebugBaseUrls.mapIndexed { index, url -> "baseUrl.option.$index" to url }
+                    DebugBaseUrls.split(",").mapIndexed { index, url -> "baseUrl.option.$index" to url }
                         .forEach { (key, url) ->
                             RadioButton(key, url)
                         }

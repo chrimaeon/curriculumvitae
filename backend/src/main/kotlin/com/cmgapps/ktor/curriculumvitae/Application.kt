@@ -144,17 +144,17 @@ fun Application.installFeatures() {
         modules(appModule)
     }
 
+    val apiInfo = BuildConfig.apiInfo
     install(SwaggerUI) {
         swagger {
             swaggerUrl = "swagger"
         }
-        // TODO get from buildconfig
         info {
             title = "Curriculum Vitae API"
-            version = "v1"
+            version = apiInfo.version
             contact {
-                name = "Christian Grach"
-                email = "support@cmgapps.com"
+                name = apiInfo.contactName
+                email = apiInfo.contactEmail
             }
             license {
                 name = "Apache License 2.0"
@@ -165,8 +165,8 @@ fun Application.installFeatures() {
         }
 
         server {
-            url = "https://cv-bff.cmgapps.com/"
-            description = "Production"
+            url = apiInfo.serverUrl
+            description = apiInfo.serverDescription
         }
 
         schemasInComponentSection = true
