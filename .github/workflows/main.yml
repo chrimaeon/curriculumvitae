@@ -20,7 +20,7 @@ jobs:
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
       CV_NAME: My Name
       CV_SERVER_PRODUCTION_URL: https://url.invalid
-      CV_SERVER_PRODUCTION_Description: Production
+      CV_SERVER_PRODUCTION_DESCRIPTION: Production
 
     steps:
       # region Setup
@@ -175,7 +175,7 @@ jobs:
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
       CV_NAME: My Name
       CV_SERVER_PRODUCTION_URL: https://url.invalid
-      CV_SERVER_PRODUCTION_Description: Production
+      CV_SERVER_PRODUCTION_DESCRIPTION: Production
 
     steps:
       # region Setup
@@ -203,7 +203,7 @@ jobs:
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
       CV_NAME: My Name
       CV_SERVER_PRODUCTION_URL: https://url.invalid
-      CV_SERVER_PRODUCTION_Description: Production
+      CV_SERVER_PRODUCTION_DESCRIPTION: Production
 
     strategy:
       matrix:
@@ -312,7 +312,7 @@ jobs:
       CV_GITHUB_REPOS_URL: https://api.github.com/users/github/repos
       CV_NAME: My Name
       CV_SERVER_PRODUCTION_URL: https://url.invalid
-      CV_SERVER_PRODUCTION_Description: Production
+      CV_SERVER_PRODUCTION_DESCRIPTION: Production
 
     strategy:
       matrix:
