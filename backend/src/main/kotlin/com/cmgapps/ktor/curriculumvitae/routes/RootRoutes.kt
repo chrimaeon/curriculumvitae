@@ -18,6 +18,7 @@ import com.cmgapps.common.curriculumvitae.data.network.Profile
 import com.cmgapps.common.curriculumvitae.data.network.Skill
 import com.cmgapps.ktor.curriculumvitae.Routes
 import com.cmgapps.ktor.curriculumvitae.template.MaterialPage
+import io.github.smiley4.ktorswaggerui.dsl.route
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -76,53 +77,55 @@ private fun STYLE.cssRules(rules: CssBuilder.() -> Unit) {
 }
 
 private fun Route.rootRouting() {
-    get(Routes.ROOT.route) {
-        call.respondHtmlTemplate(MaterialPage("Curriculum Vitae BFF")) {
-            head {
-                style(type = ContentType.Text.CSS.toString()) {
-                    cssRules {
-                        kotlinx.css.pre {
-                            fontFamily = "'Roboto Mono', monospace"
-                            overflowX = Overflow.scroll
-                        }
-                        ".white-space-normal" {
-                            whiteSpace = WhiteSpace.normal
-                        }
-                        ".page-content" {
-                            margin(16.px)
-                        }
-                        ".api-card" {
-                            width = 100.pct
-                        }
-                        ".api-card .mdl-card__title-text" {
-                            marginLeft = 16.px
-                        }
-                        ".api-card .mdl-card__title-text a" {
-                            color = Color.inherit
-                            fontWeight = FontWeight.inherit
-                            textDecoration = TextDecoration.none
-                        }
-                        ".api-table-container" {
-                            overflowX = Overflow.scroll
-                        }
-                        ".api-table" {
-                            margin(horizontal = 16.px)
-                        }
+    route(Routes.ROOT.route, { hidden = true }) {
+        get {
+            call.respondHtmlTemplate(MaterialPage("Curriculum Vitae BFF")) {
+                head {
+                    style(type = ContentType.Text.CSS.toString()) {
+                        cssRules {
+                            kotlinx.css.pre {
+                                fontFamily = "'Roboto Mono', monospace"
+                                overflowX = Overflow.scroll
+                            }
+                            ".white-space-normal" {
+                                whiteSpace = WhiteSpace.normal
+                            }
+                            ".page-content" {
+                                margin(16.px)
+                            }
+                            ".api-card" {
+                                width = 100.pct
+                            }
+                            ".api-card .mdl-card__title-text" {
+                                marginLeft = 16.px
+                            }
+                            ".api-card .mdl-card__title-text a" {
+                                color = Color.inherit
+                                fontWeight = FontWeight.inherit
+                                textDecoration = TextDecoration.none
+                            }
+                            ".api-table-container" {
+                                overflowX = Overflow.scroll
+                            }
+                            ".api-table" {
+                                margin(horizontal = 16.px)
+                            }
 
-                        ".api-response" {
-                            margin(horizontal = 16.px)
-                        }
+                            ".api-response" {
+                                margin(horizontal = 16.px)
+                            }
 
-                        ".api-response pre" {
-                            whiteSpace = WhiteSpace.preWrap
-                            padding(8.px)
-                            borderRadius = 4.px
+                            ".api-response pre" {
+                                whiteSpace = WhiteSpace.preWrap
+                                padding(8.px)
+                                borderRadius = 4.px
+                            }
                         }
                     }
                 }
-            }
-            content {
-                page()
+                content {
+                    page()
+                }
             }
         }
     }

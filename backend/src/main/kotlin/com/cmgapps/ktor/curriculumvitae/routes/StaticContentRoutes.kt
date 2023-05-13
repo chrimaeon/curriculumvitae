@@ -7,6 +7,7 @@
 
 package com.cmgapps.ktor.curriculumvitae.routes
 
+import io.github.smiley4.ktorswaggerui.dsl.route
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -20,21 +21,23 @@ import io.ktor.server.routing.routing
 
 fun Application.registerStaticRoutes() {
     routing {
-        staticResources("assets", "assets")
-        get("favicon.ico") {
-            val iconStream =
-                application.environment.classLoader.getResourceAsStream("assets/favicon.ico")
+        route("/", { hidden = true }) {
+            staticResources("assets", "assets")
+            get("favicon.ico") {
+                val iconStream =
+                    application.environment.classLoader.getResourceAsStream("assets/favicon.ico")
 
-            if (iconStream == null) {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
+                if (iconStream == null) {
+                    call.respond(HttpStatusCode.NotFound)
+                    return@get
+                }
 
-            call.respondOutputStream(
-                status = HttpStatusCode.OK,
-                contentType = ContentType.Image.XIcon,
-            ) {
-                iconStream.copyTo(this)
+                call.respondOutputStream(
+                    status = HttpStatusCode.OK,
+                    contentType = ContentType.Image.XIcon,
+                ) {
+                    iconStream.copyTo(this)
+                }
             }
         }
     }

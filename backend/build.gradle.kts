@@ -99,6 +99,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.bundles.koin.server)
     implementation(libs.sqldelight.driver.jvm)
+    implementation(libs.swaggerUi)
 
     testImplementation(libs.ktor.testing)
     testImplementation(platform(libs.junit.bom))

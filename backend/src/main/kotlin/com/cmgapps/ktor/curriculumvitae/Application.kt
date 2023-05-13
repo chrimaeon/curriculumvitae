@@ -17,6 +17,7 @@ import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
 import com.cmgapps.ktor.curriculumvitae.routes.registerSkillRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
+import io.github.smiley4.ktorswaggerui.SwaggerUI
 import io.ktor.content.TextContent
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
@@ -126,6 +127,7 @@ fun Application.installFeatures() {
                         maxAgeSeconds = 1.days.inWholeSeconds.toInt(),
                     ),
                 )
+
                 else -> null
             }
         }
@@ -140,6 +142,35 @@ fun Application.installFeatures() {
 
     install(Koin) {
         modules(appModule)
+    }
+
+    install(SwaggerUI) {
+        swagger {
+            swaggerUrl = "swagger"
+        }
+        // TODO get from buildconfig
+        info {
+            title = "Curriculum Vitae API"
+            version = "v1"
+            contact {
+                name = "Christian Grach"
+                email = "support@cmgapps.com"
+            }
+            license {
+                name = "Apache License 2.0"
+                url = "https://spdx.org/licenses/Apache-2.0.html"
+            }
+            description =
+                "API for the [Curriculum Vitae Apps](https://github.com/chrimaeon/curriculumvitae)"
+        }
+
+        server {
+            url = "https://cv-bff.cmgapps.com/"
+            description = "Production"
+        }
+
+        schemasInComponentSection = true
+        examplesInComponentSection = true
     }
 }
 

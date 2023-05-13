@@ -179,6 +179,7 @@ ktor-websocket = { module = "io.ktor:ktor-server-websockets", version.ref = "kto
 logback-classic = "ch.qos.logback:logback-classic:1.4.7"
 kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.547"
 appEngine = "com.google.appengine:appengine:1.9.93"
+swaggerUi = "io.github.smiley4:ktor-swagger-ui:1.6.1"
 # endregion
 
 [bundles]

@@ -12,12 +12,14 @@ package com.cmgapps.ktor.curriculumvitae.routes
 
 import com.cmgapps.common.curriculumvitae.data.network.Status
 import com.cmgapps.ktor.curriculumvitae.Routes
+import io.github.smiley4.ktorswaggerui.dsl.route
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
+import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.websocket.webSocket
 import io.ktor.websocket.Frame
@@ -27,28 +29,37 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 fun Route.healthCheck() {
-    get(Routes.HEALTHZ.route) {
-        call.respond(HttpStatusCode.OK, "Ok")
+    route(
+        Routes.HEALTHZ.route,
+        {
+            hidden = true
+        },
+    ) {
+        get {
+            call.respond(HttpStatusCode.OK, "Ok")
+        }
     }
 
     val runtime = Runtime.getRuntime()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    webSocket(Routes.STATUS.route) {
-        while (!incoming.isClosedForReceive) {
-            outgoing.send(
-                Frame.Text(
-                    Json.encodeToString(
-                        Status(
-                            availableProcessors = runtime.availableProcessors(),
-                            freeMemory = runtime.freeMemory(),
-                            totalMemory = runtime.totalMemory(),
-                            maxMemory = runtime.maxMemory(),
+    route(Routes.STATUS.route) {
+        @OptIn(ExperimentalCoroutinesApi::class)
+        webSocket {
+            while (!incoming.isClosedForReceive) {
+                outgoing.send(
+                    Frame.Text(
+                        Json.encodeToString(
+                            Status(
+                                availableProcessors = runtime.availableProcessors(),
+                                freeMemory = runtime.freeMemory(),
+                                totalMemory = runtime.totalMemory(),
+                                maxMemory = runtime.maxMemory(),
+                            ),
                         ),
                     ),
-                ),
-            )
-            delay(2000L)
+                )
+                delay(2000L)
+            }
         }
     }
 }

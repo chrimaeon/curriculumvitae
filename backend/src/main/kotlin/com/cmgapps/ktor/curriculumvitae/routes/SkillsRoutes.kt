@@ -14,11 +14,14 @@ package com.cmgapps.ktor.curriculumvitae.routes
 import com.cmgapps.common.curriculumvitae.data.network.Skill
 import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.cmgapps.ktor.curriculumvitae.Routes
+import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
+import io.github.smiley4.ktorswaggerui.dsl.get
+import io.github.smiley4.ktorswaggerui.dsl.route
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import kotlinx.serialization.serializer
 import org.koin.ktor.ext.inject
@@ -28,8 +31,31 @@ private fun Route.skillsRouting() {
     val skills: List<Skill> =
         modelLoader.loadModel(serializer(), "skills.json") ?: error("Cannot load skills")
 
-    get(Routes.SKILLS.route) {
-        call.respond(skills)
+    route(
+        Routes.SKILLS.route,
+        {
+            tags = listOf("Skills")
+        },
+    ) {
+        get({ documentation() }) {
+            call.respond(skills)
+        }
+    }
+}
+
+private fun OpenApiRoute.documentation() {
+    response {
+        HttpStatusCode.OK to {
+            body<List<Skill>> {
+                example(
+                    "Skills",
+                    listOf(
+                        Skill("Mobile Development", 5),
+                        Skill("Android", 5),
+                    ),
+                )
+            }
+        }
     }
 }
 

@@ -16,14 +16,17 @@
 
 package com.cmgapps.ktor.curriculumvitae
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 
 enum class Language {
     EN,
     DE,
 }
 
+@Suppress("kotlin:S6517")
 interface ModelLoader {
     fun <T> loadModel(
         serializer: KSerializer<T>,
@@ -34,11 +37,9 @@ interface ModelLoader {
 class ClassLoaderModelLoader : ModelLoader {
     private val classLoader: ClassLoader = this.javaClass.classLoader!!
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun <T> loadModel(serializer: KSerializer<T>, filePath: String): T? =
         classLoader
             .getResourceAsStream(filePath)
-            ?.use { inputStream ->
-                inputStream.bufferedReader()
-                    .use { reader -> Json.decodeFromString(serializer, reader.readText()) }
-            }
+            ?.use { Json.decodeFromStream(serializer, it) }
 }
