@@ -67,7 +67,8 @@ GET
         "stars": 42,
         "private": false,
         "fork": false,
-        "archived": false
+        "archived": false,
+        "pushedAt": "1979-09-02T18:00:00Z"
       }
     ]
 

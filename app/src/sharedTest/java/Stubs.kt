@@ -22,6 +22,7 @@ import com.cmgapps.android.curriculumvitae.data.datastore.Profile
 import com.cmgapps.android.curriculumvitae.data.datastore.asDataStoreModel
 import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
@@ -81,6 +82,7 @@ fun StubNetworkOssProjects() = listOf(
         private = false,
         fork = false,
         archived = false,
+        pushedAt = Instant.fromEpochMilliseconds(305143200000),
     ),
 )
 

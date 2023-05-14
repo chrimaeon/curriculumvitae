@@ -4,6 +4,7 @@
 
 package com.cmgapps.common.curriculumvitae.data.network
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,4 +17,5 @@ data class OssProject(
     val private: Boolean,
     val fork: Boolean,
     val archived: Boolean,
+    val pushedAt: Instant?,
 )

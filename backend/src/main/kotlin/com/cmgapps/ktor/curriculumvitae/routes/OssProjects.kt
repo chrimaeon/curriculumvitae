@@ -24,6 +24,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Instant
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import org.koin.ktor.ext.inject
@@ -80,6 +81,7 @@ private fun OpenApiRoute.documentation() {
                             private = false,
                             fork = false,
                             archived = false,
+                            pushedAt = Instant.fromEpochMilliseconds(305143200000),
                         ),
                     ),
                 )

@@ -47,6 +47,7 @@ import kotlinx.css.px
 import kotlinx.css.textDecoration
 import kotlinx.css.whiteSpace
 import kotlinx.css.width
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.html.DIV
 import kotlinx.html.STYLE
@@ -199,6 +200,7 @@ private fun DIV.page() {
                     private = false,
                     fork = false,
                     archived = false,
+                    pushedAt = Instant.fromEpochMilliseconds(305143200000),
                 ),
             ),
         )
