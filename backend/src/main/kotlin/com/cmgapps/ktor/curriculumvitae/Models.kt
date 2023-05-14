@@ -26,14 +26,6 @@ enum class Language {
     DE,
 }
 
-data class ApiInfo(
-    val version: String,
-    val contactName: String,
-    val contactEmail: String,
-    val serverUrl: String,
-    val serverDescription: String,
-)
-
 @Suppress("kotlin:S6517")
 interface ModelLoader {
     fun <T> loadModel(

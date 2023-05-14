@@ -92,7 +92,7 @@ tasks {
 buildConfig {
     packageName("com.cmgapps.ktor.curriculumvitae")
     buildConfigField(
-        "com.cmgapps.ktor.curriculumvitae.ApiInfo",
+        "com.cmgapps.ktor.curriculumvitae.infra.model.ApiInfo",
         "apiInfo",
         provider {
             val email by configProperty
