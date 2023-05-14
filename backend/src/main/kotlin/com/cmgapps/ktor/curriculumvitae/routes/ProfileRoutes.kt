@@ -65,6 +65,7 @@ private fun OpenApiRoute.documentation() {
     }
     response {
         HttpStatusCode.OK to {
+            description = "Success"
             body<Profile> {
                 example(
                     "Profile",

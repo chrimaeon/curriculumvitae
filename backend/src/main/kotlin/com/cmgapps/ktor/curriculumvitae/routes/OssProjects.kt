@@ -62,9 +62,10 @@ private fun Route.ossProjectsRoute() {
 private fun OpenApiRoute.documentation() {
     response {
         HttpStatusCode.OK to {
+            description = "Success"
             body<List<OssProject>> {
                 example(
-                    "OSS Projects",
+                    "OSS-Projects",
                     listOf(
                         OssProject(
                             name = "my-project",

@@ -46,6 +46,7 @@ private fun Route.skillsRouting() {
 private fun OpenApiRoute.documentation() {
     response {
         HttpStatusCode.OK to {
+            description = "Success"
             body<List<Skill>> {
                 example(
                     "Skills",

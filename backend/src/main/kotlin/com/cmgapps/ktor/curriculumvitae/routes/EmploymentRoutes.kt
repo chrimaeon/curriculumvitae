@@ -56,6 +56,7 @@ private fun mapper(
 private fun OpenApiRoute.documentation() {
     response {
         HttpStatusCode.OK to {
+            description = "Success"
             body<Employment> {
                 example(
                     "Employment",
