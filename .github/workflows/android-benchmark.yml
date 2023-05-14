@@ -23,7 +23,7 @@ jobs:
           java-version: 17
 
       - name: Gradle Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches/modules-*
@@ -32,7 +32,7 @@ jobs:
           key: gradle-${{ hashFiles('**/build.gradle*', '**/*.versions.toml') }}
 
       - name: Gradle Wrapper Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
@@ -43,12 +43,12 @@ jobs:
           echo "version=$(awk -F'[ ="]+' '$1 == "kotlin" { print $2 }' ./gradle/libs.versions.toml)" >> $GITHUB_OUTPUT
 
       - name: Konan Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.konan
           key: ${{ runner.os }}-konan-${{ steps.get-kotlin-version.outputs.version }}
       - name: AVD cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: avd-cache
         with:
           path: |
