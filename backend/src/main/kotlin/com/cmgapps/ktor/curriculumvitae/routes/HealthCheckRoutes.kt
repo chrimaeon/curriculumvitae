@@ -31,9 +31,7 @@ import kotlinx.serialization.json.Json
 fun Route.healthCheck() {
     route(
         Routes.HEALTHZ.route,
-        {
-            hidden = true
-        },
+        { hidden = true },
     ) {
         get {
             call.respond(HttpStatusCode.OK, "Ok")

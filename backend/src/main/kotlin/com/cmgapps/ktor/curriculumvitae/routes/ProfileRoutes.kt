@@ -12,6 +12,7 @@ import com.cmgapps.common.curriculumvitae.data.network.Profile
 import com.cmgapps.ktor.curriculumvitae.Language
 import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.cmgapps.ktor.curriculumvitae.Routes
+import io.github.smiley4.ktorswaggerui.dsl.OpenApiResponse
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
 import io.github.smiley4.ktorswaggerui.dsl.get
 import io.github.smiley4.ktorswaggerui.dsl.route
@@ -31,11 +32,9 @@ private fun Route.profileRouting() {
 
     route(
         Routes.PROFILE.route,
-        {
-            tags = listOf("Profile")
-        },
+        { tags = listOf("Profile") },
     ) {
-        get({ documentation() }) {
+        get(OpenApiRoute::documentation) {
             val lang: Language =
                 if (call.request.acceptLanguageItems().any { it.value.startsWith("de") }) {
                     Language.DE
@@ -57,6 +56,30 @@ private fun Route.profileRouting() {
 }
 
 private fun OpenApiRoute.documentation() {
+    fun OpenApiResponse.defaultExample() {
+        description = "Success"
+        body<Profile> {
+            example(
+                "Profile",
+                Profile(
+                    name = "My Name",
+                    phone = "+1234567890",
+                    profileImagePath = "/profile.png",
+                    address = Address(
+                        street = "Main Street 1",
+                        city = "My Hometown",
+                        postalCode = "42",
+                    ),
+                    email = "noreply@test.com",
+                    intro = listOf(
+                        "Intro line 1 ...",
+                        "Intro line 2 ...",
+                        "etc ... etc ... etc ...",
+                    ),
+                ),
+            )
+        }
+    }
     request {
         headerParameter<String>(HttpHeaders.AcceptLanguage) {
             description =
@@ -64,30 +87,8 @@ private fun OpenApiRoute.documentation() {
         }
     }
     response {
-        HttpStatusCode.OK to {
-            description = "Success"
-            body<Profile> {
-                example(
-                    "Profile",
-                    Profile(
-                        name = "My Name",
-                        phone = "+1234567890",
-                        profileImagePath = "/profile.png",
-                        address = Address(
-                            street = "Main Street 1",
-                            city = "My Hometown",
-                            postalCode = "42",
-                        ),
-                        email = "noreply@test.com",
-                        intro = listOf(
-                            "Intro line 1 ...",
-                            "Intro line 2 ...",
-                            "etc ... etc ... etc ...",
-                        ),
-                    ),
-                )
-            }
-        }
+        default(OpenApiResponse::defaultExample)
+        HttpStatusCode.OK to OpenApiResponse::defaultExample
     }
 }
 

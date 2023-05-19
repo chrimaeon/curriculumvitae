@@ -14,6 +14,7 @@ import com.cmgapps.ktor.curriculumvitae.Routes
 import com.cmgapps.ktor.curriculumvitae.infra.model.GithubUserRepository
 import com.cmgapps.ktor.curriculumvitae.infra.model.asDatabaseOssProject
 import com.cmgapps.ktor.curriculumvitae.infra.model.asOssProject
+import io.github.smiley4.ktorswaggerui.dsl.OpenApiResponse
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
 import io.github.smiley4.ktorswaggerui.dsl.get
 import io.github.smiley4.ktorswaggerui.dsl.route
@@ -43,29 +44,37 @@ private fun Route.ossProjectsRoute() {
     val database: CvDatabase by inject()
     route(
         Routes.OSS_PROJECTS.route,
-        {
-            tags = listOf("Open-Source Projects")
-        },
+        { tags = listOf("Open-Source Projects") },
     ) {
-        get({ documentation() }) {
+        get(OpenApiRoute::documentation) {
             @Suppress("BlockingMethodInNonBlockingContext")
             val response: List<OssProject> = try {
                 withContext(ioDispatcher) {
-                    val lastChecked = database.lastCheckQueries.getTimestamp().executeAsOneOrNull() ?: Instant.DISTANT_PAST
+                    val lastChecked = database.lastCheckQueries.getTimestamp().executeAsOneOrNull()
+                        ?: Instant.DISTANT_PAST
                     if (lastChecked.plus(1.days) < Clock.System.now()) {
-                        generateUrl().openConnection().apply {
-                            setRequestProperty(HttpHeaders.Accept, "application/vnd.github+json")
-                        }.getInputStream().use { stream ->
-                            IgnoreKeysJson.decodeFromStream<List<GithubUserRepository>>(stream)
-                        }.also { githubRepos ->
-                            database.transaction {
-                                githubRepos.asSequence()
-                                    .map(GithubUserRepository::asDatabaseOssProject)
-                                    .forEach {
-                                        database.ossProjectQueries.insertOssProject(it)
-                                    }
-                            }
-                        }.map { it.asOssProject() }
+                        try {
+                            generateUrl().openConnection().apply {
+                                setRequestProperty(
+                                    HttpHeaders.Accept,
+                                    "application/vnd.github+json",
+                                )
+                            }.getInputStream().use { stream ->
+                                IgnoreKeysJson.decodeFromStream<List<GithubUserRepository>>(stream)
+                            }.also { githubRepos ->
+                                database.transaction {
+                                    githubRepos.asSequence()
+                                        .map(GithubUserRepository::asDatabaseOssProject)
+                                        .forEach {
+                                            database.ossProjectQueries.insertOssProject(it)
+                                        }
+                                }
+                            }.map { it.asOssProject() }
+                        } catch (exc: IOException) {
+                            call.application.log.error("Error fetching repos", exc)
+                            database.ossProjectQueries.selectAllOrderedByPushedAt()
+                                .executeAsList().map(Ossproject::asNetworkModel)
+                        }
                     } else {
                         database.ossProjectQueries.selectAllOrderedByPushedAt().executeAsList()
                             .map(Ossproject::asNetworkModel)
@@ -82,32 +91,35 @@ private fun Route.ossProjectsRoute() {
 }
 
 private fun OpenApiRoute.documentation() {
-    response {
-        HttpStatusCode.OK to {
-            description = "Success"
-            body<List<OssProject>> {
-                example(
-                    "OSS-Projects",
-                    listOf(
-                        OssProject(
-                            name = "my-project",
-                            description = "My Open Source Project",
-                            url = "https://cmgapps.com",
-                            topics = listOf(
-                                "kotlin",
-                                "android",
-                                "kotlin multiplatform",
-                            ),
-                            stars = 42,
-                            private = false,
-                            fork = false,
-                            archived = false,
-                            pushedAt = Instant.fromEpochMilliseconds(305143200000),
+    fun OpenApiResponse.defaultExample() {
+        description = "Success"
+        body<List<OssProject>> {
+            example(
+                "OSS-Projects",
+                listOf(
+                    OssProject(
+                        name = "my-project",
+                        description = "My Open Source Project",
+                        url = "https://cmgapps.com",
+                        topics = listOf(
+                            "kotlin",
+                            "android",
+                            "kotlin multiplatform",
                         ),
+                        stars = 42,
+                        private = false,
+                        fork = false,
+                        archived = false,
+                        // TODO: instant is not parsed correctly https://github.com/SMILEY4/ktor-swagger-ui/issues/44
+                        pushedAt = Instant.fromEpochMilliseconds(305143200000),
                     ),
-                )
-            }
+                ),
+            )
         }
+    }
+    response {
+        default(OpenApiResponse::defaultExample)
+        HttpStatusCode.OK to OpenApiResponse::defaultExample
     }
 }
 

@@ -20,3 +20,6 @@ max_line_length=80
 
 [**/resources/git/version]
 insert_final_newline=false
+
+[**/resources/openapi.json]
+insert_final_newline=false

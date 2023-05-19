@@ -1,0 +1,381 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Curriculum Vitae API",
+    "description" : "API for the [Curriculum Vitae Apps](https://github.com/chrimaeon/curriculumvitae)",
+    "contact" : {
+      "name" : "$$__NAME__$$",
+      "email" : "$$__EMAIL__$$"
+    },
+    "license" : {
+      "name" : "Apache License 2.0",
+      "url" : "https://spdx.org/licenses/Apache-2.0.html"
+    },
+    "version" : "v3"
+  },
+  "servers" : [ {
+    "url" : "$$__SERVER_PRODUCTION_URL__$$",
+    "description" : "$$__SERVER_PRODUCTION_DESCRIPTION__$$"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/profile" : {
+      "get" : {
+        "tags" : [ "Profile" ],
+        "parameters" : [ {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "description" : "A HTTP language header; see https://datatracker.ietf.org/doc/html/rfc7231#section-5.3.5",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Profile"
+                },
+                "examples" : {
+                  "Profile" : {
+                    "$ref" : "#/components/examples/Profile"
+                  }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Profile"
+                },
+                "examples" : {
+                  "Profile" : {
+                    "$ref" : "#/components/examples/Profile"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/employment" : {
+      "get" : {
+        "tags" : [ "Employment" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Employment"
+                },
+                "examples" : {
+                  "Employment" : {
+                    "$ref" : "#/components/examples/Employment"
+                  }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Employment"
+                },
+                "examples" : {
+                  "Employment" : {
+                    "$ref" : "#/components/examples/Employment"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/skills" : {
+      "get" : {
+        "tags" : [ "Skills" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "xml" : { },
+                  "items" : {
+                    "$ref" : "#/components/schemas/Skill"
+                  }
+                },
+                "examples" : {
+                  "Skills" : {
+                    "$ref" : "#/components/examples/Skills"
+                  }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "xml" : { },
+                  "items" : {
+                    "$ref" : "#/components/schemas/Skill"
+                  }
+                },
+                "examples" : {
+                  "Skills" : {
+                    "$ref" : "#/components/examples/Skills"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/oss-projects" : {
+      "get" : {
+        "tags" : [ "Open-Source Projects" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "xml" : { },
+                  "items" : {
+                    "$ref" : "#/components/schemas/OssProject"
+                  }
+                },
+                "examples" : {
+                  "OSS-Projects" : {
+                    "$ref" : "#/components/examples/OSS-Projects"
+                  }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Success",
+            "headers" : { },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "xml" : { },
+                  "items" : {
+                    "$ref" : "#/components/schemas/OssProject"
+                  }
+                },
+                "examples" : {
+                  "OSS-Projects" : {
+                    "$ref" : "#/components/examples/OSS-Projects"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Profile" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "object",
+            "properties" : {
+              "city" : {
+                "type" : "string"
+              },
+              "postalCode" : {
+                "type" : "string"
+              },
+              "street" : {
+                "type" : "string"
+              }
+            }
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "intro" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "profileImagePath" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Employment" : {
+        "type" : "object",
+        "properties" : {
+          "city" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "employer" : {
+            "type" : "string"
+          },
+          "endDate" : {
+            "type" : "string",
+            "format": "date",
+            "nullable": true
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "jobTitle" : {
+            "type" : "string"
+          },
+          "startDate" : {
+            "type" : "string",
+            "format": "date"
+          }
+        }
+      },
+      "Skill" : {
+        "type" : "object",
+        "properties" : {
+          "level" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
+      "OssProject" : {
+        "type" : "object",
+        "properties" : {
+          "archived" : {
+            "type" : "boolean"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "fork" : {
+            "type" : "boolean"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "private" : {
+            "type" : "boolean"
+          },
+          "pushedAt" : {
+            "type" : "string",
+            "format": "datetime"
+          },
+          "stars" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "topics" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "url" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "examples" : {
+      "Profile" : {
+        "value" : {
+          "name" : "My Name",
+          "phone" : "+1234567890",
+          "profileImagePath" : "/profile.png",
+          "address" : {
+            "street" : "Main Street 1",
+            "city" : "My Hometown",
+            "postalCode" : "42"
+          },
+          "email" : "noreply@test.com",
+          "intro" : [ "Intro line 1 ...", "Intro line 2 ...", "etc ... etc ... etc ..." ]
+        }
+      },
+      "Employment" : {
+        "value" : {
+          "id" : 1,
+          "jobTitle" : "Software Developer",
+          "employer" : "CMG Mobile Apps",
+          "startDate" : "2010-06-01",
+          "city" : "Graz",
+          "description" : [ "Founder", "Software development" ]
+        }
+      },
+      "Skills" : {
+        "value" : [ {
+          "name" : "Mobile Development",
+          "level" : 5
+        }, {
+          "name" : "Android",
+          "level" : 5
+        } ]
+      },
+      "OSS-Projects" : {
+        "value" : [ {
+          "name" : "my-project",
+          "description" : "My Open Source Project",
+          "url" : "https://cmgapps.com",
+          "topics" : [ "kotlin", "android", "kotlin multiplatform" ],
+          "stars" : 42,
+          "private" : false,
+          "fork" : false,
+          "archived" : false,
+          "pushedAt" : "1979-09-02T18:00:00Z"
+        } ]
+      }
+    }
+  }
+}

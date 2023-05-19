@@ -9,6 +9,7 @@ package com.cmgapps.ktor.curriculumvitae.routes
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
 import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.ktor.curriculumvitae.Routes
+import io.github.smiley4.ktorswaggerui.dsl.OpenApiResponse
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
 import io.github.smiley4.ktorswaggerui.dsl.get
 import io.github.smiley4.ktorswaggerui.dsl.route
@@ -25,11 +26,9 @@ fun Route.employmentRouting() {
     val database: CvDatabase by inject()
     route(
         Routes.EMPLOYMENT.route,
-        {
-            tags = listOf("Employment")
-        },
+        { tags = listOf("Employment") },
     ) {
-        get({ documentation() }) {
+        get(OpenApiRoute::documentation) {
             call.respond(database.employmentQueries.selectAll(::mapper).executeAsList())
         }
     }
@@ -54,27 +53,29 @@ private fun mapper(
 )
 
 private fun OpenApiRoute.documentation() {
-    response {
-        HttpStatusCode.OK to {
-            description = "Success"
-            body<Employment> {
-                example(
-                    "Employment",
-                    Employment(
-                        id = 1,
-                        jobTitle = "Software Developer",
-                        employer = "CMG Mobile Apps",
-                        startDate = LocalDate.parse("2010-06-01"),
-                        endDate = null,
-                        city = "Graz",
-                        description = listOf(
-                            "Founder",
-                            "Software development",
-                        ),
+    fun OpenApiResponse.defaultExample() {
+        description = "Success"
+        body<Employment> {
+            example(
+                "Employment",
+                Employment(
+                    id = 1,
+                    jobTitle = "Software Developer",
+                    employer = "CMG Mobile Apps",
+                    startDate = LocalDate.parse("2010-06-01"),
+                    endDate = null,
+                    city = "Graz",
+                    description = listOf(
+                        "Founder",
+                        "Software development",
                     ),
-                )
-            }
+                ),
+            )
         }
+    }
+    response {
+        default(OpenApiResponse::defaultExample)
+        HttpStatusCode.OK to OpenApiResponse::defaultExample
     }
 }
 

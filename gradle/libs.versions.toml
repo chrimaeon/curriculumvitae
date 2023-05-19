@@ -10,7 +10,7 @@ androidNdk = "25.2.9519653"
 # region release versions
 androidWearableVersion = "1"
 androidAppVersion = "2"
-backendVersion = "2"
+backendVersion = "v3"
 # also update backend/src/main/appengine/app.yaml
 versionName = "1.0.0"
 # endregion

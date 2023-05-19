@@ -17,18 +17,19 @@
 @file:Suppress("TestFunctionName")
 
 import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
-import com.cmgapps.common.curriculumvitae.data.network.OssProject
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
 import com.cmgapps.common.curriculumvitae.data.domain.Employment as DomainEmployment
+import com.cmgapps.common.curriculumvitae.data.domain.OssProject as DomainOssProject
 import com.cmgapps.common.curriculumvitae.data.domain.Profile as DomainProfile
 import com.cmgapps.common.curriculumvitae.data.domain.Skill as DomainSkill
 import com.cmgapps.common.curriculumvitae.data.domain.Status as DomainStatus
 import com.cmgapps.common.curriculumvitae.data.network.Address as NetworkAddress
 import com.cmgapps.common.curriculumvitae.data.network.Employment as NetworkEmployment
+import com.cmgapps.common.curriculumvitae.data.network.OssProject as NetworkOssProject
 import com.cmgapps.common.curriculumvitae.data.network.Profile as NetworkProfile
 import com.cmgapps.common.curriculumvitae.data.network.Skill as NetworkSkill
 import com.cmgapps.common.curriculumvitae.data.network.Status as NetworkStatus
@@ -69,7 +70,7 @@ fun StubDomainStatus(): DomainStatus = StubNetworkStatus().asDomainModel()
 fun StubNetworkSkill(): NetworkSkill = NetworkSkill("Skill level 1", 1)
 fun StubDomainSkill(): DomainSkill = with(StubNetworkSkill()) { DomainSkill(name, level) }
 
-fun StubNetworkOssProjects(): OssProject = OssProject(
+fun StubNetworkOssProject(): NetworkOssProject = NetworkOssProject(
     "my-project",
     "description",
     "url",
@@ -78,5 +79,18 @@ fun StubNetworkOssProjects(): OssProject = OssProject(
     false,
     false,
     false,
-    Instant.parse("19790-09-02T09:00:00Z"),
+    Instant.parse("1979-09-02T09:00:00Z"),
 )
+
+fun StubDomainOssProject() = with(StubNetworkOssProject()) {
+    DomainOssProject(
+        name,
+        description,
+        url,
+        topics,
+        stars,
+        private,
+        fork,
+        archived,
+    )
+}

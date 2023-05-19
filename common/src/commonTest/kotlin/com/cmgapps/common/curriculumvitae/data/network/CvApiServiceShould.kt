@@ -17,6 +17,7 @@
 package com.cmgapps.common.curriculumvitae.data.network
 
 import StubNetworkEmployment
+import StubNetworkOssProject
 import StubNetworkProfile
 import StubNetworkSkill
 import StubNetworkStatus
@@ -55,6 +56,12 @@ class CvApiServiceShould {
     fun get_skills() = runTest {
         val result = apiService.getSkills()
         assertEquals(listOf(StubNetworkSkill()), result)
+    }
+
+    @Test
+    fun get_oss_project() = runTest {
+        val result = apiService.getOssProjects()
+        assertEquals(listOf(StubNetworkOssProject()), result)
     }
 
     @Test

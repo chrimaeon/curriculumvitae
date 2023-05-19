@@ -14,6 +14,7 @@ package com.cmgapps.ktor.curriculumvitae.routes
 import com.cmgapps.common.curriculumvitae.data.network.Skill
 import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.cmgapps.ktor.curriculumvitae.Routes
+import io.github.smiley4.ktorswaggerui.dsl.OpenApiResponse
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
 import io.github.smiley4.ktorswaggerui.dsl.get
 import io.github.smiley4.ktorswaggerui.dsl.route
@@ -33,30 +34,30 @@ private fun Route.skillsRouting() {
 
     route(
         Routes.SKILLS.route,
-        {
-            tags = listOf("Skills")
-        },
+        { tags = listOf("Skills") },
     ) {
-        get({ documentation() }) {
+        get(OpenApiRoute::documentation) {
             call.respond(skills)
         }
     }
 }
 
 private fun OpenApiRoute.documentation() {
-    response {
-        HttpStatusCode.OK to {
-            description = "Success"
-            body<List<Skill>> {
-                example(
-                    "Skills",
-                    listOf(
-                        Skill("Mobile Development", 5),
-                        Skill("Android", 5),
-                    ),
-                )
-            }
+    fun OpenApiResponse.defaultExample() {
+        description = "Success"
+        body<List<Skill>> {
+            example(
+                "Skills",
+                listOf(
+                    Skill("Mobile Development", 5),
+                    Skill("Android", 5),
+                ),
+            )
         }
+    }
+    response {
+        default(OpenApiResponse::defaultExample)
+        HttpStatusCode.OK to OpenApiResponse::defaultExample
     }
 }
 
