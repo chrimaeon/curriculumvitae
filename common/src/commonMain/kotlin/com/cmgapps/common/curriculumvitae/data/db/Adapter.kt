@@ -17,15 +17,26 @@
 package com.cmgapps.common.curriculumvitae.data.db
 
 import com.squareup.sqldelight.ColumnAdapter
+import kotlinx.datetime.Instant
 
 const val separator = "\u001f"
 
-object DescriptionAdapter : ColumnAdapter<List<String>, String> {
+object ListOfStringAdapter : ColumnAdapter<List<String>, String> {
     override fun decode(databaseValue: String): List<String> {
         return if (databaseValue.isBlank()) emptyList() else databaseValue.split(separator)
     }
 
     override fun encode(value: List<String>): String {
         return if (value.isNullOrEmpty()) "" else value.joinToString(separator = separator)
+    }
+}
+
+object InstantAdapter : ColumnAdapter<Instant, String> {
+    override fun decode(databaseValue: String): Instant {
+        return Instant.parse(databaseValue)
+    }
+
+    override fun encode(value: Instant): String {
+        return value.toString()
     }
 }

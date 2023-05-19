@@ -1,0 +1,24 @@
+import kotlinx.datetime.Instant;
+
+CREATE TABLE IF NOT EXISTS `lastcheck` (
+    `date` TEXT AS Instant NOT NULL
+);
+
+CREATE TRIGGER IF NOT EXISTS updateLastCheckOnUpdate
+AFTER UPDATE ON `ossproject`
+BEGIN
+    DELETE FROM `lastcheck`;
+    INSERT INTO `lastcheck` VALUES (strftime('%Y-%m-%dT%H:%M:%fZ', datetime('now')));
+END;
+
+CREATE TRIGGER IF NOT EXISTS updateLastCheckOnInsert
+AFTER INSERT ON `ossproject`
+BEGIN
+    DELETE FROM `lastcheck`;
+    INSERT INTO `lastcheck` VALUES (strftime('%Y-%m-%dT%H:%M:%fZ', datetime('now')));
+END;
+
+getTimestamp:
+SELECT `date` FROM `lastcheck`;
+
+

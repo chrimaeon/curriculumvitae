@@ -17,8 +17,11 @@
 package com.cmgapps.ktor.curriculumvitae.infra.di
 
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
-import com.cmgapps.common.curriculumvitae.data.db.DescriptionAdapter
 import com.cmgapps.common.curriculumvitae.data.db.Employment
+import com.cmgapps.common.curriculumvitae.data.db.InstantAdapter
+import com.cmgapps.common.curriculumvitae.data.db.Lastcheck
+import com.cmgapps.common.curriculumvitae.data.db.ListOfStringAdapter
+import com.cmgapps.common.curriculumvitae.data.db.Ossproject
 import com.cmgapps.ktor.curriculumvitae.ClassLoaderModelLoader
 import com.cmgapps.ktor.curriculumvitae.ModelLoader
 import com.squareup.sqldelight.db.SqlDriver
@@ -38,7 +41,14 @@ val appModule = module {
         CvDatabase(
             get(),
             employmentAdapter = Employment.Adapter(
-                descriptionAdapter = DescriptionAdapter,
+                descriptionAdapter = ListOfStringAdapter,
+            ),
+            ossprojectAdapter = Ossproject.Adapter(
+                topicsAdapter = ListOfStringAdapter,
+                pushed_atAdapter = InstantAdapter,
+            ),
+            lastcheckAdapter = Lastcheck.Adapter(
+                dateAdapter = InstantAdapter,
             ),
         )
     }

@@ -17,7 +17,9 @@
 @file:Suppress("TestFunctionName")
 
 import com.cmgapps.common.curriculumvitae.data.domain.asDomainModel
+import com.cmgapps.common.curriculumvitae.data.network.OssProject
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import com.cmgapps.common.curriculumvitae.data.db.Employment as DatabaseEmployment
@@ -66,3 +68,15 @@ fun StubDomainStatus(): DomainStatus = StubNetworkStatus().asDomainModel()
 
 fun StubNetworkSkill(): NetworkSkill = NetworkSkill("Skill level 1", 1)
 fun StubDomainSkill(): DomainSkill = with(StubNetworkSkill()) { DomainSkill(name, level) }
+
+fun StubNetworkOssProjects(): OssProject = OssProject(
+    "my-project",
+    "description",
+    "url",
+    listOf("Topic1", "Tobic2"),
+    4,
+    false,
+    false,
+    false,
+    Instant.parse("19790-09-02T09:00:00Z"),
+)

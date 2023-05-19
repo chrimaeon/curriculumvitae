@@ -6,6 +6,7 @@
 
 package com.cmgapps.ktor.curriculumvitae.infra.model
 
+import com.cmgapps.common.curriculumvitae.data.db.Ossproject
 import com.cmgapps.common.curriculumvitae.data.network.OssProject
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
@@ -27,6 +28,18 @@ data class GithubUserRepository(
     val stargazersCount: Int,
     @SerialName("pushed_at")
     val pushedAt: Instant?,
+)
+
+fun GithubUserRepository.asDatabaseOssProject() = Ossproject(
+    name = name,
+    url = htmlUrl,
+    description = description,
+    topics = topics,
+    stars = stargazersCount,
+    private_ = private,
+    fork = fork,
+    archived = archived,
+    pushed_at = pushedAt,
 )
 
 fun GithubUserRepository.asOssProject() = OssProject(

@@ -19,29 +19,29 @@ package com.cmgapps.common.curriculumvitae.data.db
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DescriptionAdapterShould {
+class ListOfStringAdapterShould {
 
     @Test
     fun create_string_from_list() {
-        val result = DescriptionAdapter.encode(listOf("First", "Second"))
+        val result = ListOfStringAdapter.encode(listOf("First", "Second"))
         assertEquals("First${separator}Second", result)
     }
 
     @Test
     fun create_list_from_string() {
-        val result = DescriptionAdapter.decode("First${separator}Second")
+        val result = ListOfStringAdapter.decode("First${separator}Second")
         assertEquals(listOf("First", "Second"), result)
     }
 
     @Test
     fun round_trip_from_list() {
         val list = listOf("First", "Second")
-        assertEquals(list, DescriptionAdapter.decode(DescriptionAdapter.encode(list)))
+        assertEquals(list, ListOfStringAdapter.decode(ListOfStringAdapter.encode(list)))
     }
 
     @Test
     fun round_trip_from_string() {
         val string = "First${separator}Second"
-        assertEquals(string, DescriptionAdapter.encode(DescriptionAdapter.decode(string)))
+        assertEquals(string, ListOfStringAdapter.encode(ListOfStringAdapter.decode(string)))
     }
 }

@@ -4,6 +4,7 @@
 
 package com.cmgapps.common.curriculumvitae.data.network
 
+import com.cmgapps.common.curriculumvitae.data.db.Ossproject
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
@@ -18,4 +19,16 @@ data class OssProject(
     val fork: Boolean,
     val archived: Boolean,
     val pushedAt: Instant?,
+)
+
+fun Ossproject.asNetworkModel() = OssProject(
+    name = name,
+    url = url,
+    description = description,
+    topics = topics,
+    stars = stars,
+    private = private_,
+    fork = fork,
+    archived = archived,
+    pushedAt = pushed_at,
 )

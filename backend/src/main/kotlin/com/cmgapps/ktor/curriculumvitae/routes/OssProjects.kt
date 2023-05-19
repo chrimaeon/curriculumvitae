@@ -5,10 +5,14 @@
 package com.cmgapps.ktor.curriculumvitae.routes
 
 import com.cmgapps.common.curriculumvitae.GithubReposUrl
+import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
+import com.cmgapps.common.curriculumvitae.data.db.Ossproject
 import com.cmgapps.common.curriculumvitae.data.network.OssProject
+import com.cmgapps.common.curriculumvitae.data.network.asNetworkModel
 import com.cmgapps.ktor.curriculumvitae.IgnoreKeysJson
 import com.cmgapps.ktor.curriculumvitae.Routes
 import com.cmgapps.ktor.curriculumvitae.infra.model.GithubUserRepository
+import com.cmgapps.ktor.curriculumvitae.infra.model.asDatabaseOssProject
 import com.cmgapps.ktor.curriculumvitae.infra.model.asOssProject
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
 import io.github.smiley4.ktorswaggerui.dsl.get
@@ -24,16 +28,19 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import org.koin.ktor.ext.inject
 import java.io.IOException
 import java.net.URL
+import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalSerializationApi::class)
 private fun Route.ossProjectsRoute() {
     val ioDispatcher: CoroutineDispatcher by inject()
+    val database: CvDatabase by inject()
     route(
         Routes.OSS_PROJECTS.route,
         {
@@ -44,16 +51,30 @@ private fun Route.ossProjectsRoute() {
             @Suppress("BlockingMethodInNonBlockingContext")
             val response: List<OssProject> = try {
                 withContext(ioDispatcher) {
-                    generateUrl().openConnection().apply {
-                        setRequestProperty(HttpHeaders.Accept, "application/vnd.github+json")
-                    }.getInputStream().use { stream ->
-                        IgnoreKeysJson.decodeFromStream<List<GithubUserRepository>>(stream)
+                    val lastChecked = database.lastCheckQueries.getTimestamp().executeAsOneOrNull() ?: Instant.DISTANT_PAST
+                    if (lastChecked.plus(1.days) < Clock.System.now()) {
+                        generateUrl().openConnection().apply {
+                            setRequestProperty(HttpHeaders.Accept, "application/vnd.github+json")
+                        }.getInputStream().use { stream ->
+                            IgnoreKeysJson.decodeFromStream<List<GithubUserRepository>>(stream)
+                        }.also { githubRepos ->
+                            database.transaction {
+                                githubRepos.asSequence()
+                                    .map(GithubUserRepository::asDatabaseOssProject)
+                                    .forEach {
+                                        database.ossProjectQueries.insertOssProject(it)
+                                    }
+                            }
+                        }.map { it.asOssProject() }
+                    } else {
+                        database.ossProjectQueries.selectAllOrderedByPushedAt().executeAsList()
+                            .map(Ossproject::asNetworkModel)
                     }
                 }
             } catch (exc: IOException) {
                 call.application.log.error("Error fetching repos", exc)
                 emptyList()
-            }.map { it.asOssProject() }
+            }
 
             call.respond(response)
         }

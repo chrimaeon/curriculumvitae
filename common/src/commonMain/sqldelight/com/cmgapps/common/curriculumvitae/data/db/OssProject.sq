@@ -1,0 +1,29 @@
+import kotlin.collections.List;
+import kotlinx.datetime.Instant;
+
+CREATE TABLE IF NOT EXISTS `ossproject` (
+    `name` TEXT NOT NULL,
+    `description` TEXT NOT NULL,
+    `url` TEXT NOT NULL,
+    `topics` TEXT AS List<String> NOT NULL,
+    `stars` INTEGER AS Int NOT NULL,
+    `private` INTEGER AS Boolean NOT NULL,
+    `fork` INTEGER AS Boolean NOT NULL,
+    `archived` INTEGER AS Boolean NOT NULL,
+    `pushed_at` TEXT AS Instant,
+    PRIMARY KEY(`name`)
+);
+
+selectAll:
+SELECT * FROM ossproject;
+
+selectAllOrderedByPushedAt:
+SELECT * FROM ossproject ORDER BY pushed_at DESC;
+
+insertOssProject:
+INSERT OR REPLACE INTO ossproject
+VALUES ?;
+
+getOssProject:
+SELECT * FROM ossproject
+WHERE name = ?;

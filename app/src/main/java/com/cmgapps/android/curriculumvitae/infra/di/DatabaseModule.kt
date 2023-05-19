@@ -17,9 +17,12 @@
 package com.cmgapps.android.curriculumvitae.infra.di
 
 import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
-import com.cmgapps.common.curriculumvitae.data.db.DescriptionAdapter
 import com.cmgapps.common.curriculumvitae.data.db.Employment
 import com.cmgapps.common.curriculumvitae.data.db.EmploymentQueries
+import com.cmgapps.common.curriculumvitae.data.db.InstantAdapter
+import com.cmgapps.common.curriculumvitae.data.db.Lastcheck
+import com.cmgapps.common.curriculumvitae.data.db.ListOfStringAdapter
+import com.cmgapps.common.curriculumvitae.data.db.Ossproject
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
@@ -40,7 +43,14 @@ object DatabaseModule {
     fun provideDatabase(driver: SqlDriver): CvDatabase = CvDatabase(
         driver,
         employmentAdapter = Employment.Adapter(
-            descriptionAdapter = DescriptionAdapter,
+            descriptionAdapter = ListOfStringAdapter,
+        ),
+        ossprojectAdapter = Ossproject.Adapter(
+            topicsAdapter = ListOfStringAdapter,
+            pushed_atAdapter = InstantAdapter,
+        ),
+        lastcheckAdapter = Lastcheck.Adapter(
+            dateAdapter = InstantAdapter,
         ),
     )
 }

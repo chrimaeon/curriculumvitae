@@ -42,7 +42,12 @@ class DatabaseWrapper(
     private fun SqlDriver.createDatabase() = CvDatabase(
         this,
         employmentAdapter = Employment.Adapter(
-            descriptionAdapter = DescriptionAdapter,
+            descriptionAdapter = ListOfStringAdapter,
         ),
+        ossprojectAdapter = Ossproject.Adapter(
+            topicsAdapter = ListOfStringAdapter,
+            pushed_atAdapter = InstantAdapter,
+        ),
+        lastcheckAdapter = Lastcheck.Adapter(dateAdapter = InstantAdapter),
     )
 }
