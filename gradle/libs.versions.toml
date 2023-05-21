@@ -134,7 +134,8 @@ squareup-okio = "com.squareup.okio:okio:3.3.0"
 # region Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version = "3.4.4" }
+koin-compose-android = { module = "io.insert-koin:koin-androidx-compose", version = "3.4.4" }
+koin-compose-mpp = { module = "io.insert-koin:koin-compose", version = "1.0.1" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }

@@ -41,12 +41,13 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.H3
 import org.jetbrains.compose.web.dom.H6
 import org.jetbrains.compose.web.dom.Text
+import org.koin.compose.koinInject
 
 @Composable
-fun ProfileCard(repository: ProfileRepository) {
+fun ProfileCard(repository: ProfileRepository = koinInject()) {
     val (profile, setProfile) = remember { mutableStateOf<Profile?>(null) }
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         setProfile(repository.getProfile())
     }
 

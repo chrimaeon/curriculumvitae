@@ -48,7 +48,10 @@ import org.w3c.dom.get
 import org.w3c.dom.set
 
 @Composable
-fun PageFooter() {
+fun PageFooter(
+    showBackendStatus: Boolean,
+    onShowBackendSStatusChanged: (Boolean) -> Unit,
+) {
     Div({
         classes("mt-5", AppStyle.footerContainer)
     }) {
@@ -105,7 +108,10 @@ fun PageFooter() {
         }
     }
     if (!PRODUCTION) {
-        BaseUrlModal()
+        SettingsModal(
+            showBackendStatus,
+            onShowBackendSStatusChanged,
+        )
     }
 }
 
@@ -118,7 +124,10 @@ private fun Icon(iconName: String, attrs: AttrBuilderContext<HTMLElement> = {}) 
 }
 
 @Composable
-private fun BaseUrlModal() {
+private fun SettingsModal(
+    showBackendStatus: Boolean,
+    onShowBackendSStatusChanged: (Boolean) -> Unit,
+) {
     val modalLabelId = "BaseUrlModalLabel"
     Div({
         classes("modal", "fade")
@@ -150,6 +159,13 @@ private fun BaseUrlModal() {
                         .forEach { (key, url) ->
                             RadioButton(key, url)
                         }
+
+                    Checkbox(
+                        name = "showBackendStatus",
+                        label = "Show Backend Status",
+                        checked = showBackendStatus,
+                        onCheckedChanged = onShowBackendSStatusChanged,
+                    )
                 }
                 Div({
                     classes("modal-footer")
@@ -194,6 +210,34 @@ private fun RadioButton(key: String, value: String) {
             classes("form-check-label")
         }) {
             Text(value)
+        }
+    }
+}
+
+@Composable
+private fun Checkbox(
+    name: String,
+    label: String,
+    checked: Boolean,
+    onCheckedChanged: (Boolean) -> Unit,
+) {
+    Div({
+        classes("form-check")
+    }) {
+        Input(
+            type = InputType.Checkbox,
+            attrs = {
+                classes("form-check-input")
+                name(name)
+                id(name)
+                checked(checked)
+                onChange { event -> onCheckedChanged(event.value) }
+            },
+        )
+        Label(name, {
+            classes("form-check-label")
+        }) {
+            Text(label)
         }
     }
 }

@@ -48,9 +48,10 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Li
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Ul
+import org.koin.compose.koinInject
 
 @Composable
-fun SkillsCard(repository: SkillsRepository) {
+fun SkillsCard(repository: SkillsRepository = koinInject()) {
     val (skills, setSkills) = remember { mutableStateOf<List<Skill>?>(null) }
 
     LaunchedEffect(true) {

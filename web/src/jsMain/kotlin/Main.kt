@@ -44,6 +44,6 @@ fun main() {
     }
 
     renderComposable(rootElementId = "root") {
-        App(koin)
+        App()
     }
 }

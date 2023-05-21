@@ -8,10 +8,9 @@ package com.cmgapps.common.curriculumvitae.data.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.websocket.webSocket
+import io.ktor.client.plugins.websocket.ws
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.HttpMethod
 import io.ktor.http.URLProtocol
 import io.ktor.http.Url
 import io.ktor.http.appendPathSegments
@@ -21,7 +20,6 @@ import io.ktor.websocket.readText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
@@ -51,14 +49,14 @@ class CvApiService(private val client: HttpClient, private val baseUrl: Url) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getApiStatus(): Flow<Status> = flow {
-        client.webSocket(
-            HttpMethod.Get,
-            baseUrl.host,
-            baseUrl.port,
-            "status",
+        client.ws(
+            baseUrl.toString(),
             request = {
-                url.protocol =
-                    if (baseUrl.protocol == URLProtocol.HTTPS) URLProtocol.WSS else URLProtocol.WS
+                url {
+                    appendPathSegments("status")
+                    protocol =
+                        if (url.protocol == URLProtocol.HTTPS) URLProtocol.WSS else URLProtocol.WS
+                }
             },
         ) {
             while (!incoming.isClosedForReceive) {

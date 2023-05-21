@@ -17,6 +17,14 @@
 package com.cmgapps.web.curriculumvitae
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import co.touchlab.kermit.Logger
+import com.cmgapps.common.curriculumvitae.data.domain.Status
+import com.cmgapps.common.curriculumvitae.format.humanReadableSize
+import com.cmgapps.common.curriculumvitae.repository.StatusRepository
 import com.cmgapps.web.curriculumvitae.infra.BootstrapVariables
 import com.cmgapps.web.curriculumvitae.ui.Employments
 import com.cmgapps.web.curriculumvitae.ui.OssProjects
@@ -24,17 +32,22 @@ import com.cmgapps.web.curriculumvitae.ui.PageFooter
 import com.cmgapps.web.curriculumvitae.ui.ProfileCard
 import com.cmgapps.web.curriculumvitae.ui.SkillsCard
 import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.FlexDirection
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.css.StyleSheet
 import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.borderRadius
 import org.jetbrains.compose.web.css.bottom
+import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.display
 import org.jetbrains.compose.web.css.div
+import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.justifyContent
 import org.jetbrains.compose.web.css.left
@@ -49,16 +62,19 @@ import org.jetbrains.compose.web.css.paddingBottom
 import org.jetbrains.compose.web.css.plus
 import org.jetbrains.compose.web.css.position
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.right
 import org.jetbrains.compose.web.css.textDecoration
 import org.jetbrains.compose.web.css.value
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.Div
-import org.koin.core.Koin
+import org.jetbrains.compose.web.dom.P
+import org.jetbrains.compose.web.dom.Text
+import org.koin.compose.rememberKoinInject
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun App(koin: Koin) {
+fun App() {
     Style(AppStyle)
     Div(
         {
@@ -66,12 +82,58 @@ fun App(koin: Koin) {
             style { marginTop(AppStyle.bodyPadding) }
         },
     ) {
-        ProfileCard(koin.get())
-        Employments(koin.get())
-        SkillsCard(koin.get())
-        OssProjects(koin.get(), koin.get { parametersOf("main") })
+        ProfileCard()
+        Employments()
+        SkillsCard()
+        OssProjects()
     }
-    PageFooter()
+    val (showBackendStatus, setShowBackendStatus) = remember { mutableStateOf(false) }
+
+    PageFooter(showBackendStatus, setShowBackendStatus)
+
+    if (showBackendStatus) {
+        StatusOverlay()
+    }
+}
+
+@Composable
+private fun StatusOverlay() {
+    val statusRepo = rememberKoinInject<StatusRepository>()
+    val logger: Logger = rememberKoinInject { parametersOf("BackendStatusOverlay") }
+    val status by produceState(Status(0, 0, 0, 0)) {
+        statusRepo.getStatus().collect {
+            logger.d(it.toString())
+            value = it
+        }
+    }
+    Div({
+        style {
+            display(DisplayStyle.Flex)
+            flexDirection(FlexDirection.Column)
+            padding(0.5.cssRem, 1.cssRem)
+            position(Position.Fixed)
+            bottom(0.px)
+            left(0.px)
+            right(0.px)
+            backgroundColor(rgba(0, 0, 0, 0.8))
+            color(Color.white)
+        }
+    }) {
+        val memory = buildString {
+            append("Memory: ")
+            append(status.freeMemory.humanReadableSize())
+            append(" / ")
+            append(status.totalMemory.humanReadableSize())
+            append(" max. ")
+            append(status.maxMemory.humanReadableSize())
+        }
+        P {
+            Text("Processors: ${status.availableProcessors}")
+        }
+        P {
+            Text(memory)
+        }
+    }
 }
 
 object AppStyle : StyleSheet() {

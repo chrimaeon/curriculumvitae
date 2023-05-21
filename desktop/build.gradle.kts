@@ -29,6 +29,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(compose.uiTooling)
                 implementation(libs.koin.core)
+                implementation(libs.koin.compose.mpp)
                 implementation(libs.ktor.client.java)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.coroutines.swing)

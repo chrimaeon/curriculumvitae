@@ -109,7 +109,7 @@ dependencies {
     implementation(projects.commonCompose)
     implementation(libs.playservices.wearable)
     implementation(libs.bundles.compose.wear)
-    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.android)
     implementation(libs.ktor.client.android)
     implementation(libs.coil.compose)
     implementation(libs.okHttp.bom)

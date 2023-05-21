@@ -29,10 +29,11 @@ import org.jetbrains.compose.web.dom.H4
 import org.jetbrains.compose.web.dom.H5
 import org.jetbrains.compose.web.dom.H6
 import org.jetbrains.compose.web.dom.Text
+import org.koin.compose.koinInject
 import kotlin.js.Date
 
 @Composable
-fun Employments(repository: EmploymentRepository) {
+fun Employments(repository: EmploymentRepository = koinInject()) {
     val employments by repository.getEmployments().collectAsState(emptyList())
 
     for (index in employments.indices step 2) {

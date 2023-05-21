@@ -23,9 +23,14 @@ import org.jetbrains.compose.web.dom.H4
 import org.jetbrains.compose.web.dom.H6
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Text
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun OssProjects(repository: OssProjectRepository, logger: Logger) {
+fun OssProjects(
+    repository: OssProjectRepository = koinInject(),
+    logger: Logger = koinInject { parametersOf("OssProject") },
+) {
     var projects: List<OssProject> by remember { mutableStateOf(emptyList()) }
 
     LaunchedEffect(repository) {
