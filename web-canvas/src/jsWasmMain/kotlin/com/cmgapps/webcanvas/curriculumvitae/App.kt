@@ -77,7 +77,7 @@ fun App() {
         bottomBar = {
             Footer(
                 copyRightText = "Copyright © $BuildYear Christian Grach",
-                onComposeDesktopClick = {
+                onComposeMultiplatformClick = {
                     window.open(
                         "https://www.jetbrains.com/lp/compose-multiplatform/",
                         target = "_blank",

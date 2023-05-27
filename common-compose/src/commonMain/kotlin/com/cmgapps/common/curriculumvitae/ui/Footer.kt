@@ -56,7 +56,7 @@ import com.cmgapps.common.curriculumvitae.ui.icon.HeartFill
 @Composable
 fun Footer(
     copyRightText: String,
-    onComposeDesktopClick: () -> Unit,
+    onComposeMultiplatformClick: () -> Unit,
     onGithubClick: () -> Unit,
 ) {
     Surface(
@@ -70,7 +70,7 @@ fun Footer(
                     ),
                 ) {
                     Left(
-                        onComposeDesktopClick = onComposeDesktopClick,
+                        onComposeMultiplatformClick = onComposeMultiplatformClick,
                         copyRightText = copyRightText,
                     )
                     Right(onGithubClick = onGithubClick)
@@ -105,7 +105,7 @@ fun Footer(
 @Composable
 private fun Left(
     copyRightText: String,
-    onComposeDesktopClick: () -> Unit,
+    onComposeMultiplatformClick: () -> Unit,
 ) {
     Column {
         Text(copyRightText)
@@ -127,9 +127,9 @@ private fun Left(
             )
             Text(" and ")
             Text(
-                "Compose for Desktop",
+                "Compose Multiplatform",
                 modifier = Modifier
-                    .clickable(onClick = onComposeDesktopClick)
+                    .clickable(onClick = onComposeMultiplatformClick)
                     .pointerHoverIcon(PointerIcon.Hand)
                     .onPointerEvent(
                         PointerEventType.Enter,

@@ -61,7 +61,7 @@ fun App(
         bottomBar = {
             Footer(
                 copyRightText = CopyRightText,
-                onComposeDesktopClick = {
+                onComposeMultiplatformClick = {
                     if (Desktop.isDesktopSupported()) {
                         Desktop.getDesktop()
                             .browse(URI.create("https://github.com/jetbrains/compose-jb"))
