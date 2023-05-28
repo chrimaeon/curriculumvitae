@@ -16,14 +16,14 @@ versionName = "1.0.0"
 # endregion
 
 accompanist = "0.30.1"
-agp = "8.0.1"
+agp = "8.0.2"
 compose = "1.4.3"
 composeCompiler = "1.4.6"
 composeMultiplatform = "1.4.0"
 composeMultiplatformWasm = "1.4.0-dev-wasm06"
 composeWear = "1.1.2"
 gradle = "8.1.1"
-hilt = "2.46"
+hilt = "2.46.1"
 junit = "5.9.3"
 koin = "3.4.0"
 kotlin = "1.8.20"
@@ -40,7 +40,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 licenses = "com.cmgapps.licenses:4.7.0"
 markdown = "org.kordamp.gradle.markdown:2.2.0"
 shadowJar = "com.github.johnrengelman.shadow:8.1.1"
-wire = "com.squareup.wire:4.6.2"
+wire = "com.squareup.wire:4.7.0"
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
@@ -60,14 +60,14 @@ androidx-datastore = "androidx.datastore:datastore:1.0.0"
 androidx-hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
 androidx-splashscreen = "androidx.core:core-splashscreen:1.0.1"
 androidx-preference = "androidx.preference:preference:1.2.0"
-androidx-webkit = "androidx.webkit:webkit:1.6.1"
+androidx-webkit = "androidx.webkit:webkit:1.7.0"
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material3:material3", version.require = "1.1.0" }
 compose-materialIconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
-compose-activity = "androidx.activity:activity-compose:1.7.1"
+compose-activity = "androidx.activity:activity-compose:1.7.2"
 compose-viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
 compose-navigation = "androidx.navigation:navigation-compose:2.5.3"
 
@@ -85,7 +85,7 @@ timber = "com.jakewharton.timber:timber:5.0.1"
 logtag-logTag = { module = "com.cmgapps.logtag:log-tag", version.ref = "logtag" }
 logtag-processor = { module = "com.cmgapps.logtag:processor", version.ref = "logtag" }
 
-coil-compose = "io.coil-kt:coil-compose:2.3.0"
+coil-compose = "io.coil-kt:coil-compose:2.4.0"
 # endregion
 
 # region Wearable
@@ -122,7 +122,7 @@ kotlinx-coroutines-core-nativeMt = "org.jetbrains.kotlinx:kotlinx-coroutines-cor
 kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4"
 okHttp-bom = "com.squareup.okhttp3:okhttp-bom:4.11.0"
 cmgapps-lintLogDebug = "com.cmgapps.android:lint-logdebug:0.8.0"
-ktlint = "com.pinterest:ktlint:0.49.0"
+ktlint = "com.pinterest:ktlint:0.49.1"
 processPhoenix = "com.jakewharton:process-phoenix:2.1.2"
 leakCanary = "com.squareup.leakcanary:leakcanary-android:2.9.1"
 dropbox-store = "com.dropbox.mobile.store:store4:4.0.5"
@@ -160,7 +160,7 @@ mockito-jupiter = { module = "org.mockito:mockito-junit-jupiter", version = "5.3
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.1.0" }
 kotlinx-coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
-turbine = "app.cash.turbine:turbine:0.12.3"
+turbine = "app.cash.turbine:turbine:0.13.0"
 # endregion
 
 # region Backend
@@ -179,7 +179,7 @@ ktor-testing = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" 
 ktor-websocket = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
 
 logback-classic = "ch.qos.logback:logback-classic:1.4.7"
-kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.547"
+kotlinCss = "org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.555"
 appEngine = "com.google.appengine:appengine:1.9.93"
 swaggerUi = "io.github.smiley4:ktor-swagger-ui:1.6.1"
 # endregion
