@@ -1,2 +1,2 @@
-runtime: java11
+runtime: java17
 entrypoint: 'java -jar backend-1.0.0-all.jar'

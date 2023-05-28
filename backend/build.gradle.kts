@@ -25,7 +25,7 @@ plugins {
 }
 
 group = "com.cmgapps.ktor"
-version = libs.versions.versionName
+version = libs.versions.versionName.get()
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
@@ -66,8 +66,8 @@ appengine {
     }
 }
 
-java {
-    toolchain {
+kotlin {
+    jvmToolchain {
         languageVersion.set(javaLanguageVersion)
     }
 }
