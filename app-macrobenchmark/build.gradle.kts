@@ -6,6 +6,8 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import com.android.build.api.dsl.ManagedVirtualDevice
+
 plugins {
     id("curriculumvitae.android.test")
     id("ktlint")
@@ -32,6 +34,18 @@ android {
 
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
+
+    testOptions {
+        managedDevices {
+            devices {
+                create<ManagedVirtualDevice>("pixel6Api31") {
+                    device = "Pixel 6"
+                    apiLevel = 31
+                    systemImageSource = "aosp"
+                }
+            }
+        }
+    }
 }
 
 androidComponents {
