@@ -7,9 +7,9 @@ project(CvNative
 
 add_library(${PROJECT_NAME}
     SHARED
-        src/main/jni/xor.c
-        src/main/jni/Name.cpp
-        src/main/jni/CvNative.cpp
+        ${JNI_SRC_DIR}/xor.c
+        ${JNI_SRC_DIR}/Name.cpp
+        ${JNI_SRC_DIR}/CvNative.cpp
 )
 
 set_target_properties(${PROJECT_NAME}
@@ -23,7 +23,7 @@ set_target_properties(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
-        build/generated/jni
+        ${JNI_GENERATED_DIRS}
 )
 
 target_link_libraries(${PROJECT_NAME}

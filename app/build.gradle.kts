@@ -8,13 +8,9 @@
 @file:OptIn(kotlin.io.path.ExperimentalPathApi::class)
 
 import com.android.build.api.artifact.SingleArtifact
-import com.android.build.gradle.tasks.ExternalNativeBuildTask
-import com.cmgapps.gradle.curriculumvitae.GenerateJniDataTask
 import com.cmgapps.gradle.curriculumvitae.GitVersionTask
 import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
-import com.cmgapps.gradle.curriculumvitae.ObfuscateEmailTask
 import com.cmgapps.gradle.curriculumvitae.configProperty
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Locale
 import java.util.Properties
 import kotlin.io.path.div
@@ -32,9 +28,11 @@ plugins {
     alias(libs.plugins.licenses)
     @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.ksp)
+    id("obfuscateEmail")
+    id("generateJniData")
 }
 
-val xorDirPath = buildDir.toPath() / "generated" / "source" / "xor"
+val jniSrcDirPath = android.sourceSets["main"].jniLibs.srcDirs.first()
 
 android {
     ndkVersion = libs.versions.androidNdk.get()
@@ -52,7 +50,10 @@ android {
             cmake {
                 cFlags("-Wall")
                 cppFlags("-Wall")
-                arguments("-DANDROID_STL=c++_static")
+                arguments(
+                    "-DANDROID_STL=c++_static",
+                    "-DJNI_SRC_DIR=$jniSrcDirPath",
+                )
             }
         }
     }
@@ -148,10 +149,6 @@ android {
     }
 
     sourceSets {
-        named("main") {
-            java.srcDir(xorDirPath)
-        }
-
         named("benchmark") {
             java {
                 srcDirs(sourceSets["release"].java.srcDirs)
@@ -230,32 +227,17 @@ licenses {
     }
 }
 
-tasks {
+obfuscateEmail {
+    emailAddress.set(
+        provider {
+            val email by configProperty
+            email
+        },
+    )
+}
 
-    val obfuscateEmailAddress by registering(ObfuscateEmailTask::class) {
-        outputDir.set(xorDirPath.toFile())
-        emailAddress.set(
-            provider {
-                val email by configProperty
-                email
-            },
-        )
-
-        packageName.set(android.defaultConfig.applicationId ?: error("app id not set"))
-    }
-
-    withType<KotlinCompile> {
-        dependsOn(obfuscateEmailAddress)
-    }
-
-    val generateJniData by registering(GenerateJniDataTask::class) {
-        source.set((projectDir.toPath() / "src" / "main" / "jni" / "names.json").toFile())
-        outputFile.set((buildDir.toPath() / "generated" / "jni" / "encodedNames.h").toFile())
-    }
-
-    withType<ExternalNativeBuildTask> {
-        dependsOn(generateJniData)
-    }
+generateJniData {
+    source.set(jniSrcDirPath.resolve("names.json"))
 }
 
 @Suppress("UnstableApiUsage")

@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2022. Christian Grach <christian.grach@cmgapps.com>
+ * Copyright (c) 2023. Christian Grach <christian.grach@cmgapps.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.gradle.curriculumvitae
+package com.cmgapps.gradle
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec

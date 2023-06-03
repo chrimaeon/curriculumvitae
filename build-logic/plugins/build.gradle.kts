@@ -5,6 +5,7 @@
  */
 
 plugins {
+    kotlin("plugin.serialization") version embeddedKotlinVersion
     `kotlin-dsl`
 }
 
@@ -21,9 +22,21 @@ gradlePlugin {
             id = "ktlint"
             implementationClass = "KtlintPlugin"
         }
+        register("obfuscateEmail") {
+            id = "obfuscateEmail"
+            implementationClass = "ObfuscateEmailPlugin"
+        }
+        register("generateJniData") {
+            id = "generateJniData"
+            implementationClass = "GenerateJniDataPlugin"
+        }
     }
 }
 
 dependencies {
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
     implementation(libs.squareup.kotlinpoet)
+    compileOnly(libs.kotlinx.serialization.json)
+    compileOnly(libs.squareup.okio)
 }

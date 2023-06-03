@@ -1,18 +1,18 @@
 /*
- * Copyright (c) 2022. Christian Grach <christian.grach@cmgapps.com>
+ * Copyright (c) 2023. Christian Grach <christian.grach@cmgapps.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.gradle.curriculumvitae
+package com.cmgapps.gradle
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import okio.BufferedSink
 import okio.buffer
 import okio.sink
-import okio.source
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -23,6 +23,7 @@ import java.time.format.FormatStyle
 
 class XorFileWriter(private val source: File) {
 
+    @OptIn(ExperimentalSerializationApi::class)
     @Throws(IOException::class)
     fun write(outputFile: File) {
         try {
@@ -50,12 +51,13 @@ class XorFileWriter(private val source: File) {
                         """.trimMargin(),
                     )
 
-                    Json.decodeFromString<List<Name>>(source.source().buffer().readUtf8())
+                    Json.decodeFromStream<List<Name>>(source.inputStream())
                         .forEach { it.writeXorEncodedArray(sink) }
 
                     sink.writeUtf8("#endif //$DEFINE_NAME")
                 }
         } catch (exc: IOException) {
+            @Suppress("kotlin:S899")
             outputFile.delete()
             throw exc
         }
