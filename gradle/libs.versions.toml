@@ -42,6 +42,7 @@ markdown = "org.kordamp.gradle.markdown:2.2.0"
 shadowJar = "com.github.johnrengelman.shadow:8.1.1"
 wire = "com.squareup.wire:4.7.0"
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 buildConfig = "com.github.gmazzo.buildconfig:4.0.4"

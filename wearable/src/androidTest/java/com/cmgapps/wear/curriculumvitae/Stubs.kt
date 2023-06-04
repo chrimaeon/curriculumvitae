@@ -23,7 +23,7 @@ import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.common.curriculumvitae.data.network.Profile
 import com.cmgapps.common.curriculumvitae.data.network.Skill
 import kotlinx.datetime.LocalDate
-import java.time.Month
+import kotlinx.datetime.Month
 
 fun StubNetworkProfile(): Profile = Profile(
     name = "First Last",

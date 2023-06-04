@@ -13,7 +13,6 @@ import com.cmgapps.gradle.curriculumvitae.ManifestTransformerTask
 import com.cmgapps.gradle.curriculumvitae.configProperty
 import java.util.Locale
 import java.util.Properties
-import kotlin.io.path.div
 
 plugins {
     id("curriculumvitae.android.application")
@@ -157,14 +156,6 @@ android {
                 srcDirs(sourceSets["release"].res.srcDirs)
             }
         }
-
-        listOf("test", "androidTest").map { named(it) }.forEach { sourceSet ->
-            sourceSet {
-                java.srcDir(
-                    project.projectDir.toPath() / "src" / "sharedTest" / "java",
-                )
-            }
-        }
     }
 
     packaging {
@@ -300,4 +291,7 @@ dependencies {
 
     androidTestImplementation(libs.hilt.testing)
     kaptAndroidTest(libs.hilt.compiler)
+
+    testImplementation(projects.androidSharedTest)
+    androidTestImplementation(projects.androidSharedTest)
 }

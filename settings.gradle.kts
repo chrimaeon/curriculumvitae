@@ -40,4 +40,5 @@ include(
     ":web",
     ":desktop",
     ":web-canvas",
+    ":android-shared-test",
 )

@@ -25,6 +25,10 @@ gradlePlugin {
             id = "curriculumvitae.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
+        register("androidLibraryConvention") {
+            id = "curriculumvitae.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
         register("multiplatformAndroidLibraryConvention") {
             id = "curriculumvitae.multiplatform.android.library"
             implementationClass = "MultiplatformAndroidLibraryPlugin"
