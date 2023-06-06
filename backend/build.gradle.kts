@@ -13,13 +13,10 @@ import java.util.Properties
 plugins {
     id("curriculumvitae.test")
     id("com.google.cloud.tools.appengine")
-    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.kotlin.serialization)
-    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.markdown)
     id("ktlint")
     application
-    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.shadowJar)
     alias(libs.plugins.buildConfig)
 }

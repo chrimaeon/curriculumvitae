@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     id("curriculumvitae.multiplatform.android.library")
-    @Suppress("DSL_SCOPE_VIOLATION")
     id("org.jetbrains.compose") version libs.versions.composeMultiplatformWasm
     id("ktlint")
 }

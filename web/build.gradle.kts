@@ -8,7 +8,6 @@
 
 plugins {
     kotlin("multiplatform")
-    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.jetbrainsCompose)
     id("ktlint")
 }

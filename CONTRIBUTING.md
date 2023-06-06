@@ -21,13 +21,13 @@ see [Sharing dependency versions between projects][version-catalog]
    see [`backend/src/main/resources/profile.json.sample`](backend/src/main/resources/profile.json.sample)
    for the structure.
 
-1. Add a profile image to [backend/src/main/resources/assets](backend/src/main/resources/assets) and adjust the
+2. Add a profile image to [backend/src/main/resources/assets](backend/src/main/resources/assets) and adjust the
    reference in your profile JSON's file
 
-1. Add your employments to [`backend/src/main/resources`](backend/src/main/resources)
-   see [`backend/src/main/resources/employment.json.sample`](backend/src/main/resources/employment.json.sample)
+3. Add your employments to [`backend/src/main/resources`](backend/src/main/resources)
+   see [`backend/src/main/resources/employments.json.sample`](backend/src/main/resources/employments.json.sample)
 
-1. Add your skills to [`backend/src/main/resources`](backend/src/main/resources)
+4. Add your skills to [`backend/src/main/resources`](backend/src/main/resources)
    see [`backend/src/main/resources/skills.json.sample`](backend/src/main/resources/skills.json.sample)
 
 

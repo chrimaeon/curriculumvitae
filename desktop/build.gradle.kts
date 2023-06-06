@@ -15,7 +15,6 @@ import java.time.LocalDate
 
 plugins {
     id("curriculumVitae.multiplatform.jvm")
-    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.jetbrainsCompose)
     id("ktlint")
 }

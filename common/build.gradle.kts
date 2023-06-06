@@ -14,11 +14,9 @@ import kotlin.io.path.div
 
 plugins {
     id("curriculumvitae.multiplatform.android.library")
-    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.kotlin.serialization)
     id("com.squareup.sqldelight")
     id("ktlint")
-    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.licenses)
     alias(libs.plugins.buildConfig)
 }
