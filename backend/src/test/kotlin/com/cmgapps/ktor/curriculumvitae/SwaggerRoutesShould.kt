@@ -22,7 +22,6 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.testApplication
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class SwaggerRoutesShould {
@@ -33,10 +32,6 @@ class SwaggerRoutesShould {
         assertThat(response.status, `is`(HttpStatusCode.OK))
     }
 
-    @Disabled(
-        "Flaky because if inconsistent `Instant` and `LocalDate`" +
-            " parsing: https://github.com/SMILEY4/ktor-swagger-ui/issues/44",
-    )
     @Test
     fun `return html on GET`() = testApplication {
         val apiInfo = BuildConfig.apiInfo
@@ -46,7 +41,7 @@ class SwaggerRoutesShould {
             "\$\$__SERVER_PRODUCTION_URL__\$\$" to apiInfo.serverUrl,
             "\$\$__SERVER_PRODUCTION_DESCRIPTION__\$\$" to apiInfo.serverDescription,
         )
-        val expected = javaClass.classLoader.getResource("openapi.json")?.readText()?.let {
+        val expected = javaClass.classLoader?.getResource("openapi.json")?.readText()?.let {
             replacementInfo.entries.fold(it) { acc, (key, value) -> acc.replace(key, value) }
         }
 

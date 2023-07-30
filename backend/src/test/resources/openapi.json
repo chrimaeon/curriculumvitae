@@ -41,7 +41,7 @@
                 },
                 "examples" : {
                   "Profile" : {
-                    "$ref" : "#/components/examples/Profile"
+                    "value" : "{\"name\":\"My Name\",\"phone\":\"+1234567890\",\"profileImagePath\":\"/profile.png\",\"address\":{\"street\":\"Main Street 1\",\"city\":\"My Hometown\",\"postalCode\":\"42\"},\"email\":\"noreply@test.com\",\"intro\":[\"Intro line 1 ...\",\"Intro line 2 ...\",\"etc ... etc ... etc ...\"]}"
                   }
                 }
               }
@@ -57,7 +57,7 @@
                 },
                 "examples" : {
                   "Profile" : {
-                    "$ref" : "#/components/examples/Profile"
+                    "value" : "{\"name\":\"My Name\",\"phone\":\"+1234567890\",\"profileImagePath\":\"/profile.png\",\"address\":{\"street\":\"Main Street 1\",\"city\":\"My Hometown\",\"postalCode\":\"42\"},\"email\":\"noreply@test.com\",\"intro\":[\"Intro line 1 ...\",\"Intro line 2 ...\",\"etc ... etc ... etc ...\"]}"
                   }
                 }
               }
@@ -82,7 +82,10 @@
                 },
                 "examples" : {
                   "Employment" : {
-                    "$ref" : "#/components/examples/Employment"
+                    "value" : "{\"id\":1,\"jobTitle\":\"Software Developer\",\"employer\":\"CMG Mobile Apps\",\"startDate\":\"2010-06-01\",\"endDate\":\"2023-09-02\",\"city\":\"Graz\",\"description\":[\"Founder\",\"Software development\"]}"
+                  },
+                  "Employment with null `endDate`" : {
+                    "value" : "{\"id\":1,\"jobTitle\":\"Software Developer\",\"employer\":\"CMG Mobile Apps\",\"startDate\":\"2010-06-01\",\"endDate\":null,\"city\":\"Graz\",\"description\":[\"Founder\",\"Software development\"]}"
                   }
                 }
               }
@@ -98,7 +101,10 @@
                 },
                 "examples" : {
                   "Employment" : {
-                    "$ref" : "#/components/examples/Employment"
+                    "value" : "{\"id\":1,\"jobTitle\":\"Software Developer\",\"employer\":\"CMG Mobile Apps\",\"startDate\":\"2010-06-01\",\"endDate\":\"2023-09-02\",\"city\":\"Graz\",\"description\":[\"Founder\",\"Software development\"]}"
+                  },
+                  "Employment with null `endDate`" : {
+                    "value" : "{\"id\":1,\"jobTitle\":\"Software Developer\",\"employer\":\"CMG Mobile Apps\",\"startDate\":\"2010-06-01\",\"endDate\":null,\"city\":\"Graz\",\"description\":[\"Founder\",\"Software development\"]}"
                   }
                 }
               }
@@ -120,14 +126,13 @@
               "application/json" : {
                 "schema" : {
                   "type" : "array",
-                  "xml" : { },
                   "items" : {
                     "$ref" : "#/components/schemas/Skill"
                   }
                 },
                 "examples" : {
                   "Skills" : {
-                    "$ref" : "#/components/examples/Skills"
+                    "value" : "[{\"name\":\"Mobile Development\",\"level\":5},{\"name\":\"Android\",\"level\":5}]"
                   }
                 }
               }
@@ -140,14 +145,13 @@
               "application/json" : {
                 "schema" : {
                   "type" : "array",
-                  "xml" : { },
                   "items" : {
                     "$ref" : "#/components/schemas/Skill"
                   }
                 },
                 "examples" : {
                   "Skills" : {
-                    "$ref" : "#/components/examples/Skills"
+                    "value" : "[{\"name\":\"Mobile Development\",\"level\":5},{\"name\":\"Android\",\"level\":5}]"
                   }
                 }
               }
@@ -169,14 +173,16 @@
               "application/json" : {
                 "schema" : {
                   "type" : "array",
-                  "xml" : { },
                   "items" : {
                     "$ref" : "#/components/schemas/OssProject"
                   }
                 },
                 "examples" : {
                   "OSS-Projects" : {
-                    "$ref" : "#/components/examples/OSS-Projects"
+                    "value" : "[{\"name\":\"my-project\",\"description\":\"My Open Source Project\",\"url\":\"https://cmgapps.com\",\"topics\":[\"kotlin\",\"android\",\"kotlin multiplatform\"],\"stars\":42,\"private\":false,\"fork\":false,\"archived\":false,\"pushedAt\":\"1979-09-02T18:00:00Z\"}]"
+                  },
+                  "OSS-Projects with null `pushedAt`" : {
+                    "value" : "[{\"name\":\"my-project\",\"description\":\"My Open Source Project\",\"url\":\"https://cmgapps.com\",\"topics\":[\"kotlin\",\"android\",\"kotlin multiplatform\"],\"stars\":42,\"private\":false,\"fork\":false,\"archived\":false,\"pushedAt\":null}]"
                   }
                 }
               }
@@ -189,14 +195,16 @@
               "application/json" : {
                 "schema" : {
                   "type" : "array",
-                  "xml" : { },
                   "items" : {
                     "$ref" : "#/components/schemas/OssProject"
                   }
                 },
                 "examples" : {
                   "OSS-Projects" : {
-                    "$ref" : "#/components/examples/OSS-Projects"
+                    "value" : "[{\"name\":\"my-project\",\"description\":\"My Open Source Project\",\"url\":\"https://cmgapps.com\",\"topics\":[\"kotlin\",\"android\",\"kotlin multiplatform\"],\"stars\":42,\"private\":false,\"fork\":false,\"archived\":false,\"pushedAt\":\"1979-09-02T18:00:00Z\"}]"
+                  },
+                  "OSS-Projects with null `pushedAt`" : {
+                    "value" : "[{\"name\":\"my-project\",\"description\":\"My Open Source Project\",\"url\":\"https://cmgapps.com\",\"topics\":[\"kotlin\",\"android\",\"kotlin multiplatform\"],\"stars\":42,\"private\":false,\"fork\":false,\"archived\":false,\"pushedAt\":null}]"
                   }
                 }
               }
@@ -209,22 +217,27 @@
   },
   "components" : {
     "schemas" : {
+      "Address" : {
+        "required" : [ "city", "postalCode", "street" ],
+        "type" : "object",
+        "properties" : {
+          "city" : {
+            "type" : "string"
+          },
+          "postalCode" : {
+            "type" : "string"
+          },
+          "street" : {
+            "type" : "string"
+          }
+        }
+      },
       "Profile" : {
+        "required" : [ "address", "email", "intro", "name", "phone", "profileImagePath" ],
         "type" : "object",
         "properties" : {
           "address" : {
-            "type" : "object",
-            "properties" : {
-              "city" : {
-                "type" : "string"
-              },
-              "postalCode" : {
-                "type" : "string"
-              },
-              "street" : {
-                "type" : "string"
-              }
-            }
+            "$ref" : "#/components/schemas/Address"
           },
           "email" : {
             "type" : "string"
@@ -247,6 +260,7 @@
         }
       },
       "Employment" : {
+        "required" : [ "city", "description", "employer", "endDate", "id", "jobTitle", "startDate" ],
         "type" : "object",
         "properties" : {
           "city" : {
@@ -263,8 +277,8 @@
           },
           "endDate" : {
             "type" : "string",
-            "format": "date",
-            "nullable": true
+            "format" : "date",
+            "nullable" : true
           },
           "id" : {
             "type" : "integer",
@@ -275,11 +289,12 @@
           },
           "startDate" : {
             "type" : "string",
-            "format": "date"
+            "format" : "date"
           }
         }
       },
       "Skill" : {
+        "required" : [ "level", "name" ],
         "type" : "object",
         "properties" : {
           "level" : {
@@ -292,6 +307,7 @@
         }
       },
       "OssProject" : {
+        "required" : [ "archived", "description", "fork", "name", "private", "pushedAt", "stars", "topics", "url" ],
         "type" : "object",
         "properties" : {
           "archived" : {
@@ -311,7 +327,8 @@
           },
           "pushedAt" : {
             "type" : "string",
-            "format": "datetime"
+            "format" : "date-time",
+            "nullable" : true
           },
           "stars" : {
             "type" : "integer",
@@ -329,53 +346,6 @@
         }
       }
     },
-    "examples" : {
-      "Profile" : {
-        "value" : {
-          "name" : "My Name",
-          "phone" : "+1234567890",
-          "profileImagePath" : "/profile.png",
-          "address" : {
-            "street" : "Main Street 1",
-            "city" : "My Hometown",
-            "postalCode" : "42"
-          },
-          "email" : "noreply@test.com",
-          "intro" : [ "Intro line 1 ...", "Intro line 2 ...", "etc ... etc ... etc ..." ]
-        }
-      },
-      "Employment" : {
-        "value" : {
-          "id" : 1,
-          "jobTitle" : "Software Developer",
-          "employer" : "CMG Mobile Apps",
-          "startDate" : "2010-06-01",
-          "city" : "Graz",
-          "description" : [ "Founder", "Software development" ]
-        }
-      },
-      "Skills" : {
-        "value" : [ {
-          "name" : "Mobile Development",
-          "level" : 5
-        }, {
-          "name" : "Android",
-          "level" : 5
-        } ]
-      },
-      "OSS-Projects" : {
-        "value" : [ {
-          "name" : "my-project",
-          "description" : "My Open Source Project",
-          "url" : "https://cmgapps.com",
-          "topics" : [ "kotlin", "android", "kotlin multiplatform" ],
-          "stars" : 42,
-          "private" : false,
-          "fork" : false,
-          "archived" : false,
-          "pushedAt" : "1979-09-02T18:00:00Z"
-        } ]
-      }
-    }
+    "examples" : { }
   }
 }

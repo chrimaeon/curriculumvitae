@@ -121,6 +121,7 @@ dependencies {
     implementation(libs.bundles.koin.server)
     implementation(libs.sqldelight.driver.jvm)
     implementation(libs.swaggerUi)
+    implementation(libs.jsonSchema.generator)
 
     testImplementation(libs.ktor.testing)
     testImplementation(platform(libs.junit.bom))

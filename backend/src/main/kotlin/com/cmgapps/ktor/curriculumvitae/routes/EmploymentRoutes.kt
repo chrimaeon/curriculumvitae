@@ -63,6 +63,21 @@ private fun OpenApiRoute.documentation() {
                     jobTitle = "Software Developer",
                     employer = "CMG Mobile Apps",
                     startDate = LocalDate.parse("2010-06-01"),
+                    endDate = LocalDate.parse("2023-09-02"),
+                    city = "Graz",
+                    description = listOf(
+                        "Founder",
+                        "Software development",
+                    ),
+                ),
+            )
+            example(
+                "Employment with null `endDate`",
+                Employment(
+                    id = 1,
+                    jobTitle = "Software Developer",
+                    employer = "CMG Mobile Apps",
+                    startDate = LocalDate.parse("2010-06-01"),
                     endDate = null,
                     city = "Graz",
                     description = listOf(

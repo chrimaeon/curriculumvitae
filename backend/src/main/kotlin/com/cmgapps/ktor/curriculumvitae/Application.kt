@@ -10,6 +10,7 @@ import com.cmgapps.common.curriculumvitae.data.db.CvDatabase
 import com.cmgapps.common.curriculumvitae.data.network.Employment
 import com.cmgapps.common.curriculumvitae.data.network.asDatabaseModel
 import com.cmgapps.ktor.curriculumvitae.infra.di.appModule
+import com.cmgapps.ktor.curriculumvitae.infra.victools.CustomModule
 import com.cmgapps.ktor.curriculumvitae.routes.registerEmploymentRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerHealthCheckRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerOssProjects
@@ -17,7 +18,9 @@ import com.cmgapps.ktor.curriculumvitae.routes.registerProfileRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerRootRouting
 import com.cmgapps.ktor.curriculumvitae.routes.registerSkillRoutes
 import com.cmgapps.ktor.curriculumvitae.routes.registerStaticRoutes
+import com.github.victools.jsonschema.generator.SchemaGenerator
 import io.github.smiley4.ktorswaggerui.SwaggerUI
+import io.github.smiley4.ktorswaggerui.dsl.EncodingConfig
 import io.ktor.content.TextContent
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
@@ -52,6 +55,7 @@ import org.koin.ktor.plugin.Koin
 import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
+import kotlin.reflect.jvm.javaType
 import kotlin.time.Duration.Companion.days
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -163,14 +167,23 @@ fun Application.installFeatures() {
             description =
                 "API for the [Curriculum Vitae Apps](https://github.com/chrimaeon/curriculumvitae)"
         }
-
         server {
             url = apiInfo.serverUrl
             description = apiInfo.serverDescription
         }
+        encoding {
+            schemaEncoder { type ->
+                SchemaGenerator(
+                    EncodingConfig.schemaGeneratorConfigBuilder().with(CustomModule()).build(),
+                ).generateSchema(type.javaType).toPrettyString()
+            }
 
-        schemasInComponentSection = true
-        examplesInComponentSection = true
+            exampleEncoder { type, example ->
+                type?.let {
+                    Json.encodeToString(serializer(type), example)
+                }
+            }
+        }
     }
 }
 

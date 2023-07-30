@@ -110,8 +110,27 @@ private fun OpenApiRoute.documentation() {
                         private = false,
                         fork = false,
                         archived = false,
-                        // TODO: instant is not parsed correctly https://github.com/SMILEY4/ktor-swagger-ui/issues/44
-                        pushedAt = Instant.fromEpochMilliseconds(305143200000),
+                        pushedAt = Instant.parse("1979-09-02T18:00:00Z"),
+                    ),
+                ),
+            )
+            example(
+                "OSS-Projects with null `pushedAt`",
+                listOf(
+                    OssProject(
+                        name = "my-project",
+                        description = "My Open Source Project",
+                        url = "https://cmgapps.com",
+                        topics = listOf(
+                            "kotlin",
+                            "android",
+                            "kotlin multiplatform",
+                        ),
+                        stars = 42,
+                        private = false,
+                        fork = false,
+                        archived = false,
+                        pushedAt = null,
                     ),
                 ),
             )
