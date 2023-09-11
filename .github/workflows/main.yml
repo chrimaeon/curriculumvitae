@@ -24,7 +24,7 @@ jobs:
 
     steps:
       # region Setup
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -151,7 +151,7 @@ jobs:
     name: Check k6
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: K6 node_modules cache
         uses: actions/cache@v3
@@ -179,7 +179,7 @@ jobs:
 
     steps:
       # region Setup
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run swiftlint
         run: |
           cd ios
@@ -211,7 +211,7 @@ jobs:
         target: [ default, google_apis ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -319,7 +319,7 @@ jobs:
         api-level: [ 28 ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
